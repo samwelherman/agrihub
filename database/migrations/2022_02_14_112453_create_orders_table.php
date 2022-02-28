@@ -13,7 +13,7 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('tbl_orders', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
             $table->integer('client_id');
