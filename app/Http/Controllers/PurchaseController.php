@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Supply;
+use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\order;
 use App\Models\Balance;
 use App\Models\Items;
+use App\Models\Currency;
+use App\Models\Purchase;
+use App\Models\Purchase_items;
 class PurchaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -23,11 +22,13 @@ class PurchaseController extends Controller
     public function index()
     {
         $user_id=auth()->user()->id;
-        $confirmed="confirmed";
+        $currency= Currency::all();
         $product=User::find($user_id)->product;
-        $supply=User::find($user_id)->supply;
+        $purchases=Purchase::all()->where('user_id',$user_id);
+        $supplier=Supplier::all()->where('user_id',$user_id);
+       // $name = Items::all()->where('user_id',$user_id);
         $name = Items::all();
-       return view('purchase.manage_purchase',compact('name'));
+       return view('purchase.manage_purchase',compact('name','supplier','currency','purchases'));
     }
     /**
      * Show the form for creating a new resource.
@@ -58,64 +59,66 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        $status='unconfirmed';
-        $data=$request->all();
         
-        $user_id=auth()->user()->id;
-        $data['user_id']=auth()->user()->id;
-        $data['status']=$status;
-        $result=order::create($data);
-         
-        $purchase=$request->purchase;
-        $product_id=$request->product_id;
-        $available_stock=Balance::where('product_id','=',$product_id)->get();
+        $data['reference_no']=$request->reference_no;
+        $data['supplier_id']=$request->supplier_id;
+        $data['purchase_date']=$request->purchase_date;
+        $data['due_date']=$request->due_date;
+        $data['currency_code']=$request->currency_code;
+        $data['exchange_rate']=$request->exchange_rate;
+        $data['user_id']= auth()->user()->id;
+
+        $purchase = Purchase::create($data);
         
-       
-                if(count($available_stock)>0)
-                {
-                     foreach($available_stock as $stk)
-                     {
-                         if($product_id==$stk->product_id)
-                         {
-                            $stock=$stk->purchase+$request->purchase;
-                            $update=Balance::where('product_id', '=', $product_id)->update(['purchase' => $stock]);
-                                if($update)
-                                {
-                                    $arr = array('msg' => 'stock updated', 'status' => true);
-                                    
-                                }
-                         }
-                         
-                    return Response()->json($arr);
-                     }
-                    
+        $amountArr = str_replace(",","",$request->amount);
+        $totalArr =  str_replace(",","",$request->tax);
+
+        $nameArr =$request->item_name ;
+        $qtyArr = $request->quantity  ;
+        $priceArr = $request->price;
+        $rateArr = $request->tax_rate ;
+        $unitArr = $request->unit  ;
+        $costArr = str_replace(",","",$request->total_cost)  ;
+        $taxArr =  str_replace(",","",$request->total_tax );
+        $savedArr =$request->item_name ;
+        
+        $cost['purchase_amount'] = 0;
+        $cost['purchase_tax'] = 0;
+        if(!empty($nameArr)){
+            for($i = 0; $i < count($nameArr); $i++){
+                if(!empty($nameArr[$i])){
+                    $cost['purchase_amount'] +=$costArr[$i];
+                    $cost['purchase_tax'] +=$taxArr[$i];
+
+                    $items = array(
+                        'item_name' => $nameArr[$i],
+                        'quantity' =>   $qtyArr[$i],
+                        'tax_rate' =>  $rateArr [$i],
+                         'unit' => $unitArr[$i],
+                           'price' =>  $priceArr[$i],
+                        'total_cost' =>  $costArr[$i],
+                        'total_tax' =>   $taxArr[$i],
+                         'items_id' => $savedArr[$i],
+                           'order_no' => $i,
+                        'purchase_id' =>$purchase->id);
+                       
+                     Purchase_items::create($items);  ;
+    
+    
                 }
-                else
-                {
-                    $balance = new Balance();
-                    $balance->product_id=$product_id;
-                    $balance->user_id=$user_id;
-                    $balance->purchase=$purchase;
-                    $balance->save();
-                    if($balance)
-                    {
-                        $arr = array('msg' => 'Your query has been submitted Successfully, we will contact you soon!', 'status' => true);
-                        
-                    }
-                    return Response()->json($arr);
-                }
-                
+            }
+            $cost['reference_no']= "PUR-".$purchase->id."-".$data['purchase_date'];
+            $cost['due_amount'] =  $cost['purchase_amount'];
+            Purchase::where('id',$purchase->id)->update($cost);
+        }    
+
+        
+        $purchases = Purchase::find($purchase->id);
         
 
+        return view('purchase.purchase_details',compact('purchases'));
 
-    //     if($){
-    //         //$output=order::find($status)->get;
-    //       #Display Success Message in Blade File
-    //       //$output=User::find($user_id)->order;
-    //       $arr = array('msg' => 'Your query has been submitted Successfully, we will contact you soon!', 'status' => true);
-    //   }
-  
-    //   return Response()->json($arr);
+
     }
 
     /**
@@ -126,12 +129,10 @@ class PurchaseController extends Controller
      */
     public function show($id)
     {
-        $user_id=auth()->user()->id;
+        $purchases = Purchase::find($id);
+        
 
-        $product=Product::where([['user_id',"=",$user_id],['id',"=",$id]])->get();
-          #Display Success Message in Blade File
-          $arr = array('msg' => 'Purchased product data saved', 'status' => true,"product"=>$product);
-        return Response()->json($arr);
+        return view('purchase.purchase_details',compact('purchases'));
     }
 
 

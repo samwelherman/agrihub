@@ -57,6 +57,11 @@ Route::resource('items', 'ItemsController');
 Route::resource('purchase','PurchaseController');
 Route::get('findPrice', 'PurchaseController@findPrice');  
 Route::resource('sales','SalesController');
+Route::resource('payments', 'PaymentsController');
+Route::resource('invoice_payment', 'Invoice_paymentController');
+
+Route::resource('invoicepdf', 'PDFController');
+Route::get('pdfview',array('as'=>'pdfview','uses'=>'PDFController@pdfview'));
 
 
 Route::get('/home',"HomeController@index" );
@@ -106,7 +111,7 @@ Route::post('product/{id}/edit','ProductController@update');
 Route::get('product/{id}/delete','ProductController@destroy');
 
 //input order management
-Route::get('purchase/','PurchaseController@index');
+//Route::get('purchase/','PurchaseController@index');
 Route::post('input/add','PurchaseController@store');
 Route::get('get',"PurchaseController@create");
 Route::post('ajax-posts/{id}/edit','PurchaseController@edit');
@@ -135,3 +140,5 @@ Route::resource('roles', 'RoleController');
 
 Route::resource('users', 'UsersController');
 Route::resource('clients', 'ClientController');
+
+Route::resource('system', 'SystemController');

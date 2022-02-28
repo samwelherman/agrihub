@@ -27,8 +27,8 @@ class SystemController extends Controller
     {
       
         $system = System::all();
-          $group_account = GroupAccount::all();
-        return view('system.data', compact('system','group_account'));
+        
+        return view('system.data', compact('system'));
     }
 
     /**
@@ -39,8 +39,8 @@ class SystemController extends Controller
     public function create()
     {
        
-       $group_account = GroupAccount::all();
-        return view('account_codes.create', compact('group_account'));
+      
+        return view('account_codes.create');
     }
 
     /**
@@ -88,8 +88,8 @@ class SystemController extends Controller
     public function edit($id)
     {
        $data= System::find($id);
-            $group_account = GroupAccount::all();
-        return View::make('system.data', compact('data','group_account','id'))->render();
+         
+        return View::make('system.data', compact('data','id'))->render();
     }
 
     /**

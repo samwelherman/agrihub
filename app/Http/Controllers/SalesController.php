@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Grocery;
+use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Product;
-use App\Models\Items;
+use App\Models\order;
 use App\Models\Balance;
-use App\Models\Sale;
+use App\Models\Items;
+use App\Models\Farmer;
+use App\Models\Currency;
+use App\Models\Sales_items;
+use App\Models\Sales;
 class SalesController extends Controller
 {
     /**
@@ -26,10 +31,12 @@ class SalesController extends Controller
         //$confirmed="confirmed";
         $product=User::find($user_id)->product;
         $farmer=User::find($user_id)->farmer;
+        $sales=Sales::all()->where('user_id',$user_id);
+        $currency = Currency::all();
         
         $name = Items::all();
         
-       return view("sales.manage_sales",compact('name'));
+       return view("sales.manage_sales",compact('name','farmer','currency','sales'));
     }
     /**
      * Show the form for creating a new resource.
@@ -59,59 +66,66 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        $status='unconfirmed';
-        $data=$request->all();
         
-        $user_id=auth()->user()->id;
-        $data['user_id']=auth()->user()->id;
-        $data['status']=$status;
-        $result=Sale::create($data);
-         
-        $sale=$request->sale;
-        $product_id=$request->product_id;
-        $available_stock=Balance::where('product_id','=',$product_id)->get();
-        
-       
-                if(count($available_stock)>0)
-                {
-                     foreach($available_stock as $stk)
-                     {
-                         if($product_id==$stk->product_id)
-                         {
+        $data['reference_no']=$request->reference_no;
+        $data['client_id']=$request->client_id;
+        $data['invoice_date']=$request->invoice_date;
+        $data['due_date']=$request->due_date;
+        $data['currency_code']=$request->currency_code;
+        $data['exchange_rate']=$request->exchange_rate;
+        $data['user_id']= auth()->user()->id;
 
-                            $stock=$stk->purchase-$request->sale;
-                            $new_sales=$stk->sale+$request->sale;
-                            $update=Balance::where('product_id', '=', $product_id)->update(['purchase' => $stock,'sale'=>$new_sales]);
-                                if($update)
-                                {
-                                    $arr = array('msg' => 'stock updated', 'status' => true);
-                                    
-                                }
-                         }
-                         
-                    return Response()->json($arr);
-                     }
-                    
+        $sales = Sales::create($data);
+        
+        $amountArr = str_replace(",","",$request->amount);
+        $totalArr =  str_replace(",","",$request->tax);
+
+        $nameArr =$request->item_name ;
+        $qtyArr = $request->quantity  ;
+        $priceArr = $request->price;
+        $rateArr = $request->tax_rate ;
+        $unitArr = $request->unit  ;
+        $costArr = str_replace(",","",$request->total_cost)  ;
+        $taxArr =  str_replace(",","",$request->total_tax );
+        $savedArr =$request->item_name ;
+        
+        $cost['invoice_amount'] = 0;
+        $cost['invoice_tax'] = 0;
+        if(!empty($nameArr)){
+            for($i = 0; $i < count($nameArr); $i++){
+                if(!empty($nameArr[$i])){
+                    $cost['invoice_amount'] +=$costArr[$i];
+                    $cost['invoice_tax'] +=$taxArr[$i];
+
+                    $items = array(
+                        'item_name' => $nameArr[$i],
+                        'quantity' =>   $qtyArr[$i],
+                        'tax_rate' =>  $rateArr [$i],
+                         'unit' => $unitArr[$i],
+                           'price' =>  $priceArr[$i],
+                        'total_cost' =>  $costArr[$i],
+                        'total_tax' =>   $taxArr[$i],
+                         'items_id' => $savedArr[$i],
+                           'order_no' => $i,
+                        'invoice_id' =>$sales->id);
+                       
+                     Sales_items::create($items);  ;
+    
+    
                 }
-                else
-                {
-                    $balance = new Balance();
-                    $balance->product_id=$product_id;
-                    $balance->user_id=$user_id;
-                    $balance->purchase=$purchase;
-                    $balance->save();
-                    if($balance)
-                    {
-                        $arr = array('msg' => 'Your query has been submitted Successfully, we will contact you soon!', 'status' => true);
-                        
-                    }
-                    return Response()->json($arr);
-                }
-                
+            }
+            $cost['reference_no']= "INV-".$sales->id."-".$data['invoice_date'];
+            $cost['due_amount'] =  $cost['invoice_amount'];
+            Sales::where('id',$sales->id)->update($cost);
+        }    
+
+        
+        $sales = Sales::find($sales->id);
         
 
+        return view('sales.sales_details',compact('sales'));
 
- 
+
     }
 
     /**
@@ -122,12 +136,10 @@ class SalesController extends Controller
      */
     public function show($id)
     {
-        $user_id=auth()->user()->id;
+        $sales = Sales::find($id);
+        
 
-        $product=Product::where([['user_id',"=",$user_id],['id',"=",$id]])->get();
-          #Display Success Message in Blade File
-          $arr = array('msg' => 'Purchased product data saved', 'status' => true,"product"=>$product);
-        return Response()->json($arr);
+        return view('sales.sales_details',compact('sales'));
     }
 
     /**
