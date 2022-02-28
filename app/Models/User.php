@@ -74,6 +74,11 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\order');
     }
+    public function Warehouse()
+    {
+        return $this->hasMany('App\Models\Warehouse','id');
+    }
+    
 
     use HasPermissionsTrait; //Import The Trait
 }

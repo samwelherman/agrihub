@@ -43,11 +43,7 @@
                     <li class="nav-item">
                       <a class="nav-link" id="home-tab4" data-toggle="tab" href="#home4" role="tab" aria-controls="home" aria-selected="false">Register Warehouse </a>
                     </li>
-                  <!--
-                    <li class="nav-item">
-                      <a class="nav-link" id="contact-tab4" data-toggle="tab" href="#contact4" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-                    </li>
-                    -->
+                 `
                   </ul>
                 </div>
                 
@@ -127,7 +123,7 @@
                                   </div>
                                   <div class="form-group col-md-6">
                                     <label for="managercontact">Manager Contact</label>
-                                    <input type="text" name="managercontact" class="form-control" id="managercontact" placeholder="Enter Manager Contact">
+                                    <input type="number" name="managercontact" class="form-control" id="managercontact" placeholder="Enter Manager Contact">
                                     @error('managercontact')
                                     <div class="text text-danger">{{$message }}</div>
                                 @enderror
@@ -163,7 +159,7 @@
                               @foreach($warehouse as $warehouse)
                                  <tr>
                                    <td>{{$warehouse->warehouse_name}}</td>
-                                <td>{{$warehouse->warehouse_owner}}</td>
+                                <td>{{$warehouse->user->name}}</td>
                                 <td>{{$warehouse->manager_contact}}</td>
                                 
                                 <td> {{$warehouse->warehouse_location}}</td>
@@ -198,12 +194,12 @@
                                   </li>
                                 </ul>
                               </nav>
-                              @else
-                              No data available
                             </div> 
-                               @endif
-                            
+                                
                           </table>
+                          @else
+                          No data available
+                          @endif
                       
                           </div>
                           
@@ -292,7 +288,7 @@
                 </div>
             <div class="form-group col-md-12 col-lg-12 col-xl-12">
               <label for="coveringage">Covering Age</label>
-              <input type="text" name='coveringage' class="form-control" id="coveringageid" placeholder="">
+              <input type="number" name='coveringage' class="form-control" id="coveringageid" placeholder="">
                   @error('coveringage')
               <div class="text-danger">{{$message }}</div>
               @enderror
@@ -300,22 +296,12 @@
             <div class="form-row">
                 <div class="form-group col-md-6 col-lg-6 col-xl-6">
                   <label for="startdate">Start Date</label>
-                  <select name="startdate" class="form-control">
-                   
-                      <option value=''>Select date</option>
-                      <option value='2/1/2022'>2/1/2022</option>
-                      <option value="3/1/2022">3/1/2022</option>
-                  </select>
-                      
-                  </select>
+                  <input type="date" name='startdate' class="form-control" id="startdateid" placeholder="Starting date">
+                  
                 </div>
                 <div class="form-group col-md-6 col-lg-6 col-xl-6">
                   <label for="enddate">End Date</label>
-                  <select name="enddate" class="form-control">
-                      <option value=''>Select date</option>
-                      <option value='2/1/2022'>2/1/2022</option>
-                      <option value="3/1/2022">3/1/2022</option>
-                  </select>
+                  <input type="date" name='enddate' class="form-control" id="enddateid" placeholder="Ending date">
                 </div>
               </div>
              

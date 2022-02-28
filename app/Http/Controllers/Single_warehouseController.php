@@ -17,12 +17,7 @@ class Single_warehouseController extends Controller
      */
     public function index()
     {
-        //
-        $monitoring = Crops_Monitoring::all();
-        $farm = Land_properties::all();
-        $type = Monitoring_type::all();
-
-        return view('crops_monitoring.manage_crops_monitoring',compact('monitoring','farm','type'));
+       
     }
 
     /**
@@ -43,25 +38,7 @@ class Single_warehouseController extends Controller
      */
     public function store(Request $request)
     {
-        //
-         $data = $request->all();
         
-        if ($request->hasFile('attachment')) {
-					$file=$request->file('attachment');
-					$fileType=$file->getClientOriginalExtension();
-					$fileName=rand(1,1000).date('dmyhis').".".$fileType;
-					$name=$fileName;
-					$path = public_path(). "/assets/files/";
-					$file->move($path, $fileName );
-					
-					$data['attachment'] = $name;
-            	}else{
-            	    	$data['attachment'] = null;
-            	}
-
-        $cost  = Crops_Monitoring::create($data);
-
-        return redirect(route('crops_monitoring.index'))->with(['success'=>"Crop Monnitoring created successfully"]);
     }
 
     /**
@@ -75,11 +52,11 @@ class Single_warehouseController extends Controller
       $warehouse_id = $request->warehouse_id;
        switch ($request->type) {
         case 'withdraw':
-                return view('agrihub.withdraw-form',compact('warehouse_id','id'));
+                return view('warehouses.withdraw-form',compact('warehouse_id','id'));
                 break;
         case 'deposity':
          
-                return view('agrihub.deposity-form',compact('warehouse_id','id'));
+                return view('warehouses.deposity-form',compact('warehouse_id','id'));
                 break;
          default:
          return abort(404);
@@ -95,12 +72,7 @@ class Single_warehouseController extends Controller
      */
     public function edit($id)
     {
-        //
-        $data = Crops_Monitoring::find($id);
-         $type = Monitoring_type::all();
-          $farm = Land_properties::all();
-
-        return view('crops_monitoring.manage_crops_monitoring',compact('id','data','type','farm'));
+       
     }
 
     /**
@@ -112,39 +84,7 @@ class Single_warehouseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        if($request->type == "solution"){
-            $data  = $request->except('type');
-            $data['monitoring_id'] = $id;
-            $solution = Monitoring_Solutions::create($data);
-                      $status['status'] = 1;
-                      $monitoring = Crops_Monitoring::find($id);
-                      $monitoring->update($status);
-            return redirect(route('crops_monitoring.index'))->with(['success'=>"monitoring solution created successfully"]);
-        }else{
-            
-        $data = $request->all();
-        if ($request->hasFile('attachment')) {
-					$file=$request->file('attachment');
-					$fileType=$file->getClientOriginalExtension();
-					$fileName=rand(1,1000).date('dmyhis').".".$fileType;
-					$name=$fileName;
-					$path = public_path(). "/assets/files/";
-					$file->move($path, $fileName );
-					
-					$data['attachment'] = $name;
-            	}else{
-            	    	$data['attachment'] = null;
-            	}
-            	
-            
-          $monitoring = Crops_Monitoring::find($id);
-          $monitoring->update($data);
-
-
-        return redirect(route('crops_monitoring.index'))->with(['success'=>"crop monitoring updated successfully"]);
-        
-        }
+       
 
     }
 
@@ -157,20 +97,11 @@ class Single_warehouseController extends Controller
      
      public function download(Request $request)
 {
-    $monitoring = Crops_Monitoring::find($request->id);
-    $file = public_path(). "/assets/files/".$monitoring->attachment;
-
-    $headers = ['Content-Type: file/pdf'];
-
-    return \Response::download($file, 'crop_monitoring.jpg', $headers);
+   
 }
 
     public function destroy($id)
     {
-        //
-        $cost = Crops_Monitoring::find($id);
-        $cost->delete();
-
-        return redirect(route('crops_monitoring.index'))->with(['success'=>"crop monitoring  deleted successfuly"]);
+      
     }
 }

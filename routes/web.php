@@ -129,6 +129,9 @@ Route::post('deposity/save','WarehouseController@storedeposity');
 Route::post('withdraw/save','WarehouseController@storewithdraw');
 Route::resource('singlewarehouse','Single_warehouseController');
 
+// make crops orders
+Route::resource('crops_order','Client_OrderController');
+
 
 Route::resource('permissions', 'PermissionController');
 Route::resource('roles', 'RoleController');

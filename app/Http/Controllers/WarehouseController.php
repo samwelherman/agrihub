@@ -30,7 +30,7 @@ class WarehouseController extends Controller
         $insurance=Insurance::all();
         $group=USer::find($user_id)->group;
         
-        return view('agrihub.manage-warehouse')->with('insurances',$insurance)->with('warehouse',$warehouse)->with('farmer',$warehouse)->with('users',$user);
+        return view('warehouses.manage-warehouse')->with('insurances',$insurance)->with('warehouse',$warehouse)->with('farmer',$warehouse)->with('users',$user);
     }
 
     /**
@@ -280,12 +280,12 @@ class WarehouseController extends Controller
         {
         
     
-        return view('agrihub.manage-single-warehouse')->with('farmer',$farmer)->with('accounts',$account)->with('warehouse',$warehouse)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
+        return view('warehouses.manage-single-warehouse')->with('farmer',$farmer)->with('accounts',$account)->with('warehouse',$warehouse)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
 
         }
         else
         {
-            return view('agrihub.manage-single-warehouse')->with('farmer',$farmer)->with('accounts',$account)->with('warehouse',$warehouse)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
+            return view('warehouses.manage-single-warehouse')->with('farmer',$farmer)->with('accounts',$account)->with('warehouse',$warehouse)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
         }
   
     }

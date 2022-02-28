@@ -13,7 +13,7 @@ class Warehouse extends Model
     protected $fillable = ['id','warehouse_name','warehouse_owner','warehouse_manager','warehouse_location','manager_contact','insurance_id'];
     public function user()
     {
-        return $this->belongsTo('App\Models\user');
+        return $this->belongsTo('App\Models\User','warehouse_owner');
     }
     public function insurance()
     {
