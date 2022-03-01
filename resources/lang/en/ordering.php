@@ -36,5 +36,6 @@ return [
     'discount' => 'Discount',
     'tax' => 'Tax',
     'sub_total' => 'Sub Total',
+    'status' => 'Status',
 
 ];

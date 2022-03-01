@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-use App\Models\Order;
+use App\Models\orders\Order;
 use App\Models\orders\Cost_function;
+use App\Models\orders\Transport_quotation;
+use App\Models\orders\Quotation_cost;
 
 class OrdersController extends Controller
 {
@@ -59,10 +61,12 @@ class OrdersController extends Controller
     {
         $id  = $request->id;
         
+        $orders = Order::find($id);
+        $order = $orders->toArray();
         
-        $data['user_id']= auth()->user()->id;
+        $order['user_id']= auth()->user()->id;
 
-        $purchase = Purchase::create($data);
+        $quotation = Transport_quotation::create($order);
         
         $amountArr = str_replace(",","",$request->amount);
         $totalArr =  str_replace(",","",$request->tax);
@@ -76,13 +80,13 @@ class OrdersController extends Controller
         $taxArr =  str_replace(",","",$request->total_tax );
         $savedArr =$request->item_name ;
         
-        $cost['purchase_amount'] = 0;
-        $cost['purchase_tax'] = 0;
+        $cost['amount'] = 0;
+        $cost['tax'] = 0;
         if(!empty($nameArr)){
             for($i = 0; $i < count($nameArr); $i++){
                 if(!empty($nameArr[$i])){
-                    $cost['purchase_amount'] +=$costArr[$i];
-                    $cost['purchase_tax'] +=$taxArr[$i];
+                    $cost['amount'] +=$costArr[$i];
+                    $cost['tax'] +=$taxArr[$i];
 
                     $items = array(
                         'item_name' => $nameArr[$i],
@@ -94,20 +98,18 @@ class OrdersController extends Controller
                         'total_tax' =>   $taxArr[$i],
                          'items_id' => $savedArr[$i],
                            'order_no' => $i,
-                        'quotation_id' =>$id);
+                        'quotation_id' =>$quotation->id);
                        
-                     Purchase_items::create($items);  ;
+                        Quotation_cost::create($items);  ;
     
     
                 }
             }
-            $cost['reference_no']= "PUR-".$purchase->id."-".$data['purchase_date'];
-            $cost['due_amount'] =  $cost['purchase_amount'];
-            Purchase::where('id',$purchase->id)->update($cost);
+   
         }    
 
         
-        $purchases = Purchase::find($purchase->id);
+        $purchases = Transport_quotationgit::find($purchase->id);
         
 
         return view('purchase.purchase_details',compact('purchases'));
@@ -123,10 +125,11 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        $purchases = Purchase::find($id);
+        $user_id=auth()->user()->id;
+        $costs = Cost_function::all()->where('user_id',$user_id);
+        $type = "add";
         
-
-        return view('purchase.purchase_details',compact('purchases'));
+         return view('orders.orders_list',compact('costs','id','type'));
     }
 
 
@@ -139,10 +142,7 @@ class OrdersController extends Controller
     public function edit($id)
     {
         //
-        $user_id=auth()->user()->id;
-        $name = Cost_function::all()->where('user_id',$user_id);
         
-         return view('orders.orders_list',compact('name','id'));
     }
     
     public function findPrice(Request $request)

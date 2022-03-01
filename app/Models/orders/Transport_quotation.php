@@ -11,7 +11,7 @@ class Transport_quotation extends Model
 
     protected $table = "tbl_transport_quotations";
 
-    protected $fillable = ['crop_type','quantity','from','to','client_id','warehouse_id','amount','status','user_id'];
+    protected $fillable = ['crop_type','quantity','start_location','end_location','client_id','warehouse_id','amount','tax','status','user_id'];
 
     public function quotation_cost(){
 

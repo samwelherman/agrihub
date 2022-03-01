@@ -63,6 +63,12 @@
                                                     aria-label="Engine version: activate to sort column ascending"
                                                     style="width: 141.219px;">{{__('ordering.wherehouse')}}</th>
 
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Engine version: activate to sort column ascending"
+                                                    style="width: 141.219px;">{{__('ordering.status')}}</th>
+
+
     
 
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -79,18 +85,18 @@
                                                 <td>
                                                     <li> <a class="nav-link" id="profile-tab2"
                                                             href="{{ route('purchase.show',$row->id)}}" role="tab"
-                                                            aria-selected="false">{{$roop->iterration}}</a></li>
+                                                            aria-selected="false">{{$loop->iteration}}</a></li>
                                                 </td>
-                                                <td>{{$row->crop_type->name}}</td>
+                                                <td>{{$row->crop_types->crop_name}}</td>
                                                 <td>{{$row->quantity}}</td>
 
                                                 <td>{{$row->start_location}}</td>
 
                                                 <td>{{$row->end_location}}</td>
 
-                                                <td>{{$row->client->}}</td>
+                                                <td>{{$row->user->name}}</td>
 
-                                                <td>{{$row->end_location}}</td>
+                                                <td>{{$row->warehouse->warehouse_name}}</td>
 
                                                 <!--<td>{{$row->receiver_name}}</td>-->
 
@@ -106,7 +112,7 @@
 
                                                     @endif
                                                 </td>
-                                                <td></td>
+                                          
 
                                                 <td>
                                                 
@@ -120,7 +126,7 @@
                                                           
                                                             <li class="nav-item"><a class="nav-link" title="quotation"
                                                                     
-                                                                    href="{{ route('orders.edit', $row->id)}}">
+                                                                    href="{{ route('orders.show', $row->id)}}">
                                                                     {{__('ordering.quotation')}}</a></li>
                                                         </ul>
                                                     </div>
@@ -149,7 +155,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-12 ">
-                                                @if(isset($id))
+                                                @if(isset($id) && ($type=="edit"))
                                                 {{ Form::model($id, array('route' => array('orders.update', $id), 'method' => 'PUT')) }}
                                                 @else
                                                 {{ Form::open(['route' => 'orders.store']) }}
@@ -301,7 +307,7 @@
                                                 <br>
                                                 <div class="form-group row">
                                                     <div class="col-lg-offset-2 col-lg-12">
-                                                        @if(!@empty($id))
+                                                        @if(!@empty($id) && ($type=="edit") )
 
                                                         <a class="btn btn-sm btn-danger float-right m-t-n-xs"
                                                             href="{{ route('purchase.index')}}">
