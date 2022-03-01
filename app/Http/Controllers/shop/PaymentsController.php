@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\farming;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\Auth;
 use App\Models\Pacel;
 use App\Models\Receipt;
-use App\Models\Sales;
 use App\Models\Invoice;
 use App\Models\Supplier;
 use App\Models\Payment_methodes;
 use App\Models\Payments;
 use App\Models\AccountCodes;
-use App\Models\Invoice_payment;
 use App\Models\JournalEntry;
 use App\Models\Purchase;
-class Invoice_paymentController extends Controller
+class PaymentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -54,13 +54,13 @@ class Invoice_paymentController extends Controller
         $random = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(4/strlen($x)) )),1,4);  
       
         $receipt = $request->all();
-        $sales = Sales::find($request->id);
+        $purchase = Purchase::find($request->id);
 
-        if(($receipt['amount'] <= $sales->invoice_amount)){
+        if(($receipt['amount'] <= $purchase->purchase_amount)){
             if( $receipt['amount'] >= 0){
-                $receipt['due_amount'] = $sales->invoice_amount - $receipt['amount'];
+                $receipt['due_amount'] = $purchase->purchase_amount - $receipt['amount'];
                 $receipt['purchase_id'] = $request->id;
-                $receipt['owner_id'] = $sales->client_id;
+                $receipt['owner_id'] = $purchase->owner_id;
                 $receipt['trans_id'] = "TRANS-".$request->id.'-'.date('d/m/y');
                 
                 //update due amount from invoice table
@@ -70,7 +70,7 @@ class Invoice_paymentController extends Controller
                 }else{
                     $data['status'] = 3;
                 }
-                $sales->update($data);
+                $purchase->update($data);
 
                  $cr= AccountCodes::where('account_group','Cash and Cash Equivalent')->first();
           $journal = new JournalEntry();
@@ -83,7 +83,7 @@ class Invoice_paymentController extends Controller
         $journal->name = 'Invoice Payment';
         $journal->debit =   $receipt['amount'];
         $journal->income_id=    $receipt['purchase_id'];
-           $journal->notes= "Invoice Payment with trans No " .  $receipt['trans_id']   ;
+           $journal->notes= "Purchase Payment with trans No " .  $receipt['trans_id']   ;
         $journal->save();
 
         $codes= AccountCodes::where('account_group','Receivables')->first();
@@ -96,21 +96,21 @@ class Invoice_paymentController extends Controller
           $journal->transaction_type = 'invoice_payment';
         $journal->name = 'Invoice Payment';
              $journal->income_id=    $receipt['purchase_id'];
-           $journal->notes= "Invoice Payment with trans No " .  $receipt['trans_id']   ;
+           $journal->notes= "Purchase Payment with trans No " .  $receipt['trans_id']   ;
         $journal->credit =  $receipt['amount'];
         $journal->save();
 
         
-                $payment = Invoice_payment::create($receipt);
+                $payment = Payments::create($receipt);
 
-                return redirect(route('sales.index'))->with(['success'=>'Payment Added successfull']);
+                return redirect(route('purchase.index'))->with(['success'=>'Payment Added successfull']);
             }else{
-                return redirect(route('sales.index'))->with(['error'=>'Amount should not be equal or less to zero']);
+                return redirect(route('purchase.index'))->with(['error'=>'Amount should not be equal or less to zero']);
             }
        
 
         }else{
-            return redirect(route('sales.index'))->with(['error'=>'Amount should  be less than Invoiced amount ']);
+            return redirect(route('purchase.index'))->with(['error'=>'Amount should  be less than Invoiced amount ']);
 
         }
 
@@ -128,11 +128,11 @@ class Invoice_paymentController extends Controller
      */
     public function show($id)
     {
-        $data = Sales::find($id);
-        $invoice = Sales::all()->where('supplier_id',$data->client_id);
+        $data = Purchase::find($id);
+        $invoice = Purchase::all()->where('supplier_id',$data->supplier_id);
         $payment_methode = Payment_methodes::all();
 
-        return view("payment.invoice_payment",compact('data','invoice','payment_methode'));
+        return view("payment.payment",compact('data','invoice','payment_methode'));
 
       
     }

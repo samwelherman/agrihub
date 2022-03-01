@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\farming;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Models\Currency;
 use App\Models\Cost_centre;
-use App\Models\Farmer;
-use App\Models\Price;
 
-class Farming_costController extends Controller
+class Cost_CentreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,20 +17,9 @@ class Farming_costController extends Controller
     public function index()
     {
         //
-       
-       
-       
-       
-       
-        $name = Price::all();
-         
+        $cost = Cost_centre::all();
 
-
-     
-        $farmer = Farmer::all();
-          $costs = Cost_centre::all();
-          $currency = Currency::all();
-        return view('farming_cost.manage_farming_cost',compact('farmer','costs','currency','name'));
+        return view('cost_centre.manage_cost_centre',compact('cost'));
     }
 
     /**
@@ -53,6 +41,10 @@ class Farming_costController extends Controller
     public function store(Request $request)
     {
         //
+
+        $cost  = Cost_centre::create($request->all());
+
+        return redirect(route('cost_centre.index'))->with(['success'=>"Cost created successfukky"]);
     }
 
     /**
@@ -75,6 +67,9 @@ class Farming_costController extends Controller
     public function edit($id)
     {
         //
+        $data = Cost_centre::find($id);
+
+        return view('cost_centre.manage_cost_centre',compact('id','data'));
     }
 
     /**
@@ -87,6 +82,10 @@ class Farming_costController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $cost = Cost_centre::find($id);
+        $cost->update($request->all());
+
+        return redirect(route('cost_centre.index'))->with(['success'=>"cost updated successfully"]);
     }
 
     /**
@@ -98,5 +97,9 @@ class Farming_costController extends Controller
     public function destroy($id)
     {
         //
+        $cost = Cost_centre::find($id);
+        $cost->delete();
+
+        return redirect(route('cost_centre.index'))->with(['success'=>"cost deleted successfuly"]);
     }
 }

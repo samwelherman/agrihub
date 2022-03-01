@@ -40,28 +40,30 @@ Route::group(['prefix'=>'farmer'],function()
 
 
 // start farming routes
-Route::resource('/farming_cost','Farming_costController');
-Route::resource('/cost_centre','Cost_CentreController');
-Route::resource('/farming_process','Farming_processController');
-Route::resource('/crops_monitoring','Crops_MonitoringController');
-Route::resource('/register_assets','Farmer_assetsController');
-Route::get('/landview',"Farmer_assetsController@index1" );
-Route::get('/landdelete/{$id}',"Farmer_assetsController@destroy2" );
-Route::get('/getFarm/',"Farmer_assetsController@getFarm" );
-Route::get('download',array('as'=>'download','uses'=>'Crops_MonitoringController@download'));
+Route::resource('/farming_cost','farming\Farming_costController');
+Route::resource('/cost_centre','farming\Cost_CentreController');
+Route::resource('/farming_process','farming\Farming_processController');
+Route::resource('/crops_monitoring','farming\Crops_MonitoringController');
+Route::resource('/register_assets','farming\Farmer_assetsController');
+Route::get('/landview',"farming\Farmer_assetsController@index1" );
+Route::get('/landdelete/{$id}',"farming\Farmer_assetsController@destroy2" );
+Route::get('/getFarm/',"farming\Farmer_assetsController@getFarm" );
+Route::get('download',array('as'=>'download','uses'=>'farming\Crops_MonitoringController@download'));
 // end farming routes
 
 
 // start shop routes
-Route::resource('items', 'ItemsController');
-Route::resource('purchase','PurchaseController');
-Route::get('findPrice', 'PurchaseController@findPrice');  
-Route::resource('sales','SalesController');
-Route::resource('payments', 'PaymentsController');
-Route::resource('invoice_payment', 'Invoice_paymentController');
+Route::resource('items', 'shop\ItemsController');
+Route::resource('purchase','shop\PurchaseController');
+Route::get('findPrice', 'shop\PurchaseController@findPrice');  
+Route::resource('sales','shop\SalesController');
+Route::resource('payments', 'shop\PaymentsController');
+Route::resource('invoice_payment', 'shop\Invoice_paymentController');
+Route::resource('invoicepdf', 'shop\PDFController');
+Route::get('pdfview',array('as'=>'pdfview','uses'=>'shop\PDFController@pdfview'));
 
-Route::resource('invoicepdf', 'PDFController');
-Route::get('pdfview',array('as'=>'pdfview','uses'=>'PDFController@pdfview'));
+//Orders Routes
+Route::resource('orders','orders\OrdersController');
 
 
 Route::get('/home',"HomeController@index" );
@@ -99,10 +101,10 @@ Route::view('input-order','agrihub.iorder');
 //supplier
 Route::view('manage/group','agrihub.manage-group');
 
-Route::get('manage/supplier','SupplierController@index');
-Route::post('supplier/save','SupplierController@store');
-Route::get('supplier/{id}/delete','SupplierController@destroy');
-Route::post('supplier/{id}/edit','SupplierController@store');
+Route::get('manage/supplier','shop\SupplierController@index');
+Route::post('supplier/save','shop\SupplierController@store');
+Route::get('supplier/{id}/delete','shop\SupplierController@destroy');
+Route::post('supplier/{id}/edit','shop\SupplierController@store');
 
 //product
 Route::get('manage/product','ProductController@index');

@@ -17,13 +17,12 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->integer('quantity');
             $table->integer('client_id');
-            $table->integer('crop_type');
             $table->integer('warehouse_id');
-            $table->string('offered_amount');
+            $table->double('offered_amount');
             $table->string('start_location');
-            $table->integer('end_location');
-            $table->string('route_type');
-            $table->string('status');
+            $table->string('end_location');
+            $table->integer('route_type');
+            $table->integer('status');
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_orders');
+        Schema::dropIfExists('orders');
     }
 }
