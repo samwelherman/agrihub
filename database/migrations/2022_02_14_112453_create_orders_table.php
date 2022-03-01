@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->integer('quantity');
             $table->integer('client_id');
+            $table->integer('crop_type');
             $table->integer('warehouse_id');
             $table->string('offered_amount');
             $table->string('start_location');

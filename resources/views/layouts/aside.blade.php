@@ -15,8 +15,7 @@
             <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
             </li>
              <li class="dropdown">
-          <a href="#" class="menu-toggle nav-link has-dropdown"><i
-              data-feather="briefcase"></i><span>Farmer</span></a>
+          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Farmer</span></a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{url('farmer/')}}">Manage Farmer</a></li>
             <li><a class="nav-link" href="{{url('manage-group')}}">Manage Goup</a></li>
@@ -33,7 +32,7 @@
             
          <li class="dropdown">
          
-          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Farming</span></a>
+          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>{{__('farming.farming')}}</span></a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{url('register_assets')}}">Farmer Assets</a></li>
             <li><a class="nav-link" href="{{url('farming_cost')}}">Farming Cost</a></li>
@@ -43,12 +42,24 @@
           </ul>
             
          </li>
-         <li><a class="nav-link" href="{{url('warehouse')}}">Warehouse</a></li>
+         <li class="dropdown">
+         
+         <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>{{__('ordering.orders')}}</span></a>
+         <ul class="dropdown-menu">
+           <li><a class="nav-link" href="{{url('orders')}}">{{__('ordering.order_list')}}</a></li>
+           <li><a class="nav-link" href="{{url('farming_cost')}}">Farming Cost</a></li>
+           <li><a class="nav-link" href="{{url('cost_centre')}}">Cost Centre</a></li>
+           <li><a class="nav-link" href="{{url('farming_process')}}">Farming Process</a></li>
+             <li><a class="nav-link" href="{{url('crops_monitoring')}}">Crops Monitoring</a></li>
+         </ul>
+           
+        </li>
+         <li><a class="nav-link" href="{{url('warehouse')}}"><i data-feather="command"></i>Warehouse</a></li>
 
             
             
         <li class="dropdown">
-          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="mail"></i><span>Shop</span></a>
+          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Shop</span></a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{url('manage/supplier')}}">Manage Supplier</a></li>
             <li><a class="nav-link" href="{{url('items')}}">Manage Product/Items</a></li>
