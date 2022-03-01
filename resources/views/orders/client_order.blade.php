@@ -13,7 +13,7 @@
             <div class="padding-20">
             <div class="table-responsive">
                  <div id="makeorder">
-                   <makeorder></makeorder>
+                   <makeorder-component></makeorder-component>
                    </div>  
                
               </div>
