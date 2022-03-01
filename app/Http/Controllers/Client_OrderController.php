@@ -30,7 +30,7 @@ class Client_OrderController extends Controller
         // $insurance=Insurance::all();
         // $group=USer::find($user_id)->group;
         
-        return view('make_orders.client_order');
+        return view('orders.client_order');
     }
 
     /**

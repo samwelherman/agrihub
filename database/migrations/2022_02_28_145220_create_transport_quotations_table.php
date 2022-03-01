@@ -35,12 +35,6 @@ class CreateTransportQuotationsTable extends Migration
      */
     public function down()
     {
-<<<<<<< HEAD:database/migrations/2022_02_14_112453_create_orders_table.php.orig
-        Schema::dropIfExists('tbl_orders');
-||||||| merged common ancestors:database/migrations/2022_02_14_112453_create_orders_table.php.orig
-        Schema::dropIfExists('orders');
-=======
         Schema::dropIfExists('tbl_transport_quotations');
->>>>>>> f8b114697c84e5d7aa962df3d0235cf60bb1376f:database/migrations/2022_02_28_145220_create_transport_quotations_table.php
     }
 }
