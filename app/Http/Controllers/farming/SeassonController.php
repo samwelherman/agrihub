@@ -3,37 +3,22 @@
 namespace App\Http\Controllers\farming;
 
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
-use App\Models\Currency;
-use App\Models\Cost_centre;
-use App\Models\Farmer;
-use App\Models\Items;
+use App\Models\farming\Seasson;
+use App\Models\farming\Preparation_cost;
+use App\Models\farming\PreparationDetails;
 
-class Farming_costController extends Controller
+class SeassonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+
     public function index()
     {
         //
-       
-       
-       
-       
-       
-        $name = Items::all();
-         
+        $user_id = auth()->user()->id;
+        $seasson = Seasson::all()->where('user_id',$user_id);
 
-
-     
-        $farmer = Farmer::all();
-          $costs = Cost_centre::all();
-          $currency = Currency::all();
-        return view('farming_cost.manage_farming_cost',compact('farmer','costs','currency','name'));
+        return view('farming_process.manage_seasson',compact('seasson'));
     }
 
     /**
@@ -55,6 +40,12 @@ class Farming_costController extends Controller
     public function store(Request $request)
     {
         //
+        $user_id = auth()->user()->id;
+        $data = $request->all();
+        $data['user_id'] = $user_id;
+        $season = Seasson::create($data);
+
+        return redirect(Route('seasson.index'))->with(['success'=>'Seasson Created Seccessfully']);
     }
 
     /**
@@ -66,6 +57,13 @@ class Farming_costController extends Controller
     public function show($id)
     {
         //
+        $name = Preparation_cost::all();
+
+        $preparationDetails = PreparationDetails::all();
+        $type = "view-preparation";
+        
+        return view('farming_process.crop_life_cycle',compact('name','id','preparationDetails','type'));
+
     }
 
     /**
@@ -77,7 +75,9 @@ class Farming_costController extends Controller
     public function edit($id)
     {
         //
-    }
+        $data = Seasson::find($id);
+
+        return view('farming_process.manage_seasson',compact('data','id'));    }
 
     /**
      * Update the specified resource in storage.
@@ -89,6 +89,13 @@ class Farming_costController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $user_id = auth()->user()->id;
+        $data = $request->all();
+        $data['user_id'] = $user_id;
+        $season = Seasson::find($id);
+        $season->update($data);
+
+        return redirect(Route('seasson.index'))->with(['success'=>'Seasson Updated Seccessfully']);
     }
 
     /**

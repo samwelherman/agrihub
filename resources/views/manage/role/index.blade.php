@@ -37,6 +37,7 @@
                                         </thead>
                                         <tbody>
                         @foreach($roles as $role)
+                        @if($role->added_by == auth()->user()->id)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $role->slug }}</td>
@@ -57,6 +58,7 @@
                                     {{ Form::close() }}
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </tbody>
                                     </table>

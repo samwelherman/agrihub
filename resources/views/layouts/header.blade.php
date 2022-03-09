@@ -14,7 +14,7 @@ $settings= App\Models\System::first();
   <link rel="stylesheet" href="{{asset('assets/bundles/prism/prism.css')}}">
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
-  <link rel='shortcut icon' type='image/x-icon' href="{{url('public/assets/img/logo')}}/>{{ !empty($settings->picture) ? $settings->picture: ''}}" />
+  <link rel='shortcut icon' type='image/x-icon' href="{{url('public/assets/img/logo')}}/{{$settings->picture}}" />
 
   <link rel="stylesheet" href="{{asset('assets/bundles/datatables/datatables.min.css')}}">
   

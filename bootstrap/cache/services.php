@@ -38,10 +38,12 @@
     34 => 'Yajra\\DataTables\\DataTablesServiceProvider',
     35 => 'Yajra\\DataTables\\DataTablesServiceProvider',
     36 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    37 => 'App\\Providers\\AppServiceProvider',
-    38 => 'App\\Providers\\AuthServiceProvider',
-    39 => 'App\\Providers\\EventServiceProvider',
-    40 => 'App\\Providers\\RouteServiceProvider',
+    37 => 'App\\Providers\\PermissionServiceProvider',
+    38 => 'App\\Providers\\AppServiceProvider',
+    39 => 'App\\Providers\\AuthServiceProvider',
+    40 => 'App\\Providers\\EventServiceProvider',
+    41 => 'App\\Providers\\RouteServiceProvider',
+    42 => 'App\\Providers\\CropsLifeCycleProvider',
   ),
   'eager' => 
   array (
@@ -67,10 +69,12 @@
     19 => 'Yajra\\DataTables\\DataTablesServiceProvider',
     20 => 'Yajra\\DataTables\\DataTablesServiceProvider',
     21 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    22 => 'App\\Providers\\AppServiceProvider',
-    23 => 'App\\Providers\\AuthServiceProvider',
-    24 => 'App\\Providers\\EventServiceProvider',
-    25 => 'App\\Providers\\RouteServiceProvider',
+    22 => 'App\\Providers\\PermissionServiceProvider',
+    23 => 'App\\Providers\\AppServiceProvider',
+    24 => 'App\\Providers\\AuthServiceProvider',
+    25 => 'App\\Providers\\EventServiceProvider',
+    26 => 'App\\Providers\\RouteServiceProvider',
+    27 => 'App\\Providers\\CropsLifeCycleProvider',
   ),
   'deferred' => 
   array (

@@ -1,61 +1,58 @@
 <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
-          <div class="sidebar-brand">
+        <div class="sidebar-brand">
             <a href=""> 
 <?php
-//$settings= App\Models\System::first();
+$settings= App\Models\System::first();
 ?>
-<img alt="image"src="{{url('public/assets/img/logo')}}/" class="header-logo" /> <span
+<img alt="image"src="{{url('public/assets/img/logo')}}/{{$settings->picture}}" class="header-logo" /> <span
                 class="logo-name"></span>
             </a>
           </div>
-          <ul class="sidebar-menu">
-            <li class="menu-header">Main</li>
+          <ul class="sidebar-menu active show">
+            @can('view-dashboard')
             <li class="dropdown {{  request()->is('/dashboard') ? 'active' : '' }}">
             <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
             </li>
-             <li class="dropdown">
+            @endcan
+             <li class="dropdown {{  request()->is('farmer/') ? 'active' : '' }} ">
           <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Farmer</span></a>
           <ul class="dropdown-menu">
-            <li><a class="nav-link" href="{{url('farmer/')}}">Manage Farmer</a></li>
+            <li class="{{ request()->routeIs('farmer.*')? 'active': ''}} active"><a class="nav-link" href="{{url('farmer/')}}">Manage Farmer</a></li>
             <li><a class="nav-link" href="{{url('manage-group')}}">Manage Goup</a></li>
           </ul>
         </li>
-        <li class="dropdown">
-          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Farmer Asset</span></a>
-          <ul class="dropdown-menu">
-            <li><a class="nav-link" href="{{url('land')}}">Manage land asset</a></li>
-            <li><a class="nav-link" href="portfolio.html">Manage other assets</a></li>
-      
-      </ul>
-            </li>
-            
+
+        @can('view-farming') 
          <li class="dropdown">
          
           <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>{{__('farming.farming')}}</span></a>
           <ul class="dropdown-menu">
-            <li><a class="nav-link" href="{{url('register_assets')}}">Farmer Assets</a></li>
-            <li><a class="nav-link" href="{{url('farming_cost')}}">Farming Cost</a></li>
-            <li><a class="nav-link" href="{{url('cost_centre')}}">Cost Centre</a></li>
-            <li><a class="nav-link" href="{{url('farming_process')}}">Farming Process</a></li>
-              <li><a class="nav-link" href="{{url('crops_monitoring')}}">Crops Monitoring</a></li>
+            <li><a class="nav-link" href="{{url('register_assets')}}">{{__('farming.farmer_assets')}}</a></li>
+            <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li>
+            <li><a class="nav-link" href="{{url('cost_centre')}}">{{__('farming.cost_centre')}}</a></li>
+            <li><a class="nav-link" href="{{url('farming_process')}}">{{__('farming.farming_process')}}</a></li>
+              <li><a class="nav-link" href="{{url('crops_monitoring')}}">{{__('farming.crop_monitoring')}}</a></li>
+              <li><a class="nav-link" href="{{url('seasson')}}">{{__('farming.manage_seasson')}}</a></li>
           </ul>
             
          </li>
+         @endcan
+        
          <li class="dropdown">
          
          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>{{__('ordering.orders')}}</span></a>
          <ul class="dropdown-menu">
            <li><a class="nav-link" href="{{url('orders')}}">{{__('ordering.order_list')}}</a></li>
-           <li><a class="nav-link" href="{{url('farming_cost')}}">Farming Cost</a></li>
-           <li><a class="nav-link" href="{{url('cost_centre')}}">Cost Centre</a></li>
-           <li><a class="nav-link" href="{{url('farming_process')}}">Farming Process</a></li>
-             <li><a class="nav-link" href="{{url('crops_monitoring')}}">Crops Monitoring</a></li>
+           <li><a class="nav-link" href="{{url('quotationList')}}">{{__('ordering.quotationList')}}</a></li>
+           
          </ul>
            
         </li>
+        
+        @can('view-werehouse')
          <li><a class="nav-link" href="{{url('warehouse')}}"><i data-feather="command"></i>Warehouse</a></li>
-
+         @endcan
             
             
         <li class="dropdown">

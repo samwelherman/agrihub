@@ -36,6 +36,17 @@ return [
     'discount' => 'Discount',
     'tax' => 'Tax',
     'sub_total' => 'Sub Total',
-    'status' => 'Status',
-
+    'status' => 'Status', 
+    'quotation_detail' => 'Quotation Details',
+    'quotation_confirm' => 'Accept Quotation',
+    'quotation' => 'Quotation List',
+    'transporter' => 'Logistic Company',
+    'quotationList' => 'Quotation Lists',
+    'Quotation_Costs' => 'Quotation Costs',
+    'estimated_cost' => 'Proposed Cost',
+    'create_quotation' => 'Create Quotation',
+    'quotation_details' => 'View Detailed Quotation',
+    'company_name' => 'Company Name: ',
+    
+    
 ];

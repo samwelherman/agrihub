@@ -8,20 +8,22 @@
             <div class="col-12 col-sm-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>{{__('farming.farming_cost')}}</h4>
+                        <h4>{{__('ordering.quotation')}} </h4>
                     </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                            @if(empty($id))
                             <li class="nav-item">
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
-                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">{{__('farming.cost_list')}}
-                                   </a>
+                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">{{__('ordering.quotation')}}</a>
                             </li>
-                            <li class="nav-item">
+                            @else
+                           <li class="nav-item">
                                 <a class="nav-link @if(!empty($id)) active show @endif" id="profile-tab2"
                                     data-toggle="tab" href="#profile2" role="tab" aria-controls="profile"
-                                    aria-selected="false">{{__('farming.cost_estimation')}}</a>
-                            </li>
+                                    aria-selected="false">{{__('ordering.create_quotation')}}</a>
+                            </li> 
+                            @endif
 
                         </ul>
                         <div class="tab-content tab-bordered" id="myTab3Content">
@@ -35,40 +37,40 @@
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">#.Shipment Name</th>
+                                                    style="width: 186.484px;">{{__('ordering.ref_no')}}</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">Client Name</th>
+                                                    style="width: 186.484px;">{{__('ordering.crop_type')}}</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">Shipment Number</th>
+                                                    style="width: 186.484px;">{{__('ordering.quantity')}}</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">From</th>
+                                                    style="width: 141.219px;">{{__('ordering.from')}}</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">To</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    style="width: 141.219px;">{{__('ordering.to')}}</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">Wheight</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    style="width: 141.219px;">{{__('ordering.transporter')}}</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">Amount</th>
-                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">Receiver naame</th> -->
+                                                    style="width: 141.219px;">{{__('ordering.estimated_cost')}}</th>
 
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">Status</th>
+                                                    style="width: 141.219px;">{{__('ordering.status')}}</th>
+
+
+    
+
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="CSS grade: activate to sort column ascending"
@@ -76,73 +78,56 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if(!@empty($pacel))
-                                            @foreach ($pacel as $row)
+                                            @if(!@empty($quotation))
+                                            @foreach ($quotation as $row)
                                             <tr class="gradeA even" role="row">
 
                                                 <td>
-                                                    <li><a
-                                                            href="{{ route('invoicepdf.show', $row->id)}}"><b>{{ $loop->iteration }}.</b>{{$row->pacel_name}}</a>
-                                                    </li>
+                                                    <li> <a class="nav-link" id="profile-tab2"
+                                                            href="{{ route('purchase.show',$row->id)}}" role="tab"
+                                                            aria-selected="false">{{$loop->iteration}}</a></li>
                                                 </td>
-                                                <td>{{$row->users->fname}}</td>
-                                                <td>{{$row->pacel_number}}</td>
+                                                <td>{{$row->crop_types->crop_name}}</td>
+                                                <td>{{$row->quantity}}</td>
 
-                                                <td>{{$row->from}}</td>
-                                                <td>{{$row->to}}</td>
-                                                <td>{{$row->weight}}kg</td>
-                                                <td>{{$row->amount}}TSh</td>
+                                                <td>{{$row->start_location}}</td>
+
+                                                <td>{{$row->end_location}}</td>
+
+                                                <td>{{$row->user->name}}</td>
+
+                                                <td>{{$row->amount}}Tsh</td>
+
                                                 <!--<td>{{$row->receiver_name}}</td>-->
 
 
                                                 <td>
                                                     @if($row->status == 1)
-                                                    <div class="badge badge-info badge-shadow">Not Invoiced</div>
+                                                    <div class="badge badge-info badge-shadow">Not Payed</div>
                                                     @elseif($row->status == 2)
-                                                    <div class="badge badge-success badge-shadow">Invoiced</div>
+                                                    <div class="badge badge-success badge-shadow">Partial Payed</div>
                                                     @elseif($row->status == 3)
-                                                    <span class="badge badge-danger badge-shadow">Canceled</span>
-                                                    @elseif($row->status == 4)
-                                                    <span class="badge badge-success badge-shadow">Collected</span>
-                                                    @elseif($row->status == 5)
-                                                    <span class="badge badge-success badge-shadow">Loadded</span>
-                                                    @elseif($row->status == 6)
-                                                    <span class="badge badge-success badge-shadow">OffLoadded</span>
-                                                    @elseif($row->status == 7)
-                                                    <span class="badge badge-success badge-shadow">Derivered</span>
+                                                    <span class="badge badge-danger badge-shadow">Full Payed</span>
+
+
                                                     @endif
                                                 </td>
+                                          
 
                                                 <td>
-                                                    <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
-                                                        title="Edit" onclick="return confirm('Are you sure?')"
-                                                        href="{{ route('pacel.edit', $row->id)}}"><i
-                                                            class="fa fa-edit"></i></a>
-                                                    {!! Form::open(['route' => ['managepacel.destroy',$row->id],
-                                                    'method' => 'delete']) !!}
-                                                    {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4', 'title' => 'Delete', 'onclick' => "return confirm('Are you sure?')"]) }}
-                                                    {{ Form::close() }}
+                                                
 
                                                     <div class="btn-group">
                                                         <button class="btn btn-xs btn-success dropdown-toggle"
                                                             data-toggle="dropdown">Change<span
                                                                 class="caret"></span></button>
                                                         <ul class="dropdown-menu animated zoomIn">
-                                                            <li class="nav-item"><a class="nav-link" title="Edit"
-                                                                    data-toggle="modal" class="discount" href=""
-                                                                    onclick="model({{ $row->id }},'discount')"
-                                                                    value="{{ $row->id}}"
-                                                                    data-target="#appFormModal">Discount Quotation</a>
-                                                            </li>
-                                                            <li class="nav-item"><a class="nav-link"
-                                                                    title="Convert to Invoice"
-                                                                    onclick="return confirm('Are you sure? you want to convert Quotation To Invoice')"
-                                                                    href="{{ url('convertInvoice', $row->id)}}">Convert
-                                                                    to Invoice</a></li>
-                                                            <li class="nav-item"><a class="nav-link" title="Cancel"
-                                                                    onclick="return confirm('Are you sure?')"
-                                                                    href="{{ route('pacel.show', $row->id)}}">Cancel
-                                                                    Quotation</a></li>
+                                                          
+                                                          
+                                                            <li class="nav-item"><a class="nav-link" title="quotation"
+                                                                    
+                                                                    href="{{ url('quotationDetails', $row->id)}}">
+                                                                    {{__('ordering.quotation_details')}}</a></li>
                                                         </ul>
                                                     </div>
 
@@ -162,113 +147,45 @@
                                 <div class="card">
                                     <div class="card-header">
                                         @if(empty($id))
-                                        <h5>Create Farming Cost</h5>
+                                        <h5>{{__('ordering.create_quotation')}}</h5>
                                         @else
-                                        <h5>Edit Farming Cost</h5>
+                                        <h5>{{__('ordering.create_quotation')}}</h5>
                                         @endif
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-12 ">
-                                                @if(isset($id))
-                                                {{ Form::model($id, array('route' => array('farming_cost.update', $id), 'method' => 'PUT')) }}
+                                                @if(isset($id) && ($type=="edit"))
+                                                {{ Form::model($id, array('route' => array('orders.update', $id), 'method' => 'PUT')) }}
                                                 @else
-                                                {{ Form::open(['route' => 'farming_cost.store']) }}
+                                                {{ Form::open(['route' => 'orders.store']) }}
                                                 @method('POST')
                                                 @endif
 
+                                         <input type="hidden" name="id" value="{{isset($id) ? $id : ''}}">
 
 
-
-
-
-                                                <div class="form-group row"><label
-                                                        class="col-lg-2 col-form-label">Farmer Name</label>
-
-                                                    <div class="col-lg-10">
-                                                        <div class="input-group">
-                                                            <select class="form-control m-b" id="owner_id"
-                                                                name="owner_id" required>
-                                                                @if(!empty($farmer))
-                                                                @foreach($farmer as $row)
-                                                                <option value="{{$row->id}}"
-                                                                    @if(isset($data))@if($data->owner_id == $row->id)
-                                                                    selected @endif @endif >{{$row->firstname}}</option>
-
-                                                                @endforeach
-                                                                @endif
-                                                            </select>
-                                                            <div class="input-group-append">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row"><label
-                                                        class="col-lg-2 col-form-label">Farm</label>
-
-                                                    <div class="col-lg-10">
-                                                        <div class="input-group">
-                                                            <select class="form-control m-b" name="farm" id="farm" required>
-                                                            </select>
-                                                            <div class="input-group-append">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-
-
-
-
+                                               
 
 
                                                 <br>
-                                                <h4 align="center">Enter Item Details</h4>
+                                                <h4 align="center">{{__('ordering.transport_cost')}}</h4>
                                                 <hr>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-form-label">Currency</label>
-                                                    <div class="col-lg-4">
-                                                        <select class="form-control" name="currency_code"
-                                                            id="currency_code" required>
-                                                            <option value="{{ old('currency_code')}}" disabled selected>
-                                                                Choose option</option>
-                                                            @if(isset($currency))
-                                                            @foreach($currency as $row)
-                                                            <option value="{{ $row->code }}">{{ $row->name }}</option>
-                                                            @endforeach
-                                                            @endif
-                                                        </select>
-                                                        @error('address')
-                                                        <p class="text-danger">. {{$message}}</p>
-                                                        @enderror
-                                                    </div>
-                                                    <label class="col-lg-2 col-form-label">Exchange Rate</label>
-                                                    <div class="col-lg-4">
-                                                        <input type="number" name="exchange_rate"
-                                                            placeholder="1 if TZSH"
-                                                            value="{{ isset($data) ? $data->exchange_rate : ''}}"
-                                                            class="form-control" required>
-                                                    </div>
-                                                </div>
+                                           
                                                 <hr>
                                                 <button type="button" name="add" class="btn btn-success btn-xs add"><i
-                                                        class="fas fa-plus"> Add item</i></button><br>
+                                                        class="fas fa-plus">{{__('ordering.add_cost')}}</i></button><br>
                                                 <br>
                                                 <table class="table table-bordered" id="cart">
                                                     <thead>
                                                         <tr>
-                                                            <th>Name</th>
-                                                            <th>Quantity</th>
-                                                            <th>Price</th>
-                                                            <th>Unit</th>
-                                                            <th>Tax</th>
-                                                            <th>Total</th>
-                                                            <th>Action</th>
+                                                            <th>{{__('ordering.name')}}</th>
+                                                            <th>{{__('ordering.quantity')}}</th>
+                                                            <th>{{__('ordering.price')}}</th>
+                                                            <th>{{__('ordering.unit')}}</th>
+                                                            <th>{{__('ordering.tax')}}</th>
+                                                            <th>{{__('ordering.total')}}</th>
+                                                            <th>{{__('ordering.action')}}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -276,13 +193,13 @@
 
                                                     </tbody>
                                                     <tfoot>
-                                                        
-                                                        @if(!@empty($costs))
-                                                        @foreach ($costs as $i)
+                                                        @if(!empty($id))
+                                                        @if(!empty($items))
+                                                        @foreach ($items as $i)
                                                         <tr class="line_items">
                                                             <td><select name="item_name[]"
                                                                     class="form-control item_name" required
-                                                                    data-sub_category_id={{$i->id}}>
+                                                                    data-sub_category_id={{$i->order_no}}>
                                                                     <option value="">Select Item</option>@foreach($name
                                                                     as $n) <option value="{{ $n->id}}"
                                                                         @if(isset($i))@if($n->id == $i->item_name)
@@ -336,11 +253,11 @@
 
                                                         @endforeach
                                                         @endif
-                                                      
+                                                        @endif
 
                                                         <tr class="line_items">
                                                             <td colspan="4"></td>
-                                                            <td><span class="bold">Sub Total </span>: </td>
+                                                            <td><span class="bold">{{__('ordering.sub_total')}} </span>: </td>
                                                             <td><input type="text" name="subtotal[]"
                                                                     class="form-control item_total"
                                                                     placeholder="subtotal" required
@@ -348,7 +265,7 @@
                                                         </tr>
                                                         <tr class="line_items">
                                                             <td colspan="4"></td>
-                                                            <td><span class="bold">Tax </span>: </td>
+                                                            <td><span class="bold">{{__('ordering.tax')}} </span>: </td>
                                                             <td><input type="text" name="tax[]"
                                                                     class="form-control item_total" placeholder="tax"
                                                                     required jAutoCalc="SUM({total_tax})" readonly>
@@ -357,7 +274,7 @@
                                                         @if(!@empty($data->discount > 0))
                                                         <tr class="line_items">
                                                             <td colspan="4"></td>
-                                                            <td><span class="bold">Discount</span>: </td>
+                                                            <td><span class="bold">{{__('ordering.discount')}}</span>: </td>
                                                             <td><input type="text" name="discount[]"
                                                                     class="form-control item_discount"
                                                                     placeholder="total" required
@@ -375,7 +292,7 @@
                                                                     required jAutoCalc="{subtotal} + {tax} - {discount}"
                                                                     readonly></td>
                                                             @else
-                                                            <td><span class="bold">Total</span>: </td>
+                                                            <td><span class="bold">{{__('ordering.total')}}</span>: </td>
                                                             <td><input type="text" name="amount[]"
                                                                     class="form-control item_total" placeholder="total"
                                                                     required jAutoCalc="{subtotal} + {tax}" readonly>
@@ -390,10 +307,10 @@
                                                 <br>
                                                 <div class="form-group row">
                                                     <div class="col-lg-offset-2 col-lg-12">
-                                                        @if(!@empty($id))
+                                                        @if(!@empty($id) && ($type=="edit") )
 
                                                         <a class="btn btn-sm btn-danger float-right m-t-n-xs"
-                                                            href="{{ route('pacel.index')}}">
+                                                            href="{{ route('purchase.index')}}">
                                                             cancel
                                                         </a>
                                                         <button class="btn btn-sm btn-primary float-right m-t-n-xs"
@@ -533,7 +450,7 @@ $(document).ready(function() {
         var id = $(this).val();
         var sub_category_id = $(this).data('sub_category_id');
         $.ajax({
-            url: '/courier/public/findPrice/',
+            url: '/agrihub/public/findPrice/',
             type: "GET",
             data: {
                 id: id
@@ -557,7 +474,6 @@ $(document).ready(function() {
 
 
 <script type="text/javascript">
-<!--
 $(document).ready(function() {
 
 
@@ -585,7 +501,7 @@ $(document).ready(function() {
         html +=
             '<td><select name="item_name[]" class="form-control item_name" required  data-sub_category_id="' +
             count +
-            '"><option value="">Select Item</option>@if(isset($name))@foreach($name as $n) <option value="{{ $n->id}}">{{$n->name}}</option>@endforeach @endif</select></td>';
+            '"><option value="">Select Item</option>@foreach($costs as $n) <option value="{{ $n->id}}">{{$n->name}}</option>@endforeach</select></td>';
         html +=
             '<td><input type="text" name="quantity[]" class="form-control item_quantity" data-category_id="' +
             count + '"placeholder ="quantity" id ="quantity" required /></td>';
@@ -624,10 +540,6 @@ $(document).ready(function() {
     });
 
 });
-//
--->
-
-
 </script>
 
 
@@ -656,42 +568,49 @@ function model(id, type) {
 
 }
 
-$(function() {
-    $('#owner_id').trigger('change');
+function saveClient(e) {
+    alert($('#address').val());
 
-})
+    var fname = $('#fname').val();
+    var lname = $('#lname').val();
+    var phone = $('#phone').val();
+    var email = $('#email').val();
+    var address = $('#address').val();
+    var currency_code = $('currency_code').val();
+    var tin = $('#tin').val;
+    var vat = $('#vat').val;
 
-$('#owner_id').change(function() {
-
-    let id = $(this).val()
-   
     $.ajax({
         type: 'GET',
-        url: '/agrihub/public/getFarm/',
+        url: '/courier/public/addClient/',
         data: {
-            'id': id,
+            'fname': fname,
+            'lname': lname,
+            'phone': phone,
+            'email': email,
+            'address': address,
+            'tin': tin,
+            'vat': vat,
+            'currency_code': currency_code,
         },
         cache: false,
         async: true,
         success: function(response) {
-  
             var len = 0;
             if (response.data != null) {
                 len = response.data.length;
             }
-            $('#farm').html("");
+
             if (len > 0) {
-                $('#farm').html("");
+                $('#client').html("");
                 for (var i = 0; i < len; i++) {
-                   
                     var id = response.data[i].id;
-                    var reg_no = response.data[i].reg_no;
-                    var location = response.data[i].location;
+                    var name = response.data[i].fname;
 
-                    var option = "<option value='" + id + "'>" + reg_no + ":" + location +"</option>";
+                    var option = "<option value='" + id + "'>" + name + "</option>";
 
-                    $("#farm").append(option);
-                   
+                    $("#client").append(option);
+                    $('#appFormModal').hide();
                 }
             }
         },
@@ -700,7 +619,7 @@ $('#owner_id').change(function() {
 
         }
     });
-});
+}
 </script>
 
 @endsection
