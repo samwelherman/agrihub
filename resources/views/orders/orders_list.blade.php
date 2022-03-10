@@ -74,7 +74,7 @@
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="CSS grade: activate to sort column ascending"
-                                                    style="width: 98.1094px;">Actions</th>
+                                                    style="width: 98.1094px;">{{__('ordering.actions')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -127,7 +127,7 @@
                                                             <li class="nav-item"><a class="nav-link" title="quotation"
                                                                     
                                                                     href="{{ route('orders.show', $row->id)}}">
-                                                                    {{__('ordering.quotation')}}</a></li>
+                                                                    {{__('ordering.create_quotation')}}</a></li>
                                                         </ul>
                                                     </div>
 

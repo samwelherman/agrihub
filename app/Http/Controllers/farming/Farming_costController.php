@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Currency;
 use App\Models\Cost_centre;
 use App\Models\Farmer;
-use App\Models\Price;
+use App\Models\Items;
 
 class Farming_costController extends Controller
 {
@@ -25,7 +25,7 @@ class Farming_costController extends Controller
        
        
        
-        $name = Price::all();
+        $name = Items::all();
          
 
 

@@ -65,6 +65,15 @@ Route::get('pdfview',array('as'=>'pdfview','uses'=>'shop\PDFController@pdfview')
 
 //Orders Routes
 Route::resource('orders','orders\OrdersController');
+Route::any('quotationList','orders\OrdersController@quotationList');
+Route::any('quotationDetails/{id}','orders\OrdersController@quotationDetails');
+
+//Seasson Routes
+Route::resource('/seasson','farming\SeassonController');
+Route::resource('/cropslifecycle','farming\CropsLifeCycleController');
+Route::any('editLifeCycle',array('as'=>'editLifeCycle','uses'=>'farming\CropsLifeCycleController@editLifeCycle'));
+
+
 
 
 Route::get('/home',"HomeController@index" );

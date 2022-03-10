@@ -105,15 +105,34 @@ class OrdersController extends Controller
     
                 }
             }
+            $cost = Transport_quotation::where('id',$quotation->id)->update($cost);
    
         }    
 
         
-        $purchases = Transport_quotationgit::find($purchase->id);
+        $quotation = Transport_quotation::find($quotation->id);
         
 
-        return view('purchase.purchase_details',compact('purchases'));
+        return view('orders.orders_details',compact('quotation'));
 
+
+    }
+
+    public function quotationList(){
+        $user_id=auth()->user()->id;
+        $quotation = Transport_quotation::all();
+        $costs = Cost_function::all()->where('user_id',$user_id);
+
+        return view('orders.quotation_list',compact('quotation','costs'));
+
+    }
+
+    public function quotationDetails($id){
+
+        $quotation = Transport_quotation::find($id);
+        
+
+        return view('orders.orders_details',compact('quotation'));
 
     }
 

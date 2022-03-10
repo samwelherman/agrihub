@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Application;
-use App\Region;
+//use App\Region;
 
 
 
@@ -36,8 +36,8 @@ class UsersController extends Controller
     {
         //
         $roles = Role::all();
-        $region = Region::all();
-        return view('manage.users.add',Compact('roles','region'));
+        //$region = Region::all();
+        return view('manage.users.add',Compact('roles'));
     }
 
     /**
@@ -67,6 +67,7 @@ class UsersController extends Controller
             'address' => $request['address'],
             'password' => Hash::make($request['password']),
             'phone' => $request['phone'],
+            'added_by' => auth()->user()->id,
             'status' => 1,
         ]);
 

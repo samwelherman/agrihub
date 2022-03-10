@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\farming;
+namespace App\Http\Controllers\shop;
 
 use App\Http\Controllers\Controller;
 

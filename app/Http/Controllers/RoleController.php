@@ -22,19 +22,27 @@ class RoleController extends Controller
     {
 
         $role = Role::find($request->role_id);
+        if($role->added_by == auth()->user()->id){
         if (isset($request->permissions)) {
             $role->refreshPermissions($request->permissions);
         } else {
             $role->permissions()->detach();
         }
+        $message = "permission updated successfully";
+        $type = "success";
+       }else{
+           $message = "You dont have permission to perform this action";
+           $type = "error";
+       }
 
-        return redirect()->back();
+        return redirect()->back()->with([$type=>$message]);
     }
 
     public function store(Request $request)
     {
         $role = Role::create([
             'slug' => str_replace(' ', '-', $request->slug),
+            'added_by'=>auth()->user()->id,
             
         ]);
         return redirect(route('roles.index'));

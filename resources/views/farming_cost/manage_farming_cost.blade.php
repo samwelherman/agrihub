@@ -8,19 +8,19 @@
             <div class="col-12 col-sm-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Farming Costing</h4>
+                        <h4>{{__('farming.farming_cost')}}</h4>
                     </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
-                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">Farm Cost List
-                                    List</a>
+                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">{{__('farming.cost_list')}}
+                                   </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if(!empty($id)) active show @endif" id="profile-tab2"
                                     data-toggle="tab" href="#profile2" role="tab" aria-controls="profile"
-                                    aria-selected="false">New Cost Estination</a>
+                                    aria-selected="false">{{__('farming.cost_estimation')}}</a>
                             </li>
 
                         </ul>

@@ -11,7 +11,7 @@ class Role extends Model
     
 
     protected $fillable = [
-         'slug'
+         'slug','added_by'
     ];
     protected $touches = ['permissions'];
 

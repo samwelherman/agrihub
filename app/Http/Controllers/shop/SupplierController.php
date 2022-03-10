@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\farming;
+namespace App\Http\Controllers\shop;
 
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Farmer;
 use App\Models\User;
-use App\Models\Supply;
+use App\Models\Supplier;
 //use App\Models\FarmLand;
 class SupplierController extends Controller
 {
@@ -25,7 +25,7 @@ class SupplierController extends Controller
     {
         
         $user_id=auth()->user()->id;
-        $supply=User::find($user_id)->supply;
+        $supply=Supplier::all();
         //$supply=User::find($user_id)->supply;
         //print_r($supply);
         return view('agrihub.manage-supplier')->with("supply",$supply)->with('supply2',$supply);

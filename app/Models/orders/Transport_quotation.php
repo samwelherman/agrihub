@@ -17,4 +17,18 @@ class Transport_quotation extends Model
 
         return $this->hasMany('App\Models\orders\Quotation_cost','quotation_id');
     }
+
+    public function crop_types(){
+
+        return $this->belongsTo('App\Models\Crops_type','crop_type');
+      }
+    
+      public function user(){
+    
+        return $this->belongsTo('App\Models\User','user_id');
+      }
+    
+      public function warehouse(){
+          return $this->belongsTo('App\Models\Warehouse','warehouse_id');
+      }
 }

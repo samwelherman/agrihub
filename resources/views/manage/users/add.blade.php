@@ -2,7 +2,7 @@
 
 
 
-@section('contents')
+@section('content')
 <section class="section">
     <div class="section-body">
         @include('layouts.alerts.message')
@@ -46,13 +46,8 @@
                     </div>
                     <div class="form-group col-lg-6 col-md-12 col-sm-12">
                         <label class="control-label">Address</label>
-
-                        <select class="form-control" name="address" required>
-                            <option value="{{ old('address')}}" disabled selected>Choose option</option>
-                            @foreach($region as $row)
-                            <option value="{{ $row->name }}">{{ $row->name }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" class="form-control" name="address" id="address" value="{{ old('address')}}">
+                     
                         @error('address')
                         <p class="text-danger">. {{$message}}</p>
                         @enderror

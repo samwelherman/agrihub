@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('contents')
+@section('content')
 
 <section class="section">
     <div class="section-body">
