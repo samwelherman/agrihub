@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ZonesSeeder::class);
         
-        $this->call(ModuleSeeder::class);
+        //$this->call(ModuleSeeder::class);
        // $this->call(PermisionSeeder::class);
         //$this->call(UserRoleSeeder::class);
 
