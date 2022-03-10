@@ -14,5 +14,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+
+        $this->call(ZonesSeeder::class);
+        
+        $this->call(ModuleSeeder::class);
+       // $this->call(PermisionSeeder::class);
+        //$this->call(UserRoleSeeder::class);
+
+        $this->call(RegionSeeder::class);
+       $this->call(DristrictSeeder::class);
     }
 }
