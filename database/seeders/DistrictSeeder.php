@@ -13,7 +13,7 @@ class DistrictSeeder extends Seeder
     {
         $path = storage_path() . "/json/districts.json";
         foreach (json_decode(file_get_contents($path), true) as $key => $value) {
-            \Models\App\District::updateOrCreate(['id' => $value['id'], 'region_id' => $value['region_id'], 'name' => $value['name']]);
+            \App\Models\District::updateOrCreate(['id' => $value['id'], 'region_id' => $value['region_id'], 'name' => $value['name']]);
         }
     }
 }
