@@ -12,8 +12,8 @@
             </div>
             <div class="padding-20">
             <div class="table-responsive">
-                 <div id="makeorder">
-                   <makeorder-component></makeorder-component>
+                 <div id="app1">
+                  
                    </div>  
                
               </div>
@@ -54,6 +54,7 @@
     }
     </script>
   </section>
+  {{-- <create-Order-form-component></create-Order-form-component> --}}
   
    <!--Making Order model -->
   <div class="modal fade" id="newacount_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -80,7 +81,7 @@
             <div class="form-group col-md-12 col-lg-12 col-xl-12">
                 <label for="orderquantity"></label>
                  <input type="number"  name='orderquantity' class="form-control" id="orderquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
-                     @error('deposityquantity')
+                    @error('deposityquantity')
                  <div class="text-danger">{{$message }}</div>
                  @enderror
              </div>
@@ -107,5 +108,5 @@
     </div>
 </div>
 
-
   @endsection
+  <div id="teleport-target"></div>

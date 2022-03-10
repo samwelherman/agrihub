@@ -11,7 +11,8 @@ use App\Models\Farmer_account;
 use App\Models\Deposite_withdraw;
 use App\Models\Crops_type;
 use App\Models\Group;
-class Client_OrderController extends Controller
+use App\Models\Order;
+class Orders_Client_ManipulationsController extends Controller
 {
     public function __construct()
     {
@@ -24,14 +25,12 @@ class Client_OrderController extends Controller
      */
     public function index()
     {
-        // $user_id=auth()->user()->id;
-        // $warehouse =Warehouse::all();
-        // $user=User::all();
-        // $insurance=Insurance::all();
-        // $group=USer::find($user_id)->group;
-        $data = Farmer_account::all()->groupBy("warehouse_id")->groupBy("crops_type_id");
         
-        return view('orders.client_order',compact('data'));
+        $data = Farmer_account::groupBy('warehouse_id','crops_type_id')->selectRaw('sum(total_quantity) as total_quantity, warehouse_id,crops_type_id')->with(['crops_type','warehouse'])->get();
+       
+            return response()
+            ->json($data);
+        
     }
 
     /**
@@ -53,35 +52,38 @@ class Client_OrderController extends Controller
     public function store(Request $request)
     {
         
-        $this->validate($request,[
-            'warehousename'=>'required',
-            'warehouselocation'=>'required',
-            'warehouseowner'=>'required',
-            'warehousemanager'=>'required'
-        ]); 
-        
-        //$data=$this->request();
-        //$data['user_id'] =auth()->user()->id;
-        //$farmer= Farmer::create($data);
+        // $this->validate($request,[
+        //     'warehouse_id'=>'required',
+        //     'quantity'=>'required',
+        //     'user_id'=>'required',
+        //     'client_id'=>'required',
+        //     'offer_amount'=>'required',
+        //     'crop_type'=>'required',
+        //     'start_location'=>'required',
+        //     'end_location'=>'required',
+        //     'route_type'=>'requied',
+        //     'status'=>'required'
+        // ]); 
       
-        $warehouse= new Warehouse();
-
-        $warehouse->warehouse_name=$request->input('warehousename');
-        $warehouse->warehouse_location=$request->input('warehouselocation');
-        $warehouse->warehouse_owner=$request->input('warehouseowner');
-        $warehouse->warehouse_manager=$request->input('warehousemanager');
-        $warehouse->insurance_id=$request->input('insurance');
-        $warehouse->manager_contact=$request->input('managercontact');
-        $warehouse->save();
-        if($warehouse)
+        $order= new Order();
+        $order->warehouse_id=$request->input('warehouse_id');
+        $order->quantity=$request->input('quantity');
+        $order->user_id=$request->input('user_id');
+        $order->offered_amount=$request->input('offer_amount');
+        $order->crop_type=$request->input('crop_type');
+        $order->start_location=$request->input('start_location');
+        $order->end_location=$request->input('end_location');
+        $order->route_type=$request->input('route_type');
+        $order->status=$request->input('status');
+        $order->save();
+        if($order)
         {
-            $messagev="New warehouse registered successful'";
-            return redirect('/warehouse')->with('messagev',$messagev);
+            return response()
+            ->json($order);
         }
         else
         {
-            $messager="Failed to register new warehouse'";
-            return redirect('/warehouse')->with('messager',$messager);
+            return ;
         }
 
       

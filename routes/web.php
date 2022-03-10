@@ -12,6 +12,7 @@ use App\Http\Controller\UnitController;
 use App\Http\Controller\PurchaseController;
 use App\Http\Controller\SalesController;
 use App\Http\Controller\Single_warehouseController;
+use App\Http\Controller\Orders_Client_ManipulationsController;
 //use ;
 use App\Models\Counter;
 /*
@@ -138,6 +139,7 @@ Route::resource('singlewarehouse','Single_warehouseController');
 
 // make crops orders
 Route::resource('crops_order','Client_OrderController');
+Route::resource('manipulation','Orders_Client_ManipulationsController');
 
 
 Route::resource('permissions', 'PermissionController');

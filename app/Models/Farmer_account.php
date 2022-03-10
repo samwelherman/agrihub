@@ -21,5 +21,9 @@ class Farmer_account extends Model
     {
         return $this->belongsTo('App\Models\Crops_type','crops_type_id');
     }
+    public function warehouse()
+    {
+        return $this->belongsTo('App\Models\Warehouse','warehouse_id');
+    }
   
 }

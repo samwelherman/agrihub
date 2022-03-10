@@ -5,11 +5,29 @@
  */
 
 require('./bootstrap');
+// import Vuetify from 'vuetify'
+import { createApp } from 'vue'
+// import { createVuetify } from 'vuetify'
+// import VuetifyDialog from 'vuetify-dialog'
+// import 'vuetify-dialog/dist/vuetify-dialog.css'
+// import 'vuetify/dist/vuetify.min.css'
+
+
+
 
 
 
 
 window.Vue = require('vue').default;
+
+// createApp() 
+
+import App from './components/Makeorder.vue'
+
+
+// const vuetify = createVuetify()
+
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -22,18 +40,24 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('makeorder-component', require('./components/Makeorder.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('makeorder-component', require('./components/Makeorder.vue').default);
+// Vue.component('create-Order-form-component', require('./components/CreateOrderForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+ const app = createApp(App)
 
-const app = new Vue({
-    el: '#app',
-});
+ app.mount('#app1')
+
+// const app = new Vue({
+//     el: '#app',
+//     vuetify: new Vuetify(),
+// });
+
 
 // const makeorder = new Vue({
 //     el:'#makeorder',
