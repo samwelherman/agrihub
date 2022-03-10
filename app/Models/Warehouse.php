@@ -19,5 +19,10 @@ class Warehouse extends Model
     {
         return $this->belongsTo('App\Models\Insurance');
     }
+
+    public function farmer_account()
+    {
+        return $this->hasMany('App\Models\Farmer_account','id');
+    }
   
 }
