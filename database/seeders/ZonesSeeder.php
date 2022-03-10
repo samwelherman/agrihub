@@ -22,7 +22,7 @@ class ZonesSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            \App\Zone::updateOrCreate($item);
+            \Models\App\Zone::updateOrCreate($item);
         }
     }
 }
