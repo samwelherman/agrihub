@@ -13,7 +13,7 @@ class RegionSeeder extends Seeder
     {
         $path = storage_path() . "/json/regions.json";
         foreach (json_decode(file_get_contents($path), true) as $value) {
-            \App\Region::updateOrCreate(['id' => $value['id'], 'zone_id' => $value['zone_id'], 'name' => $value['name']]);
+            \Models\App\Region::updateOrCreate(['id' => $value['id'], 'zone_id' => $value['zone_id'], 'name' => $value['name']]);
         }
     }
 }

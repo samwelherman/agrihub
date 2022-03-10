@@ -13,7 +13,7 @@ class CountrySeeder extends Seeder
     {
         $path = storage_path() . "/json/countries.json";
         foreach (json_decode(file_get_contents($path), true) as $key => $value) {
-            \App\Country::updateOrCreate([
+            \Models\App\Country::updateOrCreate([
                 'name' => $value['en_short_name'],
                 'nationality' => $value['nationality']
             ]);
