@@ -1,4 +1,4 @@
-<div class="tab-pane fade @if($type =='view-sowing' || $type =='edit-sowing') active show  @endif" id="tab2"
+<div class="tab-pane fade @if($type =='sowing' || $type =='edit-sowing') active show  @endif" id="tab2"
     role="tabpanel" aria-labelledby="tab2">
     <div class="card">
         <div class="card-header">
@@ -7,8 +7,8 @@
         <div class="card-body">
             <ul class="nav nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link @if($type =='view-sowing')active show @endif" id="home-tab3" data-toggle="tab"
-                        href="#home3" role="tab" aria-controls="home" onclick="{ $type = 'view-sowing'}"
+                    <a class="nav-link @if($type =='sowing')active show @endif" id="home-tab3" data-toggle="tab"
+                        href="#home3" role="tab" aria-controls="home" onclick="{ $type = 'sowing'}"
                         aria-selected="true">{{__('farming.sowing')}}
                     </a>
                 </li>
@@ -20,7 +20,7 @@
 
             </ul>
             <div class="tab-content tab-bordered" id="myTab3Content">
-                <div class="tab-pane fade @if($type =='view-sowing') active show @endif" id="home3" role="tabpanel"
+                <div class="tab-pane fade @if($type =='sowing') active show @endif" id="home3" role="tabpanel"
                     aria-labelledby="home-tab3">
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">
@@ -49,15 +49,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(!@empty($preparationDetails))
-                                @foreach ($preparationDetails as $row)
+                                @if(!@empty($sowing))
+                                @foreach ($sowing as $row)
                                 <tr class="gradeA even" role="row">
-                                    <td>{{$row->preparation_type}}</td>
-                                    <td>{{$row->soil_salt}}</td>
-                                    <td>{{$row->acid_level}}</td>
+                                    <td>{{$row->crops_type}}</td>
+                                    <td>{{$row->seed_type}}</td>
+                                    <td>{{$row->qheck}}</td>
 
-                                    <td>{{$row->moisture_level}}</td>
-                                    <td>{{$row->preparation_cost}}</td>
+                                    <td>{{$row->nh}}</td>
+                                    <td>{{$row->qn}}</td>
 
 
                                     <td>
@@ -96,7 +96,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 ">
-                                    @if(isset($id))
+                                @if($type =='edit-sowing')
                                     {{ Form::model($id, array('route' => array('cropslifecycle.update', $id), 'method' => 'PUT')) }}
                                     @else
                                     {{ Form::open(['route' => 'cropslifecycle.store']) }}
@@ -157,7 +157,7 @@
 
                                     <div class="form-group row">
                                         <div class="col-lg-offset-2 col-lg-12">
-                                            @if(!@empty($id))
+                                        @if($type =='edit-sowing')
                                             <button class="btn btn-sm btn-primary float-right m-t-n-xs"
                                                 data-toggle="modal" data-target="#myModal" type="submit">Update</button>
                                             @else
