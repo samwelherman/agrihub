@@ -10,10 +10,10 @@ class Warehouse extends Model
     use HasFactory;
     protected $table = "tbl_warehouses";
 
-    protected $fillable = ['id','warehouse_name','warehouse_owner','warehouse_manager','warehouse_location','manager_contact','insurance_id'];
+    protected $fillable = ['id','warehouse_name','added_by','warehouse_manager','region_id','district_id','manager_contact','insurance_id'];
     public function user()
     {
-        return $this->belongsTo('App\Models\User','warehouse_owner');
+        return $this->belongsTo('App\Models\User','added_by');
     }
     public function insurance()
     {
