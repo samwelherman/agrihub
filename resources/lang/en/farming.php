@@ -51,5 +51,14 @@ return [
     'total'=>'Total',
     'action'=>'Action',
     'sowing'=>'Sowing',
+    'new_sowing'=>'New Sowing',
+    'crops_type'=>'Crops Type',
+    'seed_type'=>'Seed Type',
+    'qheck'=>'Qheck',
+    'cost'=>'Cost',
+    'nh'=>'NH',
+    'qn'=>'QN',
+
+
 
 ];

@@ -44,16 +44,14 @@ class CropsLifeCycleController extends Controller
     public function store(Request $request,CropsLifeCycleInterface $cropsLifeCycleInterface)
     {
         //
-
+        $function = $request->type;
         
-        if($request->type == "preparation"){
-           $result =   $cropsLifeCycleInterface->landPreparation($request->all(),"store");
-           if($result){
-            return redirect()->route('cropslifecycle.index', ['type' => 'land_preparation'])->with(['success'=>"Land Preparation Data added Successfully"]);
-           }
-        }else{
-            echo  "holaa";
+        $result =   $cropsLifeCycleInterface->landPreparation($request->all(),"store",$function);
+
+        if($result){
+            return redirect()->route('cropslifecycle.index', ['type' => $function])->with(['success'=>$function]);
         }
+       
     }
 
     /**

@@ -2,21 +2,30 @@
 
 namespace App\Services;
 use App\Services\CropsLifeCycleInterface;
+use App\Services\CropSowing;
 use App\Models\farming\PreparationDetails;
 use App\Models\farming\PreparationCostLists;
    
-class LandPreparation implements CropsLifeCycleInterface
+class LandPreparation  implements CropsLifeCycleInterface
 {   
    
-    public function landPreparation($data,$type){
-        if($type =="store")
-        return $this->saveLandPreparation($data);
-        elseif($type == "update")
-        return $this->updateLandPreparation($data);
-        elseif($type == "edit")
-        return $this->getByIdLandPreparation($data);
-        
+    public function landPreparation($data,$type,$function){
+        if($function == "preparation"){
+            return $this->preparation($data,$type);
+        }elseif($function == "sowing"){
+            return $this->cropSowing($data,$type);
+        }
 
+    }
+
+     //preparation functions
+    public function preparation($data,$type){
+            if($type =="store")
+            return $this->saveLandPreparation($data);
+            elseif($type == "update")
+            return $this->updateLandPreparation($data);
+            elseif($type == "edit")
+            return $this->getByIdLandPreparation($data);
     }
 
     private function getByIdLandPreparation($id){
@@ -139,6 +148,61 @@ class LandPreparation implements CropsLifeCycleInterface
         return true;
 
 
+    } 
+
+    //sowing functions
+    public function cropSowing($data,$type){
+        if($type =="store")
+        return $this->saveCropSowing($data);
+        elseif($type == "update")
+        return $this->updateCropSowing($data);
+        elseif($type == "edit")
+        return $this->getByIdCropSowing($data);
+       
+
+        
+
+    }
+
+    private function getByIdCropSowing($id){
+
+        $result['sowing'] = Sowing::find($id);
+     
+
+       return $result;
+    }
+
+    public function saveCropSowing($request){
+        $details['crops_type'] =  $request['crops_type'];
+        $details['seed_type'] =  $request['seed_type'];
+        $details['qheck'] =  $request['qheck'];
+        $details['cost'] =  $request['cost'];
+        $details['nh'] =  $request['nh'];
+        $details['qn'] =  $request['qn'];
+        $details['user_id'] =  auth()->user()->id;
+
+        $sowing = Sowing::create($details);
+
+       
+   
+
+        return true;
+
+
+    } 
+
+    public function updateCropSowing($request){
+        $details['crops_type'] =  $request['crops_type'];
+        $details['seed_type'] =  $request['seed_type'];
+        $details['qheck'] =  $request['qheck'];
+        $details['cost'] =  $request['cost'];
+        $details['nh'] =  $request['nh'];
+        $details['qn'] =  $request['qn'];
+        $details['user_id'] =  auth()->user()->id;
+
+        $preparationDetails = Sowing::where('id',$request['id'])->update($details);
+
+       
     } 
   
 }

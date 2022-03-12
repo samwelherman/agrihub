@@ -4,5 +4,7 @@ namespace App\Services;
 
 Interface CropsLifeCycleInterface
 {
-    public function landPreparation($data,$type);
+    public function landPreparation($data,$type,$function); 
+
+  
 }
