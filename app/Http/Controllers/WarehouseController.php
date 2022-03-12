@@ -52,37 +52,7 @@ class WarehouseController extends Controller
     public function store(Request $request)
     {
         
-        $this->validate($request,[
-            'warehousename'=>'required',
-            'warehouselocation'=>'required',
-            'warehouseowner'=>'required',
-            'warehousemanager'=>'required'
-        ]); 
-        
-        //$data=$this->request();
-        //$data['user_id'] =auth()->user()->id;
-        //$farmer= Farmer::create($data);
-      
-        $warehouse= new Warehouse();
-
-        $warehouse->warehouse_name=$request->input('warehousename');
-        $warehouse->warehouse_location=$request->input('warehouselocation');
-        $warehouse->warehouse_owner=$request->input('warehouseowner');
-        $warehouse->warehouse_manager=$request->input('warehousemanager');
-        $warehouse->insurance_id=$request->input('insurance');
-        $warehouse->manager_contact=$request->input('managercontact');
-        $warehouse->save();
-        if($warehouse)
-        {
-            $messagev="New warehouse registered successful'";
-            return redirect('/warehouse')->with('messagev',$messagev);
-        }
-        else
-        {
-            $messager="Failed to register new warehouse'";
-            return redirect('/warehouse')->with('messager',$messager);
-        }
-
+       
       
     }
     
@@ -167,7 +137,7 @@ class WarehouseController extends Controller
     
     public function storedeposity(Request $request)
     {
-          $id =$request->input('account_id');
+        $id =$request->input('account_id');
        
         $farmerAccount=Farmer_account::find($id);
         
@@ -276,7 +246,7 @@ class WarehouseController extends Controller
         $account=Farmer_account::all()->where('warehouse_id',$id);
     
         $group=User::find($user_id)->group;
-        if(empty($warehouse))
+        if(!empty($warehouse))
         {
         
     
@@ -285,7 +255,7 @@ class WarehouseController extends Controller
         }
         else
         {
-            return view('warehouses.manage-single-warehouse')->with('farmer',$farmer)->with('accounts',$account)->with('warehouse',$warehouse)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
+            return abort(404);
         }
   
     }

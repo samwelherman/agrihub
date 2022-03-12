@@ -13,6 +13,7 @@ use App\Http\Controller\PurchaseController;
 use App\Http\Controller\SalesController;
 use App\Http\Controller\Single_warehouseController;
 use App\Http\Controller\Orders_Client_ManipulationsController;
+use App\Http\Controller\Warehouse_backendController;
 //use ;
 use App\Models\Counter;
 /*
@@ -145,6 +146,7 @@ Route::post('addfarmeraccount/save','WarehouseController@storeFarmerAccount');
 Route::post('deposity/save','WarehouseController@storedeposity');
 Route::post('withdraw/save','WarehouseController@storewithdraw');
 Route::resource('singlewarehouse','Single_warehouseController');
+Route::resource('warehouse_backend','warehouse\Warehouse_backendController');
 
 // make crops orders
 Route::resource('crops_order','Client_OrderController');

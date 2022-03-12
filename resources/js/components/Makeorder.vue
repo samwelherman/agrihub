@@ -25,7 +25,7 @@
             <td>Dar es salaam</td>
             <td>ilala</td>
             <!-- <th><create-Order-form-component/></th> -->
-            <td><h4><button class="btn btn-primary"  data-toggle="modal" @click="state.dialog_state = true"  data-target="#appFormModal" href="#">Order</button></h4></td>
+            <td><h4><button class="btn btn-primary"  data-toggle="modal" @click="form_data.warehouse_id=data.warehouse.id,state.dialog_state = true"  data-target="#appFormModal" href="#">Order</button></h4></td>
         </tr>
       
     </tbody>
@@ -118,7 +118,8 @@ export default {
     });
 
      const  getdata = async() => {
-       await axios.get('manipulation').then(response=>{state.tabledata=response.data}).catch(error =>{  console.log(error)})
+       await axios.get('manipulation').then(response=>{
+         state.tabledata=response.data}).catch(error =>{  console.log(error)})
     };
 
     const  makeOrder = async() => {

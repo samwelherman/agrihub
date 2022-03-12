@@ -23,6 +23,8 @@ window.Vue = require('vue').default;
 // createApp() 
 
 import App from './components/Makeorder.vue'
+import Warehouse from './components/warehouse/manage_warehouse.vue'
+import Single_warehouse from './components/warehouse/single_warahouse.vue'
 
 
 // const vuetify = createVuetify()
@@ -50,8 +52,16 @@ import App from './components/Makeorder.vue'
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
  const app = createApp(App)
-
  app.mount('#app1')
+ const manage_warehouse = createApp(Warehouse)
+ manage_warehouse.mount('#manage_warehouse')
+
+ const single_warehouse = createApp(Single_warehouse)
+ single_warehouse.mount('#single_warehouse')
+
+
+
+
 
 // const app = new Vue({
 //     el: '#app',
