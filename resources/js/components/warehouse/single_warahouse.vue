@@ -49,9 +49,6 @@
                                   <div class="row">
                                   
                                   
-                               
-                                  
-                                  
                                     <div class="col-lg-12 col-sm-12 col-md-12">
                                   <a class="btn btn-primary"  data-toggle="modal" onclick="model('deposity',{{$account->id}},{{$warehouse->id}})"  data-target="#appFormModal" href="#" >deposite <i class="fas fa-plus"></i></a>
                                   <a  class="btn btn-primary"  data-toggle="modal" onclick="model('withdraw',{{$account->id}},{{$warehouse->id}})" data-target="#appFormModal" href="#">withdraw <i class="fas fa-minus"></i></a>
@@ -267,7 +264,7 @@ export default {
             warehouse_form_data.warehousemanager='';
             //  state.dialog_state = false,
             //  document.getElementById("close").click()
-            // console.log(response.data)
+            //  console.log(response.data)
              }else{
             response_data.message = response.data.message;
             response_data.successful=false;
