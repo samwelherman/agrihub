@@ -54,10 +54,18 @@ return [
     'new_sowing'=>'New Sowing',
     'crops_type'=>'Crops Type',
     'seed_type'=>'Seed Type',
-    'qheck'=>'Qheck',
+    'qheck'=>'Quantity per Hector',
     'cost'=>'Cost',
-    'nh'=>'NH',
-    'qn'=>'QN',
+    'nh'=>'Number Of Hector',
+    'qn'=>'Total Quantity',
+
+    'fertilizer'=>'Fertilizer',
+    'new_fertilizer'=>'New Fertilizer',
+    'f_date'=>'Date',
+    'fertilizer_type'=>'Fertilizer Type',
+    'unit_price'=>'unit_price',
+    'total_price'=>'Total Price',
+    
 
 
 

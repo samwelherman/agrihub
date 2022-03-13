@@ -60,7 +60,7 @@ class SeassonController extends Controller
         $name = Preparation_cost::all();
 
         $preparationDetails = PreparationDetails::all();
-        $type = "view-preparation";
+        $type = "preparation";
         
         return view('farming_process.crop_life_cycle',compact('name','id','preparationDetails','type'));
 

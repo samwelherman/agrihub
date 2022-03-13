@@ -15,29 +15,29 @@
                             <div class="col-12 col-sm-12 col-md-2">
                                 <ul class="nav nav-pills flex-column" id="myTab4" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'view-preparation' || $type == 'edit-preparation') active  @endif" onclick="{ $type = 'view-preparation'}" id="#tab1" data-toggle="tab"
+                                        <a class="nav-link @if($type == 'preparation' || $type == 'edit-preparation') active  @endif" onclick="{ $type = 'preparation'}" id="#tab1" data-toggle="tab"
                                             href="#tab1" role="tab" aria-controls="home"
                                             aria-selected="true">{{__('farming.land')}}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'view-sowing' || $type == 'edit-sowing') active  @endif" onclick="{ $type = 'view-sowing'}" id="#tab2" data-toggle="tab"
+                                        <a class="nav-link @if($type == 'sowing' || $type == 'edit-sowing') active  @endif" onclick="{ $type = 'sowing'}" id="#tab2" data-toggle="tab"
                                             href="#tab2" role="tab" aria-controls="profile"
                                             aria-selected="false">{{__('farming.sowing')}}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'view-sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
-                                            href="#tab2" role="tab" aria-controls="profile"
-                                            aria-selected="false">Fertilizer</a>
+                                        <a class="nav-link @if($type == 'fertilizer') active  @endif" onclick="{ $type = 'fertilizer'}" id="#tab3" data-toggle="tab"
+                                            href="#tab3" role="tab" aria-controls="profile3"
+                                            aria-selected="false">{{__('farming.fertilizer')}}</a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'view-sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
+                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
                                             href="#tab2" role="tab" aria-controls="profile"
                                             aria-selected="false">Irrigation</a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'view-sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
+                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
                                             href="#tab2" role="tab" aria-controls="profile"
                                             aria-selected="false">Wedding</a>
                                     </li>

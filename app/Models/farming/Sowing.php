@@ -11,5 +11,5 @@ class Sowing extends Model
 
     protected $table = "tbl_sowings";
 
-    protected $fillable = ['qn','nh','cost','gheck','seed_type','crop_type','user_id'];
+    protected $fillable = ['qn','nh','cost','qheck','seed_type','crop_type','user_id'];
 }

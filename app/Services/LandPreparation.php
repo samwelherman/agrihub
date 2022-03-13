@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Services\CropsLifeCycleInterface;
 use App\Services\CropSowing;
 use App\Models\farming\PreparationDetails;
+use App\Models\farming\Sowing;
 use App\Models\farming\PreparationCostLists;
    
 class LandPreparation  implements CropsLifeCycleInterface
@@ -178,7 +179,7 @@ class LandPreparation  implements CropsLifeCycleInterface
         $details['qheck'] =  $request['qheck'];
         $details['cost'] =  $request['cost'];
         $details['nh'] =  $request['nh'];
-        $details['qn'] =  $request['qn'];
+        $details['qn'] =  $request['qheck']*$request['nh'];
         $details['user_id'] =  auth()->user()->id;
 
         $sowing = Sowing::create($details);

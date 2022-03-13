@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Services\CropsLifeCycleInterface;
 use App\Models\farming\Preparation_cost;
 use App\Models\farming\PreparationDetails;
+use App\Models\farming\Sowing;
+use Session;
 
 class CropsLifeCycleController extends Controller
 {
@@ -15,14 +17,16 @@ class CropsLifeCycleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($type=null,$id=null)
-    {
-        $name = Preparation_cost::all();
+    public function index()
+    {   $type = Session::get('success');
+        $id = Session::get('id');
+         if(empty($type))
+         $type = "preparation";
 
+        $name = Preparation_cost::all();
         $preparationDetails = PreparationDetails::all();
-        $type = "view-preparation";
-        
-        return view('farming_process.crop_life_cycle',compact('name','id','preparationDetails','type'));
+        $sowing = Sowing::all();
+        return view('farming_process.crop_life_cycle',compact('name','id','preparationDetails','type','sowing'));
     }
 
     /**
@@ -49,7 +53,7 @@ class CropsLifeCycleController extends Controller
         $result =   $cropsLifeCycleInterface->landPreparation($request->all(),"store",$function);
 
         if($result){
-            return redirect()->route('cropslifecycle.index', ['type' => $function])->with(['success'=>$function]);
+            return redirect()->route('cropslifecycle.index', $function)->with(['success'=>$function,'id'=>$request->id]);
         }
        
     }
@@ -125,7 +129,7 @@ class CropsLifeCycleController extends Controller
         if($request->type == "preparation"){
             $result =   $cropsLifeCycleInterface->landPreparation($data,"update");
             if($result){
-             return redirect()->route('cropslifecycle.index', ['type' => 'land_preparation','id'=>$id])->with(['success'=>"Land Preparation Update added Successfully"]);
+           //  return redirect()->route('cropslifecycle.index', ['type' => 'land_preparation','id'=>$id])->with(['success'=>"Land Preparation Update added Successfully"]);
             }
          }else{
              echo  "holaa";
