@@ -146,7 +146,7 @@ Route::post('addfarmeraccount/save','WarehouseController@storeFarmerAccount');
 Route::post('deposity/save','WarehouseController@storedeposity');
 Route::post('withdraw/save','WarehouseController@storewithdraw');
 Route::resource('singlewarehouse','Single_warehouseController');
-Route::resource('warehouse_backend','warehouse\Warehouse_backendController');
+Route::resource('warehouse_backend',warehouse\Warehouse_backendController::class);
 
 // make crops orders
 Route::resource('crops_order','Client_OrderController');
