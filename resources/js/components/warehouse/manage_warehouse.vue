@@ -7,13 +7,10 @@
               <button class="close" @click="response_data.successful=false">
                 <span>×</span>
               </button>
-              
-
               {{response_data.message}}
             </div>
           </div>
        
-          
           <div v-show="response_data.error" class="alert alert-danger alert-dismissible show fade">
             <div class="alert-body">
               <button class="close" @click="response_data.error=false">
@@ -144,7 +141,7 @@
                             <div class="col-lg-12 col-sm-12 col-md-12">
                             <a v-bind:href="`warehouse/${data.id}/show`" ><i class="fas fa-tv"></i></a>
                             <!-- <a href="farmer/{{$warehouse->id}}/edit"><i class="fas fa-edit"></i></a> -->
-                            <a href="#"  data-toggle="modal" data-target="#basicModal"><i class="fas fa-trash-alt"></i></a>
+                            <!-- <a href="#"  data-toggle="modal" data-target="#basicModal"><i class="fas fa-trash-alt"></i></a> -->
                             
                             </div>
                             </div>

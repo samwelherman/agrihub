@@ -7,12 +7,12 @@
     
         <div class="col-12 col-md-12 col-lg-12">
           <div id="single_warehouse">
-            <single_warehouse></single_warehouse>
+            <single_warehouse :warehouse_props="{{$warehouse}}"></single_warehouse>
           </div>
         </div>
       </div>
     </div>
-    <script src="{{mix('js/app.js')}}"></script>
+    {{-- <script src="{{mix('js/app.js')}}"></script> --}}
     <script type="text/javascript">
     function model( type,account_id,warehouse_id) {
 
