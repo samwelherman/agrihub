@@ -237,8 +237,11 @@ class WarehouseController extends Controller
     public function show($id)
     {
         $user_id=auth()->user()->id;
-        $wihdrawHistory=Deposite_withdraw::all()->where('status',1)->where('warehouse_id',$id);
-        $deposityHistory=Deposite_withdraw::all()->where('status',2)->where('warehouse_id',$id);
+        // $wihdrawHistory=Deposite_withdraw::join('posts', 'posts.user_id', '=', 'users.id')
+        // ->join('comments', 'comments.post_id', '=', 'posts.id')
+        // ->get(['users.*', 'posts.descrption']);all()->where('status',1)->where('warehouse_id',$id);
+        $wihdrawHistory=Deposite_withdraw::with(['farmer_account'])->where('status',1)->where('warehouse_id',$id)->get();
+        $deposityHistory=Deposite_withdraw::with(['farmer_account'])->where('status',2)->where('warehouse_id',$id)->get();
         $warehouse=Warehouse::find($id);
         $warehouses=Warehouse::all();
         $crops_type=Crops_type::all();

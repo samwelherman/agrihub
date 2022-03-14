@@ -8,7 +8,7 @@
             <div class="col-12 col-sm-12 col-lg-2 col-xl-2 col-md-2">
                   <ul class="nav nav-pills flex-column" id="myTab4" role="tablist">
                      <li class="nav-item">
-                      <a class="nav-link  active" id="profile-tab4" data-toggle="tab" href="#accounts" role="tab" aria-controls="profile" aria-selected="true">Accounts</a>
+                      <a class="nav-link  active" id="profile-tab4" data-toggle="tab" href="#accounts" role="tab" aria-controls="accounts" aria-selected="true">Accounts</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" id="home-tab4" data-toggle="tab" href="#orders" role="tab" aria-controls="home" aria-selected="false">Orders</a>
@@ -21,19 +21,19 @@
 
              <div class="col-12 col-sm-12 col-lg-10 col-xl-10 col-md-10">
                   <div class="tab-content no-padding" id="myTab2Content">
-          <div class="tab-pane fade" id="accounts" role="tabpanel" aria-labelledby="home-tab4">
+          <div class="tab-pane fade active show" id="accounts" role="tabpanel" aria-labelledby="accounts">
                     <div class="padding-20">
               <ul class="nav nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#about" role="tab"
+                  <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#about1" role="tab"
                     aria-selected="true">Famer Accounts</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="profile-tab2" data-toggle="tab" href="#deposity" role="tab"
+                  <a class="nav-link" id="profile-tab2" data-toggle="tab" href="#deposity1" role="tab"
                     aria-selected="false">Deposite History</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="farm land" data-toggle="tab" href="#withdraw" role="tab"
+                    <a class="nav-link" id="farm land" data-toggle="tab" href="#withdraw1" role="tab"
                       aria-selected="false">Withdraw History</a>
                   </li>
               </ul>
@@ -41,7 +41,7 @@
               <div class="tab-content tab-bordered" id="myTab3Content">
                 
                 
-                <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="home-tab2">
+                <div class="tab-pane fade show active" id="about1" role="tabpanel" aria-labelledby="home-tab2">
                   <h4><button class="btn btn-primary"  data-toggle="modal" data-target="#newacount_form">Add New Account <i class="fa fa-plus"></i></button></h4>
                  <div class="table-responsive">
                      
@@ -96,7 +96,7 @@
                           </div>
                   </div>
                 
-                <div class="tab-pane fade" id="deposity" role="tabpanel" aria-labelledby="profile-tab2">
+                <div class="tab-pane fade" id="deposity1" role="tabpanel" aria-labelledby="profile-tab2">
                     <div class="table-responsive">
                  
                             <table class="table table-striped table-md">
@@ -141,7 +141,7 @@
                 </div>
                 
                 
-                   <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="profile-tab2">
+                   <div class="tab-pane fade" id="withdraw1" role="tabpanel" aria-labelledby="profile-tab2">
                     <div class="table-responsive">
                
                             <table class="table table-striped table-md">
@@ -186,7 +186,7 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane fade  active show" id="orders" role="tabpanel" aria-labelledby="profile-tab4">
+          <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="profile-tab4">
                     <div class="padding-20">
               <ul class="nav nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item">
