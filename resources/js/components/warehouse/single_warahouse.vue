@@ -2,8 +2,7 @@
     <div>
        <div class="card">
             <div class="card-header">
-              dddddd
-              <h4>{{warehouse_props}}</h4>
+              <h4>{{warehouse.warehouse_name}}</h4>
             </div>
             <div class="row">
             <div class="col-12 col-sm-12 col-lg-2 col-xl-2 col-md-2">
@@ -45,7 +44,7 @@
                 <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="home-tab2">
                   <h4><button class="btn btn-primary"  data-toggle="modal" data-target="#newacount_form">Add New Account <i class="fa fa-plus"></i></button></h4>
                  <div class="table-responsive">
-                      <!-- @if(count($accounts)>0)
+                     
                             <table class="table table-striped table-md">
                               <tbody><tr>
                           
@@ -55,28 +54,22 @@
                                 <th>Total Quantity</th>
                                 <th>Action</th>
                               </tr>
-                              
-                              @foreach($accounts as $account)
-                                 
-                                 
-                                 <tr>
-                                   <td> {{$account->farmer->firstname}}{{$account->farmer->lastname}}_{{$account->crops_type->crop_name}}</td>
-                                   <td>{{$account->farmer->firstname}} {{$account->farmer->lastname}}</td>
-                                <td>{{$account->crops_type->crop_name}}</td>
-                                <td>{{$account->total_quantity}}kg</td>
+                                 <tr v-for="(account,index) in accounts" :key="index">
+                                   <td> {{account.farmer.firstname}}{{account.farmer.lastname}}_{{account.crops_type.crop_name}}</td>
+                                   <td>{{account.farmer.firstname}} {{account.farmer.lastname}}</td>
+                                <td>{{account.crops_type.crop_name}}</td>
+                                <td>{{account.total_quantity}}kg</td>
                                 <td>
                                   <div class="row">
-                                  
-                                  
-                                    <div class="col-lg-12 col-sm-12 col-md-12">
-                                  <a class="btn btn-primary"  data-toggle="modal" onclick="model('deposity',{{$account->id}},{{$warehouse->id}})"  data-target="#appFormModal" href="#" >deposite <i class="fas fa-plus"></i></a>
-                                  <a  class="btn btn-primary"  data-toggle="modal" onclick="model('withdraw',{{$account->id}},{{$warehouse->id}})" data-target="#appFormModal" href="#">withdraw <i class="fas fa-minus"></i></a>
-                                  
-                                  
+                                  <div class="col-lg-12 col-sm-12 col-md-12">
+                                  <a class="btn btn-primary"  data-toggle="modal" onclick="model('deposity',{{account.id}},{{warehouse.id}})"  data-target="#appFormModal" href="#" >deposite <i class="fas fa-plus"></i></a>
+                                  <a  class="btn btn-primary"  data-toggle="modal" onclick="model('withdraw',{{account.id}},{{warehouse.id}})" data-target="#appFormModal" href="#">withdraw <i class="fas fa-minus"></i></a>
+
                                     </div>
+                                  </div>
                                 </td>
                                  </tr>
-                              @endforeach
+                            
 
                             </tbody>
                             <div class="card-footer text-right">
@@ -99,17 +92,13 @@
                            
                             
                           </table>
-                             @else
-                              No data available
-                           
-                               @endif -->
-                      
+                            
                           </div>
                   </div>
                 
                 <div class="tab-pane fade" id="deposity" role="tabpanel" aria-labelledby="profile-tab2">
                     <div class="table-responsive">
-                      <!-- @if(count($deposity)>0)
+                 
                             <table class="table table-striped table-md">
                               <tbody><tr>
                           
@@ -119,15 +108,15 @@
                                 <th>Quantity</th>
                                 <th>Price</th>
                               </tr>
-                              @foreach($deposity as $deposity)
-                                 <tr>
-                                   <td>{{$deposity->farmer_account->farmer->firstname}}{{$deposity->farmer_account->farmer->lastname}}_{{$deposity->farmer_account->crops_type->crop_name}}</td>
-                                <td>{{$deposity->farmer_account->crops_type->crop_name}}</td>
-                                <td>{{$deposity->created_at}}</td>
-                                <td> {{$deposity->quantity}}kg</td>
-                                <td>{{$deposity->cost}}</td>
-                                 </tr>
-                              @endforeach
+                             
+                                <tr v-for="(single_deposity,index) in deposity" :key="index">
+                                <td>{{single_deposity.farmer_account}}{{single_deposity.farmer_account}}_{{single_deposity.farmer_account}}</td>
+                                <td>{{single_deposity.farmer_account}}</td>
+                                <td>{{single_deposity.created_at}}</td>
+                                <td>{{single_deposity.quantity}}kg</td>
+                                <td>{{single_deposity.cost}}</td>
+                                </tr>
+                            
 
                             </tbody>
                             <div class="card-footer text-right">
@@ -147,21 +136,14 @@
                                 </ul>
                               </nav>
                                  </div> 
-                             
-                            
                           </table>
-                           @else
-                              No data available
-                         
-                               @endif -->
-                      
                           </div>
                 </div>
                 
                 
                    <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="profile-tab2">
                     <div class="table-responsive">
-                      <!-- @if(count($withdraw)>0)
+               
                             <table class="table table-striped table-md">
                               <tbody><tr>
                           
@@ -170,16 +152,13 @@
                                 <th>Date</th>
                                 <th>Quantity</th>
                               </tr>
-                              
-                              @foreach($withdraw as $withdraw)
-                                 <tr>
-                                <td>{{$withdraw->farmer_account->farmer->firstname}}{{$deposity->farmer_account->farmer->lastname}}_{{$deposity->farmer_account->crops_type->crop_name}}</td>
-                                <td>{{$withdraw->farmer_account->crops_type->crop_name}}</td>
-                                <td>{{$withdraw->created_at}}</td>
-                                <td> {{$withdraw->quantity}}kg</td>
-                                
-                                 </tr>
-                              @endforeach
+                                <tr v-for="(single_withdraw,index) in withdraw" :key="index">
+                                <td>{{single_withdraw}}{{single_withdraw}}_{{single_withdraw}}</td>
+                                <td>{{single_withdraw}}</td>
+                                <td>{{single_withdraw.created_at}}</td>
+                                <td> {{single_withdraw.quantity}}kg</td>
+                                </tr>
+                             
 
                             </tbody>
                             <div class="card-footer text-right">
@@ -199,14 +178,7 @@
                                 </ul>
                               </nav>
                                </div> 
-                            
-                            
                           </table>
-                            @else
-                              No data available
-                           
-                               @endif
-                       -->
                           </div>
                 </div>
                 
@@ -288,8 +260,6 @@
                                 </ul>
                               </nav>
                                </div> 
-                           
-                            
                           </table>
                              @else
                               No data available
@@ -421,8 +391,7 @@
 import { reactive,onMounted,computed} from "vue";
 import axios from 'axios'
 export default {
-   props: ['warehouse_props'],
-  
+   props: ['warehouse','accounts','deposity','withdraw','farmer','crops_types'],   
    setup(props) {
     // data used in state of component
     // const {warehouse_props}=toRefs(props)

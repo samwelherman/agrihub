@@ -6,9 +6,9 @@
     <div class="section-body">
       <div class="row">
         <div class="col-12 col-md-12 col-lg-12">
-          <div id="manage_warehouse">
-            <manage_warehouse></manage_warehouse>
-          </div>
+        
+            <manage-warehouse></manage-warehouse>
+        
         </div>
         </div>
         {{-- <script src="{{mix('js/app.js')}}"></script> --}}

@@ -6,7 +6,7 @@
 
 require('./bootstrap');
 // import Vuetify from 'vuetify'
-import { createApp } from 'vue'
+import { createApp,defineCustomElement } from 'vue'
 // import { createVuetify } from 'vuetify'
 // import VuetifyDialog from 'vuetify-dialog'
 // import 'vuetify-dialog/dist/vuetify-dialog.css'
@@ -45,19 +45,36 @@ import Single_warehouse from './components/warehouse/single_warahouse.vue'
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 // Vue.component('makeorder-component', require('./components/Makeorder.vue').default);
 // Vue.component('create-Order-form-component', require('./components/CreateOrderForm.vue').default);
+// Vue.component('Single_warehouse', require('./components/warehouse/single_warahouse.vue').default);
+// const Single_warehouseElement = defineCustomElement(Single_warehouse)
+// customElements.define('single-warehouse', Single_warehouseElement)
+
+// const Manage_warehouseElement = defineCustomElement(Warehouse)
+// customElements.define('manage-warehouse', Manage_warehouseElement)
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
+ * 
  */
- const app = createApp(App)
- app.mount('#app1')
- const manage_warehouse = createApp(Warehouse)
- manage_warehouse.mount('#manage_warehouse')
 
- const single_warehouse = createApp(Single_warehouse)
- single_warehouse.mount('#single_warehouse')
+const app = createApp({})
+app.component("manage-warehouse",Warehouse)
+app.component("single-warehouse",Single_warehouse)
+app.component("manage-order",App)
+app.mount('#app')
+
+//  const app1 = createApp(App)
+//  app1.mount('#app1')
+//  const manage_warehouse = createApp(Warehouse)
+//  manage_warehouse.mount('#manage_warehouse')
+
+
+//  const single_warehouse = createApp({})
+//  single_warehouse.mount('#app')
 
 
 

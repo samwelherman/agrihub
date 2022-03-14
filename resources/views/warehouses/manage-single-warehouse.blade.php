@@ -7,7 +7,14 @@
     
         <div class="col-12 col-md-12 col-lg-12">
           <div id="single_warehouse">
-            <single_warehouse :warehouse_props="{{$warehouse}}"></single_warehouse>
+            <single-warehouse 
+            :warehouse="{{$warehouse}}" 
+            :accounts="{{$accounts}}" 
+            :deposity="{{$deposity}}"
+            :withdraw="{{$withdraw}}"
+            :farmer="{{$farmer}}"
+            :crops_types="{{$crops_types}}"
+            ></single-warehouse>
           </div>
         </div>
       </div>

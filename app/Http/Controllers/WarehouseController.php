@@ -243,7 +243,7 @@ class WarehouseController extends Controller
         $warehouses=Warehouse::all();
         $crops_type=Crops_type::all();
         $farmer=Farmer::all();
-        $account=Farmer_account::all()->where('warehouse_id',$id);
+        $account=Farmer_account::with(['farmer','crops_type'])->where('warehouse_id',$id)->get();
     
         $group=User::find($user_id)->group;
         if(!empty($warehouse))
