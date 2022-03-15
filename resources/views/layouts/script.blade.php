@@ -18,4 +18,8 @@
   <!-- Page Specific JS File -->
   <script src="{{url('assets/js/page/datatables.js')}}"></script>
 
+  <script src="{{url('assets/bundles/jquery-pwstrength/jquery.pwstrength.min.js')}}"></script>
+  <script src="{{url('assets/js/page/auth-register.js')}}"></script>
+  <script src="{{url('assets/bundles/jquery-selectric/jquery.selectric.min.js')}}"></script>
+
 

@@ -17,6 +17,7 @@ $settings= App\Models\System::first();
   <link rel='shortcut icon' type='image/x-icon' href="{{url('public/assets/img/logo')}}/{{$settings->picture}}" />
 
   <link rel="stylesheet" href="{{asset('assets/bundles/datatables/datatables.min.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/bundles/jquery-selectric/selectric.css')}}">
   
 
   

@@ -26,6 +26,6 @@ class HomeController extends Controller
         $user_id=auth()->user()->id;
         $user=User::find($user_id);
         return view('agrihub.dashboard');
-        //return view('home')->with('post',$user->posts);
+        
     }
 }
