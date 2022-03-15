@@ -12,9 +12,9 @@
             </div>
             <div class="padding-20">
             <div class="table-responsive">
-                 <div id="app1">
+                
+                 <manage-order></manage-order>
                   
-                   </div>  
                
               </div>
             </div>
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <script src="{{mix('js/app.js')}}"></script>
+    {{-- <script src="{{mix('js/app.js')}}"></script> --}}
     <script type="text/javascript">
     function model( type,account_id,warehouse_id) {
 

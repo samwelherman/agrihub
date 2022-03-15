@@ -51,9 +51,7 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        
-       
-      
+
     }
     
     //function for adding insurance
@@ -88,12 +86,12 @@ class WarehouseController extends Controller
         $insurance->save();
         if($insurance)
         {
-            $messagev="New insurance is registered successful'";
+            $messagev="New insurance is registered successful";
             return redirect('/warehouse')->with('messagev',$messagev);
         }
         else
         {
-            $messager="Failed to register new insurance'";
+            $messager="Failed to register new insurance";
             return redirect('/warehouse')->with('messager',$messager);
         }
 
@@ -163,7 +161,7 @@ class WarehouseController extends Controller
         $deposity->save();
         if($deposity)
         {
-            $messagev="deposity successful'";
+            $messagev="deposity successful";
             return redirect("/warehouse/{$warehouseid}/show")->with('messagev',$messagev);
         }
         else
@@ -237,19 +235,20 @@ class WarehouseController extends Controller
     public function show($id)
     {
         $user_id=auth()->user()->id;
-        $wihdrawHistory=Deposite_withdraw::all()->where('status',1)->where('warehouse_id',$id);
-        $deposityHistory=Deposite_withdraw::all()->where('status',2)->where('warehouse_id',$id);
+        // $wihdrawHistory=Deposite_withdraw::join('posts', 'posts.user_id', '=', 'users.id')
+        // ->join('comments', 'comments.post_id', '=', 'posts.id')
+        // ->get(['users.*', 'posts.descrption']);all()->where('status',1)->where('warehouse_id',$id);
+        $wihdrawHistory=Deposite_withdraw::with(['farmer_account'])->where('status',1)->where('warehouse_id',$id)->get();
+        $deposityHistory=Deposite_withdraw::with(['farmer_account'])->where('status',2)->where('warehouse_id',$id)->get();
         $warehouse=Warehouse::find($id);
         $warehouses=Warehouse::all();
         $crops_type=Crops_type::all();
         $farmer=Farmer::all();
-        $account=Farmer_account::all()->where('warehouse_id',$id);
+        $account=Farmer_account::with(['farmer','crops_type'])->where('warehouse_id',$id)->get();
     
         $group=User::find($user_id)->group;
         if(!empty($warehouse))
         {
-        
-    
         return view('warehouses.manage-single-warehouse')->with('farmer',$farmer)->with('accounts',$account)->with('warehouse',$warehouse)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
 
         }
