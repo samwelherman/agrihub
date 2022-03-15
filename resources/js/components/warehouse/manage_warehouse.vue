@@ -137,14 +137,14 @@
                         <td>{{data.manager_contact}}</td>
                         <td> {{data.warehouse_location}}</td>
                         <td>
-                            <div class="row">
-                            <div class="col-lg-12 col-sm-12 col-md-12">
-                            <a v-bind:href="`warehouse/${data.id}/show`" ><i class="fas fa-tv"></i></a>
-                            <!-- <a href="farmer/{{$warehouse->id}}/edit"><i class="fas fa-edit"></i></a> -->
-                            <!-- <a href="#"  data-toggle="modal" data-target="#basicModal"><i class="fas fa-trash-alt"></i></a> -->
-                            
-                            </div>
-                            </div>
+                          <div class="row">
+                          <div class="col-lg-12 col-sm-12 col-md-12">
+                          <a v-bind:href="`warehouse/${data.id}/show`" ><i class="fas fa-tv"></i></a>
+                          <!-- <a href="farmer/{{$warehouse->id}}/edit"><i class="fas fa-edit"></i></a> -->
+                          <!-- <a href="#"  data-toggle="modal" data-target="#basicModal"><i class="fas fa-trash-alt"></i></a> -->
+                          
+                          </div>
+                          </div>
                         </td>
                         </tr>
                         </tbody>

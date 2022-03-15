@@ -97,7 +97,27 @@ class Warehouse_backendController extends Controller
     
     
     
-    
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        // $order =order::with('crop_types','user','warehouse')->where('warehouse_id', "=", $id)->get();
+        // if($orders)
+        // {
+        // return response()
+        // ->json($orders);
+        // }
+        // else
+        // {
+        //     return ;
+        // }
+        
+    }
+
   
 
     /**

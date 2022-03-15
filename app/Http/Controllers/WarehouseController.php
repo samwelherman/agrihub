@@ -51,9 +51,7 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        
-       
-      
+
     }
     
     //function for adding insurance
@@ -88,12 +86,12 @@ class WarehouseController extends Controller
         $insurance->save();
         if($insurance)
         {
-            $messagev="New insurance is registered successful'";
+            $messagev="New insurance is registered successful";
             return redirect('/warehouse')->with('messagev',$messagev);
         }
         else
         {
-            $messager="Failed to register new insurance'";
+            $messager="Failed to register new insurance";
             return redirect('/warehouse')->with('messager',$messager);
         }
 
@@ -163,7 +161,7 @@ class WarehouseController extends Controller
         $deposity->save();
         if($deposity)
         {
-            $messagev="deposity successful'";
+            $messagev="deposity successful";
             return redirect("/warehouse/{$warehouseid}/show")->with('messagev',$messagev);
         }
         else
@@ -251,8 +249,6 @@ class WarehouseController extends Controller
         $group=User::find($user_id)->group;
         if(!empty($warehouse))
         {
-        
-    
         return view('warehouses.manage-single-warehouse')->with('farmer',$farmer)->with('accounts',$account)->with('warehouse',$warehouse)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
 
         }

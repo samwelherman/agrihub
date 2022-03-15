@@ -60,7 +60,6 @@ import Single_warehouse from './components/warehouse/single_warahouse.vue'
  * or customize the JavaScript scaffolding to fit your unique needs.
  * 
  */
-
 const app = createApp({})
 app.component("manage-warehouse",Warehouse)
 app.component("single-warehouse",Single_warehouse)
