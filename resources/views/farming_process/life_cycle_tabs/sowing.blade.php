@@ -1,5 +1,5 @@
-<div class="tab-pane fade @if($type =='sowing' || $type =='edit-sowing') active show  @endif" id="tab2"
-    role="tabpanel" aria-labelledby="tab2">
+<div class="tab-pane fade @if($type =='sowing' || $type =='edit-sowing') active show  @endif" id="sowing"
+    role="tabpanel" aria-labelledby="sowing">
     <div class="card">
         <div class="card-header">
             <h4>{{__('farming.sowing')}}</h4>
