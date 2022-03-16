@@ -19,11 +19,13 @@
                                             data-toggle="tab" href="#tab1" role="tab" aria-controls="home"
                                             aria-selected="true">Cost Centres</a>
                                     </li>
+                                    @can('add-cost-centre')
                                     <li class="nav-item">
                                         <a class="nav-link @if(!empty($id)) active  @endif" id="#tab2"
                                             data-toggle="tab" href="#tab2" role="tab" aria-controls="profile"
                                             aria-selected="false">New Cost Centres</a>
                                     </li>
+                                    @endcan
                            
                                 </ul>
                             </div>
@@ -31,6 +33,7 @@
                                 <div class="tab-content no-padding" id="myTab2Content">
                                     <div class="tab-pane fade @if(empty($id)) active show  @endif"
                                         id="tab1" role="tabpanel" aria-labelledby="tab1">
+                                        @can('view-cost-centre')
                                         <table class="table table-striped" id="table-1">
                                             <thead>
                                                 <tr role="row">
@@ -64,15 +67,18 @@
                                                     <td>{{$row->code_name}}</td>
                                                     <td>{{$row->costing}}</td>
                                                     <td>
-
+                                                    @can('edit-cost-centre')
                                                         <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
                                                             href="{{ route('cost_centre.edit',$row->id )}}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
+                                                        @endcan
+                                                        @can('delete-cost-centre')
                                                         <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4"
                                                             href="{{ route('cost_centre.destroy',$row->id,['id'=>$row->id,'type'=>'tool'])}}">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
+                                                        @endcan
 
 
                                                     </td>
@@ -83,6 +89,7 @@
 
                                             </tbody>
                                         </table>
+                                        @endcan
                                     </div>
                                     <div class="tab-pane fade @if(!empty($id)) active show  @endif"
                                         id="tab2" role="tabpanel" aria-labelledby="tbb2">

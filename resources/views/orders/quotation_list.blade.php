@@ -18,11 +18,13 @@
                                     href="#home2" role="tab" aria-controls="home" aria-selected="true">{{__('ordering.quotation')}}</a>
                             </li>
                             @else
+                            @can('view-quotation-list')
                            <li class="nav-item">
                                 <a class="nav-link @if(!empty($id)) active show @endif" id="profile-tab2"
                                     data-toggle="tab" href="#profile2" role="tab" aria-controls="profile"
                                     aria-selected="false">{{__('ordering.create_quotation')}}</a>
                             </li> 
+                            @endcan
                             @endif
 
                         </ul>
@@ -30,6 +32,7 @@
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2" role="tabpanel"
                                 aria-labelledby="home-tab2">
                                 <div class="table-responsive">
+                                @can('view-quotation-list')
                                     <table class="table table-striped" id="table-1">
                                         <thead>
                                             <tr>
@@ -116,7 +119,7 @@
 
                                                 <td>
                                                 
-
+                                                @can('edit-quotation-list')
                                                     <div class="btn-group">
                                                         <button class="btn btn-xs btn-success dropdown-toggle"
                                                             data-toggle="dropdown">Change<span
@@ -130,6 +133,7 @@
                                                                     {{__('ordering.quotation_details')}}</a></li>
                                                         </ul>
                                                     </div>
+                                                    @endcan
 
                                                 </td>
                                             </tr>
@@ -139,6 +143,7 @@
 
                                         </tbody>
                                     </table>
+                                    @endcan
                                 </div>
                             </div>
                             <div class="tab-pane fade @if(!empty($id)) active show @endif" id="profile2" role="tabpanel"

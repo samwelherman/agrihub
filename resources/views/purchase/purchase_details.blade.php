@@ -3,6 +3,7 @@
 
 @section('content')
 <section class="section">
+can('view-purchase')
     <div class="section-body">
         <div class="row">
 
@@ -15,15 +16,14 @@
                                     aria-selected="true">Purchase Details</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab2"
-                                    href="{{ route('payments.show',$purchases->id)}}" role="tab"
-                                    aria-selected="false">Make
+                                <a class="nav-link" id="profile-tab2" href="{{ route('payments.show',$purchases->id)}}"
+                                    role="tab" aria-selected="false">Make
                                     Payments</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab2"
-                                    href="{{ route('pdfview',['download'=>'pdf','id'=>$purchases->id,'type'=>'purchase']) }}" role="tab"
-                                    aria-selected="false">
+                                    href="{{ route('pdfview',['download'=>'pdf','id'=>$purchases->id,'type'=>'purchase']) }}"
+                                    role="tab" aria-selected="false">
                                     Download PDF</a>
                             </li>
                         </ul>
@@ -32,6 +32,7 @@ $settings= App\Models\System::first();
 
 
 ?>
+
                         <div class="tab-content tab-bordered" id="myTab3Content">
                             <div class="tab-pane fade show active" id="about" role="tabpanel"
                                 aria-labelledby="home-tab2">
@@ -176,6 +177,7 @@ $settings= App\Models\System::first();
 
         </div>
     </div>
+    @endcan
 </section>
 
 
