@@ -224,13 +224,11 @@
                               <td>
                                 <div class="row">
                                 <div class="col-lg-12 col-sm-12 col-md-12">
-                                  <a  class="btn btn-primary"  data-toggle="modal" @onclick="dialog_state = true" data-target="#appFormModal1" href="#">create</a>
+                                  <button class="btn btn-primary"  data-toggle="modal" @click="state.dialog_state = true"  data-target="#createOrder" href="#">Order</button>
                                 </div>
                                 </div>
                               </td>
                                 </tr>
-                          
-
                             </tbody>
                             <div class="card-footer text-right">
                               <nav class="d-inline-block">
@@ -356,8 +354,8 @@
             
           </div>
 <Teleport to="#teleport-target">
-<div class="modal inmodal" id="appFormModal1" tabindex="-1" role="dialog" v-if="state.dialog_state">
-    <div class="dealogbox">
+<div class="modal inmodal" id="createOrder" tabindex="-1" role="dialog" v-if="state.dialog_state">
+    <div class="dealogbox" >
    <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

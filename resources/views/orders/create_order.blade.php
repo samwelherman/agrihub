@@ -12,10 +12,7 @@
             </div>
             <div class="padding-20">
             <div class="table-responsive">
-                
-                 <manage-order></manage-order>
-                  
-               
+                 <create-order></create-order>
               </div>
             </div>
             

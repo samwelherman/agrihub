@@ -25,6 +25,7 @@ import { createApp,defineCustomElement } from 'vue'
 import MakeOrder from './components/Makeorder'
 import Warehouse from './components/warehouse/manage_warehouse'
 import SingleWarehouse from './components/warehouse/single_warahouse'
+import CreateOrder from './components/order/CreateOrder'
 
 
 // const vuetify = createVuetify()
@@ -63,6 +64,7 @@ import SingleWarehouse from './components/warehouse/single_warahouse'
 const app = createApp({})
 app.component("manage-warehouse",Warehouse)
 app.component("single-warehouse",SingleWarehouse)
+app.component("create-order",CreateOrder)
 app.component("manage-order",MakeOrder)
 app.mount('#app')
 
