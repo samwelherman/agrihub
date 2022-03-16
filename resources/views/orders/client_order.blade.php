@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.vue_layout')
 
 @section('content')
 <section class="section">
@@ -109,4 +109,3 @@
 </div>
 
   @endsection
-  <div id="teleport-target"></div>

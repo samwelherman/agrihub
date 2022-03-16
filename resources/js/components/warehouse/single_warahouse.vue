@@ -224,7 +224,7 @@
                               <td>
                                 <div class="row">
                                 <div class="col-lg-12 col-sm-12 col-md-12">
-                                  <a  class="btn btn-primary"  data-toggle="modal" @onclick="dialog_state = true" data-target="#appFormModal" href="#">create</a>
+                                  <a  class="btn btn-primary"  data-toggle="modal" @onclick="dialog_state = true" data-target="#appFormModal1" href="#">create</a>
                                 </div>
                                 </div>
                               </td>
@@ -356,7 +356,7 @@
             
           </div>
 <Teleport to="#teleport-target">
-<div class="modal inmodal" id="appFormModal" tabindex="-1" role="dialog" v-if="state.dialog_state">
+<div class="modal inmodal" id="appFormModal1" tabindex="-1" role="dialog" v-if="state.dialog_state">
     <div class="dealogbox">
    <div class="modal-dialog" role="document">
                 <div class="modal-content">

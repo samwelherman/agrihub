@@ -1,4 +1,3 @@
-  <script src="{{mix('js/app.js')}}"></script>
   <!-- General JS Scripts -->
   <script src="{{url('assets/js/app.min.js')}}"></script>
   <!-- JS Libraies -->
