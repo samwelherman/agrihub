@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.vue_layout')
 
 @section('content')
 
@@ -6,7 +6,9 @@
     <div class="section-body">
       <div class="row">
         <div class="col-12 col-md-12 col-lg-12">
-            <manage-warehouse></manage-warehouse>
+      
+            <manage-warehouse/>
+        
         </div>
         </div>
     </div>

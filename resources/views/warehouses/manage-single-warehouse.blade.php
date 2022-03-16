@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.vue_layout')
 
 @section('content')
 <section class="section">
@@ -20,7 +20,7 @@
       </div>
     </div>
     {{-- <script src="{{mix('js/app.js')}}"></script> --}}
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
     function model( type,account_id,warehouse_id) {
 
         let url = '{{ route("singlewarehouse.show", ":id") }}';
@@ -47,7 +47,7 @@
         });
 
     }
-    </script>
+    </script> --}}
   </section>
   
    <!--Add new Account model -->
@@ -191,4 +191,3 @@
 
 
   @endsection
-  <div id="teleport-target"></div>

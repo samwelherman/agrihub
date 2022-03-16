@@ -18,13 +18,13 @@ import { createApp,defineCustomElement } from 'vue'
 
 
 
-window.Vue = require('vue').default;
+// window.Vue = require('vue').default;
 
 // createApp() 
 
-import App from './components/Makeorder.vue'
-import Warehouse from './components/warehouse/manage_warehouse.vue'
-import Single_warehouse from './components/warehouse/single_warahouse.vue'
+import MakeOrder from './components/Makeorder'
+import Warehouse from './components/warehouse/manage_warehouse'
+import SingleWarehouse from './components/warehouse/single_warahouse'
 
 
 // const vuetify = createVuetify()
@@ -62,8 +62,8 @@ import Single_warehouse from './components/warehouse/single_warahouse.vue'
  */
 const app = createApp({})
 app.component("manage-warehouse",Warehouse)
-app.component("single-warehouse",Single_warehouse)
-app.component("manage-order",App)
+app.component("single-warehouse",SingleWarehouse)
+app.component("manage-order",MakeOrder)
 app.mount('#app')
 
 //  const app1 = createApp(App)
