@@ -33,7 +33,7 @@
                              </div>
                              <!-- stating register warehause form -->
                              <div class="card-body p-0">
-                                   <div class="card-body">
+                                   <div class="card-body" id ="register_warehouse_form">
                                      <div class="form-row">
                                      <div class="form-group col-md-12">
                                        <label for="warehousename">Warehouse Name</label>
@@ -48,9 +48,8 @@
                                         <div class="form-row">
                                        <div class="form-group col-md-6">
                                          <label for="insurance">Insurance</label>
-                                         <select id="insuranceid" v-model="warehouse_form_data.insurence" name="insurance" class="form-control">
+                                         <select id="selectInsurance"  name="insurance" class="form-control">
                                            <option selected="">Select Insurance</option>
-                                           <option ></option>
                                          </select>
                                        </div>
                                        <div class="form-group col-md-6 col-lg-6">
@@ -63,12 +62,12 @@
                                        <div class="form-row">
                                        <div class="form-group col-md-6">
                                          <label for="warehousemanage">Full Name of Manager</label>
-                                         <input type="text" v-model="warehouse_form_data.warehousemanager" name='warehousemanage' class="form-control" id="warehousemanageid" placeholder="Enter Manager Name">
+                                         <input type="text" v-model="warehouse_form_data.warehousemanager" name='warehousemanage' class="form-control" id="warehousemanagerid" placeholder="Enter Manager Name">
                                          
                                        </div>
                                        <div class="form-group col-md-6">
                                          <label for="managercontact">Manager Contact</label>
-                                         <input type="number" v-model="warehouse_form_data.managercontact" name="managercontact" class="form-control" id="managercontact" placeholder="Enter Manager Contact">
+                                         <input type="number" name="managercontact" class="form-control" id="managercontactid" placeholder="Enter Manager Contact">
                                          <!-- @error('managercontact')
                                          <div class="text text-danger">{{$message }}</div>
                                      @enderror -->
@@ -79,24 +78,22 @@
                                           <label for="warehouselocation">Warehouse Location</label>
                                      </div>
                                      <div class="form-group col-md-6 col-lg-6">
-                                     <label for="warehouseowner">Region</label>
-                                     <select v-model="warehouse_form_data.region_id" id="warehouseownerid" name="warehouseowner" class="form-control" placeholder="Select Region">
+                                     <label for="selectRegion">Region</label>
+                                     <select id="selectRegionid" name="selectRegion" class="form-control" placeholder="Select Region">
                                          <option value="" selected="">Select Region</option>
-                                         <option ></option>
                                      </select>
                                      </div>
                                        <div class="form-group col-md-6 col-lg-6">
                                          <label for="warehouseowner">District</label>
-                                         <select  id="warehouseownerid" name="warehouseowner" class="form-control">
+                                         <select  id="selectDistrictid" name="warehouseowner" class="form-control">
                                            <option value="" selected="">Select District</option>
-                                           <option  ></option>
                                          </select>
                                        </div>
                                        </div>
                                     <div class="form-row">
                                      <div class="form-group col-md-6 col-lg-6">
                              
-                                     <input type="submit" click="register_warehouse()" value="Save" name="save" class="btn btn-lg btn-primary">
+                                     <input type="submit" click="register_warehouse()" value="Save" id="register_warehouseid" name="save" class="btn btn-lg btn-primary">
                                     </div>
                                      </div>
                                    </div>
@@ -188,8 +185,6 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="form" method="post" action="{{url('addinsurance/save')}}">
-        {{ csrf_field() }}
           <div class="card-body">
             <div class="form-row">
               <div class="form-group col-md-6 col-lg-6 col-xl-6">
@@ -216,7 +211,7 @@
             </div>
             <div class="form-group col-md-12 col-lg-12 col-xl-12">
                   <label for="insurancetype">Insurance Type</label>
-                  <select name="insurancetype" class="form-control">
+                  <select name="insurancetype" id="insurancetypeid" class="form-control">
                       <option value=''>Select Insurance Type</option>
                       <option value='private'>Private</option>
                       <option value="hired">Hired</option>
@@ -244,11 +239,11 @@
             <div class="form-row">
                <div class="form-group col-md-12 col-lg-12">
     
-                <input type="submit" value="Add" name="save" class="btn btn-block btn-primary">
+                <input type="submit" value="Add" id="addingInsurance" name="save" class="btn btn-block btn-primary">
               </div>
             </div>
           </div>
-  </form>
+
     </div>
   </div>
 </div>
@@ -258,41 +253,23 @@
 @section('scripts')
 <script >
 $(document).ready(function(){
+
+  //refernce table of warehouses
   var table = $('#table-1').DataTable();
-  var countySel = document.getElementById("countySel"),
-   stateSel = document.getElementById("stateSel"),
-   districtSel = document.getElementById("districtSel");
-for (var country in stateObject) {
-countySel.options[countySel.options.length] = new Option(country, country);
-}
-countySel.onchange = function () {
-stateSel.length = 1; // remove all options bar first
-districtSel.length = 1; // remove all options bar first
-if (this.selectedIndex < 1) return; // done
-for (var state in stateObject[this.value]) {
-stateSel.options[stateSel.options.length] = new Option(state, state);
-}
-}
-countySel.onchange(); // reset in case page is reloaded
-stateSel.onchange = function () {
-districtSel.length = 1; // remove all options bar first
-if (this.selectedIndex < 1) return; // done
-var district = stateObject[countySel.value][this.value];
-for (var i = 0; i < district.length; i++) {
-districtSel.options[districtSel.options.length] = new Option(district[i], district[i]);
-}
-}
+  var selectRegionElement = document.getElementById("selectRegionid"),
+  selectDistrictElement = document.getElementById("selectDistrictid"),
+  selectInsuranceElement = document.getElementById("selectInsurance");
   getPageData();
 function getPageData(){
+  //ajax for get all page data 
   $.ajax({
         type: "GET",
         url: "/warehouse_backend",
         dataType: "json",
         success: function(response) {
           $.each(response.warehouse,function(key,item){
-           
+           //adding row to the warehouse table
             table.row.add( [
-            
               item.warehouse_name,
               item.user.name,
               item.manager_contact,
@@ -301,23 +278,126 @@ function getPageData(){
                                               title="Edit" onclick=""\
                                               href=""><i\
                                                   class="fa fa-edit"></i></a>\
-                                          <div class="btn-group">\
-                                              <button class="btn btn-xs btn-success dropdown-toggle"data-toggle="dropdown">Change<span class="caret"></span></button>\
-                                              <ul class="dropdown-menu animated zoomIn">\
-                                                  <li> <a class="nav-link" id="profile-tab2" href="" role="tab"aria-selected="false">make payments</a></li>\
-                                                  <li class="nav-item"><a class="nav-link"title="Convert to Invoice"onclick="" href="#">Convert to Invoice</a></li>\
-                                                  <li class="nav-item"><a class="nav-link" title="Cancel"  onclick=""href="#">Cancel Quotation</a></li>\
-                                              </ul>\
-                                          </div>',
+                                                  <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"\
+                                              title="desplay detail"  href="warehouse/'+item.id+'/show" ><i class="fa fa-tv"></i></a>'
+                                             ,
         ] ).draw();
           });
-            // console.log(response);
-        },
-        error: function(response) {
-            console.log(response);
-        }
-});
-}
+
+          selectInsuranceElement.length = 1; // remove all options bar first
+           //adding options to the selection of insurence
+           $.each(response.insurances,function(key,insurance){
+            $('#selectInsurance').append('<option value="'+insurance.id+'">\
+                                       '+insurance.insurance_name+'\
+                                  </option>');
+           });
+
+           selectRegionElement.length = 1; // remove all options bar first
+          //control selection of region and destrict
+          $.each(response.regions,function(key,region){
+            $('#selectRegionid').append('<option value="'+region.id+'">\
+                                       '+region.name+'\
+                                  </option>');
+           });
+
+           selectDistrictElement.length = 1; // remove all options bar first
+          //  function called when selecting region 
+          selectRegionElement.onchange = function () {
+            if (this.selectedIndex < 1) return; // done
+            $.each(response.regions[selectRegionElement.value-1].districts,function(key,district){
+            $('#selectDistrictid').append('<option value="'+district.id+'">\
+                                       '+district.name+'\
+                                      </option>');
+              });
+                }
+                console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+     }  
+
+          //function of on click save button ibn add insurance modle
+          $(document).on('click','#addingInsurance',function(e){
+          e.preventDefault();
+          //data used on adding insurance
+          var insuranceData = {
+            "type":"addInsurance",
+            "insurancename":$('#insurancenameid').val(),
+            "insuranceamount":$('#insuranceamountid').val(),
+            "assetvalue":$('#assetvalueid').val(),
+            "insurancetype":$('#insurancetypeid').val(),
+            "coveringage":$('#coveringageid').val(),
+            "startdate":$('#startdateid').val(),
+            "enddate":$('#enddateid').val(),
+
+          }
+          //setting the x-csrf-token in ajax request
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          //ajax for adding insurance
+          $.ajax({
+            type:"POST",
+            url:'{{ route("warehouse_backend.store") }}',
+            data:insuranceData,
+            dataType:"json",
+            success:function(response){
+              getPageData();//reload page data
+              $('#insurance_form').modal('hide');//it hide modal
+              $('#insurance_form').find('input').val("");//it clear input in modal
+              console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+          }) ;
+
+        });
+
+
+        //function of on click save button ibn add insurance modle
+        $(document).on('click','#register_warehouseid',function(e){
+          e.preventDefault();
+          //data used on adding insurance
+          var insuranceData = {
+            "type":"addWarehouse",
+            "warehousename":$('#warehousenameid').val(),
+            "region_id":$('#selectRegionid').val(),
+            "district_id":$('#selectDistrictid').val(),
+            "warehousemanager":$('#warehousemanagerid').val(),
+            "insurence":$('#selectInsurance').val(),
+            "managercontact":$('#managercontactid').val(),
+          }
+          //setting the x-csrf-token in ajax request
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          //ajax for adding insurance
+          $.ajax({
+            type:"POST",
+            url:'{{ route("warehouse_backend.store") }}',
+            data:insuranceData,
+            dataType:"json",
+            success:function(response){
+              getPageData();//reload page data
+              $('#register_warehouse_form').find('input').val("");//it clear input in modal
+              console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+          }) ;
+
+        });
+
+
+        
 
 });
 </script>

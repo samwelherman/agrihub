@@ -5,6 +5,8 @@
 $settings= App\Models\System::first();
 ?>
   <title>{{ !empty($settings->name) ? $settings->name: ''}}</title>
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{asset('assets/css/app.min.css')}}">

@@ -29,7 +29,7 @@ class Warehouse_backendController extends Controller
     {
         $user_id=auth()->user()->id;
         $warehouse =Warehouse::with(['user'])->get();
-        $region=Region::all();
+        $region=Region::with(['districts'])->get();
         $district=District::all();
         $user=User::all();
         $insurance=Insurance::all();
@@ -58,7 +58,49 @@ class Warehouse_backendController extends Controller
     public function store(Request $request)
     {
         
-        // $this->validate($request,[
+
+        $user_id =auth()->user()->id;
+         if($request->input('type')=="addInsurance"){
+        $this->validate($request,[
+            'insurancename'=>'required',
+            'insuranceamount'=>'required',
+            'assetvalue'=>'required',
+            'insurancetype'=>'required',
+            'coveringage'=>'required',
+            'startdate'=>'required',
+            'enddate'=>'required'
+        ]); 
+        
+        //$data=$this->request();
+        //$farmer= Farmer::create($data);
+      
+        $insurance= new Insurance();
+
+        $insurance->insurance_name=$request->input('insurancename');
+        $insurance->insurance_amount=$request->input('insuranceamount');
+        $insurance->asset_value=$request->input('assetvalue');
+        $insurance->insurance_type=$request->input('insurancetype');
+        $insurance->cover_age=$request->input('coveringage');
+        $insurance->start_date=$request->input('startdate');
+        $insurance->end_date=$request->input('enddate');
+        $insurance->save();
+        if($insurance)
+        {
+            $message="New insurance is registered successful";
+            return response()
+            ->json(['message'=>$message]);
+        }
+        else
+        {
+            $message="Failed to register new insurance";
+            return response()
+            ->json(['message'=>$message])->with('error',$message);
+        }
+    }
+
+
+    if($request->input('type')=="addWarehouse"){
+         // $this->validate($request,[
         //     'warehousename'=>'required',
         //     'region_id'=>'required',
         //     'district_id'=>'required',
@@ -72,11 +114,10 @@ class Warehouse_backendController extends Controller
         //$farmer= Farmer::create($data);
       
         $warehouse= new Warehouse();
-
         $warehouse->warehouse_name=$request->input('warehousename');
         $warehouse->region_id=$request->input('region_id');
         $warehouse->district_id=$request->input('district_id');
-        $warehouse->added_by=$request->input('added_by');
+        $warehouse->added_by=$user_id;
         $warehouse->warehouse_manager=$request->input('warehousemanager');
         $warehouse->insurance_id=$request->input('insurence');
         $warehouse->manager_contact=$request->input('managercontact');
@@ -93,6 +134,11 @@ class Warehouse_backendController extends Controller
             return response()
             ->json(['message'=>$message]);
         }
+
+    }
+
+
+       
     }
     
     

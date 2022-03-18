@@ -10,7 +10,7 @@
             <div>
               <div class="card">
                    <div class="card-header">
-                     <h4>warehouse.warehouse_name</h4>
+                     <h4>{{$warehouse->warehouse_name}}</h4>
                    </div>
                    <div class="row">
                    <div class="col-12 col-sm-12 col-lg-2 col-xl-2 col-md-2">
@@ -23,10 +23,6 @@
                            </li>
                          </ul>
                    </div>
-       
-       
-       
-       
                     <div class="col-12 col-sm-12 col-lg-10 col-xl-10 col-md-10">
                          <div class="tab-content no-padding" id="myTab2Content">
                  <div class="tab-pane fade active show" id="accounts" role="tabpanel" aria-labelledby="accounts">
@@ -53,9 +49,8 @@
                          <h4><button class="btn btn-primary"  data-toggle="modal" data-target="#newacount_form">Add New Account <i class="fa fa-plus"></i></button></h4>
                         <div class="table-responsive">
                             
-                                   <table class="table table-striped table-md">
+                                   <table class="table table-striped table-md" id="table-1">
                                      <tbody><tr>
-                                 
                                        <th>Account Name</th>
                                        <th>Famer Name</th>
                                        <th>Crops Type</th>
@@ -68,13 +63,15 @@
                                        <td></td>
                                        <td>kg</td>
                                        <td>
-                                         <div class="row">
-                                         <div class="col-lg-12 col-sm-12 col-md-12">
-                                         <a class="btn btn-primary"  data-toggle="modal"   data-target="#appFormModal" href="#" >deposite <i class="fas fa-plus"></i></a>
-                                         <a  class="btn btn-primary"  data-toggle="modal"  data-target="#appFormModal" href="#">withdraw <i class="fas fa-minus"></i></a>
-       
-                                           </div>
-                                         </div>
+                                        
+                                        <div class="btn-group">
+                                        <button class="btn btn-xs btn-success dropdown-toggle"data-toggle="dropdown">Action<span class="caret"></span></button>
+                                        <ul class="dropdown-menu animated zoomIn">
+                                            <li class="nav-item"> <a class="nav-link"  data-toggle="modal"   data-target="#appFormModal" href="#" >deposite <i class="fas fa-plus"></i></a></li>
+                                            <li class="nav-item"><a  class="nav-link"  data-toggle="modal"  data-target="#appFormModal" href="#">withdraw <i class="fas fa-minus"></i></a></li> 
+                                        </ul>
+                                    </div>
+                                        
                                        </td>
                                         </tr>
                                    
@@ -160,7 +157,7 @@
                                        <th>Date</th>
                                        <th>Quantity</th>
                                      </tr>
-                                       <tr >
+                                       <tr>
                                        <td></td>
                                        <td></td>
                                        <td></td>
@@ -225,8 +222,8 @@
                                        <th>Action</th>
                                      </tr>
                                      <tr >
-                                     <td> </td>
-                                     <td> </td>
+                                     <td></td>
+                                     <td></td>
                                      <td></td>
                                      <td></td>
                                      <td>
@@ -572,3 +569,17 @@
 
 
   @endsection
+
+
+
+  @section('scripts')
+<script >
+  
+$(document).ready(function(){
+  //get data from controller
+  var sites = {!! json_encode($warehouse->toArray(), JSON_HEX_TAG) !!};
+  console.log(sites);
+ 
+});
+</script>
+@endsection

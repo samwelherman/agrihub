@@ -54,48 +54,7 @@ class WarehouseController extends Controller
 
     }
     
-    //function for adding insurance
-    
-    public function storeInsurance(Request $request)
-    {
-        
-        $this->validate($request,[
-            'insurancename'=>'required',
-            'insuranceamount'=>'required',
-            'assetvalue'=>'required',
-            'insurancetype'=>'required',
-            'coveringage'=>'required',
-            'startdate'=>'required',
-            'enddate'=>'required'
-        ]); 
-        
-        //$data=$this->request();
-        //$data['user_id'] =auth()->user()->id;
-        //$farmer= Farmer::create($data);
-      
-        $insurance= new Insurance();
-
-        $insurance->insurance_name=$request->input('insurancename');
-        $insurance->insurance_amount=$request->input('insuranceamount');
-        $insurance->asset_value=$request->input('assetvalue');
-        $insurance->insurance_type=$request->input('insurancetype');
-        $insurance->cover_age=$request->input('coveringage');
-        $insurance->start_date=$request->input('startdate');
-        $insurance->end_date=$request->input('enddate');
-      
-        $insurance->save();
-        if($insurance)
-        {
-            $messagev="New insurance is registered successful";
-            return redirect('/warehouse')->with('messagev',$messagev);
-        }
-        else
-        {
-            $messager="Failed to register new insurance";
-            return redirect('/warehouse')->with('messager',$messager);
-        }
-
-    }
+   
     
     
     //function for creating farmer account
@@ -249,7 +208,7 @@ class WarehouseController extends Controller
         $group=User::find($user_id)->group;
         if(!empty($warehouse))
         {
-        return view('warehouses.manage-single-warehouse')->with('farmer',$farmer)->with('accounts',$account)->with('warehouse',$warehouse)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
+        return view('warehouses.manage-single-warehouse',compact('warehouse'))->with('farmer',$farmer)->with('accounts',$account)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
 
         }
         else
