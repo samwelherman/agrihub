@@ -193,22 +193,10 @@ class WarehouseController extends Controller
      */
     public function show($id)
     {
-        $user_id=auth()->user()->id;
-        // $wihdrawHistory=Deposite_withdraw::join('posts', 'posts.user_id', '=', 'users.id')
-        // ->join('comments', 'comments.post_id', '=', 'posts.id')
-        // ->get(['users.*', 'posts.descrption']);all()->where('status',1)->where('warehouse_id',$id);
-        $wihdrawHistory=Deposite_withdraw::with(['farmer_account'])->where('status',1)->where('warehouse_id',$id)->get();
-        $deposityHistory=Deposite_withdraw::with(['farmer_account'])->where('status',2)->where('warehouse_id',$id)->get();
-        $warehouse=Warehouse::find($id);
-        $warehouses=Warehouse::all();
-        $crops_type=Crops_type::all();
-        $farmer=Farmer::all();
-        $account=Farmer_account::with(['farmer','crops_type'])->where('warehouse_id',$id)->get();
-    
-        $group=User::find($user_id)->group;
+        $warehouse =Warehouse::find($id);
         if(!empty($warehouse))
         {
-        return view('warehouses.manage-single-warehouse',compact('warehouse'))->with('farmer',$farmer)->with('accounts',$account)->with('deposity',$deposityHistory)->with('withdraw',$wihdrawHistory)->with('crops_types',$crops_type);
+        return view('warehouses.manage-single-warehouse',compact('warehouse'));
 
         }
         else

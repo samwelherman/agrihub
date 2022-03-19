@@ -47,144 +47,101 @@
                        
                        <div class="tab-pane fade show active" id="about1" role="tabpanel" aria-labelledby="home-tab2">
                          <h4><button class="btn btn-primary"  data-toggle="modal" data-target="#newacount_form">Add New Account <i class="fa fa-plus"></i></button></h4>
-                        <div class="table-responsive">
-                            
-                                   <table class="table table-striped table-md" id="table-1">
-                                     <tbody><tr>
-                                       <th>Account Name</th>
-                                       <th>Famer Name</th>
-                                       <th>Crops Type</th>
-                                       <th>Total Quantity</th>
-                                       <th>Action</th>
-                                     </tr>
-                                        <tr v-for="(account,index) in accounts" :key="index">
-                                          <td></td>
-                                          <td></td>
-                                       <td></td>
-                                       <td>kg</td>
-                                       <td>
-                                        
-                                        <div class="btn-group">
-                                        <button class="btn btn-xs btn-success dropdown-toggle"data-toggle="dropdown">Action<span class="caret"></span></button>
-                                        <ul class="dropdown-menu animated zoomIn">
-                                            <li class="nav-item"> <a class="nav-link"  data-toggle="modal"   data-target="#appFormModal" href="#" >deposite <i class="fas fa-plus"></i></a></li>
-                                            <li class="nav-item"><a  class="nav-link"  data-toggle="modal"  data-target="#appFormModal" href="#">withdraw <i class="fas fa-minus"></i></a></li> 
-                                        </ul>
-                                    </div>
-                                        
-                                       </td>
-                                        </tr>
-                                   
-       
-                                   </tbody>
-                                   <div class="card-footer text-right">
-                                     <nav class="d-inline-block">
-                                       <ul class="pagination mb-0">
-                                         <li class="page-item disabled">
-                                           <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                         </li>
-                                         <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#">2</a>
-                                         </li>
-                                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                         </li>
-                                       </ul>
-                                     </nav>
-                                      </div> 
-                                  
-                                   
-                                 </table>
-                                   
-                                 </div>
-                         </div>
+                         <div class="table-responsive">
+                          <table class="table table-striped" id="acounts_table_id">
+                              <thead>
+                                  <tr>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Platform(s): activate to sort column ascending"
+                                          style="width: 186.484px;">Account Name</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Platform(s): activate to sort column ascending"
+                                          style="width: 186.484px;">Famer Name</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Engine version: activate to sort column ascending"
+                                          style="width: 141.219px;">Crops Type</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Engine version: activate to sort column ascending"
+                                          style="width: 141.219px;">Total Quantity</th>
+                  
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="CSS grade: activate to sort column ascending"
+                                          style="width: 98.1094px;">Actions</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                          </table>
+                      </div> 
+                      </div>
                        
                        <div class="tab-pane fade" id="deposity1" role="tabpanel" aria-labelledby="profile-tab2">
-                           <div class="table-responsive">
-                        
-                                   <table class="table table-striped table-md">
-                                     <tbody><tr>
-                                 
-                                       <th>Famer Account</th>
-                                       <th>Crops Type</th>
-                                       <th>Date</th>
-                                       <th>Quantity</th>
-                                       <th>Price</th>
-                                     </tr>
-                                    
-                                       <tr>
-                                       <td></td>
-                                       <td></td>
-                                       <td></td>
-                                       <td></td>
-                                       <td></td>
-                                       </tr>
-                                   
-       
-                                   </tbody>
-                                   <div class="card-footer text-right">
-                                     <nav class="d-inline-block">
-                                       <ul class="pagination mb-0">
-                                         <li class="page-item disabled">
-                                           <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                         </li>
-                                         <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#">2</a>
-                                         </li>
-                                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                         </li>
-                                       </ul>
-                                     </nav>
-                                        </div> 
-                                 </table>
-                                 </div>
+                        <div class="table-responsive">
+                          <table class="table table-striped" id="deposity_table_id">
+                              <thead>
+                                  <tr>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Platform(s): activate to sort column ascending"
+                                          style="width: 186.484px;">Famer Account</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Platform(s): activate to sort column ascending"
+                                          style="width: 186.484px;">Crops Typer</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Engine version: activate to sort column ascending"
+                                          style="width: 141.219px;">Date</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Engine version: activate to sort column ascending"
+                                          style="width: 141.219px;">Quantity</th>
+                  
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="CSS grade: activate to sort column ascending"
+                                          style="width: 98.1094px;">Price</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                          </table>
+                      </div>   
                        </div>
                        
                        
                           <div class="tab-pane fade" id="withdraw1" role="tabpanel" aria-labelledby="profile-tab2">
-                           <div class="table-responsive">
-                      
-                                   <table class="table table-striped table-md">
-                                     <tbody><tr>
-                                 
-                                       <th>Famer Account</th>
-                                       <th>Crops Type</th>
-                                       <th>Date</th>
-                                       <th>Quantity</th>
-                                     </tr>
-                                       <tr>
-                                       <td></td>
-                                       <td></td>
-                                       <td></td>
-                                       <td> kg</td>
-                                       </tr>
-                                    
-       
-                                   </tbody>
-                                   <div class="card-footer text-right">
-                                     <nav class="d-inline-block">
-                                       <ul class="pagination mb-0">
-                                         <li class="page-item disabled">
-                                           <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                         </li>
-                                         <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#">2</a>
-                                         </li>
-                                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                         </li>
-                                       </ul>
-                                     </nav>
-                                      </div> 
-                                 </table>
-                                 </div>
+                            <div class="table-responsive">
+                              <table class="table table-striped" id="withdraw_table_id">
+                                  <thead>
+                                      <tr>
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="Platform(s): activate to sort column ascending"
+                                              style="width: 186.484px;">Famer Account</th>
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="Platform(s): activate to sort column ascending"
+                                              style="width: 186.484px;">Crops Type</th>
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="Engine version: activate to sort column ascending"
+                                              style="width: 141.219px;">Date</th>
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="Engine version: activate to sort column ascending"
+                                              style="width: 141.219px;">Quantity</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                  </tbody>
+                              </table>
+                          </div>
                        </div>
                        
                        
@@ -203,7 +160,7 @@
                            aria-selected="false">Created Order</a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" id="farm land" data-toggle="tab" href="#withdraw" role="tab"
+                           <a class="nav-link" id="farmland" data-toggle="tab" href="#withdraw" role="tab"
                              aria-selected="false">Order Progress</a>
                          </li>
                      </ul>
@@ -213,140 +170,106 @@
                        
                        <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="home-tab2">
                         <div class="table-responsive">
-                                   <table class="table table-striped table-md">
-                                     <tbody><tr>
-                                       <th>Crops Type</th>
-                                       <th>Quantity</th>
-                                       <th>Requested By</th>
-                                       <th>Requested at</th>
-                                       <th>Action</th>
-                                     </tr>
-                                     <tr >
-                                     <td></td>
-                                     <td></td>
-                                     <td></td>
-                                     <td></td>
-                                     <td>
-                                       <div class="row">
-                                       <div class="col-lg-12 col-sm-12 col-md-12">
-                                         <button class="btn btn-primary"  data-toggle="modal"  data-target="#createOrder" href="#">Order</button>
-                                       </div>
-                                       </div>
-                                     </td>
-                                       </tr>
-                                   </tbody>
-                                   <div class="card-footer text-right">
-                                     <nav class="d-inline-block">
-                                       <ul class="pagination mb-0">
-                                         <li class="page-item disabled">
-                                           <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                         </li>
-                                         <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#">2</a>
-                                         </li>
-                                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                         </li>
-                                       </ul>
-                                     </nav>
-                                      </div> 
-                                 </table>
-                                   
-                                 </div>
-                         </div>
+                          <table class="table table-striped" id="order_request_table_id">
+                              <thead>
+                                  <tr>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Platform(s): activate to sort column ascending"
+                                          style="width: 186.484px;">Crops Type</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Platform(s): activate to sort column ascending"
+                                          style="width: 186.484px;">Quantity</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Engine version: activate to sort column ascending"
+                                          style="width: 141.219px;">Requested By</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Engine version: activate to sort column ascending"
+                                          style="width: 141.219px;">Requested at</th>
+                  
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="CSS grade: activate to sort column ascending"
+                                          style="width: 98.1094px;">Actions</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                          </table>
+                      </div>  
+                      </div>
                        
                        <div class="tab-pane fade" id="deposity" role="tabpanel" aria-labelledby="profile-tab2">
-                           <div class="table-responsive">
-                           
-                                   <table class="table table-striped table-md">
-                                     <tbody><tr>
-                                       <th>Crops Type</th>
-                                       <th>Quantity</th>
-                                       <th>Requested By</th>
-                                       <th>Requested at</th>
-                                       <th>Created at</th>
-                                     </tr>
-                                     <tr >
-                                     <td> </td>
-                                     <td> </td>
-                                     <td></td>
-                                     <td></td>
-                                     <td>
-                                       
-                                     </td>
-                                       </tr>
-                                   </tbody>
-                                   <div class="card-footer text-right">
-                                     <nav class="d-inline-block">
-                                       <ul class="pagination mb-0">
-                                         <li class="page-item disabled">
-                                           <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                         </li>
-                                         <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#">2</a>
-                                         </li>
-                                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                         </li>
-                                       </ul>
-                                     </nav>
-                                   </div> 
-                                 </table>
-                                 </div>
-                             </div>
+                        <div class="table-responsive">
+                          <table class="table table-striped" id="created_order_table_id">
+                              <thead>
+                                  <tr>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Platform(s): activate to sort column ascending"
+                                          style="width: 186.484px;">Crops Type</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Platform(s): activate to sort column ascending"
+                                          style="width: 186.484px;">Quantity</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Engine version: activate to sort column ascending"
+                                          style="width: 141.219px;">Requested By</th>
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="Engine version: activate to sort column ascending"
+                                          style="width: 141.219px;">Requested at</th>
+                  
+                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                          rowspan="1" colspan="1"
+                                          aria-label="CSS grade: activate to sort column ascending"
+                                          style="width: 98.1094px;">Created at</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                          </table>
+                      </div> 
+                    </div>
                        
                        
                           <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="profile-tab2">
-                           <div class="table-responsive">
-                                   <table class="table table-striped table-md">
-                                     <tbody>
-                                        <tr>
-                                       <th>Crops Type</th>
-                                       <th>Quantity</th>
-                                       <th>Requested By</th>
-                                       <th>Requested at</th>
-                                       <th>Order Status</th>
-                                     </tr>
-                                     <tr >
-                                     <td> </td>
-                                     <td> </td>
-                                     <td></td>
-                                     <td></td>
-                                     <td>
-                                      
-                                     </td>
-                                     </tr>
-                                   </tbody>
-                                   <div class="card-footer text-right">
-                                     <nav class="d-inline-block">
-                                       <ul class="pagination mb-0">
-                                         <li class="page-item disabled">
-                                           <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                         </li>
-                                         <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#">2</a>
-                                         </li>
-                                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                         <li class="page-item">
-                                           <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                         </li>
-                                       </ul>
-                                     </nav>
-                                      </div> 
-                                   
-                                   
-                                 </table>
-                                
-                             
-                                 </div>
+                            <div class="table-responsive">
+                              <table class="table table-striped" id="order_progress_table_id">
+                                  <thead>
+                                      <tr>
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="Platform(s): activate to sort column ascending"
+                                              style="width: 186.484px;">Crops Type</th>
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="Platform(s): activate to sort column ascending"
+                                              style="width: 186.484px;">Quantity</th>
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="Engine version: activate to sort column ascending"
+                                              style="width: 141.219px;">Requested By</th>
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="Engine version: activate to sort column ascending"
+                                              style="width: 141.219px;">Requested at</th>
+                      
+                                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                              rowspan="1" colspan="1"
+                                              aria-label="CSS grade: activate to sort column ascending"
+                                              style="width: 98.1094px;">Order Status</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                  </tbody>
+                              </table>
+                          </div>  
                        </div>
-                       
-                       
                      </div>
                    </div>   
                    </div>
@@ -429,7 +352,7 @@
   </section>
   
    <!--Add new Account model -->
-  <div class="modal fade" id="newacount_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="newacount_form" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -573,13 +496,148 @@
 
 
   @section('scripts')
-<script >
-  
-$(document).ready(function(){
-  //get data from controller
-  var sites = {!! json_encode($warehouse->toArray(), JSON_HEX_TAG) !!};
-  console.log(sites);
- 
-});
-</script>
+      <script >
+      $(document).ready(function(){
+        var warehousedetail = {!! json_encode($warehouse->toArray(), JSON_HEX_TAG) !!};//get data from controller
+        
+        $('.table').DataTable();//its make all tables in this page to be data table
+        getAccountsData();//get accounts accounts  data
+        getOrdersData();//get orders data 
+        function getAccountsData(){
+          let url = '{{ route("warehouse_backend.show", ":id") }}';
+          url = url.replace(':id', warehousedetail.id)
+
+           //setting the x-csrf-token in ajax request
+           $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          //ajax for get account data
+          $.ajax({
+            type:"GET",
+            url:url,
+            data:{"require":"accounts_data"},
+            dataType:"json",
+            cache: false,
+            async: true,
+            success: function(response) {
+              //filter withdraw and deposite history
+              const withdraw_history = response.history.filter(data => data.status === 1);
+              const deposity_history = response.history.filter(data => data.status === 2);
+              console.log(deposity_history);
+              //adding row to the account table
+              $.each(response.accounts,function(key,account){
+                $('#acounts_table_id').DataTable().row.add([
+                  account.farmer.firstname+"_"+account.farmer.lastname+"_"+account.crops_type.crop_name,
+                  account.farmer.firstname+"  "+account.farmer.lastname,
+                  account.crops_type.crop_name,
+                  account.total_quantity+" kg",
+                  '<div class="btn-group">\
+                              <button class="btn btn-xs btn-success dropdown-toggle"data-toggle="dropdown">Action<span class="caret"></span></button>\
+                              <ul class="dropdown-menu animated zoomIn">\
+                                  <li class="nav-item"> <a class="nav-link"  data-toggle="modal"   data-target="#appFormModal" href="#" >deposite <i class="fas fa-plus"></i></a></li>\
+                                  <li class="nav-item"><a  class="nav-link"  data-toggle="modal"  data-target="#appFormModal" href="#">withdraw <i class="fas fa-minus"></i></a></li>\
+                              </ul>\
+                          </div>',
+                ]).draw();
+                  });
+
+              //adding row to the deposity table
+              $.each(deposity_history ,function(key,deposity){
+                    $('#deposity_table_id').DataTable().row.add([
+                      deposity.farmer_account,
+                      deposity.farmer_account,
+                      deposity.created_at,
+                      deposity.quantity+" kg",
+                      deposity.cost,
+            ]).draw();
+              });
+              //adding row to the deposity table
+              $.each(withdraw_history ,function(key,withdraw){
+                  $('#withdraw_table_id').DataTable().row.add([
+                    withdraw.farmer_account,
+                    withdraw.farmer_account,
+                    withdraw.created_at,
+                    withdraw.quantity+" kg",
+            ]).draw();
+              });
+                console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+     }  
+
+     function getOrdersData(){
+          let url = '{{ route("manipulation.show", ":id") }}';
+          url = url.replace(':id', warehousedetail.id);
+           //setting the x-csrf-token in ajax request
+           $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          //ajax for get account data
+          $.ajax({
+            type:"GET",
+            url:url,
+            dataType:"json",
+            cache: false,
+            async: true,
+            success: function(response) {
+              //filter withdraw and deposite history
+              const requested_order = response.filter(data => data.status === 1);
+              const created_order = response.filter(data => data.status === 2);
+              const progress_order = response.filter(data => data.status === 2);
+              console.log(response);
+              //adding row to the account table
+              $.each(requested_order,function(key,order_request){
+                $('#order_request_table_id').DataTable().row.add([
+                  order_request.crop_type.crop_name,
+                  order_request.quantity,
+                  order_request.user.name,
+                  order_request.created_at,
+                  '<div class="row">\
+                  <div class="col-lg-12 col-sm-12 col-md-12">\
+                    <button class="btn btn-primary"  data-toggle="modal"  data-target="#createOrder" href="#">Order</button>\
+                  </div>\
+                  </div>',
+                ]).draw();
+                  });
+
+              //adding row to the deposity table
+              $.each(created_order ,function(key,order_created){
+                    $('#created_order_table_id').DataTable().row.add([
+                      order_created.crop_type.crop_name,
+                      order_created.quantity,
+                      order_created.user.name,
+                      order_created.created_at,
+                      order_created.updated_at,
+            ]).draw();
+              });
+              //adding row to the deposity table
+              $.each(progress_order ,function(key,order){
+                  $('#order_progress_table_id').DataTable().row.add([
+                    order.crop_type.crop_name,
+                    order.quantity,
+                    order.user.name,
+                    order.created_at,
+                    order.updated_at,
+                    order.created_at,
+            ]).draw();
+              });
+                console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+     } 
+        console.log(warehousedetail);
+
+      
+      });
+    </script>
 @endsection

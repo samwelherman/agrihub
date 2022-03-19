@@ -149,8 +149,22 @@ class Warehouse_backendController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
+
+        $user_id=auth()->user()->id;
+        if($request->input('require')=="accounts_data"){
+        // $wihdrawHistory=Deposite_withdraw::join('posts', 'posts.user_id', '=', 'users.id')
+        // ->join('comments', 'comments.post_id', '=', 'posts.id')
+        // ->get(['users.*', 'posts.descrption']);all()->where('status',1)->where('warehouse_id',$id);
+        $history=Deposite_withdraw::with(['farmer_account'])->where('warehouse_id',$id)->get();
+        $crops_types=Crops_type::all();
+        $farmers=Farmer::all();
+        $accounts=Farmer_account::with(['farmer','crops_type'])->where('warehouse_id',$id)->get();
+        $accounts_data=['id'=>$id,'history'=>$history,'crops_types'=>$crops_types,'farmers'=>$farmers,'accounts'=>$accounts];
+        return response()
+        ->json($accounts_data);
+        }
         // $order =order::with('crop_types','user','warehouse')->where('warehouse_id', "=", $id)->get();
         // if($orders)
         // {

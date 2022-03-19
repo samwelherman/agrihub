@@ -12,7 +12,7 @@ class Order extends Model
   protected $table = "tbl_orders";
   protected $fillable = ['quantity','user_id','client_id','crop_type','warehouse_id','offered_amount','start_location','end_location','route_type','status'];
 
-  public function crop_types(){
+  public function crop_type(){
 
     return $this->belongsTo('App\Models\Crops_type','crop_type');
   }
