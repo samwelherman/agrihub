@@ -20,13 +20,13 @@
                                             aria-selected="true">{{__('farming.land')}}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'sowing' || $type == 'edit-sowing') active  @endif" onclick="{ $type = 'sowing'}" id="#tab2" data-toggle="tab"
-                                            href="#tab2" role="tab" aria-controls="profile"
+                                        <a class="nav-link @if($type == 'sowing' || $type == 'edit-sowing') active  @endif" onclick="{ $type = 'sowing'}" id="#sowing" data-toggle="tab"
+                                            href="#sowing" role="tab" aria-controls="profile"
                                             aria-selected="false">{{__('farming.sowing')}}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'fertilizer') active  @endif" onclick="{ $type = 'fertilizer'}" id="#tab3" data-toggle="tab"
-                                            href="#tab3" role="tab" aria-controls="profile3"
+                                        <a class="nav-link @if($type == 'fertilizer') active  @endif" onclick="{ $type = 'fertilizer'}" id="#fertilizer" data-toggle="tab"
+                                            href="#fertilizer" role="tab" aria-controls="profile"
                                             aria-selected="false">{{__('farming.fertilizer')}}</a>
                                     </li>
 
@@ -49,6 +49,7 @@
                                 <div class="tab-content no-padding" id="myTab2Content">
                                  @include('farming_process.life_cycle_tabs.land_preparation')
                                  @include('farming_process.life_cycle_tabs.sowing')
+                                 @include('farming_process.life_cycle_tabs.fertilizer')
                                     
 
                                 </div>

@@ -655,6 +655,7 @@ class ComposerStaticInitf23cf27139e659cb4bf3f1cf81d9fdf6
         'App\\Models\\Crops_type' => __DIR__ . '/../..' . '/app/Models/Crops_type.php',
         'App\\Models\\Currency' => __DIR__ . '/../..' . '/app/Models/Currency.php',
         'App\\Models\\Deposite_withdraw' => __DIR__ . '/../..' . '/app/Models/Deposite_withdraw.php',
+        'App\\Models\\Details\\UserDetails' => __DIR__ . '/../..' . '/app/Models/Details/UserDetails.php',
         'App\\Models\\District' => __DIR__ . '/../..' . '/app/Models/District.php',
         'App\\Models\\Driver' => __DIR__ . '/../..' . '/app/Models/Driver.php',
         'App\\Models\\FarmLand' => __DIR__ . '/../..' . '/app/Models/FarmLand.php',
@@ -692,8 +693,12 @@ class ComposerStaticInitf23cf27139e659cb4bf3f1cf81d9fdf6
         'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
         'App\\Models\\Product_tools' => __DIR__ . '/../..' . '/app/Models/Product_tools.php',
+<<<<<<< HEAD
         'App\\Models\\PurchaseInventory' => __DIR__ . '/../..' . '/app/Models/PurchaseInventory.php',
         'App\\Models\\PurchaseItemInventory' => __DIR__ . '/../..' . '/app/Models/PurchaseItemInventory.php',
+=======
+        'App\\Models\\Purchase' => __DIR__ . '/../..' . '/app/Models/Purchase.php',
+>>>>>>> bcb492dcb942d4cd6a0c661bdc5750f7268f08d8
         'App\\Models\\Purchase_items' => __DIR__ . '/../..' . '/app/Models/Purchase_items.php',
         'App\\Models\\Region' => __DIR__ . '/../..' . '/app/Models/Region.php',
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',

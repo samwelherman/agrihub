@@ -207,7 +207,9 @@ Route::get('findReturnService', 'Inventory\GoodReturnController@findService');
 Route::resource('permissions', 'PermissionController');
 Route::resource('roles', 'RoleController');
 
-Route::resource('users', 'UsersController');
+Route::resource('users', 'UsersController'); 
+Route::resource('users_details', 'User\UserDetailsController');
+
 Route::resource('clients', 'ClientController');
 
 Route::resource('system', 'SystemController');

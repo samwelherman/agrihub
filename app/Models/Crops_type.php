@@ -12,9 +12,14 @@ class Crops_type extends Model
 
     protected $fillable = ['crop_name','storage_type','status'];
     
-     public function farmer_account()
+    public function farmer_account()
     {
         return $this->hasMany('App\Models\Farmer_account','id');
+    }
+
+    public function order()
+    {
+        return $this->hasMany('App\Models\orders\Order','id');
     }
   
 }

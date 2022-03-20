@@ -5,6 +5,8 @@
 $settings= App\Models\System::first();
 ?>
   <title>{{ !empty($settings->name) ? $settings->name: ''}}</title>
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{asset('assets/css/app.min.css')}}">
@@ -17,6 +19,7 @@ $settings= App\Models\System::first();
   <link rel='shortcut icon' type='image/x-icon' href="{{url('public/assets/img/logo')}}/{{$settings->picture}}" />
 
   <link rel="stylesheet" href="{{asset('assets/bundles/datatables/datatables.min.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/bundles/jquery-selectric/selectric.css')}}">
   
 
   

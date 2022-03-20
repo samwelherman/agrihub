@@ -15,13 +15,14 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        $this->call(ZonesSeeder::class);
+        //$this->call(ZonesSeeder::class);
         
-        //$this->call(ModuleSeeder::class);
-       // $this->call(PermisionSeeder::class);
+        $this->call(ModuleSeeder::class);
+        $this->call(PermisionSeeder::class);
+       // $this->call(RolePermisionSeeder::class);
         //$this->call(UserRoleSeeder::class);
 
-        $this->call(RegionSeeder::class);
-       $this->call(DistrictSeeder::class);
+        //$this->call(RegionSeeder::class);
+       //$this->call(DistrictSeeder::class);
     }
 }

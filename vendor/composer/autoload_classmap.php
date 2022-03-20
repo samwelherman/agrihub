@@ -84,6 +84,7 @@ return array(
     'App\\Models\\Crops_type' => $baseDir . '/app/Models/Crops_type.php',
     'App\\Models\\Currency' => $baseDir . '/app/Models/Currency.php',
     'App\\Models\\Deposite_withdraw' => $baseDir . '/app/Models/Deposite_withdraw.php',
+    'App\\Models\\Details\\UserDetails' => $baseDir . '/app/Models/Details/UserDetails.php',
     'App\\Models\\District' => $baseDir . '/app/Models/District.php',
     'App\\Models\\Driver' => $baseDir . '/app/Models/Driver.php',
     'App\\Models\\FarmLand' => $baseDir . '/app/Models/FarmLand.php',
@@ -121,8 +122,12 @@ return array(
     'App\\Models\\Permission' => $baseDir . '/app/Models/Permission.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
     'App\\Models\\Product_tools' => $baseDir . '/app/Models/Product_tools.php',
+<<<<<<< HEAD
     'App\\Models\\PurchaseInventory' => $baseDir . '/app/Models/PurchaseInventory.php',
     'App\\Models\\PurchaseItemInventory' => $baseDir . '/app/Models/PurchaseItemInventory.php',
+=======
+    'App\\Models\\Purchase' => $baseDir . '/app/Models/Purchase.php',
+>>>>>>> bcb492dcb942d4cd6a0c661bdc5750f7268f08d8
     'App\\Models\\Purchase_items' => $baseDir . '/app/Models/Purchase_items.php',
     'App\\Models\\Region' => $baseDir . '/app/Models/Region.php',
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',

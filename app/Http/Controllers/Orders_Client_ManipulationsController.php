@@ -11,7 +11,7 @@ use App\Models\Farmer_account;
 use App\Models\Deposite_withdraw;
 use App\Models\Crops_type;
 use App\Models\Group;
-use App\Models\Order;
+use App\Models\orders\Order;
 class Orders_Client_ManipulationsController extends Controller
 {
     public function __construct()
@@ -90,7 +90,26 @@ class Orders_Client_ManipulationsController extends Controller
     }
     
     
-    
+   /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $orders =Order::with('crop_type','user','warehouse')->where('warehouse_id', "=", $id)->get();
+        if($orders)
+        {
+        return response()
+        ->json($orders);
+        }
+        else
+        {
+            return ;
+        }
+        
+    } 
     
   
 
