@@ -156,7 +156,7 @@ class Warehouse_backendController extends Controller
         if($request->input('require')=="accounts_data"){
         $history=Deposite_withdraw::with([
             'farmer_account' => function($query){
-                $query->with(['farmer', 'crop_type', 'warehouse']);
+                $query->with(['farmer', 'crops_type', 'warehouse']);
             }
             ])->where('warehouse_id',$id)->get();
         $crops_types=Crops_type::all();
