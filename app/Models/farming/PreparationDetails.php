@@ -11,7 +11,7 @@ class PreparationDetails extends Model
 
     protected $table = "tbl_preparation_details";
 
-    protected $fillable = ['user_id','organization_id','preparation_type','soil_salt','acid_level','moisture_level','preparation_cost','','status'];
+    protected $fillable = ['user_id','seasson_id','organization_id','preparation_type','soil_salt','acid_level','moisture_level','preparation_cost','','status'];
 
     public function preparationCostList(){
 

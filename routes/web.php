@@ -50,6 +50,7 @@ Route::resource('/register_assets','farming\Farmer_assetsController');
 Route::get('/landview',"farming\Farmer_assetsController@index1" );
 Route::get('/landdelete/{$id}',"farming\Farmer_assetsController@destroy2" );
 Route::get('/getFarm/',"farming\Farmer_assetsController@getFarm" );
+Route::resource('seeds_type',"farming\Seeds_TypesController" );
 Route::get('download',array('as'=>'download','uses'=>'farming\Crops_MonitoringController@download'));
 // end farming routes
 
@@ -73,6 +74,7 @@ Route::any('quotationDetails/{id}','orders\OrdersController@quotationDetails');
 Route::resource('/seasson','farming\SeassonController');
 Route::resource('/cropslifecycle','farming\CropsLifeCycleController');
 Route::any('editLifeCycle',array('as'=>'editLifeCycle','uses'=>'farming\CropsLifeCycleController@editLifeCycle'));
+Route::any('deleteLifeCycle',array('as'=>'deleteLifeCycle','uses'=>'farming\CropsLifeCycleController@deleteLifeCycle'));
 
 
 

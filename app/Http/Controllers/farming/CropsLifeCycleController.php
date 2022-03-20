@@ -8,6 +8,7 @@ use App\Services\CropsLifeCycleInterface;
 use App\Models\farming\Preparation_cost;
 use App\Models\farming\PreparationDetails;
 use App\Models\farming\Sowing;
+use App\Models\farming\Fertilizer;
 use Session;
 
 class CropsLifeCycleController extends Controller
@@ -19,14 +20,15 @@ class CropsLifeCycleController extends Controller
      */
     public function index()
     {   $type = Session::get('success');
-        $id = Session::get('id');
+        $seasson_id = Session::get('seasson_id');
          if(empty($type))
          $type = "preparation";
 
         $name = Preparation_cost::all();
         $preparationDetails = PreparationDetails::all();
         $sowing = Sowing::all();
-        return view('farming_process.crop_life_cycle',compact('name','id','preparationDetails','type','sowing'));
+        $fertilizer = Fertilizer::all();
+        return view('farming_process.crop_life_cycle',compact('name','seasson_id','preparationDetails','type','sowing','fertilizer'));
     }
 
     /**
@@ -53,7 +55,7 @@ class CropsLifeCycleController extends Controller
         $result =   $cropsLifeCycleInterface->landPreparation($request->all(),"store",$function);
 
         if($result){
-            return redirect()->route('cropslifecycle.index', $function)->with(['success'=>$function,'id'=>$request->id]);
+            return redirect()->route('cropslifecycle.index', $function)->with(['success'=>$function,'seasson_id'=>$request->seasson_id]);
         }
        
     }
@@ -78,39 +80,34 @@ class CropsLifeCycleController extends Controller
     public function edit($id,Request $request)
     {
         //
-        if($request->type == "preparation"){
-            $result =   $cropsLifeCycleInterface->landPreparation($id,"edit");
-            if(!empty($result)){
-                $name = Preparation_cost::all();
-
-                $data = $result['preparation'];
-                $costs = $result['costs'];
-                $type = "edit-preparation";
-                
-                return view('farming_process.crop_life_cycle',compact('name','id','data','çosts','type'));
-            }
-         }else{
-             echo  "holaa";
-         }
+//
     }
     public function editLifeCycle(Request $request,CropsLifeCycleInterface $cropsLifeCycleInterface){
-       
-        if($request->type == "preparation"){
-            $result =   $cropsLifeCycleInterface->landPreparation($request->id,"edit");
+        $function = $request->type;
+        
+            $result =   $cropsLifeCycleInterface->landPreparation($request->id,"edit",$function);
             if(!empty($result)){
                 $name = Preparation_cost::all();
                 $id = $request->id;
-                $data = $result['preparation'];
+                $data = $result['result'];
                 $costs = $result['costs'];
-                $type = "edit-preparation";
+                $type = "edit-".$function;
+                $seasson_id = $request->seasson_id;
                 
-                return view('farming_process.crop_life_cycle',compact('name','id','data','costs','type'));
+                return view('farming_process.crop_life_cycle',compact('name','id','seasson_id','data','costs','type'));
             }else{
                 echo  "jau"; 
             }
-         }else{
-             echo  "holaa";
-         }
+        
+    }
+
+    public function deleteLifeCycle(Request $request,CropsLifeCycleInterface $cropsLifeCycleInterface){
+        $function = $request->type;
+        
+        $result =   $cropsLifeCycleInterface->landPreparation($request->id,"delete",$function);
+        if($result){
+            return redirect()->route('cropslifecycle.index', $function)->with(['success'=>$function,'seasson_id'=>$request->seasson_id]);
+        }
     }
 
     /**
@@ -123,17 +120,15 @@ class CropsLifeCycleController extends Controller
     public function update(Request $request, $id,CropsLifeCycleInterface $cropsLifeCycleInterface)
     {
         //
+        $function = $request->type;
         $data = $request->all();
         $data['id'] = $id;
              
-        if($request->type == "preparation"){
-            $result =   $cropsLifeCycleInterface->landPreparation($data,"update");
-            if($result){
-           //  return redirect()->route('cropslifecycle.index', ['type' => 'land_preparation','id'=>$id])->with(['success'=>"Land Preparation Update added Successfully"]);
-            }
-         }else{
-             echo  "holaa";
-         }
+        $result =   $cropsLifeCycleInterface->landPreparation($data,"update",$function);
+        if($result){
+             return redirect()->route('cropslifecycle.index', ['type' => $function,'id'=>$id])->with(['success'=>$function]);
+        }
+        
     }
 
     /**

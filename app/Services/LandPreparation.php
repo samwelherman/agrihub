@@ -5,6 +5,7 @@ use App\Services\CropsLifeCycleInterface;
 use App\Services\CropSowing;
 use App\Models\farming\PreparationDetails;
 use App\Models\farming\Sowing;
+use App\Models\farming\Fertilizer;
 use App\Models\farming\PreparationCostLists;
    
 class LandPreparation  implements CropsLifeCycleInterface
@@ -15,6 +16,8 @@ class LandPreparation  implements CropsLifeCycleInterface
             return $this->preparation($data,$type);
         }elseif($function == "sowing"){
             return $this->cropSowing($data,$type);
+        }elseif($function == "fertilizer"){
+            return $this->fertilizer($data,$type);
         }
 
     }
@@ -27,11 +30,13 @@ class LandPreparation  implements CropsLifeCycleInterface
             return $this->updateLandPreparation($data);
             elseif($type == "edit")
             return $this->getByIdLandPreparation($data);
+            elseif($type == "delete")
+            return $this->deleteLandPreparation($data);
     }
 
     private function getByIdLandPreparation($id){
 
-        $result['preparation'] = PreparationDetails::find($id);
+        $result['result'] = PreparationDetails::find($id);
        $result['costs'] = PreparationCostLists::all()->where('preparation_id',$id);
 
        return $result;
@@ -39,6 +44,7 @@ class LandPreparation  implements CropsLifeCycleInterface
 
     public function saveLandPreparation($request){
         $details['preparation_type'] =  $request['preparation_type'];
+        $details['seasson_id'] =  $request['seasson_id'];
         $details['soil_salt'] =  $request['soil_salt'];
         $details['acid_level'] =  $request['acid_level'];
         $details['moisture_level'] =  $request['moisture_level'];
@@ -95,6 +101,7 @@ class LandPreparation  implements CropsLifeCycleInterface
 
     public function updateLandPreparation($request){
         $details['preparation_type'] =  $request['preparation_type'];
+        $details['seasson_id'] =  $request['seasson_id'];
         $details['soil_salt'] =  $request['soil_salt'];
         $details['acid_level'] =  $request['acid_level'];
         $details['moisture_level'] =  $request['moisture_level'];
@@ -150,6 +157,13 @@ class LandPreparation  implements CropsLifeCycleInterface
 
 
     } 
+    public function deleteLandPreparation($id){
+        $result = PreparationDetails::find($id)->delete();
+        PreparationCostLists::where('preparation_id',$id)->delete();
+
+        return true;
+
+    }
 
     //sowing functions
     public function cropSowing($data,$type){
@@ -159,6 +173,8 @@ class LandPreparation  implements CropsLifeCycleInterface
         return $this->updateCropSowing($data);
         elseif($type == "edit")
         return $this->getByIdCropSowing($data);
+        elseif($type == "delete")
+        return $this->deleteCropSowing($data);
        
 
         
@@ -167,20 +183,23 @@ class LandPreparation  implements CropsLifeCycleInterface
 
     private function getByIdCropSowing($id){
 
-        $result['sowing'] = Sowing::find($id);
+        $result['result'] = Sowing::find($id);
+        $result['costs'] = null;
      
 
        return $result;
     }
 
     public function saveCropSowing($request){
-        $details['crops_type'] =  $request['crops_type'];
+        $details['crop_type'] =  $request['crop_type'];
+        $details['seasson_id'] =  $request['seasson_id'];
         $details['seed_type'] =  $request['seed_type'];
         $details['qheck'] =  $request['qheck'];
+        $details['harvest_date'] =  $request['harvest_date'];
         $details['cost'] =  $request['cost'];
         $details['nh'] =  $request['nh'];
         $details['qn'] =  $request['qheck']*$request['nh'];
-        $details['user_id'] =  auth()->user()->id;
+        $details['user_id'] =  auth()->user()->added_by;
 
         $sowing = Sowing::create($details);
 
@@ -193,17 +212,87 @@ class LandPreparation  implements CropsLifeCycleInterface
     } 
 
     public function updateCropSowing($request){
-        $details['crops_type'] =  $request['crops_type'];
+        $details['crop_type'] =  $request['crop_type'];
+        $details['seasson_id'] =  $request['seasson_id'];
         $details['seed_type'] =  $request['seed_type'];
         $details['qheck'] =  $request['qheck'];
         $details['cost'] =  $request['cost'];
         $details['nh'] =  $request['nh'];
-        $details['qn'] =  $request['qn'];
-        $details['user_id'] =  auth()->user()->id;
+        $details['qn'] =  $request['qheck']*$request['nh'];
+        $details['user_id'] =  auth()->user()->added_by;
 
         $preparationDetails = Sowing::where('id',$request['id'])->update($details);
 
+        return true;
        
     } 
-  
+    private function deleteCropSowing($id){
+
+        $result = Sowing::find($id)->delete();
+       return true;
+    }
+
+        //fertilizers functions
+        public function fertilizer($data,$type){
+            if($type =="store")
+            return $this->saveFertilizer($data);
+            elseif($type == "update")
+            return $this->updateFertilizer($data);
+            elseif($type == "edit")
+            return $this->getByIdFertilizer($data);
+            elseif($type == "delete")
+            return $this->deleteFertilizer($data);
+           
+    
+            
+    
+        }
+    
+        private function getByIdFertilizer($id){
+    
+            $result['result'] = Fertilizer::find($id);
+            $result['costs'] = null;
+         
+    
+           return $result;
+        }
+        
+        public function saveFertilizer($request){
+            $details['package'] =  $request['package'];
+            $details['farming_process'] =  $request['farming_process'];
+            $details['fertilizer_amount'] =  $request['fertilizer_amount'];
+            $details['total_amount'] =  $request['fertilizer_amount']*2;
+            $details['fertilizer_price'] =  $request['fertilizer_price'];
+            $details['fertilizer_cost'] =  $request['fertilizer_price']*$details['total_amount'];
+            $details['user_id'] =  auth()->user()->added_by;
+    
+            $sowing = Fertilizer::create($details);
+    
+           
+       
+    
+            return true;
+    
+    
+        } 
+    
+        public function updateFertilizer($request){
+            $details['package'] =  $request['package'];
+            $details['farming_process'] =  $request['farming_process'];
+            $details['fertilizer_amount'] =  $request['fertilizer_amount'];
+            $details['total_amount'] =  $request['total_amount'];
+            $details['fertilizer_price'] =  $request['fertilizer_price'];
+            $details['fertilizer_cost'] =  $request['fertilizer_price']*$details['total_amount'];
+            $details['user_id'] =  auth()->user()->added_by;
+    
+            $preparationDetails = Fertilizer::where('id',$request['id'])->update($details);
+    
+            return true;
+           
+        } 
+        private function deleteFertilizer($id){
+    
+            $result = Fertilizer::find($id)->delete();
+           return true;
+        }
 }

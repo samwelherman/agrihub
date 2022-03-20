@@ -22,4 +22,8 @@
   <script src="{{url('assets/js/page/auth-register.js')}}"></script>
   <script src="{{url('assets/bundles/jquery-selectric/jquery.selectric.min.js')}}"></script>
 
+  
+
+  <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+
 

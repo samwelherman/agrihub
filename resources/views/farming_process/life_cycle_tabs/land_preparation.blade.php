@@ -63,11 +63,11 @@
                                     <td>
 
                                         <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
-                                            href="{{ route('editLifeCycle',['id'=> $row->id,'type'=>'preparation'])}}">
+                                            href="{{ route('editLifeCycle',['id'=> $row->id,'type'=>'preparation','seasson_id'=>$seasson_id])}}">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4"
-                                            href="{{ route("seasson.destroy", $row->id)}}">
+                                        <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4" onclick="return confirm('are you sure')"
+                                            href="{{ route('deleteLifeCycle',['id'=> $row->id,'type'=>'preparation','seasson_id'=>$seasson_id])}}">
                                             <i class="fa fa-trash"></i>
                                         </a>
 
@@ -107,8 +107,8 @@
                                         <div class="form-group col-md-6">
                                             <input type="hidden" name="type" class="form-control" id="type"
                                                 value="preparation" placeholder="">
-                                            <input type="hidden" name="id" class="form-control" id="type"
-                                                value="{{$id}}" placeholder="">
+                                            <input type="hidden" name="seasson_id" class="form-control" id="type"
+                                                value="{{$seasson_id}}" placeholder="">
                                             <label for="inputEmail4">{{__('farming.preparation_type')}}</label>
                                             <select class="form-control" name="preparation_type" required>
                                                 <option value="type A">Type A </option>

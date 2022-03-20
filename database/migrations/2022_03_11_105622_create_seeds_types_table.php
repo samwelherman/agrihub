@@ -15,23 +15,22 @@ class CreateSeedsTypesTable extends Migration
      */
     public function up()
     {
-        // Schema::create('tbl_seed_types', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('name');
-        //     $table->integer('crop_type_id');
-        //     $table->integer('status');
-        //     $table->integer('added_by');
-        //     $table->timestamps();
-        // });
+        Schema::create('tbl_seed_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
 
-        Seeds_type::create(
-            [
-                'name' => 'tanzaniasq',
-                'crop_type_id' => '1',
-                'status' => '1',
-                'added_by' => '1',
-            ],
-        );
+            $table->string('soil_type');
+            $table->string('properties');
+            $table->integer('age');
+            $table->integer('water_volume');
+            $table->integer('harvest_volume');
+
+            $table->integer('crop_type_id');
+            $table->integer('status');
+            $table->integer('added_by');
+            $table->timestamps();
+        });
+       
     }
 
     /**

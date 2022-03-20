@@ -16,5 +16,10 @@ class Crops_type extends Model
     {
         return $this->hasMany('App\Models\Farmer_account','id');
     }
+
+    public function sowing(){
+
+        return $this->hasMany('App\Models\farming\Sowing','id');
+    }
   
 }

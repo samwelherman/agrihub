@@ -65,6 +65,35 @@ return [
     'fertilizer_type'=>'Fertilizer Type',
     'unit_price'=>'unit_price',
     'total_price'=>'Total Price',
+    'harvest_date'=>'Harvest Date',
+
+
+    'seeds_type'=>'Seed Types',
+    'seeds_list'=>'Seeds List',
+    'seeds_name'=>'Name',
+    'seed_age'=>'Age',
+    'soil_type'=>'Soil Type',
+    'water_volume'=>'Required Water Volume',
+    'properties'=>'Properties',
+    'harvest_volume'=>'Harvest Volume',
+    'add'=>'Add Seed Type',
+
+    'package'=>'Package',
+    'farming_process'=>'Farming Process',
+    'fertilizer_amount'=>'Amount',
+    'fertilizer_price'=>'Price',
+    'total_amount'=>'Total Amount',
+    'total_costing'=>'Total Cost',
+    'crop_monitoring'=>'Crop Monitoring',
+
+    'irrigation'=>'Irrigation',
+    'new_irrigation'=> 'New Irrigation',
+    'irrigation_setting'=>'Irrigation Setting',
+    'irrigation_process'=>'Irrigation Process',
+    'total_amount'=>'Total Amount',
+    'total_costing'=>'Total Cost',
+    'crop_monitoring'=>'Crop Monitoring'
+
     
 
 

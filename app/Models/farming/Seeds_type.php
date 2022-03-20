@@ -11,5 +11,10 @@ class Seeds_type extends Model
 
     protected $table="tbl_seed_types";
 
-    protected $fillable = ['added_by','name','status'];
+    protected $fillable = ['added_by','name','age','soil_type','water_volume','harvest_volume','properties','status'];
+
+    public function sowing(){
+
+        return $this->hasMany('App\Models\farming\Sowing','id');
+    }
 }

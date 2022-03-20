@@ -31,8 +31,8 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
-                                            href="#tab2" role="tab" aria-controls="profile"
+                                        <a class="nav-link @if($type == 'irrigation') active  @endif" onclick="{ $type = 'irrigation'}" id="#irrigation" data-toggle="tab"
+                                            href="#irrigation" role="tab" aria-controls="profile"
                                             aria-selected="false">Irrigation</a>
                                     </li>
 
@@ -47,9 +47,15 @@
                             </div>
                             <div class="col-12 col-sm-12 col-md-10">
                                 <div class="tab-content no-padding" id="myTab2Content">
+                                 
                                  @include('farming_process.life_cycle_tabs.land_preparation')
+                                  
                                  @include('farming_process.life_cycle_tabs.sowing')
+                                
                                  @include('farming_process.life_cycle_tabs.fertilizer')
+
+                                 @include('farming_process.life_cycle_tabs.irrigation')
+                               
                                     
 
                                 </div>
