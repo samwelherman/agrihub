@@ -244,6 +244,7 @@
                                                 <button type="button" name="add" class="btn btn-success btn-xs add"><i
                                                         class="fas fa-plus"> Add item</i></button><br>
                                                 <br>
+                                                <div class="table-responsive">
                                                 <table class="table table-bordered" id="cart">
                                                     <thead>
                                                         <tr>
@@ -369,7 +370,7 @@
                                                         </tr>
                                                     </tfoot>
                                                 </table>
-
+                                            </div>
 
 
                                                 <br>
@@ -518,7 +519,7 @@ $(document).ready(function() {
         var id = $(this).val();
         var sub_category_id = $(this).data('sub_category_id');
         $.ajax({
-            url: '/agrihub/public/findPrice/',
+            url: '{{url("findPrice")}}',
             type: "GET",
             data: {
                 id: id

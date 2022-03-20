@@ -60,7 +60,6 @@ $settings= App\Models\System::first();
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{url('manage/supplier')}}">Manage Supplier</a></li>
             <li><a class="nav-link" href="{{url('items')}}">Manage Product/Items</a></li>
-
             <li><a class="nav-link" href="{{url('purchase')}}">Purchase</a></li>
             <li><a class="nav-link" href="{{('sales')}}">sales</a></li>
            
@@ -68,7 +67,31 @@ $settings= App\Models\System::first();
         </li>
  
  
-          
+               
+        <li class="dropdown">
+          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Logistic</span></a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link" href="{{url('truck')}}">Truck Management </a></li>
+            <li><a class="nav-link" href="{{url('driver')}}">Driver Management </a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Inventory</span></a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link" href="{{url('location')}}">Location </a></li>
+            <li><a class="nav-link" href="{{url('inventory')}}">Inventory Items</a></li>
+            <li><a class="nav-link" href="{{url('fieldstaff')}}">Field Staff</a></li>
+            <li><a class="nav-link" href="{{url('purchase_inventory')}}">Purchase Inventory </a></li>
+            <li><a class="nav-link" href="{{url('maintainance')}}">Maintainance</a></li>
+            <li><a class="nav-link" href="{{url('service')}}">Services </a></li>
+            <li><a class="nav-link" href="{{url('good_issue')}}">Good Issue </a></li>
+            <li><a class="nav-link" href="{{url('good_return')}}">Good Return</a></li>
+            <li><a class="nav-link" href="{{url('good_movement')}}">Good Movement </a></li>
+            <li><a class="nav-link" href="{{url('good_reallocation')}}">Good Reallocation</a></li>
+            <li><a class="nav-link" href="{{url('good_disposal')}}">Good Disposal </a></li>
+          </ul>
+        </li>
          
             <li class="dropdown{{ request()->is('setting/*') ? 'active' : '' }}">
             <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Access Control</span></a>
