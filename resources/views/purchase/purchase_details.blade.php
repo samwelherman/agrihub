@@ -37,7 +37,7 @@ $settings= App\Models\System::first();
                                 aria-labelledby="home-tab2">
                                 <div class="row">
                                     <div class="col-md-3 col-6 b-r">
-                                        <img src="{{url('public/assets/img/logo')}}/{{$settings->picture}}">
+                                        <img src="{{url('public/assets/img/logo')}}/{{$settings->picture}}" width="300px;">
                                         <br>
 
                                     </div>

@@ -82,6 +82,8 @@ class PurchaseController extends Controller
         $unitArr = $request->unit  ;
         $costArr = str_replace(",","",$request->total_cost)  ;
         $taxArr =  str_replace(",","",$request->total_tax );
+
+        
         $savedArr =$request->item_name ;
         
         $cost['purchase_amount'] = 0;
@@ -151,7 +153,7 @@ class PurchaseController extends Controller
     
     public function findPrice(Request $request)
     {
-               $price= Price::where('id',$request->id)->get();
+               $price= Items::where('id',$request->id)->get();
                 return response()->json($price);	                  
 
     }
