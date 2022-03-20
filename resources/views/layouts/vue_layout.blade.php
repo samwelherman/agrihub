@@ -21,21 +21,23 @@ $settings= App\Models\System::first();
 
   <link rel="stylesheet" href="{{asset('assets/bundles/datatables/datatables.min.css')}}">
   
+  
 
   
   <link rel="stylesheet" href="{{asset('assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
   
-   <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
+   {{-- <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script> --}}
     @laravelPWA
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
        
     </head>
     <body class="antialiased">
+      <div id="app">
         <div class="loader"></div>
         <div id="teleport-target"></div>
-        <div id="app">
+        
           <div class="main-wrapper main-wrapper-1">
           
             @include('layouts.top')
@@ -44,15 +46,15 @@ $settings= App\Models\System::first();
           
            <!-- Main Content -->
           <div class="main-content">
-            @include('layouts.alerts.message')
+            {{-- @include('layouts.alerts.message') --}}
             @yield('content')
             @include('layouts.setting')
           </div>
           @include('layouts.footer')
         </div>
     </div>
+    </body>
     <script  src="{{ mix('js/app.js') }}" defer></script>
     @include('layouts.script')
     @yield('scripts')
-    </body>
 </html>
