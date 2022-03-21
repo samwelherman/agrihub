@@ -28,7 +28,7 @@ class Warehouse_backendController extends Controller
     public function index()
     {
         $user_id=auth()->user()->id;
-        $warehouse =Warehouse::with(['user'])->get();
+        $warehouse =Warehouse::with(['user','region','district'])->where('added_by',$user_id)->get();
         $region=Region::with(['districts'])->get();
         $district=District::all();
         $user=User::all();

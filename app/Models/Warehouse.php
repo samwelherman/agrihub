@@ -20,6 +20,16 @@ class Warehouse extends Model
         return $this->belongsTo('App\Models\Insurance');
     }
 
+    public function region()
+    {
+        return $this->belongsTo('App\Models\Region','region_id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo('App\Models\District','district_id');
+    }
+
     public function farmer_account()
     {
         return $this->hasMany('App\Models\Farmer_account','id');

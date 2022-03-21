@@ -141,12 +141,9 @@ Route::get('sales/{id}/product','SalesController@show');
 Route::get('warehouse','WarehouseController@index');
 Route::post('warehouse/save','WarehouseController@store');
 Route::get('warehouse/{id}/show','WarehouseController@show');
-Route::post('addinsurance/save','WarehouseController@storeInsurance');
-Route::post('addfarmeraccount/save','WarehouseController@storeFarmerAccount');
-Route::post('deposity/save','WarehouseController@storedeposity');
-Route::post('withdraw/save','WarehouseController@storewithdraw');
 Route::resource('singlewarehouse','Single_warehouseController');
 Route::resource('warehouse_backend',warehouse\Warehouse_backendController::class);
+
 
 // make crops orders
 Route::resource('crops_order','Client_OrderController');
