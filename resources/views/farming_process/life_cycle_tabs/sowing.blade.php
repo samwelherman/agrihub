@@ -52,8 +52,8 @@
                                 @if(!@empty($sowing))
                                 @foreach ($sowing as $row)
                                 <tr class="gradeA even" role="row">
-                                    <td>{{$row->crops_type}}</td>
-                                    <td>{{$row->seed_type}}</td>
+                                    <td>{{$row->crops_type->crop_name}}</td>
+                                    <td>{{$row->seeds_type->name}}</td>
                                     <td>{{$row->qheck}}</td>
 
                                     <td>{{$row->nh}}</td>
@@ -63,11 +63,11 @@
                                     <td>
 
                                         <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
-                                            href="{{ route('editLifeCycle',['id'=> $row->id,'type'=>'preparation'])}}">
+                                            href="{{ route('editLifeCycle',['id'=> $row->id,'type'=>'sowing','seasson_id'=>$seasson_id])}}">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4"
-                                            href="{{ route("seasson.destroy", $row->id)}}">
+                                        <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4" onclick="return confirm('are you sure')"
+                                            href="{{ route('deleteLifeCycle',['id'=> $row->id,'type'=>'sowing','seasson_id'=>$seasson_id])}}">
                                             <i class="fa fa-trash"></i>
                                         </a>
 
@@ -107,20 +107,27 @@
                                         <div class="form-group col-md-6">
                                             <input type="hidden" name="type" class="form-control" id="type"
                                                 value="sowing" placeholder="">
-                                            <input type="hidden" name="id" class="form-control" id="type"
-                                                value="{{$id}}" placeholder="">
+                                                <input type="hidden" name="seasson_id" class="form-control" id="type"
+                                                value="{{$seasson_id}}" placeholder="">
+                                                <?php $crops_type = App\Models\Crops_type::all();  ?>
                                             <label for="inputEmail4">{{__('farming.crops_type')}}</label>
-                                            <select class="form-control" name="crops_type" required>
-                                                <option value="type A">Type A </option>
-                                                <option value="type B">Type B </option>
-                                                <option value="type C">Type C </option>
+                                            <select class="form-control" name="crop_type" required>
+                                                @if(!empty($crops_type))
+                                                @foreach($crops_type as $row)
+                                                <option value="{{$row->id}}" {{(!empty($data)&&($data->crop_type==$row->id))? 'selected':''}}>{{$row->crop_name}} </option>
+                                            @endforeach
+                                            @endif
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6">
                                             <label for="date">{{__('farming.seed_type')}}</label>
+                                            <?php $seeds_type = App\Models\farming\Seeds_type::all();  ?>
                                             <select class="form-control" name="seed_type" required>
-                                                <option value="Lime">Lime </option>
-                                                <option value="none">None</option>
+                                            @if(!empty($seeds_type))
+                                                @foreach($seeds_type as $row)
+                                                <option value="{{$row->id}}" {{(!empty($data)&&($data->seed_type==$row->id))? 'selected':''}}>{{$row->name}} </option>
+                                            @endforeach
+                                            @endif
 
                                             </select>
 
@@ -132,19 +139,27 @@
                                         <div class="form-group col-md-6">
 
                                             <label for="inputEmail4">{{__('farming.qheck')}}</label>
-                                            <input type="number" name="qheck" class="form-control" id="code_name"
-                                                value=" {{ !empty($data) ? $data->qheck : ''}}" placeholder="" required>
+                                            <input type="number" name="qheck" class="form-control" id="qheck"
+                                                value="{{ !empty($data) ? $data->qheck : ''}}" placeholder="" required>
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6">
                                             <label for="date">{{__('farming.cost')}}</label>
                                             <input type="number" name="cost" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->moisture_level : ''}}" placeholder=""
+                                                value="{{ !empty($data) ? $data->cost : ''}}" placeholder=""
                                                 required>
 
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6">
                                             <label for="date">{{__('farming.nh')}}</label>
                                             <input type="number" name="nh" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->nh : ''}}" placeholder=""
+                                                required>
+
+                                        </div>
+
+                                        <div class="form-group col-md-6 col-lg-6">
+                                            <label for="date">{{__('farming.harvest_date')}}</label>
+                                            <input type="date" name="harvest_date" class="form-control" id="harvest_date"
                                                 value="{{ !empty($data) ? $data->nh : ''}}" placeholder=""
                                                 required>
 

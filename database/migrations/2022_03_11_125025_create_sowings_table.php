@@ -15,9 +15,12 @@ class CreateSowingsTable extends Migration
     {
         Schema::create('tbl_sowings', function (Blueprint $table) {
             $table->id();
+            $table->integer('seasson_id');
             $table->integer('crop_type');
             $table->integer('seed_type');
             $table->integer('user_id');
+        
+            $table->date('harvest_date');
             $table->integer('gheck');
             $table->integer('cost');
             $table->integer('nh');

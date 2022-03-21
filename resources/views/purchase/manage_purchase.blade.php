@@ -13,21 +13,26 @@
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
                             <li class="nav-item">
+                           @can('view-purchase')
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
                                     href="#home2" role="tab" aria-controls="home" aria-selected="true">Purchase
                                     List</a>
                             </li>
+                            @endcan
+                           @can('add-purchase')
                             <li class="nav-item">
                                 <a class="nav-link @if(!empty($id)) active show @endif" id="profile-tab2"
                                     data-toggle="tab" href="#profile2" role="tab" aria-controls="profile"
                                     aria-selected="false">New Purchase</a>
                             </li>
+                            @endcan
 
                         </ul>
                         <div class="tab-content tab-bordered" id="myTab3Content">
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2" role="tabpanel"
                                 aria-labelledby="home-tab2">
                                 <div class="table-responsive">
+                               @can('view-purchase')
                                     <table class="table table-striped" id="table-1">
                                         <thead>
                                             <tr>
@@ -95,16 +100,19 @@
                                                 </td>
                                                 <td></td>
 
-                                                <td>
+                                                <td>@can('edit-purchase')
                                                     <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
                                                         title="Edit" onclick="return confirm('Are you sure?')"
                                                         href="{{ route('purchase.edit', $row->id)}}"><i
                                                             class="fa fa-edit"></i></a>
+                                                            @endcan
+                                                           @can('delete-purchase')
                                                     {!! Form::open(['route' => ['purchase.destroy',$row->id],
                                                     'method' => 'delete']) !!}
                                                     {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4', 'title' => 'Delete', 'onclick' => "return confirm('Are you sure?')"]) }}
                                                     {{ Form::close() }}
-
+                                                    @endcan
+                                                   @can('edit-purchase')
                                                     <div class="btn-group">
                                                         <button class="btn btn-xs btn-success dropdown-toggle"
                                                             data-toggle="dropdown">Change<span
@@ -126,6 +134,7 @@
                                                                     Quotation</a></li>
                                                         </ul>
                                                     </div>
+                                                    @endcan
 
                                                 </td>
                                             </tr>
@@ -135,7 +144,9 @@
 
                                         </tbody>
                                     </table>
+                                    @endcan
                                 </div>
+
                             </div>
                             <div class="tab-pane fade @if(!empty($id)) active show @endif" id="profile2" role="tabpanel"
                                 aria-labelledby="profile-tab2">
@@ -380,7 +391,7 @@
 
                                                         <a class="btn btn-sm btn-danger float-right m-t-n-xs"
                                                             href="{{ route('purchase.index')}}">
-                                                            cancel
+                                                           @cancel
                                                         </a>
                                                         <button class="btn btn-sm btn-primary float-right m-t-n-xs"
                                                             data-toggle="modal" data-target="#myModal"

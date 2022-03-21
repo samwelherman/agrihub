@@ -264,7 +264,7 @@ function getPageData(){
   //ajax for get all page data 
   $.ajax({
         type: "GET",
-        url: "/warehouse_backend",
+        url: "warehouse_backend",
         dataType: "json",
         success: function(response) {
           $.each(response.warehouse,function(key,item){
@@ -273,7 +273,7 @@ function getPageData(){
               item.warehouse_name,
               item.user.name,
               item.manager_contact,
-              item,
+              item.district.name+","+item.region.name,
               '<a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"\
                                               title="Edit" onclick=""\
                                               href=""><i\
@@ -292,6 +292,7 @@ function getPageData(){
                                   </option>');
            });
 
+           selectDistrictElement.length = 1; // remove all options bar first
            selectRegionElement.length = 1; // remove all options bar first
           //control selection of region and destrict
           $.each(response.regions,function(key,region){
@@ -300,7 +301,7 @@ function getPageData(){
                                   </option>');
            });
 
-           selectDistrictElement.length = 1; // remove all options bar first
+          
           //  function called when selecting region 
           selectRegionElement.onchange = function () {
             if (this.selectedIndex < 1) return; // done

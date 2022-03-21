@@ -19,11 +19,13 @@
                                             data-toggle="tab" href="#tab1" role="tab" aria-controls="home"
                                             aria-selected="true">Crops Monitoring</a>
                                     </li>
+                                    @can('add-crop-monitoring')
                                     <li class="nav-item">
                                         <a class="nav-link @if(!empty($id)) active  @endif" id="#tab2"
                                             data-toggle="tab" href="#tab2" role="tab" aria-controls="profile"
                                             aria-selected="false">New New Monitoring</a>
                                     </li>
+                                    @endcan
                            
                                 </ul>
                             </div>
@@ -31,6 +33,7 @@
                                 <div class="tab-content no-padding" id="myTab2Content">
                                     <div class="tab-pane fade @if(empty($id)) active show  @endif"
                                         id="tab1" role="tabpanel" aria-labelledby="tab1">
+                                        @can('view-crop-monitoring')
                                         <table class="table table-striped table-md">
                                             <thead>
                                                 <tr role="row">
@@ -113,21 +116,25 @@
                                                      </td>
                                                       
                                                     <td>
-
+                                                    @can('edit-crop-monitoring')
                                                         <a class="btn-outline-success"
                                                             href="{{ route('crops_monitoring.edit',$row->id )}}">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
+                                                        @endcan
+                                                        @can('delete-crop-monitoring')
                                                         <a class="btn-outline-danger"
                                                             href="{{ route('crops_monitoring.destroy',$row->id,['id'=>$row->id,'type'=>'tool'])}}">
                                                             <i class="fas fa-trash"></i>
                                                         </a>
-                                                        
+                                                        @endcan
+                                                        @can('edit-crop-monitoring')
                                                          <a class=" btn-outline-info text-lowercase" data-toggle="modal" data-target="#appFormModal" data-id="{{ $row->id }}" data-type="show"
                                                         onclick="model({{ $row->id }},'add')"
                                                             href="#">
                                                             <i class="fas fa-eye">solution</i>
                                                         </a>
+                                                        @endcan
 
 
                                                     </td>
@@ -138,6 +145,7 @@
 
                                             </tbody>
                                         </table>
+                                        @endcan
                                     </div>
                                     <div class="tab-pane fade @if(!empty($id)) active show  @endif"
                                         id="tab2" role="tabpanel" aria-labelledby="tbb2">

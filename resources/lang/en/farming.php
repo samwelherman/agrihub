@@ -65,6 +65,53 @@ return [
     'fertilizer_type'=>'Fertilizer Type',
     'unit_price'=>'unit_price',
     'total_price'=>'Total Price',
+    'harvest_date'=>'Harvest Date',
+
+
+    'seeds_type'=>'Seed Types',
+    'seeds_list'=>'Seeds List',
+    'seeds_name'=>'Name',
+    'seed_age'=>'Age',
+    'soil_type'=>'Soil Type',
+    'water_volume'=>'Required Water Volume',
+    'properties'=>'Properties',
+    'harvest_volume'=>'Harvest Volume',
+    'add'=>'Add Seed Type',
+
+    'package'=>'Package',
+    'farming_process'=>'Farming Process',
+    'fertilizer_amount'=>'Amount',
+    'fertilizer_price'=>'Price',
+    'total_amount'=>'Total Amount',
+    'total_costing'=>'Total Cost',
+    'crop_monitoring'=>'Crop Monitoring',
+
+    'irrigation'=>'Irrigation',
+    'new_irrigation'=> 'New Irrigation',
+    'irrigation_setting'=>'Irrigation Setting',
+    'irrigation_process'=>'Irrigation Process',
+    'irrigation_type'=>'Irrigation Type',
+    'irrigation_cost'=>'Irrigation Cost',
+    'number_of_hk'=>'No of Hector',
+
+    
+    'power_source'=>'Power Source',
+    'pump_cost'=>'Pump Cost',
+
+    'total_cost'=>'Total Cost',
+    'pump_rate'=>'Volume per Hour',
+    'hector_per_day'=>'NUmber of hector per day',
+    'pump_no'=>'NUmber of Pump',
+    'total_pump_cost'=>'Total Pump Cost',
+
+
+    'irrigation_date'=>'Date',
+    'water_volume'=>'Water Volume',
+    'next_date'=>'Next Expected Date',
+    'cost_per_heck'=>'Cost per Hector',
+    'no_of_heck'=>'Number of Hector',
+    'total_volume'=>'Total',
+
     
 
 

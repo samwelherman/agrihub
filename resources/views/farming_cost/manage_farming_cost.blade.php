@@ -11,6 +11,7 @@
                         <h4>{{__('farming.farming_cost')}}</h4>
                     </div>
                     <div class="card-body">
+                    @can('view-farming-cost')
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
@@ -24,10 +25,12 @@
                             </li>
 
                         </ul>
+                        @endcan
                         <div class="tab-content tab-bordered" id="myTab3Content">
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2" role="tabpanel"
                                 aria-labelledby="home-tab2">
                                 <div class="table-responsive">
+                                @can('view-farming-cost')
                                     <table class="table table-striped" id="table-1">
                                         <thead>
                                             <tr>
@@ -154,6 +157,7 @@
 
                                         </tbody>
                                     </table>
+                                    @endcan
                                 </div>
                             </div>
                             <div class="tab-pane fade @if(!empty($id)) active show @endif" id="profile2" role="tabpanel"

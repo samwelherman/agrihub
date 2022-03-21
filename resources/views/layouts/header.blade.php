@@ -1,6 +1,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
 <?php
 $settings= App\Models\System::first();
 ?>
@@ -21,6 +22,7 @@ $settings= App\Models\System::first();
   <link rel="stylesheet" href="{{asset('assets/bundles/datatables/datatables.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/bundles/jquery-selectric/selectric.css')}}">
   
+  <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.css') }}">
 
   
   <link rel="stylesheet" href="{{asset('assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">

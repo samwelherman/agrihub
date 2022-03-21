@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\farming\Seasson;
 use App\Models\farming\Preparation_cost;
 use App\Models\farming\PreparationDetails;
+use App\Models\farming\Sowing;
+use App\Models\farming\Fertilizer;
 
 class SeassonController extends Controller
 {
@@ -55,14 +57,17 @@ class SeassonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    { 
+        $seasson_id = $id;
         //
         $name = Preparation_cost::all();
 
         $preparationDetails = PreparationDetails::all();
+        $name = Preparation_cost::all();
         $type = "preparation";
-        
-        return view('farming_process.crop_life_cycle',compact('name','id','preparationDetails','type'));
+        $sowing = Sowing::all();
+        $fertilizer = Fertilizer::all();
+        return view('farming_process.crop_life_cycle',compact('name','seasson_id','preparationDetails','type','sowing'));
 
     }
 

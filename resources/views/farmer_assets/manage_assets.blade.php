@@ -13,6 +13,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-2">
+                            @can('view-farmer-assets')
                                 <ul class="nav nav-pills flex-column" id="myTab4" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link @if(empty($id)  && $type=='tool') active  @endif" id="#tab1"
@@ -35,12 +36,14 @@
                                             aria-selected="false">New Land</a>
                                     </li>
                                 </ul>
+                                @endcan
                             </div>
                             <div class="col-12 col-sm-12 col-md-10">
                                 <div class="tab-content no-padding" id="myTab2Content">
                                     <div class="tab-pane fade @if(empty($id)  && $type=='tool') active show  @endif"
                                         id="tab1" role="tabpanel" aria-labelledby="tab1">
                                         <div class="table-responsive">
+                                        @can('view-farmer-assets')
                                             <table class="table table-striped" id="table-1">
                                                 <thead>
                                                     <tr role="row">
@@ -86,15 +89,18 @@
 
 
                                                         <td>
-
+                                                        @can('edit-farmer-assets')
                                                             <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
                                                                 href="{{ route('register_assets.edit',$row->id )}}">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
+                                                            @endcan
+                                                            @can('delete-farmer-assets')
                                                             <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4"
                                                                 href="{{ route('register_assets.destroy',$row->id,['id'=>$row->id,'type'=>'tool'])}}">
                                                                 <i class="fa fa-trash"></i>
                                                             </a>
+                                                            @endcan
 
 
                                                         </td>
@@ -105,6 +111,7 @@
 
                                                 </tbody>
                                             </table>
+                                            @endcan
                                         </div>
                                     </div>
                                     <div class="tab-pane fade @if(!empty($id)  && $type=='tool') active show  @endif"

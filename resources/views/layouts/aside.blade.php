@@ -15,14 +15,18 @@ $settings= App\Models\System::first();
                 <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
             </li>
             @endcan
-            @can('manage-dashboard')
+            @can('manage-farmer')
             <li class="dropdown {{  request()->is('farmer/') ? 'active' : '' }} ">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="command"></i><span>Farmer</span></a>
+                        data-feather="command"></i><span>{{__('farmer.farmer')}}</span></a>
                 <ul class="dropdown-menu">
+                    @can('view-farmer')
                     <li class="{{ request()->routeIs('farmer.*')? 'active': ''}} active"><a class="nav-link"
-                            href="{{url('farmer/')}}">Manage Farmer</a></li>
-                    <li><a class="nav-link" href="{{url('manage-group')}}">Manage Goup</a></li>
+                            href="{{url('farmer/')}}">{{__('farmer.manage_farmer')}}</a></li>
+                    @endcan
+                    @can('view-group')
+                    <li><a class="nav-link" href="{{url('manage-group')}}">{{__('farmer.manage_group')}}</a></li>
+                    @endcan
                 </ul>
             </li>
             @endcan
@@ -33,26 +37,46 @@ $settings= App\Models\System::first();
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>{{__('farming.farming')}}</span></a>
                 <ul class="dropdown-menu">
+                    @can('view-farmer-assets')
                     <li><a class="nav-link" href="{{url('register_assets')}}">{{__('farming.farmer_assets')}}</a></li>
-                    <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li>
+                    @endcan
+                    @can('view-farming-cost')
+                  <!--  <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li> -->
+                    @endcan
+                    @can('view-cost-centre')
                     <li><a class="nav-link" href="{{url('cost_centre')}}">{{__('farming.cost_centre')}}</a></li>
+                    @endcan
+                    @can('view-farming-process')
                     <li><a class="nav-link" href="{{url('farming_process')}}">{{__('farming.farming_process')}}</a></li>
+                    @endcan
+                    @can('view-crop-monitoring')
                     <li><a class="nav-link" href="{{url('crops_monitoring')}}">{{__('farming.crop_monitoring')}}</a>
                     </li>
+                    @endcan
+                    @can('view-manage_seasson')
                     <li><a class="nav-link" href="{{url('seasson')}}">{{__('farming.manage_seasson')}}</a></li>
+                    @endcan
                 </ul>
 
             </li>
             @endcan
+<<<<<<< HEAD
 
             @can('manage-farming')
+=======
+            @can('manage-orders')
+>>>>>>> 4b00737e60bf554a5180aa9413dcb5a617a53492
             <li class="dropdown">
 
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>{{__('ordering.orders')}}</span></a>
                 <ul class="dropdown-menu">
+                    @can('view-order_list')
                     <li><a class="nav-link" href="{{url('orders')}}">{{__('ordering.order_list')}}</a></li>
+                    @endcan
+                    @can('view-quotation-list')
                     <li><a class="nav-link" href="{{url('quotationList')}}">{{__('ordering.quotationList')}}</a></li>
+                    @endcan
 
                 </ul>
 
@@ -81,13 +105,20 @@ $settings= App\Models\System::first();
             @can('manage-shop')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="command"></i><span>Shop</span></a>
+                        data-feather="command"></i><span>{{__('shop.shop')}}</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{url('manage/supplier')}}">Manage Supplier</a></li>
-                    <li><a class="nav-link" href="{{url('items')}}">Manage Product/Items</a></li>
-
-                    <li><a class="nav-link" href="{{url('purchase')}}">Purchase</a></li>
-                    <li><a class="nav-link" href="{{('sales')}}">sales</a></li>
+                    @can('view-supplier')
+                    <li><a class="nav-link" href="{{url('manage/supplier')}}">{{__('shop.manage_supplier')}}</a></li>
+                    @endcan
+                    @can('view-product')
+                    <li><a class="nav-link" href="{{url('items')}}">{{__('shop.manage_product')}}</a></li>
+                    @endcan
+                    @can('view-purchase')
+                    <li><a class="nav-link" href="{{url('purchase')}}">{{__('shop.purchase')}}</a></li>
+                    @endcan
+                    @can('view-sales')
+                    <li><a class="nav-link" href="{{('sales')}}">{{__('shop.sales')}}</a></li>
+                    @endcan
 
                 </ul>
             </li>
@@ -126,28 +157,32 @@ $settings= App\Models\System::first();
 
             @can('manage-access-control')
             <li class="dropdown{{ request()->is('setting/*') ? 'active' : '' }}">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Access
-                        Control</span></a>
+                <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                        data-feather="command"></i><span>{{__('permission.access_control')}}</span></a>
                 <ul class="dropdown-menu">
-
+                    @can('view-roles')
                     <li class="{{ request()->is('setting/roleGroup') ? 'active' : '' }}"><a class="nav-link"
                             href="{{url('roles')}}">
-                            Roles</a>
+                            {{__('permission.roles')}}</a>
                     </li>
+                    @endcan
+                    @can('view-permission')
                     <li class="{{ request()->is('setting/roleGroup') ? 'active' :''}} "><a class="nav-link"
-                            href="{{ url('permissions')}}">Permissions</a>
+                            href="{{ url('permissions')}}">{{__('permission.permissions')}}</a>
 
                     </li>
-                    <li class=""><a class="nav-link" href="{{ url('system')}}">System Settings</a>
+                    @endcan
+                    @can('view-user')
+                    <li class=""><a class="nav-link" href="{{ url('system')}}">{{__('permission.system_setings')}}</a>
 
                     </li>
+                    @endcan
+                    @can('view-user')
                     <li class="{{ request()->is('users') ? 'active' : '' }}"><a class="nav-link"
-                            href="{{url('users')}}">User
+                            href="{{url('users')}}">{{__('permission.user')}}
                             Management</a></li>
+                    @endcan
 
-                    <li class="{{ request()->is('clients') ? 'active' : '' }}"><a class="nav-link"
-                            href="{{ url('clients')}}">Registered clients
-                        </a></li>
 
                 </ul>
             </li>

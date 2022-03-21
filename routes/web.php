@@ -50,8 +50,13 @@ Route::resource('/register_assets','farming\Farmer_assetsController');
 Route::get('/landview',"farming\Farmer_assetsController@index1" );
 Route::get('/landdelete/{$id}',"farming\Farmer_assetsController@destroy2" );
 Route::get('/getFarm/',"farming\Farmer_assetsController@getFarm" );
+Route::resource('seeds_type',"farming\Seeds_TypesController" );
 Route::get('download',array('as'=>'download','uses'=>'farming\Crops_MonitoringController@download'));
 // end farming routes
+
+// start crop life cycle routes
+Route::resource('irrigation','CropLifeCycle\IrrigationController');
+// end crop life cycle routes
 
 
 // start shop routes
@@ -73,6 +78,7 @@ Route::any('quotationDetails/{id}','orders\OrdersController@quotationDetails');
 Route::resource('/seasson','farming\SeassonController');
 Route::resource('/cropslifecycle','farming\CropsLifeCycleController');
 Route::any('editLifeCycle',array('as'=>'editLifeCycle','uses'=>'farming\CropsLifeCycleController@editLifeCycle'));
+Route::any('deleteLifeCycle',array('as'=>'deleteLifeCycle','uses'=>'farming\CropsLifeCycleController@deleteLifeCycle'));
 
 
 
@@ -141,12 +147,9 @@ Route::get('sales/{id}/product','SalesController@show');
 Route::get('warehouse','WarehouseController@index');
 Route::post('warehouse/save','WarehouseController@store');
 Route::get('warehouse/{id}/show','WarehouseController@show');
-Route::post('addinsurance/save','WarehouseController@storeInsurance');
-Route::post('addfarmeraccount/save','WarehouseController@storeFarmerAccount');
-Route::post('deposity/save','WarehouseController@storedeposity');
-Route::post('withdraw/save','WarehouseController@storewithdraw');
 Route::resource('singlewarehouse','Single_warehouseController');
-Route::resource('warehouse_backend',warehouse\Warehouse_backendController::class);
+Route::resource('warehouse_backend','warehouse\Warehouse_backendController');
+
 
 // make crops orders
 Route::resource('crops_order','Client_OrderController');

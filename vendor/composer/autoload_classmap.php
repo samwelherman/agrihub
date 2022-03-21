@@ -58,6 +58,7 @@ return array(
     'App\\Http\\Controllers\\farming\\Farming_costController' => $baseDir . '/app/Http/Controllers/farming/Farming_costController.php',
     'App\\Http\\Controllers\\farming\\Farming_processController' => $baseDir . '/app/Http/Controllers/farming/Farming_processController.php',
     'App\\Http\\Controllers\\farming\\SeassonController' => $baseDir . '/app/Http/Controllers/farming/SeassonController.php',
+    'App\\Http\\Controllers\\farming\\Seeds_TypesController' => $baseDir . '/app/Http/Controllers/farming/Seeds_TypesController.php',
     'App\\Http\\Controllers\\orders\\OrdersController' => $baseDir . '/app/Http/Controllers/orders/OrdersController.php',
     'App\\Http\\Controllers\\shop\\Invoice_paymentController' => $baseDir . '/app/Http/Controllers/shop/Invoice_paymentController.php',
     'App\\Http\\Controllers\\shop\\ItemsController' => $baseDir . '/app/Http/Controllers/shop/ItemsController.php',
@@ -127,8 +128,12 @@ return array(
     'App\\Models\\Permission' => $baseDir . '/app/Models/Permission.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
     'App\\Models\\Product_tools' => $baseDir . '/app/Models/Product_tools.php',
+<<<<<<< HEAD
     'App\\Models\\PurchaseInventory' => $baseDir . '/app/Models/PurchaseInventory.php',
     'App\\Models\\PurchaseItemInventory' => $baseDir . '/app/Models/PurchaseItemInventory.php',
+=======
+    'App\\Models\\Purchase' => $baseDir . '/app/Models/Purchase.php',
+>>>>>>> 4b00737e60bf554a5180aa9413dcb5a617a53492
     'App\\Models\\Purchase_items' => $baseDir . '/app/Models/Purchase_items.php',
     'App\\Models\\Region' => $baseDir . '/app/Models/Region.php',
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
@@ -146,6 +151,10 @@ return array(
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\Warehouse' => $baseDir . '/app/Models/Warehouse.php',
     'App\\Models\\Zone' => $baseDir . '/app/Models/Zone.php',
+    'App\\Models\\farming\\Fertilizer' => $baseDir . '/app/Models/farming/Fertilizer.php',
+    'App\\Models\\farming\\IrrigationProcess' => $baseDir . '/app/Models/farming/IrrigationProcess.php',
+    'App\\Models\\farming\\IrrigationSettings' => $baseDir . '/app/Models/farming/IrrigationSettings.php',
+    'App\\Models\\farming\\IrrigationSystem' => $baseDir . '/app/Models/farming/IrrigationSystem.php',
     'App\\Models\\farming\\PreparationCostLists' => $baseDir . '/app/Models/farming/PreparationCostLists.php',
     'App\\Models\\farming\\PreparationDetails' => $baseDir . '/app/Models/farming/PreparationDetails.php',
     'App\\Models\\farming\\Preparation_cost' => $baseDir . '/app/Models/farming/Preparation_cost.php',

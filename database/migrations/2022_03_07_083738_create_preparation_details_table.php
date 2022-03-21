@@ -16,6 +16,7 @@ class CreatePreparationDetailsTable extends Migration
         Schema::create('tbl_preparation_details', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('seasson_id');
             $table->integer('organization_id');
             $table->string('preparation_type');
             $table->string('soil_salt');

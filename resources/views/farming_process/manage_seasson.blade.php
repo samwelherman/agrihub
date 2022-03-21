@@ -15,15 +15,19 @@
                             <div class="col-12 col-sm-12 col-md-2">
                                 <ul class="nav nav-pills flex-column" id="myTab4" role="tablist">
                                     <li class="nav-item">
+                                    @can('view-manage_seasson')
                                         <a class="nav-link @if(empty($id)) active  @endif" id="#tab1" data-toggle="tab"
                                             href="#tab1" role="tab" aria-controls="home"
                                             aria-selected="true">{{__('farming.seasson')}}</a>
                                     </li>
+                                    @endcan
+                                    @can('add-manage_seasson')
                                     <li class="nav-item">
                                         <a class="nav-link @if(!empty($id)) active  @endif" id="#tab2" data-toggle="tab"
                                             href="#tab2" role="tab" aria-controls="profile"
                                             aria-selected="false">{{__('farming.new_seasson')}}</a>
                                     </li>
+                                    @endcan
 
                                 </ul>
                             </div>
@@ -31,6 +35,7 @@
                                 <div class="tab-content no-padding" id="myTab2Content">
                                     <div class="tab-pane fade @if(empty($id)) active show  @endif" id="tab1"
                                         role="tabpanel" aria-labelledby="tab1">
+                                        @can('view-manage_seasson')
                                         <table class="table table-striped" id="table-1">
                                             <thead>
                                                 <tr role="row">
@@ -74,15 +79,19 @@
                                                     <td>{{$row->crop_name}}</td>
                                                     <td>{{$row->harvest_date}}</td>
                                                     <td>
-
+                                                    @can('edit-manage_seasson')
                                                         <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
                                                             href="{{ route('seasson.edit',$row->id )}}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
+                                                        @endcan
+                                                        @can('delete-manage_seasson')
                                                         <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4"
                                                             href="{{ route('seasson.destroy',$row->id,['id'=>$row->id,'type'=>'tool'])}}">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
+                                                        @endcan
+                                                        @can('edit-manage_seasson')
                                                         <div class="btn-group">
                                                             <button class="btn btn-xs btn-success dropdown-toggle"
                                                                 data-toggle="dropdown">Change<span
@@ -94,6 +103,7 @@
                                                                         {{__('farming.seasson_details')}}</a></li>
                                                             </ul>
                                                         </div>
+                                                        @endcan
                                                       
 
 
@@ -105,6 +115,7 @@
 
                                             </tbody>
                                         </table>
+                                        @endcan
                                     </div>
                                     <div class="tab-pane fade @if(!empty($id)) active show  @endif" id="tab2"
                                         role="tabpanel" aria-labelledby="tbb2">
