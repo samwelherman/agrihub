@@ -264,7 +264,7 @@ function getPageData(){
   //ajax for get all page data 
   $.ajax({
         type: "GET",
-        url: "/warehouse_backend",
+        url: "warehouse_backend",
         dataType: "json",
         success: function(response) {
           $.each(response.warehouse,function(key,item){
