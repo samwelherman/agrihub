@@ -44,6 +44,7 @@ $settings= App\Models\System::first();
 
             </li>
             @endcan
+
             @can('manage-farming')
             <li class="dropdown">
 
@@ -55,6 +56,21 @@ $settings= App\Models\System::first();
 
                 </ul>
 
+            </li>
+            @endcan
+
+            @can('manage-farming')
+            <li class="dropdown">
+                <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                        data-feather="command"></i><span>Logistic Order Tracking</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{url('collection')}}">Order Collection</a></li>
+                    <li><a class="nav-link" href="{{url('loading')}}">Order Loading</a></li>
+                    <li><a class="nav-link" href="{{url('offloading')}}">Order Offloading</a></li>
+                    <li><a class="nav-link" href="{{url('delivering')}}">Order Delivery</a></li>
+                    <li><a class="nav-link" href="{{url('activity')}}">Track Order Activity</a></li>
+                    
+                </ul>
             </li>
             @endcan
 

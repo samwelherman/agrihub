@@ -14,13 +14,14 @@
                                 <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#about" role="tab"
                                     aria-selected="true">{{__('ordering.quotation_detail')}}</a>
                             </li>
+                            @if($quotation->status != 2)                        
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab2"
-                                    href="{{ route('payments.show',$quotation->id)}}" role="tab"
+                                    href="{{ route('order.pay',$quotation->id)}}" role="tab"
                                     aria-selected="false">{{__('ordering.quotation_confirm')}} 
                                     </a>
                             </li>
-
+                            @endif
                         </ul>
                         <?php
 $settings= App\Models\System::first();

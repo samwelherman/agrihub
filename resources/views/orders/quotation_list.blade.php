@@ -84,7 +84,7 @@
 
                                                 <td>
                                                     <li> <a class="nav-link" id="profile-tab2"
-                                                            href="{{ route('purchase.show',$row->id)}}" role="tab"
+                                                        href="{{ url('quotationDetails', $row->id)}}" role="tab"
                                                             aria-selected="false">{{$loop->iteration}}</a></li>
                                                 </td>
                                                 <td>{{$row->crop_types->crop_name}}</td>
@@ -102,12 +102,12 @@
 
 
                                                 <td>
-                                                    @if($row->status == 1)
-                                                    <div class="badge badge-info badge-shadow">Not Payed</div>
+                                                    @if($row->status == 0)
+                                                    <div class="badge badge-danger badge-shadow">Not Paid</div>
+                                                    @elseif($row->status == 1)
+                                                    <div class="badge badge-warning badge-shadow">Partially Paid</div>
                                                     @elseif($row->status == 2)
-                                                    <div class="badge badge-success badge-shadow">Partial Payed</div>
-                                                    @elseif($row->status == 3)
-                                                    <span class="badge badge-danger badge-shadow">Full Payed</span>
+                                                    <span class="badge badge-success badge-shadow">Fully Paid</span>
 
 
                                                     @endif

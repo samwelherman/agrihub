@@ -11,6 +11,7 @@ use App\Models\orders\Order;
 use App\Models\orders\Cost_function;
 use App\Models\orders\Transport_quotation;
 use App\Models\orders\Quotation_cost;
+use App\Models\Payment_methodes;
 
 class OrdersController extends Controller
 {
@@ -65,6 +66,8 @@ class OrdersController extends Controller
         $order = $orders->toArray();
         
         $order['user_id']= auth()->user()->id;
+        $order['logistic_id']= auth()->user()->id;
+
 
         $quotation = Transport_quotation::create($order);
         
@@ -87,6 +90,7 @@ class OrdersController extends Controller
                 if(!empty($nameArr[$i])){
                     $cost['amount'] +=$costArr[$i];
                     $cost['tax'] +=$taxArr[$i];
+                    $cost['due_amount'] =$cost['amount'] +  $cost['tax'] ;
 
                     $items = array(
                         'item_name' => $nameArr[$i],
@@ -235,5 +239,14 @@ class OrdersController extends Controller
         }
   
      
+    }
+
+
+    public function order_payment($id)
+    {
+        //
+        $quotation = Transport_quotation::find($id);
+        $payment_method = Payment_methodes::all();
+        return view('orders.order_payment',compact('quotation','payment_method'));
     }
 }

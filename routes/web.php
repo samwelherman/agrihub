@@ -185,8 +185,10 @@ Route::get('cancel/{id}', 'Inventory\PurchaseInventoryController@cancel')->name(
 Route::get('receive/{id}', 'Inventory\PurchaseInventoryController@receive')->name('inventory.receive'); 
 Route::get('make_payment/{id}', 'Inventory\PurchaseInventoryController@make_payment')->name('inventory.pay'); 
 Route::get('inv_pdfview',array('as'=>'inv_pdfview','uses'=>'Inventory\PurchaseInventoryController@inv_pdfview'));
+Route::get('order_payment/{id}', 'orders\OrdersController@order_payment')->name('order.pay');
 
 Route::resource('inventory_payment', 'Inventory\InventoryPaymentController');
+Route::resource('order_payment', 'orders\OrderPaymentController');
 
 Route::resource('maintainance', 'Inventory\MaintainanceController');
 Route::get('change_m_status/{id}', 'Inventory\MaintainanceController@approve')->name('maintainance.approve'); 
@@ -203,6 +205,14 @@ Route::resource('good_disposal', 'Inventory\GoodDisposalController');
 
 Route::resource('good_return', 'Inventory\GoodReturnController');
 Route::get('findReturnService', 'Inventory\GoodReturnController@findService');
+
+//tracking
+Route::get('collection', 'Activity\OrderMovementController@collection')->name('order.collection');
+Route::get('loading', 'Activity\OrderMovementController@loading')->name('order.loading');
+Route::get('offloading', 'Activity\OrderMovementController@offloading')->name('order.offloading');
+Route::get('delivering', 'Activity\OrderMovementController@delivering')->name('order.delivering');
+Route::resource('order_movement', 'Activity\OrderMovementController');
+Route::resource('activity', 'Activity\ActivityController');
 
 Route::resource('permissions', 'PermissionController');
 Route::resource('roles', 'RoleController');

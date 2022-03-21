@@ -17,4 +17,8 @@ class Quotation_cost extends Model
 
         return $this->belongTo('App\Models\orders\Transport_quotation','quotation_id');
     }
+    public function movement_quotation_cost(){
+
+        return $this->belongTo('App\Models\orders\OrderMovement','quotation_id');
+    }
 }

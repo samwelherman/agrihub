@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\farming;
+namespace App\Http\Controllers\shop;
 
 use App\Http\Controllers\Controller;
 
@@ -15,6 +15,7 @@ use App\Models\Payments;
 use App\Models\AccountCodes;
 use App\Models\JournalEntry;
 use App\Models\Purchase;
+
 class PaymentsController extends Controller
 {
     /**

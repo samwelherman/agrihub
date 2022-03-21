@@ -5,30 +5,31 @@ namespace App\Models\orders;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transport_quotation extends Model
+class OrderMovement extends Model
 {
     use HasFactory;
 
-    protected $table = "tbl_transport_quotations";
 
-    protected $fillable = ['crop_type','quantity','start_location','end_location','client_id','warehouse_id','amount','due_amount','tax','status','user_id'];
+    protected $table = "order_movements";
 
-    public function quotation_cost(){
+    protected $fillable = ['transport_id','crop_type','quantity','start_location','end_location','client_id','warehouse_id','amount','due_amount','tax','status','user_id','truck'];
+
+    public function movement_quotation_cost(){
 
         return $this->hasMany('App\Models\orders\Quotation_cost','quotation_id');
     }
 
-    public function crop_types(){
+    public function  movement_crop_types(){
 
         return $this->belongsTo('App\Models\Crops_type','crop_type');
       }
     
-      public function user(){
+      public function  movement_user(){
     
         return $this->belongsTo('App\Models\User','user_id');
       }
     
-      public function warehouse(){
+      public function  movement_warehouse(){
           return $this->belongsTo('App\Models\Warehouse','warehouse_id');
       }
 }

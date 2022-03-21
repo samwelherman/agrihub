@@ -8,14 +8,14 @@
             <div class="col-12 col-sm-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>{{__('ordering.orders')}} </h4>
+                        <h4>Delivery List </h4>
                     </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
                             @if(empty($id))
                             <li class="nav-item">
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
-                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">{{__('ordering.order_list')}}</a>
+                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">Delivery List </a>
                             </li>
                             @else
                            <li class="nav-item">
@@ -57,11 +57,11 @@
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">{{__('ordering.client')}}</th>
+                                                    style="width: 141.219px;">{{__('ordering.transporter')}}</th>
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">{{__('ordering.wherehouse')}}</th>
+                                                    style="width: 141.219px;">{{__('ordering.estimated_cost')}}</th>
 
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
@@ -74,61 +74,52 @@
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="CSS grade: activate to sort column ascending"
-                                                    style="width: 98.1094px;">{{__('ordering.actions')}}</th>
+                                                    style="width: 98.1094px;">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if(!@empty($orders))
-                                            @foreach ($orders as $row)
+                                            @if(!@empty($quotation))
+                                            @foreach ($quotation as $row)
                                             <tr class="gradeA even" role="row">
 
                                                 <td>
-                                                    <li> <a class="nav-link" id="profile-tab2"
-                                                            href="{{ route('purchase.show',$row->id)}}" role="tab"
-                                                            aria-selected="false">{{$loop->iteration}}</a></li>
+                                                   {{$loop->iteration}}
                                                 </td>
-                                                <td>{{$row->crop_types->crop_name}}</td>
+                                                <td>{{$row->movement_crop_types->crop_name}}</td>
                                                 <td>{{$row->quantity}}</td>
 
                                                 <td>{{$row->start_location}}</td>
 
                                                 <td>{{$row->end_location}}</td>
 
-                                                <td>{{$row->user->name}}</td>
+                                                <td>{{$row->movement_user->name}}</td>
 
-                                                <td>{{$row->warehouse->warehouse_name}}</td>
+                                                <td>{{$row->amount}}Tsh</td>
 
                                                 <!--<td>{{$row->receiver_name}}</td>-->
 
 
                                                 <td>
-                                                    @if($row->status == 'confirmed')
-                                                    <div class="badge badge-success badge-shadow">Confirmed</div>
-                                                    @elseif($row->status == 'unconfrmed')
-                                                    <span class="badge badge-danger badge-shadow">Unconfrmed</span>
-
-
+                                                    @if($row->status == 5)
+                                                    <div class="badge badge-info badge-shadow">Offloaded</div>
+                                                    @elseif($row->status == 6)
+                                                    <div class="badge badge-success badge-shadow">Delivered</div>
                                                     @endif
                                                 </td>
                                           
 
                                                 <td>
-                                                
-
-                                                    <div class="btn-group">
-                                                        <button class="btn btn-xs btn-success dropdown-toggle"
-                                                            data-toggle="dropdown">Change<span
-                                                                class="caret"></span></button>
-                                                        <ul class="dropdown-menu animated zoomIn">
-                                                          
-                                                          
-                                                            <li class="nav-item"><a class="nav-link" title="quotation"
-                                                                    
-                                                                    href="{{ route('orders.show', $row->id)}}">
-                                                                    {{__('ordering.create_quotation')}}</a></li>
-                                                        </ul>
-                                                    </div>
-
+                                                    @if($row->status == 5 )   
+                                                                                             
+                                                      <button type="button" class="btn btn-xs btn-primary"
+                                            data-toggle="modal" data-target="#appFormModal"
+                                            data-id="{{ $row->id }}" data-type="delivering"
+                                            onclick="model({{ $row->id }},'delivering')">
+                                            <i class="icon-eye-open"> </i>
+                                            confirm delivery
+                                        </button>
+                                                   
+                                                    @endif
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -346,53 +337,7 @@
 </div>
 
 
-<!-- route Modal -->
-<div class="modal inmodal show" id="routeModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Add Discount</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Make sure you enter valid information</strong> .</p>
 
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">from</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="arrival_point" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">To</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="destination_point" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Distance</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="distance" class="form-control">
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
 
 @endsection
 
@@ -437,187 +382,31 @@ $(document).ready(function() {
 </script>
 <script src="{{ url('assets/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 
-<script>
-$(document).ready(function() {
+<script type="text/javascript">
+    function model(id, type) {
 
-    $(document).on('click', '.remove', function() {
-        $(this).closest('tr').remove();
-    });
+        let url = '{{ route("order_movement.show", ":id") }}';
+        url = url.replace(':id', id)
 
-    $(document).on('change', '.item_name', function() {
-        var id = $(this).val();
-        var sub_category_id = $(this).data('sub_category_id');
         $.ajax({
-            url: '/agrihub/public/findPrice/',
-            type: "GET",
+            type: 'GET',
+            url: url,
             data: {
-                id: id
+                'type': type,
             },
-            dataType: "json",
+            cache: false,
+            async: true,
             success: function(data) {
-                console.log(data);
-                $('.item_price' + sub_category_id).val(data[0]["price"]);
-                $(".item_unit" + sub_category_id).val(data[0]["unit"]);
-                $(".item_saved" + sub_category_id).val(data[0]["id"]);
+                //alert(data);
+                $('.modal-dialog').html(data);
+            },
+            error: function(error) {
+                $('#appFormModal').modal('toggle');
+
             }
-
         });
 
-    });
-
-
-});
-</script>
-
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-
-
-    var count = 0;
-
-
-    function autoCalcSetup() {
-        $('table#cart').jAutoCalc('destroy');
-        $('table#cart tr.line_items').jAutoCalc({
-            keyEventsFire: true,
-            decimalPlaces: 2,
-            emptyAsZero: true
-        });
-        $('table#cart').jAutoCalc({
-            decimalPlaces: 2
-        });
     }
-    autoCalcSetup();
-
-    $('.add').on("click", function(e) {
-
-        count++;
-        var html = '';
-        html += '<tr class="line_items">';
-        html +=
-            '<td><select name="item_name[]" class="form-control item_name" required  data-sub_category_id="' +
-            count +
-            '"><option value="">Select Item</option>@foreach($costs as $n) <option value="{{ $n->id}}">{{$n->name}}</option>@endforeach</select></td>';
-        html +=
-            '<td><input type="text" name="quantity[]" class="form-control item_quantity" data-category_id="' +
-            count + '"placeholder ="quantity" id ="quantity" required /></td>';
-        html += '<td><input type="text" name="price[]" class="form-control item_price' + count +
-            '" placeholder ="price" required  value=""/></td>';
-        html += '<td><input type="text" name="unit[]" class="form-control item_unit' + count +
-            '" placeholder ="unit" required /></td>';
-        html += '<td><select name="tax_rate[]" class="form-control item_tax' + count +
-            '" required ><option value="0">Select Tax Rate</option><option value="0">No tax</option><option value="0.18">18%</option></select></td>';
-        html += '<input type="hidden" name="total_tax[]" class="form-control item_total_tax' + count +
-            '" placeholder ="total" required readonly jAutoCalc="{quantity} * {price} * {tax_rate}"   />';
-        html += '<input type="hidden" name="saved_items_id[]" class="form-control item_saved' + count +
-            '"  required   />';
-        html += '<td><input type="text" name="total_cost[]" class="form-control item_total' + count +
-            '" placeholder ="total" required readonly jAutoCalc="{quantity} * {price}" /></td>';
-        html +=
-            '<td><button type="button" name="remove" class="btn btn-danger btn-xs remove"><i class="fas fa-trash"></i></button></td>';
-
-        $('tbody').append(html);
-        autoCalcSetup();
-    });
-
-    $(document).on('click', '.remove', function() {
-        $(this).closest('tr').remove();
-        autoCalcSetup();
-    });
-
-
-    $(document).on('click', '.rem', function() {
-        var btn_value = $(this).attr("value");
-        $(this).closest('tr').remove();
-        $('tfoot').append(
-            '<input type="hidden" name="removed_id[]"  class="form-control name_list" value="' +
-            btn_value + '"/>');
-        autoCalcSetup();
-    });
-
-});
-</script>
-
-
-
-<script type="text/javascript">
-function model(id, type) {
-
-    $.ajax({
-        type: 'GET',
-        url: '/courier/public/discountModal/',
-        data: {
-            'id': id,
-            'type': type,
-        },
-        cache: false,
-        async: true,
-        success: function(data) {
-            //alert(data);
-            $('.modal-dialog').html(data);
-        },
-        error: function(error) {
-            $('#appFormModal').modal('toggle');
-
-        }
-    });
-
-}
-
-function saveClient(e) {
-    alert($('#address').val());
-
-    var fname = $('#fname').val();
-    var lname = $('#lname').val();
-    var phone = $('#phone').val();
-    var email = $('#email').val();
-    var address = $('#address').val();
-    var currency_code = $('currency_code').val();
-    var tin = $('#tin').val;
-    var vat = $('#vat').val;
-
-    $.ajax({
-        type: 'GET',
-        url: '/courier/public/addClient/',
-        data: {
-            'fname': fname,
-            'lname': lname,
-            'phone': phone,
-            'email': email,
-            'address': address,
-            'tin': tin,
-            'vat': vat,
-            'currency_code': currency_code,
-        },
-        cache: false,
-        async: true,
-        success: function(response) {
-            var len = 0;
-            if (response.data != null) {
-                len = response.data.length;
-            }
-
-            if (len > 0) {
-                $('#client').html("");
-                for (var i = 0; i < len; i++) {
-                    var id = response.data[i].id;
-                    var name = response.data[i].fname;
-
-                    var option = "<option value='" + id + "'>" + name + "</option>";
-
-                    $("#client").append(option);
-                    $('#appFormModal').hide();
-                }
-            }
-        },
-        error: function(error) {
-            $('#appFormModal').modal('toggle');
-
-        }
-    });
-}
-</script>
+    </script>
 
 @endsection
