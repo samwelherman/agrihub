@@ -148,7 +148,7 @@ Route::get('warehouse','WarehouseController@index');
 Route::post('warehouse/save','WarehouseController@store');
 Route::get('warehouse/{id}/show','WarehouseController@show');
 Route::resource('singlewarehouse','Single_warehouseController');
-Route::resource('warehouse_backend',warehouse\Warehouse_backendController::class);
+Route::resource('warehouse_backend','warehouse\Warehouse_backendController');
 
 
 // make crops orders
