@@ -41,7 +41,7 @@ $settings= App\Models\System::first();
                     <li><a class="nav-link" href="{{url('register_assets')}}">{{__('farming.farmer_assets')}}</a></li>
                     @endcan
                     @can('view-farming-cost')
-                    <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li>
+                  <!--  <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li> -->
                     @endcan
                     @can('view-cost-centre')
                     <li><a class="nav-link" href="{{url('cost_centre')}}">{{__('farming.cost_centre')}}</a></li>

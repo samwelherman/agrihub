@@ -18,7 +18,7 @@
                                     href="#home2" role="tab" aria-controls="home" aria-selected="true">{{__('ordering.order_list')}}</a>
                             </li>
                             @else
-                            can('add-order_list')
+                            @can('add-order_list')
                            <li class="nav-item">
                                 <a class="nav-link @if(!empty($id)) active show @endif" id="profile-tab2"
                                     data-toggle="tab" href="#profile2" role="tab" aria-controls="profile"
@@ -32,7 +32,7 @@
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2" role="tabpanel"
                                 aria-labelledby="home-tab2">
                                 <div class="table-responsive">
-                                can('view-order_list')
+                                @can('view-order_list')
                                     <table class="table table-striped" id="table-1">
                                         <thead>
                                             <tr>
@@ -126,7 +126,7 @@
                                                                 class="caret"></span></button>
                                                         <ul class="dropdown-menu animated zoomIn">
                                                           
-                                                        can('edit-order_list')
+                                                        @can('edit-order_list')
                                                             <li class="nav-item"><a class="nav-link" title="quotation"
                                                                     
                                                                     href="{{ route('orders.show', $row->id)}}">
