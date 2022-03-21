@@ -60,12 +60,11 @@ $settings= App\Models\System::first();
 
             </li>
             @endcan
-<<<<<<< HEAD
 
             @can('manage-farming')
-=======
+            @endcan
+            
             @can('manage-orders')
->>>>>>> 4b00737e60bf554a5180aa9413dcb5a617a53492
             <li class="dropdown">
 
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
