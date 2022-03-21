@@ -22,7 +22,7 @@
 
 
                         </ul>
-                        
+
 
                         <div class="tab-content tab-bordered" id="myTab3Content">
 
@@ -33,7 +33,8 @@
                                     <table class="table table-striped" id="appFormDatatable">
                                         <thead>
                                             <tr>
-                                                <th class="sorting" rowspan="1" colspan="1" style="width: 141.219px;">#.No</th>
+                                                <th class="sorting" rowspan="1" colspan="1" style="width: 141.219px;">
+                                                    #.No</th>
                                                 <th class="sorting" rowspan="1" colspan="1" style="width: 141.219px;">
                                                     {{__('farming.seeds_name')}}</th>
                                                 <th class="sorting" rowspan="1" colspan="1" style="width: 141.219px;">
@@ -72,60 +73,18 @@
 <!--  Modal -->
 
 
-<div class="modal fade bd-example-modal-lg" id="appFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
-          <div class="modal-dialog modal-lg" role="document">
-            
-          </div>
-        </div>
+<div class="modal fade bd-example-modal-lg" id="appFormModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+    </div>
+</div>
 </div>
 </div>
 
 
 <!-- route Modal -->
-<div class="modal inmodal show" id="routeModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Add Discount</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Make sure you enter valid information</strong> .</p>
 
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">from</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="arrival_point" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">To</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="destination_point" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Distance</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="distance" class="form-control">
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 </div>
 
@@ -263,6 +222,7 @@ function saveClient(e) {
         }
     });
 }
+
 function saveSeeds(e) {
     let url = "{{ route('seeds_type.store') }}";
     let form = $(e).closest('form');
@@ -280,11 +240,20 @@ function saveSeeds(e) {
 
     $.ajax({
         headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         url: url,
         type: 'POST',
-        data: new FormData(form1),
+        data: {
+            'name': $('#name').val(),
+            'age': $('#age').val(),
+            'soil_type': $('#soil_type').val(),
+            'water_volume': $('#water_volume').val(),
+            'properties': $('#properties').val(),
+            'harvest_volume': $('#harvest_volume').val(),
+            
+
+        },
         contentType: false,
         processData: false,
         success: function(res) {
@@ -327,6 +296,7 @@ function saveSeeds(e) {
         }
     })
 }
+
 function updateSeeds(e) {
     let form = $(e).closest('form')
     let formID = '#' + form.attr('id')
@@ -346,8 +316,8 @@ function updateSeeds(e) {
 
     $.ajax({
         headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         url: url,
         type: 'PUT',
         data: new FormData(form1),

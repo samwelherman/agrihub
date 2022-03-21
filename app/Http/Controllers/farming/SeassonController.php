@@ -8,7 +8,7 @@ use App\Models\farming\Seasson;
 use App\Models\farming\Preparation_cost;
 use App\Models\farming\PreparationDetails;
 use App\Models\farming\Sowing;
-use App\Models\fariming\Fertilizer;
+use App\Models\farming\Fertilizer;
 
 class SeassonController extends Controller
 {

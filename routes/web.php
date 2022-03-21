@@ -54,6 +54,10 @@ Route::resource('seeds_type',"farming\Seeds_TypesController" );
 Route::get('download',array('as'=>'download','uses'=>'farming\Crops_MonitoringController@download'));
 // end farming routes
 
+// start crop life cycle routes
+Route::resource('irrigation','CropLifeCycle\IrrigationController');
+// end crop life cycle routes
+
 
 // start shop routes
 Route::resource('items', 'shop\ItemsController');

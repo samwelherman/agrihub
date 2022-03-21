@@ -90,9 +90,27 @@ return [
     'new_irrigation'=> 'New Irrigation',
     'irrigation_setting'=>'Irrigation Setting',
     'irrigation_process'=>'Irrigation Process',
-    'total_amount'=>'Total Amount',
-    'total_costing'=>'Total Cost',
-    'crop_monitoring'=>'Crop Monitoring'
+    'irrigation_type'=>'Irrigation Type',
+    'irrigation_cost'=>'Irrigation Cost',
+    'number_of_hk'=>'No of Hector',
+
+    
+    'power_source'=>'Power Source',
+    'pump_cost'=>'Pump Cost',
+
+    'total_cost'=>'Total Cost',
+    'pump_rate'=>'Volume per Hour',
+    'hector_per_day'=>'NUmber of hector per day',
+    'pump_no'=>'NUmber of Pump',
+    'total_pump_cost'=>'Total Pump Cost',
+
+
+    'irrigation_date'=>'Date',
+    'water_volume'=>'Water Volume',
+    'next_date'=>'Next Expected Date',
+    'cost_per_heck'=>'Cost per Hector',
+    'no_of_heck'=>'Number of Hector',
+    'total_volume'=>'Total',
 
     
 

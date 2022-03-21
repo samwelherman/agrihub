@@ -13,8 +13,18 @@ class CreateIrrigationSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('irrigation_settings', function (Blueprint $table) {
+        Schema::create('tbl_irrigation_settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('irrigation_type');
+            $table->integer('irrigation_cost');
+            $table->integer('number_of_hk');
+            $table->string('power_source');
+            $table->integer('pump_cost');
+            $table->integer('pump_rate');
+            $table->integer('hector_per_day');
+            $table->integer('pump_no');
+            $table->integer('total_pump_cost');
+            $table->integer('added_by');
             $table->timestamps();
         });
     }
@@ -26,6 +36,6 @@ class CreateIrrigationSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('irrigation_settings');
+        Schema::dropIfExists('tbl_irrigation_settings');
     }
 }

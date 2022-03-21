@@ -56,9 +56,10 @@
 
                                  @include('farming_process.life_cycle_tabs.irrigation')
                                
-                                    
+ 
 
                                 </div>
+         
                             </div>
                         </div>
                     </div>
@@ -66,9 +67,15 @@
             </div>
         </div>
     </div>
-
+   
+ 
 </section>
+<div class="modal fade bd-example-modal-lg" id="appFormModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
 
+    </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -80,3 +87,4 @@
 }
 </script>
 @endsection
+
