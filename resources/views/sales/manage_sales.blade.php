@@ -533,7 +533,7 @@ $(document).ready(function() {
         var id = $(this).val();
         var sub_category_id = $(this).data('sub_category_id');
         $.ajax({
-            url: '/agrihub/public/findPrice/',
+            url: '{{url("findPrice")}}',
             type: "GET",
             data: {
                 id: id

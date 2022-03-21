@@ -67,7 +67,7 @@ Route::resource('sales','shop\SalesController');
 Route::resource('payments', 'shop\PaymentsController');
 Route::resource('invoice_payment', 'shop\Invoice_paymentController');
 Route::resource('invoicepdf', 'shop\PDFController');
-Route::get('pdfview',array('as'=>'pdfview','uses'=>'shop\PDFController@pdfview'));
+Route::get('pdfview',array('as'=>'pdfview','uses'=>'PDFController@pdfview'));
 
 //Orders Routes
 Route::resource('orders','orders\OrdersController');
@@ -147,17 +147,65 @@ Route::get('sales/{id}/product','SalesController@show');
 Route::get('warehouse','WarehouseController@index');
 Route::post('warehouse/save','WarehouseController@store');
 Route::get('warehouse/{id}/show','WarehouseController@show');
-Route::post('addinsurance/save','WarehouseController@storeInsurance');
-Route::post('addfarmeraccount/save','WarehouseController@storeFarmerAccount');
-Route::post('deposity/save','WarehouseController@storedeposity');
-Route::post('withdraw/save','WarehouseController@storewithdraw');
 Route::resource('singlewarehouse','Single_warehouseController');
 Route::resource('warehouse_backend',warehouse\Warehouse_backendController::class);
+
 
 // make crops orders
 Route::resource('crops_order','Client_OrderController');
 Route::resource('manipulation','Orders_Client_ManipulationsController');
 
+//  logistic routes
+//  logistic-truck routes
+Route::resource('truck', 'Truck\TruckController');
+Route::get('truck_sticker/{id}', 'Truck\TruckController@sticker')->name('truck.sticker');
+Route::get('truck_insurance/{id}', 'Truck\TruckController@insurance')->name('truck.insurance');
+Route::resource('sticker', 'Truck\StickerController');
+Route::resource('truckinsurance', 'Truck\TruckInsuranceController');
+Route::get('sdownload',array('as'=>'sdownload','uses'=>'Truck\StickerControllerr@sdownload'));
+Route::get('tdownload',array('as'=>'tdownload','uses'=>'ruck\TruckInsuranceController@tdownload'));
+
+//  logistic-driver routes
+Route::resource('driver', 'Driver\DriverController');
+Route::get('driver_licence/{id}', 'Driver\DriverController@licence')->name('driver.licence');
+Route::get('driver_performance/{id}', 'Driver\DriverController@performance')->name('driver.performance');
+Route::resource('licence', 'Driver\LicenceController');
+Route::resource('performance', 'Driver\PerformanceController');
+Route::get('ldownload',array('as'=>'ldownload','uses'=>'Driver\LicenceController@ldownload'));
+Route::get('pdownload',array('as'=>'pdownload','uses'=>'Driver\PerformanceController@pdownload'));
+
+// inventory routes
+Route::resource('location', 'Inventory\LocationController');
+
+Route::resource('inventory', 'Inventory\InventoryController');
+
+Route::resource('fieldstaff', 'Inventory\FieldStaffController');
+
+Route::resource('purchase_inventory', 'Inventory\PurchaseInventoryController');
+Route::get('findInvPrice', 'Inventory\PurchaseInventoryController@findPrice'); 
+Route::get('approve/{id}', 'Inventory\PurchaseInventoryController@approve')->name('inventory.approve'); 
+Route::get('cancel/{id}', 'Inventory\PurchaseInventoryController@cancel')->name('inventory.cancel'); 
+Route::get('receive/{id}', 'Inventory\PurchaseInventoryController@receive')->name('inventory.receive'); 
+Route::get('make_payment/{id}', 'Inventory\PurchaseInventoryController@make_payment')->name('inventory.pay'); 
+Route::get('inv_pdfview',array('as'=>'inv_pdfview','uses'=>'Inventory\PurchaseInventoryController@inv_pdfview'));
+
+Route::resource('inventory_payment', 'Inventory\InventoryPaymentController');
+
+Route::resource('maintainance', 'Inventory\MaintainanceController');
+Route::get('change_m_status/{id}', 'Inventory\MaintainanceController@approve')->name('maintainance.approve'); 
+
+Route::resource('service', 'Inventory\ServiceController');
+Route::get('change_s_status/{id}', 'Inventory\ServiceController@approve')->name('service.approve');
+
+Route::resource('good_issue', 'Inventory\GoodIssueController');
+Route::get('findIssueService', 'Inventory\GoodIssueController@findService');
+
+Route::resource('good_movement', 'Inventory\GoodMovementController');
+Route::resource('good_reallocation', 'Inventory\GoodReallocationController');
+Route::resource('good_disposal', 'Inventory\GoodDisposalController');
+
+Route::resource('good_return', 'Inventory\GoodReturnController');
+Route::get('findReturnService', 'Inventory\GoodReturnController@findService');
 
 Route::resource('permissions', 'PermissionController');
 Route::resource('roles', 'RoleController');

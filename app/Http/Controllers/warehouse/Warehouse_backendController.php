@@ -28,7 +28,7 @@ class Warehouse_backendController extends Controller
     public function index()
     {
         $user_id=auth()->user()->id;
-        $warehouse =Warehouse::with(['user'])->get();
+        $warehouse =Warehouse::with(['user','region','district'])->where('added_by',$user_id)->get();
         $region=Region::with(['districts'])->get();
         $district=District::all();
         $user=User::all();
@@ -154,10 +154,11 @@ class Warehouse_backendController extends Controller
 
         $user_id=auth()->user()->id;
         if($request->input('require')=="accounts_data"){
-        // $wihdrawHistory=Deposite_withdraw::join('posts', 'posts.user_id', '=', 'users.id')
-        // ->join('comments', 'comments.post_id', '=', 'posts.id')
-        // ->get(['users.*', 'posts.descrption']);all()->where('status',1)->where('warehouse_id',$id);
-        $history=Deposite_withdraw::with(['farmer_account'])->where('warehouse_id',$id)->get();
+        $history=Deposite_withdraw::with([
+            'farmer_account' => function($query){
+                $query->with(['farmer', 'crops_type', 'warehouse']);
+            }
+            ])->where('warehouse_id',$id)->get();
         $crops_types=Crops_type::all();
         $farmers=Farmer::all();
         $accounts=Farmer_account::with(['farmer','crops_type'])->where('warehouse_id',$id)->get();

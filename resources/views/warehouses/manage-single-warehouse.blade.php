@@ -281,46 +281,11 @@
                    </div>
                    
                  </div>
-     
-       <div class="modal inmodal" id="createOrder" tabindex="-1" role="dialog" v-if="state.dialog_state">
-           <div class="dealogbox" >
-          <div class="modal-dialog" role="document">
-                       <div class="modal-content">
-                           <div class="modal-header">
-                           <h5 class="modal-title" id="exampleModalLabel">Order Form</h5>
-                           <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
-                             <span  >&times;</span>
-                           </button>
-                         </div>
-                
-                             <div class="card-body">
-                   <div class="form-group col-md-12 col-lg-12 col-xl-12">
-                      <label for="orderquantity">Quantity in Kilogram(Kg)</label>
-                       <input type="number" name='orderquantity' class="form-control" id="orderquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
-                          
-                   </div>
-                   <div class="form-group col-md-12 col-lg-12 col-xl-12">
-                       <label for="offerAmount">Offer Amount</label>
-                        <input type="number"  name='offerAmount' class="form-control" id="offerAmountid" placeholder="Offer Amount in Tsh">
-                    </div>
-                   <div class="form-row">
-                      <div class="form-group col-md-12 col-lg-12">
-                       <input type="submit"  value="Submit Order" name="save" class="btn btn-block btn-primary">
-                     </div>
-                   </div>
-                 </div>
-                   
-                       </div>
-                     </div>
-           </div>
-       </div>
-      
            </div>
           </div>
         </div>
       </div>
     </div>
-    {{-- <script src="{{mix('js/app.js')}}"></script> --}}
     {{-- <script type="text/javascript">
     function model( type,account_id,warehouse_id) {
 
@@ -350,6 +315,40 @@
     }
     </script> --}}
   </section>
+  {{-- make order modal --}}
+  <div class="modal inmodal" id="createOrder1" tabindex="-1"  data-backdrop="static" data-keyboard="false" role="dialog" style="padding-right: 17px;" >
+    <div class="dealogbox" >
+   <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Order Form</h5>
+              <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
+                <span  >&times;</span>
+              </button>
+            </div>
+    
+                <div class="card-body">
+      <div class="form-group col-md-12 col-lg-12 col-xl-12">
+          <label for="orderquantity">Quantity in Kilogram(Kg)</label>
+          <input type="number" name='orderquantity' class="form-control" id="orderquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
+              
+      </div>
+      <div class="form-group col-md-12 col-lg-12 col-xl-12">
+          <label for="offerAmount">Offer Amount</label>
+            <input type="number"  name='offerAmount' class="form-control" id="offerAmountid" placeholder="Offer Amount in Tsh">
+        </div>
+      <div class="form-row">
+          <div class="form-group col-md-12 col-lg-12">
+          <input type="submit"  value="Submit Order" name="save" class="btn btn-block btn-primary">
+        </div>
+      </div>
+    </div>
+      
+          </div>
+        </div>
+    </div>
+</div>
+  {{-- eend of make order modal --}}
   
    <!--Add new Account model -->
   <div class="modal fade" id="newacount_form" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel"
@@ -362,50 +361,34 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="form" method="post" action="{{url('addfarmeraccount/save')}}">
-        {{ csrf_field() }}
           <div class="card-body">
-            
             <div class="form-group col-md-12 col-lg-12 col-xl-12">
-                  <!-- intput for capture warehouseid hidden-->
-                  <input type="hidden" value="{{$warehouse->id}}" name='warehouseid' >
                   <label for="selectfamer">Select Famer</label>
-                  <select name="selectfamer" class="form-control">
+                  <select name="selectfamer" id="select_farmer_id" class="form-control">
                   <option value="">Select Famer</option>
-                      @if(isset($farmer))
-                        @foreach($farmer as $farmer)
-                          <option value="{{$farmer->id}}">{{$farmer->firstname}} {{$farmer->lastname}}</option>
-                        @endforeach
-                        @endif
                   </select>
                 </div>
                 <div class="form-group col-md-12 col-lg-12 col-xl-12">
                   <label for="cropstype">Crops Type</label>
-                  <select name="cropstype" class="form-control">
+                  <select name="cropstype" id="select_crops_type_id" class="form-control">
                       <option value=''>Select Crops Type</option>
-                       @if(isset($crops_types))
-                        @foreach($crops_types as $crops_type)
-                          <option value="{{$crops_type->id}}">{{$crops_type->crop_name}} </option>
-                        @endforeach
-                        @endif
                   </select>
                 </div>
             
             <div class="form-row">
                <div class="form-group col-md-12 col-lg-12">
     
-                <input type="submit" value="Add" name="save" class="btn btn-block btn-primary">
+                <input type="submit" id="register_account_id" value="Add" name="save" class="btn btn-block btn-primary">
               </div>
             </div>
           </div>
-  </form>
     </div>
   </div>
 </div>
 <!-- end of Add new account model -->
 
  <!--Deposity model -->
-              <div class="modal fade" id="deposity_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              <div class="modal fade" id="deposity_form" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -415,40 +398,30 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <form class="form" method="post" action="{{url('deposity/save')}}">
-                    {{ csrf_field() }}
                       <div class="card-body">
                        <!-- intput for capture warehouseid hidden-->
-                  <input type="hidden" value="{{$warehouse->id}}" name='warehouseid' >
+                        <input type="hidden" id="deposity_account_id" name='account_id' >
                         <div class="form-group col-md-12 col-lg-12 col-xl-12">
                            <label for="deposityquantity">Quantity in Kilogram(Kg)</label>
                             <input type="number"  name='deposityquantity' class="form-control" id="deposityquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
-                                @error('deposityquantity')
-                            <div class="text-danger">{{$message }}</div>
-                            @enderror
                         </div>
                          <div class="form-group col-md-12 col-lg-12 col-xl-12">
                            <label for="deposityprice">Deposity Cost</label>
                             <input type="number" name='deposityprice' class="form-control" id="depositypriceid" placeholder="Enter Deposity Cost in Tsh">
-                                @error('deposityprice')
-                            <div class="text-danger">{{$message}}</div>
-                            @enderror
                         </div>
                         <div class="form-row">
                            <div class="form-group col-md-12 col-lg-12">
-                
-                            <input type="submit" value="Add" name="save" class="btn btn-block btn-primary">
+                            <input type="submit" id="make_deposity_id" value="Add" name="save" class="btn btn-block btn-primary">
                           </div>
                         </div>
                       </div>
-              </form>
                 </div>
               </div>
             </div>
             <!-- end of Deposity model -->
             
             <!--Withdraw model -->
-              <div class="modal fade" id="withdraw_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              <div class="modal fade" id="withdraw_form" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -458,31 +431,55 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <form class="form" method="post" action="{{url('withdraw/save')}}">
-                    {{ csrf_field() }}
                       <div class="card-body">
                           <!-- intput for capture warehouseid hidden-->
-                          <input type="hidden" value="{{$warehouse->id}}" name='warehouseid' >
+                          <input type="hidden" id="withdraw_account_id" name='warehouseid' >
                         <div class="form-group col-md-12 col-lg-12 col-xl-12">
-                           <label for="deposityquantity">Quantity in Kilogram(Kg)</label>
-                            <input type="text" name='withquantity' class="form-control" id="deposityquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
-                                @error('deposityquantity')
-                            <div class="text-danger">{{$message }}</div>
-                            @enderror
+                           <label for="withquantity">Quantity in Kilogram(Kg)</label>
+                            <input type="text" name='withquantity' class="form-control" id="withquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
                         </div>
                         
                         <div class="form-row">
                            <div class="form-group col-md-12 col-lg-12">
                 
-                            <input type="submit" value="Add" name="save" class="btn btn-block btn-primary">
+                            <input type="submit" id="make_withdraw_id" value="Add" name="save" class="btn btn-block btn-primary">
                           </div>
                         </div>
                       </div>
-              </form>
                 </div>
               </div>
             </div>
 <!-- end of withdraw model -->
+
+<div class="modal inmodal" id="createOrder" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="padding-right: 17px;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myLargeModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group col-md-12 col-lg-12 col-xl-12">
+          <label for="orderquantity">Quantity in Kilogram(Kg)</label>
+          <input type="number" name='orderquantity' class="form-control" id="orderquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
+              
+      </div>
+      <div class="form-group col-md-12 col-lg-12 col-xl-12">
+          <label for="offerAmount">Offer Amount</label>
+            <input type="number"  name='offerAmount' class="form-control" id="offerAmountid" placeholder="Offer Amount in Tsh">
+        </div>
+      <div class="form-row">
+          <div class="form-group col-md-12 col-lg-12">
+          <input type="submit"  value="Submit Order" name="save" class="btn btn-block btn-primary">
+        </div>
+      </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal inmodal" id="appFormModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="dealogbox">
@@ -502,7 +499,8 @@
         
         $('.table').DataTable();//its make all tables in this page to be data table
         getAccountsData();//get accounts accounts  data
-        getOrdersData();//get orders data 
+        getOrdersData();//get orders data
+        //function for get account data 
         function getAccountsData(){
           let url = '{{ route("warehouse_backend.show", ":id") }}';
           url = url.replace(':id', warehousedetail.id)
@@ -536,8 +534,8 @@
                   '<div class="btn-group">\
                               <button class="btn btn-xs btn-success dropdown-toggle"data-toggle="dropdown">Action<span class="caret"></span></button>\
                               <ul class="dropdown-menu animated zoomIn">\
-                                  <li class="nav-item"> <a class="nav-link"  data-toggle="modal"   data-target="#appFormModal" href="#" >deposite <i class="fas fa-plus"></i></a></li>\
-                                  <li class="nav-item"><a  class="nav-link"  data-toggle="modal"  data-target="#appFormModal" href="#">withdraw <i class="fas fa-minus"></i></a></li>\
+                                  <li class="nav-item deposity" value="'+ account.id+'"> <a class="nav-link"  data-toggle="modal"   data-target="#deposity_form" href="#" >deposite <i class="fas fa-plus"></i></a></li>\
+                                  <li class="nav-item withdraw" value="'+ account.id+'"><a  class="nav-link"  data-toggle="modal"  data-target="#withdraw_form" href="#">withdraw <i class="fas fa-minus"></i></a></li>\
                               </ul>\
                           </div>',
                 ]).draw();
@@ -546,8 +544,8 @@
               //adding row to the deposity table
               $.each(deposity_history ,function(key,deposity){
                     $('#deposity_table_id').DataTable().row.add([
-                      deposity.farmer_account,
-                      deposity.farmer_account,
+                      deposity.farmer_account.farmer.firstname+"_"+deposity.farmer_account.farmer.lastname+"_"+deposity.farmer_account.crops_type.crop_name,
+                      deposity.farmer_account.crops_type.crop_name,
                       deposity.created_at,
                       deposity.quantity+" kg",
                       deposity.cost,
@@ -556,11 +554,25 @@
               //adding row to the deposity table
               $.each(withdraw_history ,function(key,withdraw){
                   $('#withdraw_table_id').DataTable().row.add([
-                    withdraw.farmer_account,
-                    withdraw.farmer_account,
+                    withdraw.farmer_account.farmer.firstname+"_"+withdraw.farmer_account.farmer.lastname+"_"+withdraw.farmer_account.crops_type.crop_name,
+                    withdraw.farmer_account.crops_type.crop_name,
                     withdraw.created_at,
                     withdraw.quantity+" kg",
             ]).draw();
+              });
+
+              //adding options on salect former dropdown
+              $.each(response.farmers,function(key,farmer){
+                $('#select_farmer_id').append('<option value="'+farmer.id+'">\
+                                          '+farmer.firstname+" "+farmer.lastname+'\
+                                      </option>');
+              });
+
+               //adding options on salect crops type dropdown
+               $.each(response.crops_types,function(key,crops_type){
+                $('#select_crops_type_id').append('<option value="'+crops_type.id+'">\
+                                          '+crops_type.crop_name+'\
+                                      </option>');
               });
                 console.log(response);
             },
@@ -570,6 +582,7 @@
         });
      }  
 
+     //functin for get data ogf orders in specific warehouse
      function getOrdersData(){
           let url = '{{ route("manipulation.show", ":id") }}';
           url = url.replace(':id', warehousedetail.id);
@@ -634,10 +647,132 @@
                 console.log(response);
             }
         });
-     } 
+     }
+     
+      //function of on click save button ibn add insurance modle
+      $(document).on('click','#register_account_id',function(e){
+          e.preventDefault();
+          //data used on adding insurance
+          var insuranceData = {
+            "type":"register_farmer_account",
+            "warehouseid":warehousedetail.id,
+            "selectfamer":$('#select_farmer_id').val(),
+            "cropstype":$('#select_crops_type_id').val(),
+          }
+          //setting the x-csrf-token in ajax request
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          //ajax for adding insurance
+          $.ajax({
+            type:"POST",
+            url:'{{ route("singlewarehouse.store") }}',
+            data:insuranceData,
+            dataType:"json",
+            success:function(response){
+              getAccountsData();//reload account data
+              $('#newacount_form').modal('hide');//it hide modal
+              $('#newacount_form').find('input').val("");//it clear input in modal
+              console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+          }) ;
+
+        });
+
+        //function called on event of depositing
+      $(document).on('click','#make_deposity_id',function(e){
+          e.preventDefault();
+          //data used on adding insurance
+          var insuranceData = {
+            "type":"deposity",
+            "warehouseid":warehousedetail.id,
+            "account_id":$('#deposity_account_id').val(),
+            "deposityquantity":$('#deposityquantityid').val(),
+            "deposityprice":$('#depositypriceid').val(),
+          }
+          //setting the x-csrf-token in ajax request
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          //ajax for adding insurance
+          $.ajax({
+            type:"POST",
+            url:'{{ route("singlewarehouse.store") }}',
+            data:insuranceData,
+            dataType:"json",
+            success:function(response){
+              getAccountsData();//reload account data
+              $('#deposity_form').modal('hide');//it hide modal
+              $('#deposity_form').find('input').val("");//it clear input in modal
+              console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+          }) ;
+
+        });
+
+      //function called on event of withdraw
+      $(document).on('click','#make_withdraw_id',function(e){
+          e.preventDefault();
+          //data used on adding insurance
+          var insuranceData = {
+            "type":"withdraw",
+            "warehouseid":warehousedetail.id,
+            "account_id":$('#withdraw_account_id').val(),
+            "withquantity":$('#withquantityid').val(),
+          }
+          //setting the x-csrf-token in ajax request
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          //ajax for adding insurance
+          $.ajax({
+            type:"POST",
+            url:'{{ route("singlewarehouse.store") }}',
+            data:insuranceData,
+            dataType:"json",
+            success:function(response){
+              getAccountsData();//reload account data
+              $('#withdraw_form').modal('hide');//it hide modal
+              $('#withdraw_form').find('input').val("");//it clear input in modal
+              console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+          }) ;
+
+        });
+
+
+        //function setting the value of account id input (hiden) on deposity action
+      $(document).on('click','.deposity',function(e){
+          e.preventDefault();
+          var account_id = $(this).val();
+          $('#deposity_account_id').val(account_id);
+        });
+
+      //function setting the value of account id input (hiden) on deposity action
+      $(document).on('click','.withdraw',function(e){
+          e.preventDefault();
+          var account_id = $(this).val();
+          $('#withdraw_account_id').val(account_id);
+      });
         console.log(warehousedetail);
 
-      
+
       });
+      
     </script>
 @endsection
