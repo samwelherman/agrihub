@@ -54,7 +54,7 @@
                     @foreach($user->roles as $value2)
                     @php $role = $value2->id  @endphp
                     @endforeach
-                    @if($role != 4 && $user->added_by == auth()->user()->id)
+                    @if($user->added_by == auth()->user()->id)
                         <tr>
                             <th>{{ $loop->iteration }}</th>
                             <td>{{ $user->fname }}</td>
