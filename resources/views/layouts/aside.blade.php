@@ -82,7 +82,7 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
-            @can('manage-farming')
+            @can('manage-logistic-orders')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>Logistic Order Tracking</span></a>
@@ -123,7 +123,7 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
-            @can('manage-shop')
+            @can('manage-logistic')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>Logistic</span></a>
@@ -134,7 +134,7 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
-            @can('manage-shop')
+            @can('manage-invntory')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>Inventory</span></a>
