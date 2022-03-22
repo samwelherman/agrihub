@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Items extends Model
+class Items2 extends Model
 {
     //
 
-    //protected $table = 'tbl_farming_processes';
+    protected $table = 'tbl_farming_processes';
     
-     protected $table = 'items';
+     
 
 
     protected $fillable = [

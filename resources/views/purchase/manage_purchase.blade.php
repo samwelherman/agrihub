@@ -101,10 +101,10 @@
                                                 <td></td>
 
                                                 <td>@can('edit-purchase')
-                                                    <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
+                                                   <!-- <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
                                                         title="Edit" onclick="return confirm('Are you sure?')"
                                                         href="{{ route('purchase.edit', $row->id)}}"><i
-                                                            class="fa fa-edit"></i></a>
+                                                            class="fa fa-edit"></i></a> -->
                                                             @endcan
                                                            @can('delete-purchase')
                                                     {!! Form::open(['route' => ['purchase.destroy',$row->id],

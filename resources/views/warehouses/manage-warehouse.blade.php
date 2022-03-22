@@ -188,7 +188,7 @@
           <div class="card-body">
             <div class="form-row">
               <div class="form-group col-md-6 col-lg-6 col-xl-6">
-                <label for="insurancename">Insurance Name</label>
+                <label for="insurancename">Insurance Company</label>
                 <input type="text" name='insurancename' class="form-control" id="insurancenameid" placeholder="">
                     @error('insurancename')
                 <div class="text-danger">{{$message }}</div>
@@ -213,12 +213,12 @@
                   <label for="insurancetype">Insurance Type</label>
                   <select name="insurancetype" id="insurancetypeid" class="form-control">
                       <option value=''>Select Insurance Type</option>
-                      <option value='private'>Private</option>
-                      <option value="hired">Hired</option>
+                      <option value='private'>Compressive</option>
+                      <option value="hired">Third Part</option>
                   </select>
                 </div>
             <div class="form-group col-md-12 col-lg-12 col-xl-12">
-              <label for="coveringage">Covering Age</label>
+              <label for="coveringage">Covering Age (Year)</label>
               <input type="number" name='coveringage' class="form-control" id="coveringageid" placeholder="">
                   @error('coveringage')
               <div class="text-danger">{{$message }}</div>

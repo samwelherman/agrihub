@@ -3,7 +3,7 @@
 
 @section('content')
 <section class="section">
-can('view-purchase')
+@can('view-purchase')
     <div class="section-body">
         <div class="row">
 

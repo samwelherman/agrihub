@@ -12,14 +12,14 @@
                     </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
-                        can('view-sales')
+                        @can('view-sales')
                             <li class="nav-item">
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
                                     href="#home2" role="tab" aria-controls="home" aria-selected="true">Invoice
                                     List</a>
                             </li>
                             @endcan
-                            can('add-sales')
+                            @can('add-sales')
                             <li class="nav-item">
                                 <a class="nav-link @if(!empty($id)) active show @endif" id="profile-tab2"
                                     data-toggle="tab" href="#profile2" role="tab" aria-controls="profile"
@@ -32,7 +32,7 @@
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2" role="tabpanel"
                                 aria-labelledby="home-tab2">
                                 <div class="table-responsive">
-                                can('view-sales')
+                                @can('view-sales')
                                     <table class="table table-striped" id="table-1">
                                         <thead>
                                             <tr>
@@ -106,19 +106,19 @@
                                                     @endif
                                                 </td>
 
-                                                <td> can('edit-sales')
+                                                <td> @can('edit-sales')
                                                     <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
                                                         title="Edit" onclick="return confirm('Are you sure?')"
                                                         href="{{ route('sales.edit', $row->id)}}"><i
                                                             class="fa fa-edit"></i></a>
                                                             @endcan
-                                                            can('delete-sales')
+                                                            @can('delete-sales')
                                                     {!! Form::open(['route' => ['sales.destroy',$row->id],
                                                     'method' => 'delete']) !!}
                                                     {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4', 'title' => 'Delete', 'onclick' => "return confirm('Are you sure?')"]) }}
                                                     {{ Form::close() }}
                                                     @endcan
-                                                    can('edit-sales')
+                                                    @can('edit-sales')
                                                     <div class="btn-group">
                                                         <button class="btn btn-xs btn-success dropdown-toggle"
                                                             data-toggle="dropdown">Change<span

@@ -168,7 +168,7 @@
                                         @if(empty($id))
                                         <h5>Create Farming Cost</h5>
                                         @else
-                                        <h5>Edit Farming Cost</h5>
+                                        <h5>Farming Cost</h5>
                                         @endif
                                     </div>
                                     <div class="card-body">
@@ -192,11 +192,11 @@
                                                     <div class="col-lg-10">
                                                         <div class="input-group">
                                                             <select class="form-control m-b" id="owner_id"
-                                                                name="owner_id" required>
+                                                                name="farmer_id" required>
                                                                 @if(!empty($farmer))
                                                                 @foreach($farmer as $row)
                                                                 <option value="{{$row->id}}"
-                                                                    @if(isset($data))@if($data->owner_id == $row->id)
+                                                                    @if(isset($data))@if($data->farmer_id == $row->id)
                                                                     selected @endif @endif >{{$row->firstname}}</option>
 
                                                                 @endforeach
@@ -214,7 +214,7 @@
 
                                                     <div class="col-lg-10">
                                                         <div class="input-group">
-                                                            <select class="form-control m-b" name="farm" id="farm" required>
+                                                            <select class="form-control m-b" name="farm_id" id="farm" required>
                                                             </select>
                                                             <div class="input-group-append">
 
@@ -281,8 +281,8 @@
                                                     </tbody>
                                                     <tfoot>
                                                         
-                                                        @if(!@empty($costs))
-                                                        @foreach ($costs as $i)
+                                                        @if(!@empty($data->costs))
+                                                        @foreach ($data->costs as $i)
                                                         <tr class="line_items">
                                                             <td><select name="item_name[]"
                                                                     class="form-control item_name" required
@@ -290,7 +290,7 @@
                                                                     <option value="">Select Item</option>@foreach($name
                                                                     as $n) <option value="{{ $n->id}}"
                                                                         @if(isset($i))@if($n->id == $i->item_name)
-                                                                        selected @endif @endif >{{$n->name}}</option>
+                                                                        selected @endif @endif >{{$n->process_name}}</option>
                                                                     @endforeach
                                                                 </select></td>
                                                             <td><input type="text" name="quantity[]"
@@ -396,10 +396,7 @@
                                                     <div class="col-lg-offset-2 col-lg-12">
                                                         @if(!@empty($id))
 
-                                                        <a class="btn btn-sm btn-danger float-right m-t-n-xs"
-                                                            href="{{ route('pacel.index')}}">
-                                                            cancel
-                                                        </a>
+                                                      
                                                         <button class="btn btn-sm btn-primary float-right m-t-n-xs"
                                                             data-toggle="modal" data-target="#myModal"
                                                             type="submit">Update</button>
@@ -589,7 +586,7 @@ $(document).ready(function() {
         html +=
             '<td><select name="item_name[]" class="form-control item_name" required  data-sub_category_id="' +
             count +
-            '"><option value="">Select Item</option>@if(isset($name))@foreach($name as $n) <option value="{{ $n->id}}">{{$n->name}}</option>@endforeach @endif</select></td>';
+            '"><option value="">Select Item</option>@if(isset($name))@foreach($name as $n) <option value="{{ $n->id}}">{{$n->process_name}}</option>@endforeach @endif</select></td>';
         html +=
             '<td><input type="text" name="quantity[]" class="form-control item_quantity" data-category_id="' +
             count + '"placeholder ="quantity" id ="quantity" required /></td>';

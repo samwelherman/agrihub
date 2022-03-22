@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\Purchase;
+use App\Models\purchase;
 use App\Models\Sales;
 use PDF;
 class PDFController extends Controller
@@ -64,7 +64,7 @@ class PDFController extends Controller
    
        public function pdfview(Request $request)
     {
-        $purchase = Purchase::find($request->id);
+        $purchase = purchase::find($request->id);
         $sales = Sales::find($request->invoice_id);
         view()->share(['purchases'=>$purchase,'sales'=>$sales]);
 

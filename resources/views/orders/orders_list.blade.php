@@ -101,14 +101,14 @@
 
                                                 <td>{{$row->warehouse->warehouse_name}}</td>
 
-                                                <!--<td>{{$row->receiver_name}}</td>-->
+                                                
 
 
                                                 <td>
-                                                    @if($row->status == 'confirmed')
-                                                    <div class="badge badge-success badge-shadow">Confirmed</div>
-                                                    @elseif($row->status == 'unconfrmed')
-                                                    <span class="badge badge-danger badge-shadow">Unconfrmed</span>
+                                                    @if($row->status == 1)
+                                                    <div class="badge badge-success badge-shadow">onprocess</div>
+                                                    @elseif($row->status == 2)
+                                                    <span class="badge badge-danger badge-shadow">Created</span>
 
 
                                                     @endif

@@ -173,8 +173,8 @@
               data.warehouse.warehouse_name,
               data.crops_type.crop_name,
               data.total_quantity,
-              data,
-              data,
+              "--",
+              "--",
               '<a class="btn btn-xs btn-success"  data-toggle="modal"   data-target="#appFormModal" href="#">Order</a>',
             ]).draw();
               });

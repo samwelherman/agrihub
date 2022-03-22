@@ -41,7 +41,7 @@ $settings= App\Models\System::first();
                     <li><a class="nav-link" href="{{url('register_assets')}}">{{__('farming.farmer_assets')}}</a></li>
                     @endcan
                     @can('view-farming-cost')
-                  <!--  <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li> -->
+                    <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li> 
                     @endcan
                     @can('view-cost-centre')
                     <li><a class="nav-link" href="{{url('cost_centre')}}">{{__('farming.cost_centre')}}</a></li>
@@ -76,6 +76,7 @@ $settings= App\Models\System::first();
                     @can('view-quotation-list')
                     <li><a class="nav-link" href="{{url('quotationList')}}">{{__('ordering.quotationList')}}</a></li>
                     @endcan
+                     <li><a class="nav-link" href="{{url('crops_order')}}">Create Order</a></li>
 
                 </ul>
 
@@ -134,7 +135,7 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
-            @can('manage-invntory')
+            @can('manage-inventory')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>Inventory</span></a>

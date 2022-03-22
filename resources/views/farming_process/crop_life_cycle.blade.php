@@ -41,6 +41,25 @@
                                             href="#tab2" role="tab" aria-controls="profile"
                                             aria-selected="false">Wedding</a>
                                     </li>
+                                    
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
+                                            href="#tab2" role="tab" aria-controls="profile"
+                                            aria-selected="false">Pestiside</a>
+                                    </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
+                                            href="#tab2" role="tab" aria-controls="profile"
+                                            aria-selected="false">Pre-Harvest</a>
+                                    </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
+                                            href="#tab2" role="tab" aria-controls="profile"
+                                            aria-selected="false">Post-Harvest</a>
+                                    </li>
 
 
                                 </ul>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\orders\Activity;
 use App\Models\orders\Cost_function;
 use App\Models\orders\OrderMovement;
+use App\Models\orders\Order;
 use Illuminate\Http\Request;
 
 class OrderMovementController extends Controller
@@ -82,7 +83,8 @@ class OrderMovementController extends Controller
 
     public function collection(){
         $user_id=auth()->user()->id;
-        $quotation = OrderMovement::where('status','2')->get();
+          $quotation = OrderMovement::where('status','2')->get();
+          //$quotation = Order::where('status','2')->get();
         $costs = Cost_function::all()->where('user_id',$user_id);
 
         return view('order_movement.collection',compact('quotation','costs'));

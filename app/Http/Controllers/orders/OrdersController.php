@@ -25,8 +25,9 @@ class OrdersController extends Controller
         $user_id=auth()->user()->id;
   
         
-        $orders=Order::all()->where('user_id',$user_id);
-        $costs = Cost_function::all()->where('user_id',$user_id);
+        $orders=Order::all()->where('status',2);
+        //$costs = Cost_function::all()->where('user_id',$user_id);
+        $costs = Cost_function::all();
        
         
        return view('orders.orders_list',compact('orders','costs'));
