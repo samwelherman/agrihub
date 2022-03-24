@@ -524,6 +524,7 @@
               const withdraw_history = response.history.filter(data => data.status === 1);
               const deposity_history = response.history.filter(data => data.status === 2);
               console.log(deposity_history);
+              $('#acounts_table_id').DataTable().clear();
               //adding row to the account table
               $.each(response.accounts,function(key,account){
                 $('#acounts_table_id').DataTable().row.add([
@@ -540,7 +541,8 @@
                           </div>',
                 ]).draw();
                   });
-
+                  
+                  $('#deposity_table_id').DataTable().clear();
               //adding row to the deposity table
               $.each(deposity_history ,function(key,deposity){
                     $('#deposity_table_id').DataTable().row.add([
@@ -551,6 +553,7 @@
                       deposity.cost,
             ]).draw();
               });
+              $('#withdraw_table_id').DataTable().clear();
               //adding row to the deposity table
               $.each(withdraw_history ,function(key,withdraw){
                   $('#withdraw_table_id').DataTable().row.add([
@@ -601,14 +604,16 @@
             async: true,
             success: function(response) {
               //filter withdraw and deposite history
-              const requested_order = response.filter(data => data.status === 1);
-              const created_order = response.filter(data => data.status === 2);
-              const progress_order = response.filter(data => data.status === 2);
+              const requested_order = response.filter(data => data.status == 1);
+              const created_order = response.filter(data => data.status == 2);
+              const progress_order = response.filter(data => data.status == 2);
               console.log(response);
+            
+              $('#order_request_table_id').DataTable().clear();
               //adding row to the account table
               $.each(requested_order,function(key,order_request){
                 $('#order_request_table_id').DataTable().row.add([
-                  order_request.crop_type.crop_name,
+                  order_request.crop_types.crop_name,
                   order_request.quantity,
                   order_request.user.name,
                   order_request.created_at,
@@ -619,21 +624,22 @@
                   </div>',
                 ]).draw();
                   });
-
+              $('#created_order_table_id').DataTable().clear();
               //adding row to the deposity table
               $.each(created_order ,function(key,order_created){
                     $('#created_order_table_id').DataTable().row.add([
-                      order_created.crop_type.crop_name,
+                      order_created.crop_types.crop_name,
                       order_created.quantity,
                       order_created.user.name,
                       order_created.created_at,
                       order_created.updated_at,
             ]).draw();
               });
+              $('#order_progress_table_id').DataTable().clear();
               //adding row to the deposity table
               $.each(progress_order ,function(key,order){
                   $('#order_progress_table_id').DataTable().row.add([
-                    order.crop_type.crop_name,
+                    order.crop_types.crop_name,
                     order.quantity,
                     order.user.name,
                     order.created_at,
@@ -674,10 +680,21 @@
             success:function(response){
               getAccountsData();//reload account data
               $('#newacount_form').modal('hide');//it hide modal
+              Swal.fire({
+                icon: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1500
+              });
               $('#newacount_form').find('input').val("");//it clear input in modal
               console.log(response);
             },
             error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              });
                 console.log(response);
             }
           }) ;
@@ -710,10 +727,21 @@
             success:function(response){
               getAccountsData();//reload account data
               $('#deposity_form').modal('hide');//it hide modal
+              Swal.fire({
+                icon: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1500
+              });
               $('#deposity_form').find('input').val("");//it clear input in modal
               console.log(response);
             },
             error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              });
                 console.log(response);
             }
           }) ;
@@ -745,10 +773,21 @@
             success:function(response){
               getAccountsData();//reload account data
               $('#withdraw_form').modal('hide');//it hide modal
+              Swal.fire({
+                icon: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1500
+              });
               $('#withdraw_form').find('input').val("");//it clear input in modal
               console.log(response);
             },
             error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              });
                 console.log(response);
             }
           }) ;
