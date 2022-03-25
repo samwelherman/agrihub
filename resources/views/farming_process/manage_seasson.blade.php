@@ -15,7 +15,7 @@
                             <div class="col-12 col-sm-12 col-md-2">
                                 <ul class="nav nav-pills flex-column" id="myTab4" role="tablist">
                                     <li class="nav-item">
-                                    @can('view-manage_seasson')
+                                        @can('view-manage_seasson')
                                         <a class="nav-link @if(empty($id)) active  @endif" id="#tab1" data-toggle="tab"
                                             href="#tab1" role="tab" aria-controls="home"
                                             aria-selected="true">{{__('farming.seasson')}}</a>
@@ -44,6 +44,14 @@
                                                         rowspan="1" colspan="1"
                                                         aria-label="Browser: activate to sort column ascending"
                                                         style="width: 208.531px;">#</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Browser: activate to sort column ascending"
+                                                        style="width: 208.531px;">Farmer</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Browser: activate to sort column ascending"
+                                                        style="width: 208.531px;">Farm</th>
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Engine version: activate to sort column ascending"
@@ -74,12 +82,14 @@
                                                 @foreach ($seasson as $row)
                                                 <tr class="gradeA even" role="row">
                                                     <th>{{ $loop->iteration }}</th>
+                                                    <td>{{$row->farmer->firstname}}</td>
+                                                    <td>{{$row->farm->reg_no}}:{{$row->farm->location}}</td>
                                                     <td>{{$row->seasson_name}}</td>
                                                     <td>{{$row->start_date}}</td>
                                                     <td>{{$row->crop_name}}</td>
                                                     <td>{{$row->harvest_date}}</td>
                                                     <td>
-                                                    @can('edit-manage_seasson')
+                                                        @can('edit-manage_seasson')
                                                         <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
                                                             href="{{ route('seasson.edit',$row->id )}}">
                                                             <i class="fa fa-edit"></i>
@@ -104,7 +114,7 @@
                                                             </ul>
                                                         </div>
                                                         @endcan
-                                                      
+
 
 
                                                     </td>
@@ -135,6 +145,45 @@
                                                 @method('POST')
                                                 @endif
                                                 <div class="card-body">
+                                                    <div class="form-group row"><label
+                                                            class="col-lg-2 col-form-label">Farmer Name</label>
+
+                                                        <div class="col-lg-10">
+                                                            <div class="input-group">
+                                                                <select class="form-control m-b" id="farmer_id"
+                                                                    name="farmer_id" required>
+                                                                    @if(!empty($farmer))
+                                                                    @foreach($farmer as $row)
+                                                                    <option value="{{$row->id}}"
+                                                                        @if(isset($data))@if($data->farmer_id ==
+                                                                        $row->id)
+                                                                        selected @endif @endif >{{$row->firstname}}
+                                                                    </option>
+
+                                                                    @endforeach
+                                                                    @endif
+                                                                </select>
+                                                                <div class="input-group-append">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row"><label
+                                                            class="col-lg-2 col-form-label">Farm</label>
+
+                                                        <div class="col-lg-10">
+                                                            <div class="input-group">
+                                                                <select class="form-control m-b" name="farm_id"
+                                                                    id="farm_id" required>
+                                                                </select>
+                                                                <div class="input-group-append">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <input type="hidden" name="type" class="form-control"
@@ -213,5 +262,51 @@
     </div>
 
 </section>
+<script>
+$(function() {
+    $('#farmer_id').trigger('change');
 
+})
+
+$('#farmer_id').change(function() {
+
+    let id = $(this).val()
+ 
+    $.ajax({
+        type: 'GET',
+        url: '{{url("getFarm")}}',
+        data: {
+            'id': id,
+        },
+        cache: false,
+        async: true,
+        success: function(response) {
+  
+            var len = 0;
+            if (response.data != null) {
+                len = response.data.length;
+            }
+            $('#farm_id').html("");
+            if (len > 0) {
+                $('#farm_id').html("");
+                for (var i = 0; i < len; i++) {
+                 
+                    var id = response.data[i].id;
+                    var reg_no = response.data[i].reg_no;
+                    var location = response.data[i].location;
+
+                    var option = "<option value='" + id + "'>" + reg_no + ":" + location +"</option>";
+
+                    $("#farm_id").append(option);
+                   
+                }
+            }
+        },
+        error: function(error) {
+            $('#appFormModal').modal('toggle');
+
+        }
+    });
+});
+</script>
 @endsection

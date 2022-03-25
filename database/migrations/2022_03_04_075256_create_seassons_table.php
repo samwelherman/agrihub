@@ -17,6 +17,8 @@ class CreateSeassonsTable extends Migration
             $table->id();
             $table->string('seasson_name');
             $table->date('start_date');
+            $table->date('farm_id');
+            $table->date('farmer_id');
             $table->date('harvest_date');
             $table->string('crop_name');
             $table->integer('user_id');

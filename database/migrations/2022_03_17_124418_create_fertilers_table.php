@@ -21,6 +21,8 @@ class CreateFertilersTable extends Migration
             $table->integer('total_amount');
             $table->integer('fertilizer_price');
             $table->integer('fertilizer_cost');
+            $table->integer('no_hector');
+            $table->integer('seasson_id');
             $table->integer('user_id');
             $table->timestamps();
         });

@@ -37,6 +37,9 @@
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
                                         style="width: 141.219px;">{{__('farming.fertilizer_amount')}}</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
+                                        style="width: 141.219px;">{{__('farming.no_hector')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
                                         style="width: 141.219px;">{{__('farming.total_amount')}}</th>
@@ -58,10 +61,11 @@
                                     <td>{{$row->package}}</td>
                                     <td>{{$row->farming_processes->process_name}}</td>
                                     <td>{{$row->fertilizer_amount}}</td>
+                                    <td>{{$row->no_hector}}</td>
 
                                     <td>{{$row->total_amount}}</td>
                                     <td>{{$row->fertilizer_price}}</td>
-                                    <td>{{$row->total_costing}}</td>
+                                    <td>{{$row->fertilizer_cost}}</td>
 
 
                                     <td>
@@ -169,6 +173,22 @@
 
 
                                     </div>
+                                    <div class="form-row">
+                  
+            
+                                        <div class="form-group col-md-6 col-lg-6">
+                                            <label for="date">{{__('farming.no_hector')}} </label>
+                                            <input type="number" name="no_hector" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->no_hector : ''}}" placeholder=""
+                                                required>
+
+                                        </div>
+                                     
+                                        
+
+
+                                    </div>
+                                 
 
                                     <div class="form-group row">
                                         <div class="col-lg-offset-2 col-lg-12">

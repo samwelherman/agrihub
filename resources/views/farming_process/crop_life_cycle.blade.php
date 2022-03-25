@@ -44,20 +44,20 @@
                                     
                                     
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
-                                            href="#tab2" role="tab" aria-controls="profile"
+                                        <a class="nav-link @if($type == 'pestiside') active  @endif" onclick="{ $type = 'pestiside'}" id="#pestiside" data-toggle="tab"
+                                            href="#pestiside" role="tab" aria-controls="profile"
                                             aria-selected="false">Pestiside</a>
                                     </li>
                                     
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
-                                            href="#tab2" role="tab" aria-controls="profile"
+                                        <a class="nav-link @if($type == 'pre_harvest') active  @endif" onclick="{ $type = 'pre_harvest'}" id="#pre_harvest" data-toggle="tab"
+                                            href="#pre_harvest" role="tab" aria-controls="profile"
                                             aria-selected="false">Pre-Harvest</a>
                                     </li>
                                     
                                     <li class="nav-item">
-                                        <a class="nav-link @if($type == 'sowings') active  @endif" onclick="myFunction()" id="#tab2" data-toggle="tab"
-                                            href="#tab2" role="tab" aria-controls="profile"
+                                        <a class="nav-link @if($type == 'post_harvest') active  @endif" onclick="{ $type = 'post_harvest'}" id="#post_harvest" data-toggle="tab"
+                                            href="#post_harvest" role="tab" aria-controls="profile"
                                             aria-selected="false">Post-Harvest</a>
                                     </li>
 
@@ -70,10 +70,23 @@
                                  @include('farming_process.life_cycle_tabs.land_preparation')
                                   
                                  @include('farming_process.life_cycle_tabs.sowing')
+                                 @include('farming_process.life_cycle_tabs.pestiside')
+
+                                 @include('farming_process.life_cycle_tabs.pre-harvest')
+                                 @include('farming_process.life_cycle_tabs.post-harvest')
                                 
                                  @include('farming_process.life_cycle_tabs.fertilizer')
 
+
+
+
+
+
+
+
                                  @include('farming_process.life_cycle_tabs.irrigation')
+
+                               
                                
  
 
