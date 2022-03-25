@@ -49,7 +49,7 @@ Route::resource('/crops_monitoring','farming\Crops_MonitoringController');
 Route::resource('/register_assets','farming\Farmer_assetsController');
 Route::get('/landview',"farming\Farmer_assetsController@index1" );
 Route::get('/landdelete/{$id}',"farming\Farmer_assetsController@destroy2" );
-Route::get('/getFarm/',"farming\Farmer_assetsController@getFarm" );
+Route::get('getFarm',"farming\Farmer_assetsController@getFarm" );
 Route::resource('seeds_type',"farming\Seeds_TypesController" );
 Route::get('download',array('as'=>'download','uses'=>'farming\Crops_MonitoringController@download'));
 // end farming routes

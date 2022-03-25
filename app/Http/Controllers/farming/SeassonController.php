@@ -8,6 +8,7 @@ use App\Models\farming\Seasson;
 use App\Models\farming\Preparation_cost;
 use App\Models\farming\PreparationDetails;
 use App\Models\farming\Sowing;
+use App\Models\Farmer;
 use App\Models\farming\Fertilizer;
 
 class SeassonController extends Controller
@@ -17,10 +18,11 @@ class SeassonController extends Controller
     public function index()
     {
         //
+        $farmer = Farmer::all();
         $user_id = auth()->user()->id;
         $seasson = Seasson::all()->where('user_id',$user_id);
 
-        return view('farming_process.manage_seasson',compact('seasson'));
+        return view('farming_process.manage_seasson',compact('seasson','farmer'));
     }
 
     /**

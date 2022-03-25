@@ -11,7 +11,7 @@ class PreparationCostLists extends Model
 
     protected $table = "tbl_preparation_cost_lists";
 
-    protected $fillable = ['item_name','quantity','price','total_cost','items_id','order_no','preparation_id'];
+    protected $fillable = ['item_name','quantity','recomendation','price','total_cost','items_id','order_no','preparation_id'];
 
 
     public function preparationDetails(){

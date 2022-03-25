@@ -80,11 +80,23 @@ return [
 
     'package'=>'Package',
     'farming_process'=>'Farming Process',
-    'fertilizer_amount'=>'Amount',
-    'fertilizer_price'=>'Price',
-    'total_amount'=>'Total Amount',
-    'total_costing'=>'Total Cost',
+    'fertilizer_amount'=>'Weight Per Hector',
+    'fertilizer_price'=>'Unit Price/KG',
+    'total_amount'=>'Total Weight Per Farm',
+    'total_costing'=>'Total Price',
+    'no_hector'=>'Number of Hector',
     'crop_monitoring'=>'Crop Monitoring',
+
+
+    'pestiside_type'=>'Pestiside Type',
+    'pestiside'=>'Pestiside',
+    'new_pestiside'=>'Add Pestiside',
+    'pestiside_amount'=>'Weight Per Hector',
+    'pestiside_price'=>'Unit Price',
+    'fertilizer_price'=>'Unit Price/KG',
+    'total_amount'=>'Total Weight Per Farm',
+    
+    
 
     'irrigation'=>'Irrigation',
     'new_irrigation'=> 'New Irrigation',
@@ -111,6 +123,23 @@ return [
     'cost_per_heck'=>'Cost per Hector',
     'no_of_heck'=>'Number of Hector',
     'total_volume'=>'Total',
+
+
+    'pre_harvest'=>'Pre Harvest',
+    'new_pre_harvest'=>'Add Pre Harvest',
+    'maturity_index'=>'Maturity Index',
+    'crop_type'=>'Crop Type',
+    'non_rain_day'=>'Non rain Days',
+    'moisture_level'=>'Moisture Level',
+    'harvest_method'=>'Harvest Methode',
+
+    'post_harvest'=>'Post Harvest',
+    'new_post_harvest'=>'Add Post Harvest',
+    
+    
+    'grade'=>'Grade',
+    'distance'=>'Distance to Storage/Market',
+    'parking_type'=>'Parking Type',
 
     
 

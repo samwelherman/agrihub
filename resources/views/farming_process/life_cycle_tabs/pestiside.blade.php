@@ -1,26 +1,26 @@
-<div class="tab-pane fade @if($type =='fertilizer' || $type =='edit-fertilizer') active show  @endif" id="fertilizer"
-    role="tabpanel" aria-labelledby="fertilizer">
+<div class="tab-pane fade @if($type =='pestiside' || $type =='edit-pestiside') active show  @endif" id="pestiside"
+    role="tabpanel" aria-labelledby="pestiside">
     <div class="card">
         <div class="card-header">
-            <h4>{{__('farming.fertilizer')}}</h4>
+            <h4>{{__('farming.pestiside')}}</h4>
         </div>
         <div class="card-body">
             <ul class="nav nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link @if($type =='fertilizer')active show @endif" id="home-tab4" data-toggle="tab"
-                        href="#home4" role="tab4" aria-controls="home4" onclick="{ $type = 'fertilizer'}"
-                        aria-selected="true">{{__('farming.fertilizer')}}
+                    <a class="nav-link @if($type =='pestiside')active show @endif" id="home-tab4" data-toggle="tab"
+                        href="#home11" role="tab4" aria-controls="home11" onclick="{ $type = 'pestiside'}"
+                        aria-selected="true">{{__('farming.pestiside')}}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if($type =='edit-fertilizer') active show @endif" id="profile-tab4"
-                        data-toggle="tab" href="#profile4" role="tab" aria-controls="profile"
-                        onclick="{ $type = 'edit-fertilizer'}" aria-selected="false">{{__('farming.new_fertilizer')}}</a>
+                    <a class="nav-link @if($type =='edit-pestiside') active show @endif" id="profile-tab4"
+                        data-toggle="tab" href="#profile11" role="tab" aria-controls="profile"
+                        onclick="{ $type = 'edit-pestiside'}" aria-selected="false">{{__('farming.new_pestiside')}}</a>
                 </li>
 
             </ul>
             <div class="tab-content tab-bordered" id="myTab3Content">
-                <div class="tab-pane fade @if($type =='fertilizer') active show @endif" id="home4" role="tabpanel"
+                <div class="tab-pane fade @if($type =='pestiside') active show @endif" id="home11" role="tabpanel"
                     aria-labelledby="home-tab4">
                     <div class="table-responsive">
                         <table class="table table-striped col-lg-12 col-sm-12" id="table-1">
@@ -30,13 +30,13 @@
 
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.package')}}</th>
+                                        style="width: 141.219px;">{{__('farming.pestiside_type')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
                                         style="width: 141.219px;">{{__('farming.farming_process')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.fertilizer_amount')}}</th>
+                                        style="width: 141.219px;">{{__('farming.pestiside_amount')}}</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
                                         style="width: 141.219px;">{{__('farming.no_hector')}}</th>
@@ -45,7 +45,7 @@
                                         style="width: 141.219px;">{{__('farming.total_amount')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.fertilizer_price')}}</th>
+                                        style="width: 141.219px;">{{__('farming.pestiside_price')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="CSS grade: activate to sort column ascending"
                                         style="width: 98.1094px;">{{__('farming.total_costing')}}</th>
@@ -55,17 +55,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(!@empty($fertilizer))
-                                @foreach ($fertilizer as $row)
+                                @if(!@empty($pestiside))
+                                @foreach ($pestiside as $row)
                                 <tr class="gradeA even" role="row">
-                                    <td>{{$row->package}}</td>
+                                    <td>{{$row->pestiside_type}}</td>
                                     <td>{{$row->farming_processes->process_name}}</td>
-                                    <td>{{$row->fertilizer_amount}}</td>
+                                    <td>{{$row->pestiside_amount}}</td>
                                     <td>{{$row->no_hector}}</td>
 
                                     <td>{{$row->total_amount}}</td>
-                                    <td>{{$row->fertilizer_price}}</td>
-                                    <td>{{$row->fertilizer_cost}}</td>
+                                    <td>{{$row->pestiside_price}}</td>
+                                    <td>{{$row->pestiside_cost}}</td>
 
 
                                     <td>
@@ -100,21 +100,21 @@
                         </table>
                     </div>
                 </div>
-                <div class="tab-pane fade @if($type =='edit-fertilizer') active show @endif" id="profile4" role="tabpanel"
+                <div class="tab-pane fade @if($type =='edit-pestiside') active show @endif" id="profile11" role="tabpanel"
                     aria-labelledby="profile-tab4">
 
                     <div class="card">
                         <div class="card-header">
                             @if(!empty($id))
-                            <h5>{{__('farming.fertilizer')}}</h5>
+                            <h5>{{__('farming.pestiside')}}</h5>
                             @else
-                            <h5>{{__('farming.new_fertilizer')}}</h5>
+                            <h5>{{__('farming.new_pestiside')}}</h5>
                             @endif
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 ">
-                                @if($type =='edit-fertilizer')
+                                @if($type =='edit-pestiside')
                                     {{ Form::model($id, array('route' => array('cropslifecycle.update', $id), 'method' => 'PUT')) }}
                                     @else
                                     {{ Form::open(['route' => 'cropslifecycle.store']) }}
@@ -124,14 +124,17 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <input type="hidden" name="type" class="form-control" id="type"
-                                                value="fertilizer" placeholder="">
+                                                value="pestiside" placeholder="">
                                                 <input type="hidden" name="seasson_id" class="form-control" id="type"
                                                 value="{{$seasson_id}}" placeholder="">
-                                            <label for="inputEmail4">{{__('farming.package')}}</label>
-                                            <select class="form-control" name="package" required>
-                                                <option value="Small Package">Small Package </option>
-                                                <option value="Middle Package">Middle Package </option>
-                                                <option value="Large Package">Large Package </option>
+                                            <label for="inputEmail4">{{__('farming.pestiside_type')}}</label>
+                                            <select class="form-control" name="pestiside_type" required>
+                                                <option value="Insect">Insect </option>
+                                                <option value="Plants">Plants </option>
+                                                <option value="Batercides">Batercides</option>
+                                                <option value="Fungicides">Fungicides</option>
+                                                <option value="Lavercides">Lavercides </option>
+                                                <option value="Rodenticides">Rodenticides </option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6">
@@ -156,15 +159,15 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
 
-                                            <label for="inputEmail4">{{__('farming.fertilizer_amount')}}</label>
-                                            <input type="number" name="fertilizer_amount" class="form-control" id="code_name"
-                                                value=" {{ !empty($data) ? $data->fertilizer_amount : ''}}" placeholder="" required>
+                                            <label for="inputEmail4">{{__('farming.pestiside_amount')}}</label>
+                                            <input type="number" name="pestiside_amount" class="form-control" id="code_name"
+                                                value=" {{ !empty($data) ? $data->pestiside_amount : ''}}" placeholder="" required>
                                         </div>
             
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.fertilizer_price')}}</label>
-                                            <input type="number" name="fertilizer_price" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->fertilizer_price : ''}}" placeholder=""
+                                            <label for="date">{{__('farming.pestiside_price')}}</label>
+                                            <input type="number" name="pestiside_price" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->pestiside_price : ''}}" placeholder=""
                                                 required>
 
                                         </div>
@@ -192,7 +195,7 @@
 
                                     <div class="form-group row">
                                         <div class="col-lg-offset-2 col-lg-12">
-                                        @if($type =='edit-fertilizer')
+                                        @if($type =='edit-pestiside')
                                             <button class="btn btn-sm btn-primary float-right m-t-n-xs"
                                                 data-toggle="modal" data-target="#myModal" type="submit">Update</button>
                                             @else

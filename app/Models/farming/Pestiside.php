@@ -5,15 +5,15 @@ namespace App\Models\farming;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fertilizer extends Model
+class Pestiside extends Model
 {
     use HasFactory;
 
     use HasFactory;
 
-    protected $table = "tbl_fertilizers";
+    protected $table = "tbl_pestisides";
 
-    protected $fillable = ['package','farming_process','fertilizer_amount','total_amount','fertilizer_price','fertilizer_cost','user_id','seasson_id','no_hector'];
+    protected $fillable = ['pestiside_type','farming_process','pestiside_amount','total_amount','pestiside_price','pestiside_cost','user_id','seasson_id','no_hector'];
 
 
     public function farming_processes(){

@@ -8,7 +8,11 @@ use App\Services\CropsLifeCycleInterface;
 use App\Models\farming\Preparation_cost;
 use App\Models\farming\PreparationDetails;
 use App\Models\farming\Sowing;
-use App\Models\farming\Fertilizer;
+use App\Models\farming\Pestiside;
+use App\Models\farming\Fertilizer; 
+use App\Models\farming\PreHarvest; 
+use App\Models\farming\PostHarvest; 
+
 use Session;
 
 class CropsLifeCycleController extends Controller
@@ -28,7 +32,11 @@ class CropsLifeCycleController extends Controller
         $preparationDetails = PreparationDetails::all();
         $sowing = Sowing::all();
         $fertilizer = Fertilizer::all();
-        return view('farming_process.crop_life_cycle',compact('name','seasson_id','preparationDetails','type','sowing','fertilizer'));
+        $pestiside = Pestiside::all();
+        $pre_harvest = PreHarvest::all();
+
+        $post_harvest = PostHarvest::all();
+        return view('farming_process.crop_life_cycle',compact('name','seasson_id','preparationDetails','type','sowing','fertilizer','pestiside','pre_harvest','post_harvest'));
     }
 
     /**

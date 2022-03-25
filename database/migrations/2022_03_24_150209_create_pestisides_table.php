@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFertilersTable extends Migration
+class CreatePestisidesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateFertilersTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_fertilizers', function (Blueprint $table) {
+        Schema::create('tbl_pestisides', function (Blueprint $table) {
             $table->id();
-            $table->string('package');
+            $table->string('pestiside_type');
             $table->integer('farming_process');
-            $table->integer('fertilizer_amount');
+            $table->integer('pestiside_amount');
             $table->integer('total_amount');
-            $table->integer('fertilizer_price');
-            $table->integer('fertilizer_cost');
+            $table->integer('pestiside_price');
+            $table->integer('pestiside_cost');
             $table->integer('no_hector');
             $table->integer('seasson_id');
             $table->integer('user_id');
@@ -35,6 +35,6 @@ class CreateFertilersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_fertilizers');
+        Schema::dropIfExists('tbl_pestisides');
     }
 }

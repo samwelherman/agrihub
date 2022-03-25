@@ -1,26 +1,27 @@
-<div class="tab-pane fade @if($type =='fertilizer' || $type =='edit-fertilizer') active show  @endif" id="fertilizer"
-    role="tabpanel" aria-labelledby="fertilizer">
+<div class="tab-pane fade @if($type =='post_harvest' || $type =='edit-post_harvest') active show  @endif"
+    id="post_harvest" role="tabpanel" aria-labelledby="post_harvest">
     <div class="card">
         <div class="card-header">
-            <h4>{{__('farming.fertilizer')}}</h4>
+            <h4>{{__('farming.post_harvest')}}</h4>
         </div>
         <div class="card-body">
             <ul class="nav nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link @if($type =='fertilizer')active show @endif" id="home-tab4" data-toggle="tab"
-                        href="#home4" role="tab4" aria-controls="home4" onclick="{ $type = 'fertilizer'}"
-                        aria-selected="true">{{__('farming.fertilizer')}}
+                    <a class="nav-link @if($type =='post_harvest')active show @endif" id="home-tab4" data-toggle="tab"
+                        href="#home8" role="tab4" aria-controls="home8" onclick="{ $type = 'post_harvest'}"
+                        aria-selected="true">{{__('farming.post_harvest')}}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if($type =='edit-fertilizer') active show @endif" id="profile-tab4"
-                        data-toggle="tab" href="#profile4" role="tab" aria-controls="profile"
-                        onclick="{ $type = 'edit-fertilizer'}" aria-selected="false">{{__('farming.new_fertilizer')}}</a>
+                    <a class="nav-link @if($type =='edit-post_harvest') active show @endif" id="profile-tab4"
+                        data-toggle="tab" href="#profile8" role="tab" aria-controls="profile"
+                        onclick="{ $type = 'edit-post_harvest'}"
+                        aria-selected="false">{{__('farming.new_post_harvest')}}</a>
                 </li>
 
             </ul>
             <div class="tab-content tab-bordered" id="myTab3Content">
-                <div class="tab-pane fade @if($type =='fertilizer') active show @endif" id="home4" role="tabpanel"
+                <div class="tab-pane fade @if($type =='post_harvest') active show @endif" id="home8" role="tabpanel"
                     aria-labelledby="home-tab4">
                     <div class="table-responsive">
                         <table class="table table-striped col-lg-12 col-sm-12" id="table-1">
@@ -30,48 +31,46 @@
 
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.package')}}</th>
+                                        style="width: 141.219px;">{{__('farming.maturity_index')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.farming_process')}}</th>
+                                        style="width: 141.219px;">{{__('farming.crop_type')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.fertilizer_amount')}}</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.no_hector')}}</th>
+                                        style="width: 141.219px;">{{__('farming.grade')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.total_amount')}}</th>
+                                        style="width: 141.219px;">{{__('farming.distance')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.fertilizer_price')}}</th>
+                                        style="width: 141.219px;">{{__('farming.parking_type')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="CSS grade: activate to sort column ascending"
-                                        style="width: 98.1094px;">{{__('farming.total_costing')}}</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
+                                        style="width: 141.219px;">{{__('farming.moisture_level')}}</th>
+
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="CSS grade: activate to sort column ascending"
                                         style="width: 98.1094px;">{{__('farming.action')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(!@empty($fertilizer))
-                                @foreach ($fertilizer as $row)
+                                @if(!empty($post_harvest))
+                                @foreach ($post_harvest as $row)
                                 <tr class="gradeA even" role="row">
-                                    <td>{{$row->package}}</td>
-                                    <td>{{$row->farming_processes->process_name}}</td>
-                                    <td>{{$row->fertilizer_amount}}</td>
-                                    <td>{{$row->no_hector}}</td>
+                                    <td>{{$row->maturity_index}}</td>
+                                    <td>{{$row->crops_type->crop_name}}</td>
+                                    <td>{{$row->grade}}</td>
+                                    <td>{{$row->distance}}</td>
 
-                                    <td>{{$row->total_amount}}</td>
-                                    <td>{{$row->fertilizer_price}}</td>
-                                    <td>{{$row->fertilizer_cost}}</td>
+                                    <td>{{$row->parking_types->parking_name}}</td>
+                                    <td>{{$row->moisture_level}}</td>
+
 
 
                                     <td>
 
                                         <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
-                                            href="{{ route('editLifeCycle',['id'=> $row->id,'type'=>'preparation','seasson_id'=>$seasson_id])}}">
+                                            href="{{ route('editLifeCycle',['id'=> $row->id,'type'=>'post_harvest','seasson_id'=>$seasson_id])}}">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4"
@@ -79,16 +78,14 @@
                                             <i class="fa fa-trash"></i>
                                         </a>
                                         <div class="btn-group">
-                                                            <button class="btn btn-xs btn-success dropdown-toggle"
-                                                                data-toggle="dropdown">Change<span
-                                                                    class="caret"></span></button>
-                                                            <ul class="dropdown-menu animated zoomIn">
-                                                                <li class="nav-item"><a class="nav-link"
-                                                                        title="quotation"
-                                                                        href="{{ route('seasson.show', $row->id)}}">
-                                                                        {{__('farming.crop_monitoring')}}</a></li>
-                                                            </ul>
-                                                        </div>
+                                            <button class="btn btn-xs btn-success dropdown-toggle"
+                                                data-toggle="dropdown">Change<span class="caret"></span></button>
+                                            <ul class="dropdown-menu animated zoomIn">
+                                                <li class="nav-item"><a class="nav-link" title="quotation"
+                                                        href="{{ route('seasson.show', $row->id)}}">
+                                                        {{__('farming.crop_monitoring')}}</a></li>
+                                            </ul>
+                                        </div>
 
                                     </td>
                                 </tr>
@@ -100,21 +97,21 @@
                         </table>
                     </div>
                 </div>
-                <div class="tab-pane fade @if($type =='edit-fertilizer') active show @endif" id="profile4" role="tabpanel"
-                    aria-labelledby="profile-tab4">
+                <div class="tab-pane fade @if($type =='edit-post_harvest') active show @endif" id="profile8"
+                    role="tabpanel" aria-labelledby="profile-tab4">
 
                     <div class="card">
                         <div class="card-header">
                             @if(!empty($id))
-                            <h5>{{__('farming.fertilizer')}}</h5>
+                            <h5>{{__('farming.post_harvest')}}</h5>
                             @else
-                            <h5>{{__('farming.new_fertilizer')}}</h5>
+                            <h5>{{__('farming.new_post_harvest')}}</h5>
                             @endif
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 ">
-                                @if($type =='edit-fertilizer')
+                                    @if($type =='edit-post_harvest')
                                     {{ Form::model($id, array('route' => array('cropslifecycle.update', $id), 'method' => 'PUT')) }}
                                     @else
                                     {{ Form::open(['route' => 'cropslifecycle.store']) }}
@@ -124,75 +121,86 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <input type="hidden" name="type" class="form-control" id="type"
-                                                value="fertilizer" placeholder="">
-                                                <input type="hidden" name="seasson_id" class="form-control" id="type"
+                                                value="post_harvest" placeholder="">
+                                            <input type="hidden" name="seasson_id" class="form-control" id="type"
                                                 value="{{$seasson_id}}" placeholder="">
-                                            <label for="inputEmail4">{{__('farming.package')}}</label>
-                                            <select class="form-control" name="package" required>
-                                                <option value="Small Package">Small Package </option>
-                                                <option value="Middle Package">Middle Package </option>
-                                                <option value="Large Package">Large Package </option>
+                                            <?php $crops_type = App\Models\Crops_type::all();  ?>
+                                            <label for="inputEmail4">{{__('farming.crop_type')}}</label>
+                                            <select class="form-control" name="crop_type" required>
+                                                @if(!empty($crops_type))
+                                                @foreach($crops_type as $row)
+                                                <option value="{{$row->id}}"
+                                                    {{(!empty($data)&&($data->crop_type==$row->id))? 'selected':''}}>
+                                                    {{$row->crop_name}} </option>
+                                                @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.farming_process')}}</label>
-                                            <?php
-                                           $farming = App\Models\Farming_process::all();
-                                            ?>
-                                            <select class="form-control" name="farming_process" required>
-                                                @if(!empty($farming))
-                                                @foreach($farming as $row)
-                                                <option value="{{$row->id}}">{{$row->process_name}} </option>
-                                                @endforeach
-                                                @endif
-                                                
-
-                                            </select>
+                                            <label for="date">{{__('farming.grade')}} </label>
+                                            <input type="text" name="grade" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->grade : ''}}" placeholder=""
+                                                required>
 
                                         </div>
+
 
 
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
 
-                                            <label for="inputEmail4">{{__('farming.fertilizer_amount')}}</label>
-                                            <input type="number" name="fertilizer_amount" class="form-control" id="code_name"
-                                                value=" {{ !empty($data) ? $data->fertilizer_amount : ''}}" placeholder="" required>
+                                            <label for="inputEmail4">{{__('farming.maturity_index')}}</label>
+                                            <input type="text" name="maturity_index" class="form-control" id="code_name"
+                                                value=" {{ !empty($data) ? $data->maturity_index : ''}}" placeholder=""
+                                                required>
                                         </div>
-            
+
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.fertilizer_price')}}</label>
-                                            <input type="number" name="fertilizer_price" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->fertilizer_price : ''}}" placeholder=""
+                                            <label for="date">{{__('farming.distance')}}</label>
+                                            <input type="number" name="distance" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->distance : ''}}" placeholder=""
                                                 required>
 
                                         </div>
-                                     
-                                        
+
+
 
 
                                     </div>
                                     <div class="form-row">
-                  
-            
+
+
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.no_hector')}} </label>
-                                            <input type="number" name="no_hector" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->no_hector : ''}}" placeholder=""
+                                            <label for="date">{{__('farming.moisture_level')}} </label>
+                                            <input type="number" name="moisture_level" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->moisture_level : ''}}" placeholder=""
                                                 required>
 
                                         </div>
-                                     
-                                        
+                                        <div class="form-group col-md-6 col-lg-6">
+                                            <label for="date">{{__('farming.parking_type')}} </label>
+                                            <?php $parking_type = App\Models\farming\ParkingType::all();  ?>
+                                            <select class="form-control" name="parking_type" required>
+                                                @if(!empty($parking_type))
+                                                @foreach($parking_type as $row)
+                                                <option value="{{$row->id}}"
+                                                    {{(!empty($data)&&($data->parking_type==$row->id))? 'selected':''}}>
+                                                    {{$row->parking_name}} </option>
+                                                @endforeach
+                                                @endif
+                                            </select>
+
+                                        </div>
+
 
 
                                     </div>
-                                 
+
 
                                     <div class="form-group row">
                                         <div class="col-lg-offset-2 col-lg-12">
-                                        @if($type =='edit-fertilizer')
+                                            @if($type =='edit-pre_harvest')
                                             <button class="btn btn-sm btn-primary float-right m-t-n-xs"
                                                 data-toggle="modal" data-target="#myModal" type="submit">Update</button>
                                             @else
