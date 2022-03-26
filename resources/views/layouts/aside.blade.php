@@ -134,7 +134,12 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
-            @can('manage-invntory')
+            @can('manage-logistic')
+            <li><a class="nav-link" href="{{url('fuel')}}"><i data-feather="command"></i>Fuel Control</a></li>
+           
+            @endcan
+
+            @can('manage-inventory')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>Inventory</span></a>

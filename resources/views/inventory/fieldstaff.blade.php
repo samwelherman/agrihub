@@ -52,7 +52,7 @@
                                             @if(!@empty($fieldstaff))
                                             @foreach ($fieldstaff as $row)
                                             <tr class="gradeA even" role="row">
-                                                <th>{{ $loop->iteration }}</th>
+                                                <td>{{ $loop->iteration }}</td>
                                                 <td>{{$row->name }}</td>
                                                 
                                                 <td>

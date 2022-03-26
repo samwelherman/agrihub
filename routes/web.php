@@ -217,6 +217,13 @@ Route::get('delivering', 'Activity\OrderMovementController@delivering')->name('o
 Route::resource('order_movement', 'Activity\OrderMovementController');
 Route::resource('activity', 'Activity\ActivityController');
 
+//fuel
+Route::resource('fuel', 'Fuel\FuelController');
+Route::get('addRoute', 'Fuel\FuelController@route');
+Route::resource('routes', 'RouteController');
+Route::get('fuel_approve/{id}', 'Fuel\FuelController@approve')->name('fuel.approve');
+Route::get('discountModal', 'Fuel\FuelController@discountModal');
+
 Route::resource('permissions', 'PermissionController');
 Route::resource('roles', 'RoleController');
 
