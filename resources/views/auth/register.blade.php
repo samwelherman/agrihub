@@ -71,7 +71,7 @@
                                     <select class="form-control @error('register_as') is-invalid @enderror"
                                         name="register_as" id="register_as">
                                         @foreach($roles as $row)
-                                        @if($row->id <18 && $row->id > 12)
+                                        @if($row->id <25 && $row->id > 12)
                                             <option value="{{$row->id}}">
                                                 {{ $row->slug }}
                                             </option>

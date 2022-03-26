@@ -14,7 +14,7 @@ use App\Models\Payment_methodes;
 use App\Models\Payments;
 use App\Models\AccountCodes;
 use App\Models\JournalEntry;
-use App\Models\Purchase;
+use App\Models\purchase;
 
 class PaymentsController extends Controller
 {
@@ -55,7 +55,7 @@ class PaymentsController extends Controller
         $random = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(4/strlen($x)) )),1,4);  
       
         $receipt = $request->all();
-        $purchase = Purchase::find($request->id);
+        $purchase = purchase::find($request->id);
 
         if(($receipt['amount'] <= $purchase->purchase_amount)){
             if( $receipt['amount'] >= 0){
@@ -129,8 +129,8 @@ class PaymentsController extends Controller
      */
     public function show($id)
     {
-        $data = Purchase::find($id);
-        $invoice = Purchase::all()->where('supplier_id',$data->supplier_id);
+        $data = purchase::find($id);
+        $invoice = purchase::all()->where('supplier_id',$data->supplier_id);
         $payment_methode = Payment_methodes::all();
 
         return view("payment.payment",compact('data','invoice','payment_methode'));

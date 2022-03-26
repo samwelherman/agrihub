@@ -41,7 +41,7 @@ $settings= App\Models\System::first();
                     <li><a class="nav-link" href="{{url('register_assets')}}">{{__('farming.farmer_assets')}}</a></li>
                     @endcan
                     @can('view-farming-cost')
-                  <!--  <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li> -->
+                    <li><a class="nav-link" href="{{url('farming_cost')}}">{{__('farming.farming_cost')}}</a></li> 
                     @endcan
                     @can('view-cost-centre')
                     <li><a class="nav-link" href="{{url('cost_centre')}}">{{__('farming.cost_centre')}}</a></li>
@@ -76,6 +76,7 @@ $settings= App\Models\System::first();
                     @can('view-quotation-list')
                     <li><a class="nav-link" href="{{url('quotationList')}}">{{__('ordering.quotationList')}}</a></li>
                     @endcan
+                     <li><a class="nav-link" href="{{url('crops_order')}}">Create Order</a></li>
 
                 </ul>
 
@@ -134,11 +135,14 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
+<<<<<<< HEAD
             @can('manage-logistic')
             <li><a class="nav-link" href="{{url('fuel')}}"><i data-feather="command"></i>Fuel Control</a></li>
            
             @endcan
 
+=======
+>>>>>>> ba0ff6f02e52a5906d1fedefa6f19162227dc883
             @can('manage-inventory')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i

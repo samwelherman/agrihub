@@ -8,7 +8,9 @@ class Items extends Model
 {
     //
 
-    protected $table = 'items';
+    //protected $table = 'tbl_farming_processes';
+    
+     protected $table = 'items';
 
 
     protected $fillable = [

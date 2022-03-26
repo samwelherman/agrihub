@@ -5,6 +5,7 @@ namespace App\Http\Controllers\shop;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Models\purchase;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Product;
@@ -12,7 +13,7 @@ use App\Models\order;
 use App\Models\Balance;
 use App\Models\Items;
 use App\Models\Currency;
-use App\Models\Purchase;
+
 use App\Models\Purchase_items;
 class PurchaseController extends Controller
 {
@@ -26,7 +27,7 @@ class PurchaseController extends Controller
         $user_id=auth()->user()->id;
         $currency= Currency::all();
         $product=User::find($user_id)->product;
-        $purchases=Purchase::all()->where('user_id',$user_id);
+        $purchases=purchase::all()->where('user_id',$user_id);
         $supplier=Supplier::all()->where('user_id',$user_id);
        // $name = Items::all()->where('user_id',$user_id);
         $name = Items::all();
@@ -70,7 +71,7 @@ class PurchaseController extends Controller
         $data['exchange_rate']=$request->exchange_rate;
         $data['user_id']= auth()->user()->id;
 
-        $purchase = Purchase::create($data);
+        $purchase = purchase::create($data);
         
         $amountArr = str_replace(",","",$request->amount);
         $totalArr =  str_replace(",","",$request->tax);
@@ -113,11 +114,11 @@ class PurchaseController extends Controller
             }
             $cost['reference_no']= "PUR-".$purchase->id."-".$data['purchase_date'];
             $cost['due_amount'] =  $cost['purchase_amount'];
-            Purchase::where('id',$purchase->id)->update($cost);
+            purchase::where('id',$purchase->id)->update($cost);
         }    
 
         
-        $purchases = Purchase::find($purchase->id);
+        $purchases = purchase::find($purchase->id);
         
 
         return view('purchase.purchase_details',compact('purchases'));
@@ -133,7 +134,7 @@ class PurchaseController extends Controller
      */
     public function show($id)
     {
-        $purchases = Purchase::find($id);
+        $purchases = purchase::find($id);
         
 
         return view('purchase.purchase_details',compact('purchases'));

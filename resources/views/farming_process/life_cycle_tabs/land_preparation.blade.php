@@ -111,16 +111,20 @@
                                                 value="{{$seasson_id}}" placeholder="">
                                             <label for="inputEmail4">{{__('farming.preparation_type')}}</label>
                                             <select class="form-control" name="preparation_type" required>
-                                                <option value="type A">Type A </option>
-                                                <option value="type B">Type B </option>
-                                                <option value="type C">Type C </option>
+                                                <option value="Clearing and weeding the field">Clearing and weeding the field </option>
+                                                <option value="Pre-irrigation">Pre-irrigation </option>
+                                                <option value="First ploghing or filling">First ploghing or filling </option>
+                                                <option value="Harrowing">Harrowing</option>
+                                                <option value="Flooding ">Flooding </option>
+                                                <option value="Levelling">Levelling </option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6">
                                             <label for="date">{{__('farming.soil_salt')}}</label>
                                             <select class="form-control" name="soil_salt" required>
                                                 <option value="Lime">Lime </option>
-                                                <option value="none">None</option>
+                                                <option value="salt">salt</option>
+                                                <option value="Neutral">Neutral</option>
 
                                             </select>
 
@@ -132,7 +136,7 @@
                                         <div class="form-group col-md-6">
 
                                             <label for="inputEmail4">{{__('farming.acid_level')}}</label>
-                                            <input type="number" name="acid_level" class="form-control" id="code_name"
+                                            <input type="text" name="acid_level" class="form-control" id="code_name"
                                                 value=" {{ !empty($data) ? $data->acid_level : ''}}" placeholder=""
                                                 required>
                                         </div>
@@ -154,6 +158,7 @@
                                                     <th>{{__('farming.cost_type')}}</th>
                                                     <th>{{__('farming.quantity')}}</th>
                                                     <th>{{__('farming.cost')}}</th>
+                                                    <th>Recomendation</th>
 
                                                     <th>{{__('farming.tax')}}</th>
                                                     <th>{{__('farming.total')}}</th>
@@ -359,6 +364,9 @@
                 count + '"placeholder ="quantity" id ="quantity" required /></td>';
             html += '<td><input type="text" name="price[]" class="form-control item_price' + count +
                 '" placeholder ="price" required  value=""/></td>';
+
+            html += '<td><input type="text" name="recommendation[]" class="form-control item_price' + count +
+                '" placeholder ="recommendation" required  value=""/></td>';
 
             html += '<td><select name="tax_rate[]" class="form-control item_tax' + count +
                 '" required ><option value="0">Select Tax Rate</option><option value="0">No tax</option><option value="0.18">18%</option></select></td>';

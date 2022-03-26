@@ -110,7 +110,7 @@
                                                     @elseif($row->status == 1)
                                                     <div class="badge badge-warning badge-shadow">Partially Paid</div>
                                                     @elseif($row->status == 2)
-                                                    <span class="badge badge-success badge-shadow">Fully Paid</span>
+                                                    <span class="badge badge-success badge-shadow">Quotation Created</span>
 
 
                                                     @endif

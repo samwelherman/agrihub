@@ -48,7 +48,7 @@
                        <div class="tab-pane fade show active" id="about1" role="tabpanel" aria-labelledby="home-tab2">
                          <h4><button class="btn btn-primary"  data-toggle="modal" data-target="#newacount_form">Add New Account <i class="fa fa-plus"></i></button></h4>
                          <div class="table-responsive">
-                          <table class="table table-striped" id="acounts_table_id">
+                          <table class="table table-striped single_warehouse_table" id="acounts_table_id">
                               <thead>
                                   <tr>
                                       <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -82,7 +82,7 @@
                        
                        <div class="tab-pane fade" id="deposity1" role="tabpanel" aria-labelledby="profile-tab2">
                         <div class="table-responsive">
-                          <table class="table table-striped" id="deposity_table_id">
+                          <table class="table table-striped single_warehouse_table" id="deposity_table_id">
                               <thead>
                                   <tr>
                                       <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -117,7 +117,7 @@
                        
                           <div class="tab-pane fade" id="withdraw1" role="tabpanel" aria-labelledby="profile-tab2">
                             <div class="table-responsive">
-                              <table class="table table-striped" id="withdraw_table_id">
+                              <table class="table table-striped single_warehouse_table" id="withdraw_table_id">
                                   <thead>
                                       <tr>
                                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -170,7 +170,7 @@
                        
                        <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="home-tab2">
                         <div class="table-responsive">
-                          <table class="table table-striped" id="order_request_table_id">
+                          <table class="table table-striped single_warehouse_table" id="order_request_table_id">
                               <thead>
                                   <tr>
                                       <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -204,7 +204,7 @@
                        
                        <div class="tab-pane fade" id="deposity" role="tabpanel" aria-labelledby="profile-tab2">
                         <div class="table-responsive">
-                          <table class="table table-striped" id="created_order_table_id">
+                          <table class="table table-striped single_warehouse_table" id="created_order_table_id">
                               <thead>
                                   <tr>
                                       <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -239,7 +239,7 @@
                        
                           <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="profile-tab2">
                             <div class="table-responsive">
-                              <table class="table table-striped" id="order_progress_table_id">
+                              <table class="table table-striped single_warehouse_table" id="order_progress_table_id">
                                   <thead>
                                       <tr>
                                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -327,22 +327,22 @@
               </button>
             </div>
     
-                <div class="card-body">
-      <div class="form-group col-md-12 col-lg-12 col-xl-12">
-          <label for="orderquantity">Quantity in Kilogram(Kg)</label>
-          <input type="number" name='orderquantity' class="form-control" id="orderquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
-              
-      </div>
-      <div class="form-group col-md-12 col-lg-12 col-xl-12">
-          <label for="offerAmount">Offer Amount</label>
-            <input type="number"  name='offerAmount' class="form-control" id="offerAmountid" placeholder="Offer Amount in Tsh">
+          <div class="card-body">
+          <div class="form-group col-md-12 col-lg-12 col-xl-12">
+              <label for="orderquantity">Quantity in Kilogram(Kg)</label>
+              <input type="number" name='orderquantity' class="form-control" id="orderquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
+                  
+          </div>
+          <div class="form-group col-md-12 col-lg-12 col-xl-12">
+              <label for="offerAmount">Offer Amount</label>
+                <input type="number"  name='offerAmount' class="form-control" id="offerAmountid" placeholder="Offer Amount in Tsh">
+            </div>
+          <div class="form-row">
+              <div class="form-group col-md-12 col-lg-12">
+              <input type="submit"  value="Submit Order" name="save" class="btn btn-block btn-primary">
+            </div>
+          </div>
         </div>
-      <div class="form-row">
-          <div class="form-group col-md-12 col-lg-12">
-          <input type="submit"  value="Submit Order" name="save" class="btn btn-block btn-primary">
-        </div>
-      </div>
-    </div>
       
           </div>
         </div>
@@ -378,7 +378,7 @@
             <div class="form-row">
                <div class="form-group col-md-12 col-lg-12">
     
-                <input type="submit" id="register_account_id" value="Add" name="save" class="btn btn-block btn-primary">
+                <button type="submit" id="register_account_id" value="Add" name="save" class="btn btn-block btn-primary">Add</button>
               </div>
             </div>
           </div>
@@ -461,32 +461,72 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-group col-md-12 col-lg-12 col-xl-12">
-          <label for="orderquantity">Quantity in Kilogram(Kg)</label>
-          <input type="number" name='orderquantity' class="form-control" id="orderquantityid" placeholder="Enter Quantity in Kilogram(Kg)">
-              
-      </div>
-      <div class="form-group col-md-12 col-lg-12 col-xl-12">
-          <label for="offerAmount">Offer Amount</label>
-            <input type="number"  name='offerAmount' class="form-control" id="offerAmountid" placeholder="Offer Amount in Tsh">
-        </div>
-      <div class="form-row">
-          <div class="form-group col-md-12 col-lg-12">
-          <input type="submit"  value="Submit Order" name="save" class="btn btn-block btn-primary">
-        </div>
-      </div>
+        <hr>
+        <div class="table-responsive">
+          <input type="hidden" id="hidden_order_id" name="hidden_order" class="form-control item_total_tax"/>
+        <table class="table table-bordered" id="cart">
+            <thead>
+                <tr>
+                    <th>Accounts</th>
+                    <th>Account Quantity</th>
+                    <th>Reduced Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="add_order_tbody">
+              <tr class="line_items">
+                <td><select name="select_account_name[]" class="form-control item_name dropdawn_class select_account0" required  data-sub_category_id=""><option value="">Select Account</option></select></td>
+                    <td id="quantity_model_id"><input type="number" name="total_tax[]" class="form-control " placeholder ="Quantity" required readonly /></td>
+                    <td><input type="number" name="quantity[]" class="form-control item_total" placeholder ="Enter Quantity" /></td>
+                    <td></td>
+              </tr>
+                
+
+
+            </tbody>
+            <tfoot>
+                <tr class="line_items">
+                    <td colspan="1"></td>
+                    <td><span class="bold">Total Quantity </span>: </td>
+                    <td><input type="text" name="total_quantity[]"
+                            class="form-control item_total"
+                            placeholder="total quantity" required
+                            jAutoCalc="SUM({quantity})" readonly></td>
+                    <td colspan="1"><button type="button" name="add" class="btn btn-success btn-xs add"><i
+                              class="fas fa-plus"> Add Row</i></button></td>
+                </tr>
+                <tr class="line_items">
+                  <td colspan="1"></td>
+                    <td><span class="bold">Remaining Quantity</span>: </td>
+                    <td><input type="text" name="remain_quantity[]"
+                            class="form-control item_total" placeholder="Remaining"
+                            required jAutoCalc="{requred_quantity}-{total_quantity}" readonly>
+                    </td>
+                    <td colspan="1"></td>
+                </tr>
+
+                <tr class="line_items">
+                  <td colspan="1"></td>
+                    <td><span class="bold">Requared Quantity</span>: </td>
+                    <td><input type="text" name="requred_quantity[]"
+                            class="form-control item_total" id='requred_quantiy_id' placeholder="Requred Quantity"
+                             readonly>
+                    </td>
+                    <td colspan="1"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" id="save_order_id" class="btn btn-primary">Save Order</button>
+    </div>
        
       </div>
     </div>
   </div>
 </div>
-
-<div class="modal inmodal" id="appFormModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="dealogbox">
-
-    </div>
-</div>
-
 
   @endsection
 
@@ -496,8 +536,19 @@
       <script >
       $(document).ready(function(){
         var warehousedetail = {!! json_encode($warehouse->toArray(), JSON_HEX_TAG) !!};//get data from controller
-        
-        $('.table').DataTable();//its make all tables in this page to be data table
+        var account_dropdawn;
+        var temp_account_dropdawn;
+        var count =0;
+        function setOptionData(){
+           //adding opption to the drop down
+           $.each(temp_account_dropdawn,function(key,account){
+            const account_details = JSON.stringify(account);
+                $('.select_account'+count).append('<option value=\''+account_details+'\'>\
+                  '+account.farmer.firstname+"_"+account.farmer.lastname+"_"+account.crops_type.crop_name,'\
+                                      </option>');
+                  });
+        }
+        $('.single_warehouse_table').DataTable();//its make all tables in this page to be data table
         getAccountsData();//get accounts accounts  data
         getOrdersData();//get orders data
         //function for get account data 
@@ -524,6 +575,8 @@
               const withdraw_history = response.history.filter(data => data.status === 1);
               const deposity_history = response.history.filter(data => data.status === 2);
               console.log(deposity_history);
+              account_dropdawn = response.accounts;
+              $('#acounts_table_id').DataTable().clear();
               //adding row to the account table
               $.each(response.accounts,function(key,account){
                 $('#acounts_table_id').DataTable().row.add([
@@ -540,7 +593,8 @@
                           </div>',
                 ]).draw();
                   });
-
+                  
+                  $('#deposity_table_id').DataTable().clear();
               //adding row to the deposity table
               $.each(deposity_history ,function(key,deposity){
                     $('#deposity_table_id').DataTable().row.add([
@@ -551,6 +605,7 @@
                       deposity.cost,
             ]).draw();
               });
+              $('#withdraw_table_id').DataTable().clear();
               //adding row to the deposity table
               $.each(withdraw_history ,function(key,withdraw){
                   $('#withdraw_table_id').DataTable().row.add([
@@ -601,39 +656,43 @@
             async: true,
             success: function(response) {
               //filter withdraw and deposite history
-              const requested_order = response.filter(data => data.status === 1);
-              const created_order = response.filter(data => data.status === 2);
-              const progress_order = response.filter(data => data.status === 2);
+              const requested_order = response.filter(data => data.status == 1);
+              const created_order = response.filter(data => data.status == 2);
+              const progress_order = response.filter(data => data.status >= 3);
               console.log(response);
+            
+              $('#order_request_table_id').DataTable().clear();
               //adding row to the account table
               $.each(requested_order,function(key,order_request){
+                const order_details = JSON.stringify(order_request)
                 $('#order_request_table_id').DataTable().row.add([
-                  order_request.crop_type.crop_name,
+                  order_request.crop_types.crop_name,
                   order_request.quantity,
                   order_request.user.name,
                   order_request.created_at,
                   '<div class="row">\
                   <div class="col-lg-12 col-sm-12 col-md-12">\
-                    <button class="btn btn-primary"  data-toggle="modal"  data-target="#createOrder" href="#">Order</button>\
+                    <button class="btn btn-primary makeorder" value=\''+order_details+'\' data-toggle="modal"  data-target="#createOrder" href="#">Order</button>\
                   </div>\
                   </div>',
                 ]).draw();
                   });
-
+              $('#created_order_table_id').DataTable().clear();
               //adding row to the deposity table
               $.each(created_order ,function(key,order_created){
                     $('#created_order_table_id').DataTable().row.add([
-                      order_created.crop_type.crop_name,
+                      order_created.crop_types.crop_name,
                       order_created.quantity,
                       order_created.user.name,
                       order_created.created_at,
                       order_created.updated_at,
             ]).draw();
               });
+              $('#order_progress_table_id').DataTable().clear();
               //adding row to the deposity table
               $.each(progress_order ,function(key,order){
                   $('#order_progress_table_id').DataTable().row.add([
-                    order.crop_type.crop_name,
+                    order.crop_types.crop_name,
                     order.quantity,
                     order.user.name,
                     order.created_at,
@@ -674,10 +733,21 @@
             success:function(response){
               getAccountsData();//reload account data
               $('#newacount_form').modal('hide');//it hide modal
+              Swal.fire({
+                icon: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1500
+              });
               $('#newacount_form').find('input').val("");//it clear input in modal
               console.log(response);
             },
             error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              });
                 console.log(response);
             }
           }) ;
@@ -710,10 +780,21 @@
             success:function(response){
               getAccountsData();//reload account data
               $('#deposity_form').modal('hide');//it hide modal
+              Swal.fire({
+                icon: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1500
+              });
               $('#deposity_form').find('input').val("");//it clear input in modal
               console.log(response);
             },
             error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              });
                 console.log(response);
             }
           }) ;
@@ -745,10 +826,21 @@
             success:function(response){
               getAccountsData();//reload account data
               $('#withdraw_form').modal('hide');//it hide modal
+              Swal.fire({
+                icon: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1500
+              });
               $('#withdraw_form').find('input').val("");//it clear input in modal
               console.log(response);
             },
             error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              });
                 console.log(response);
             }
           }) ;
@@ -769,6 +861,122 @@
           var account_id = $(this).val();
           $('#withdraw_account_id').val(account_id);
       });
+
+
+
+      // function of modify offer form table
+    function autoCalcSetup() {
+        $('table#cart').jAutoCalc('destroy');
+        $('table#cart').jAutoCalc({
+            keyEventsFire: true,
+            decimalPlaces: 2,
+            emptyAsZero: true
+        });
+    }
+    autoCalcSetup();
+    $(document).on("click",'#save_order_id', function(e) {
+      //get all accounts selected
+      var account_data = $('[name="select_account_name[]"]').map(function () {
+            return this.value;
+        }).get();
+        //get all quantity reduced in account
+        var quantity_data = $('[name="quantity[]"]').map(function () {
+            return this.value;
+        }).get();
+
+      // alert($('#hidden_order_id').val())
+
+      let url = '{{ route("manipulation.update", ":id") }}';
+          url = url.replace(':id', $('#hidden_order_id').val());
+           //setting the x-csrf-token in ajax request
+           $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          //ajax for get account data
+          $.ajax({
+            type:"PUT",
+            url:url,
+            dataType:"json",
+            cache: false,
+            async: true,
+            success: function(response) {
+              getOrdersData();//reload orders data
+              $('#createOrder').modal('hide');//it hide modal
+              $('.remove').click();
+              Swal.fire({
+                icon: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1500
+              });
+              $('#createOrder').find('input').val("");//it clear input in modal
+              console.log(response);
+            },
+            error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              });
+                console.log(response);
+            }
+          }) ;
+      // const taget_order = $(this).val();
+      // const json_order_details = JSON.parse(taget_order);
+      // $('#requred_quantiy_id').val(json_order_details.quantity)
+      // temp_account_dropdawn = account_dropdawn.filter(data => data.crops_type.crop_name == json_order_details.crop_types.crop_name);
+      // setOptionData();
+    });
+
+    //function of get data when order button clickes
+    $(document).on("click",'.makeorder', function(e) {
+      const taget_order = $(this).val();
+      const json_order_details = JSON.parse(taget_order);
+      $('#requred_quantiy_id').val(json_order_details.quantity);
+      $('#hidden_order_id').val(json_order_details.id);
+      temp_account_dropdawn = account_dropdawn.filter(data => data.crops_type.crop_name == json_order_details.crop_types.crop_name);
+      setOptionData();
+    });
+      $('.add').on("click", function(e) {
+count++;
+var html = '';
+html += '<tr class="line_items">';
+html +=
+    '<td><select name="select_account_name[]" class="form-control item_name dropdawn_class select_account' +
+    count +
+    '" required  data-sub_category_id="' +
+    count +
+    '"><option value="">Select Account</option></select></td>';
+html += '<td id="quantity_model_id"><input type="number" name="total_tax[]" class="form-control item_total_tax' + count +
+    '" placeholder ="Quantity"  required readonly  /></td>';
+html += '<td><input type="number" name="quantity[]" class="form-control item_total' + count +
+    '" placeholder ="Enter Quantity"  /></td>';
+html +=
+    '<td><button type="button" name="remove" class="btn btn-danger btn-xs remove"><i class="fas fa-trash"></i></button></td>';
+
+    $('#add_order_tbody').append(html);
+    autoCalcSetup();
+    setOptionData();
+    });
+$(document).on('click', '.remove', function() {
+        $(this).closest('tr').remove();
+        autoCalcSetup();
+    });
+
+    // fuction to control changes of dropdawn
+    $(document).on('change', '.dropdawn_class', function() {
+      const taget_account = $(this).val();//we get value of select input
+      const json_taget_account = JSON.parse(taget_account);//convert the string to json
+      //change value of account fun
+      $(this).closest('tr').children('td#quantity_model_id').children('input').val(json_taget_account.total_quantity);
+      autoCalcSetup();
+    });
+   
+
+   
+
         console.log(warehousedetail);
 
 
