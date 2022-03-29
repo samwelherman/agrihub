@@ -135,14 +135,11 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
-<<<<<<< HEAD
             @can('manage-logistic')
             <li><a class="nav-link" href="{{url('fuel')}}"><i data-feather="command"></i>Fuel Control</a></li>
            
             @endcan
 
-=======
->>>>>>> ba0ff6f02e52a5906d1fedefa6f19162227dc883
             @can('manage-inventory')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
