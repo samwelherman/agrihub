@@ -10,7 +10,7 @@ class Truck extends Model
     use HasFactory;
     protected $table = "trucks";
 
-    protected $fillable = ['truck_name','reg_no','driver','truck_type','capacity','driver_status','fuel','truck_status','added_by'];
+    protected $fillable = ['truck_name','reg_no','driver','truck_type','capacity','driver_status','fuel','truck_status','tyre','staff','added_by'];
     
     public function user()
     {

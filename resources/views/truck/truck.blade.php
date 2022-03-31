@@ -77,9 +77,9 @@
                                                 <td>{{$row->truck_type}}</td>
                                                 <td>
                                                     @php    
-                                                    $driver=App\Models\Driver::where('id', $row->driver)->get();   
+                                                    $dr=App\Models\Driver::where('id', $row->driver)->get();   
                                                   @endphp
-                                                     @foreach($driver as $d)
+                                                     @foreach($dr as $d)
                                                     {{$d->driver_name}}
                                                     @endforeach
                                                 </td>

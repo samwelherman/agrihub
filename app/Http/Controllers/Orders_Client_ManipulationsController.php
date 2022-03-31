@@ -140,6 +140,7 @@ class Orders_Client_ManipulationsController extends Controller
         $user_id=auth()->user()->id;
         $order= Order::find($id);
         $order->user_id=$user_id;
+        $order->logistic_id=$user_id;
         $order->status=2;
         $order->update();
         if($order){

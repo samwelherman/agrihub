@@ -23,6 +23,8 @@ class CreateTrucksTable extends Migration
             $table->string('fuel')->nullable();
             $table->string('truck_status');
             $table->string('driver_status');
+            $table->string('tyre')->nullable();
+            $table->string('staff')->nullable();           
             $table->integer('added_by');
             $table->timestamps();
         });
