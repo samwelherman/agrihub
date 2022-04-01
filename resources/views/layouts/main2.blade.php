@@ -6,8 +6,12 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Otika - Admin Dashboard Template</title>
+  <?php
+$settings= App\Models\System::first();
+?>
+  <title>{{ !empty($settings->name) ? $settings->name: ''}}</title>
   <!-- General CSS Files -->
+  <link rel='shortcut icon' type='image/x-icon' href="{{url('public/assets/img/logo')}}/{{$settings->picture}}" />
   <link rel="stylesheet" href="{{url('assets/css/app.min.css')}}">
   <link rel="stylesheet" href="{{url('assets/bundles/jquery-selectric/selectric.css')}}">
   <!-- Template CSS -->

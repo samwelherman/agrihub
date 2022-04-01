@@ -247,53 +247,10 @@
         }
         autoCalcSetup();
 
-        $('.add').on("click", function(e) {
-
-            count++;
-            var html = '';
-            html += '<tr class="line_items">';
-            html +=
-                '<td><div class="col"><div class="input-group"><select name="item_name[]" class="form-control item_name" required  data-sub_category_id="' +
-                count +
-                '"><option value="">Choose Cost Type</option>@if(isset($name))@foreach($name as $n) <option value="{{ $n->id}}">{{$n->cost_name}}</option>@endforeach @endif</select></div><div class="input-group-append"><button class="btn btn-primary" type="button" data-toggle="modal" onclick="model()" value="" data-target="#appFormModal"><i class="fa fa-plus-circle"></i></button></div></td>';
-            html +=
-                '<td><input type="text" name="quantity[]" class="form-control item_quantity" data-category_id="' +
-                count + '"placeholder ="quantity" id ="quantity" required /></td>';
-            html += '<td><input type="text" name="price[]" class="form-control item_price' + count +
-                '" placeholder ="price" required  value=""/></td>';
-
-            html += '<td><select name="tax_rate[]" class="form-control item_tax' + count +
-                '" required ><option value="0">Select Tax Rate</option><option value="0">No tax</option><option value="0.18">18%</option></select></td>';
-            html += '<input type="hidden" name="total_tax[]" class="form-control item_total_tax' +
-                count +
-                '" placeholder ="total" required readonly jAutoCalc="{quantity} * {price} * {tax_rate}"   />';
-            html += '<input type="hidden" name="saved_items_id[]" class="form-control item_saved' +
-                count +
-                '"  required   />';
-            html += '<td><input type="text" name="total_cost[]" class="form-control item_total' +
-                count +
-                '" placeholder ="total" required readonly jAutoCalc="{quantity} * {price}" /></td>';
-            html +=
-                '<td><button type="button" name="remove" class="btn btn-danger btn-xs remove"><i class="fas fa-trash"></i></button></td>';
-
-            $('tbody').append(html);
-            autoCalcSetup();
-        });
-
-        $(document).on('click', '.remove', function() {
-            $(this).closest('tr').remove();
-            autoCalcSetup();
-        });
+     
 
 
-        $(document).on('click', '.rem', function() {
-            var btn_value = $(this).attr("value");
-            $(this).closest('tr').remove();
-            $('tfoot').append(
-                '<input type="hidden" name="removed_id[]"  class="form-control name_list" value="' +
-                btn_value + '"/>');
-            autoCalcSetup();
-        });
+
 
     });
     //

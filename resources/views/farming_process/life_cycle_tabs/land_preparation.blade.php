@@ -148,7 +148,7 @@
 
                                         </div>
                                         <hr>
-                                        <button type="button" name="add" class="btn btn-success btn-xs add"><i
+                                        <button type="button" name="add1" class="btn btn-success btn-xs add1"><i
                                                 class="fas fa-plus">{{__('farming.add')}}
                                                 {{__('farming.preparation_cost')}}</i></button><br>
                                         <br>
@@ -350,7 +350,7 @@
         }
         autoCalcSetup();
 
-        $('.add').on("click", function(e) {
+        $('.add1').on("click", function(e) {
 
             count++;
             var html = '';
