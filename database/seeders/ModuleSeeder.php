@@ -21,6 +21,7 @@ class ModuleSeeder extends Seeder
              ['slug' => 'manage-orders'],
              ['slug' => 'manage-warehouse'],
              ['slug' => 'manage-shop'],
+             ['slug' => 'manage-fuel'],
             ['slug' => 'manage-access-control'], 
         ];
 foreach ($data as $row) {

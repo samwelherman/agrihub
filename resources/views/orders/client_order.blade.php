@@ -108,7 +108,7 @@
              </div>
               <div class="form-row">
                  <div class="form-group col-md-12 col-lg-12">
-                  <input type="submit" id="submit_order_id" value="Submit Order" name="save" class="btn btn-block btn-primary">
+                  <button type="submit" id="submit_order_id" value="" name="save" class="btn btn-block btn-primary">Submit Order</button>
                 </div>
               </div>
             </div>

@@ -217,6 +217,36 @@ Route::get('delivering', 'Activity\OrderMovementController@delivering')->name('o
 Route::resource('order_movement', 'Activity\OrderMovementController');
 Route::resource('activity', 'Activity\ActivityController');
 
+//fuel
+Route::resource('fuel', 'Fuel\FuelController');
+Route::get('addRoute', 'Fuel\FuelController@route');
+Route::resource('routes', 'RouteController');
+Route::get('fuel_approve/{id}', 'Fuel\FuelController@approve')->name('fuel.approve');
+Route::get('discountModal', 'Fuel\FuelController@discountModal');
+
+
+// tyre routes
+Route::resource('tyre_brand', 'Tyre\TyreBrandController');
+Route::get('tyre_list', 'Tyre\PurchaseTyreController@tyre_list');
+Route::resource('purchase_tyre', 'Tyre\PurchaseTyreController');
+Route::get('findTyrePrice', 'Tyre\PurchaseTyreController@findPrice'); 
+Route::get('tyre_approve/{id}', 'Tyre\PurchaseTyreController@approve')->name('purchase_tyre.approve'); 
+Route::get('tyre_cancel/{id}', 'Tyre\PurchaseTyreController@cancel')->name('purchase_tyre.cancel'); 
+Route::get('tyre_receive/{id}', 'Tyre\PurchaseTyreController@receive')->name('purchase_tyre.receive'); 
+Route::get('make_tyre_payment/{id}', 'Tyre\PurchaseTyreController@make_payment')->name('purchase_tyre.pay'); 
+Route::get('tyre_pdfview',array('as'=>'tyre_pdfview','uses'=>'Tyre\PurchaseTyreController@tyre_pdfview'));
+Route::resource('tyre_payment', 'Tyre\TyrePaymentController');
+Route::get('assign_truck', 'Tyre\PurchaseTyreController@assign_truck')->name('purchase_tyre.assign');
+Route::get('tyreModal', 'Tyre\PurchaseTyreController@discountModal');
+Route::post('save_truck', 'Tyre\PurchaseTyreController@save_truck')->name('purchase_tyre.save');
+Route::resource('tyre_reallocation', 'Tyre\TyreReallocationController');
+Route::get('tyre_reallocation_approve/{id}', 'Tyre\TyreReallocationController@approve')->name('tyre_reallocation.approve'); 
+Route::resource('tyre_disposal', 'Tyre\TyreDisposalController');
+Route::get('tyre_disposal_approve/{id}', 'Tyre\TyreDisposalController@approve')->name('tyre_disposal.approve'); 
+Route::resource('tyre_return', 'Tyre\TyreReturnController');
+Route::get('findTyreDetails', 'Tyre\TyreReturnController@findPrice'); 
+Route::get('tyre_return_approve/{id}', 'Tyre\TyreReturnController@approve')->name('tyre_return.approve'); 
+
 Route::resource('permissions', 'PermissionController');
 Route::resource('roles', 'RoleController');
 

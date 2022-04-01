@@ -135,6 +135,27 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
+            @can('manage-logistic')
+            <li><a class="nav-link" href="{{url('fuel')}}"><i data-feather="command"></i>Fuel Control</a></li>
+           
+            @endcan
+
+            @can('manage-inventory')
+            <li class="dropdown">
+                <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                        data-feather="command"></i><span>Tyre Management</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{url('tyre_brand')}}">Tyre Brand</a></li>
+                    <li><a class="nav-link" href="{{url('purchase_tyre')}}">Purchase Tyre</a></li>
+                    <li><a class="nav-link" href="{{url('tyre_list')}}">Tyre List</a></li>
+                    <li><a class="nav-link" href="{{url('assign_truck')}}">Assign Truck</a></li>
+                    <li><a class="nav-link" href="{{url('tyre_return')}}">Good Return</a></li>
+                    <li><a class="nav-link" href="{{url('tyre_reallocation')}}">Good Reallocation</a></li>
+                    <li><a class="nav-link" href="{{url('tyre_disposal')}}">Good Disposal</a></li>
+                </ul>
+            </li>
+            @endcan
+
             @can('manage-inventory')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i

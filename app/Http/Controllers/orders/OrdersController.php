@@ -67,7 +67,7 @@ class OrdersController extends Controller
         $order = $orders->toArray();
         
         $order['user_id']= auth()->user()->id;
-        $order['logistic_id']= auth()->user()->id;
+        $order['status']= '0';
 
 
         $quotation = Transport_quotation::create($order);
