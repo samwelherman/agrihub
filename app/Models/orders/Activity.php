@@ -12,7 +12,8 @@ class Activity extends Model
     protected $table = "activities";
 
     protected $fillable = [
-    'transport_id',
+    'module_id',
+    'module',
     'date',
     'activity',
     'notes',   
@@ -24,8 +25,5 @@ class Activity extends Model
         return $this->belongsTo('App\Models\User','added_by');
       }
 
-      public function transport(){
-    
-        return $this->belongsTo('App\Models\orders\Transport_quotation','transport_id');
-      }
+     
 }

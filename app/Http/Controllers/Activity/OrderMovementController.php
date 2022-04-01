@@ -137,7 +137,8 @@ class OrderMovementController extends Controller
                     $activity = Activity::create(
                         [ 
                             'added_by'=>auth()->user()->id,
-                            'transport_id'=>$movement->transport_id,
+                            'module_id'=>$movement->module_id,
+                            'module'=>$movement->module,
                             'activity'=>"Confirm Collection",
                             'notes'=>$request->notes,
                            'date'=>$request->collection_date,
@@ -160,7 +161,8 @@ class OrderMovementController extends Controller
                             $activity = Activity::create(
                                 [ 
                                     'added_by'=>auth()->user()->id,
-                                    'transport_id'=>$movement->transport_id,
+                                    'module_id'=>$movement->module_id,
+                                    'module'=>$movement->module,
                                     'activity'=>"Confirm Loading",
                                     'notes'=>$request->notes,
                                    'date'=>$request->collection_date,
@@ -183,7 +185,8 @@ class OrderMovementController extends Controller
                                     $activity = Activity::create(
                                         [ 
                                             'added_by'=>auth()->user()->id,
-                                            'transport_id'=>$movement->transport_id,
+                                            'module_id'=>$movement->module_id,
+                                            'module'=>$movement->module,
                                             'activity'=>"Confirm Offloading",
                                             'notes'=>$request->notes,
                                            'date'=>$request->collection_date,
@@ -206,7 +209,8 @@ class OrderMovementController extends Controller
                                             $activity = Activity::create(
                                                 [ 
                                                     'added_by'=>auth()->user()->id,
-                                                    'transport_id'=>$movement->transport_id,
+                                                    'module_id'=>$movement->module_id,
+                                                    'module'=>$movement->module,
                                                     'activity'=>"Confirm Delivery",
                                                     'notes'=>$request->notes,
                                                    'date'=>$request->collection_date,

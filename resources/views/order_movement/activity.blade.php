@@ -43,19 +43,19 @@
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">{{__('ordering.crop_type')}}</th>
+                                                    style="width: 186.484px;">Type</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">{{__('ordering.quantity')}}</th>
+                                                    style="width: 186.484px;">Shipment Name</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">Qty/Weight</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">{{__('ordering.from')}}</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">{{__('ordering.to')}}</th>
+                                                    style="width: 141.219px;">Route</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
@@ -71,20 +71,51 @@
                                             @if(!@empty($activity))
                                             @foreach ($activity as $row)
                                             <tr class="gradeA even" role="row">
-                                                <th>{{ $loop->iteration }}</th>
+                                                @if ($row->module == 'Order')
+                                               
+                                                @php
+                                                 $order=App\Models\orders\Transport_quotation::find($row->module_id);
+                                                                                            
+                                            @endphp
+
+                                            @else
+                                            @php
+                                            $pacel=App\Models\Pacel\Pacel::find($row->module_id); 
+                                            $route = App\Models\Route::find($pacel->route_id); 
+                                        @endphp
+                                        
+                                            @endif
+
+                                                <td>{{ $loop->iteration }}</td>
                                                 <td>{{$row->user->fname}} {{$row->user->lname}}</td>
                                                 <td>{{$row->user->phone}}</td>
+                                                <td>{{$row->module}}</td>
+                                              
+
+                                                @if ($row->module == 'Order')
                                                 <td>
                                                     @php
-                                                        $name=App\Models\Crops_type::where('id',$row->transport->crop_type)->get();
-                                                    @endphp
-                                                    @foreach ($name as $item)
-                                                    {{$item->crop_name}}  
-                                                    @endforeach
-                                                   </td>
-                                                <td>{{$row->transport->quantity}}</td>
-                                                <td>{{$row->transport->start_location}}</td>
-                                                <td>{{$row->transport->end_location}}</td>                                              
+                                                    $name=App\Models\Crops_type::where('id',$order->crop_type)->first();
+                                                @endphp
+                                                    {{$name->crop_name}}</td>  
+                                               
+                                                @else
+                                             
+                                                <td>{{$pacel->pacel_name}} </td>
+                                                   @endif
+
+                                                   @if ($row->module == 'Order')
+                                                   <td> {{$order->quantity}}</td> 
+                                                   @else                                               
+                                                   <td>{{$pacel->weight}} </td>
+                                                      @endif
+
+                                                    @if ($row->module == 'Order')
+                                                      <td> From {{$order->start_location}} to {{$order->end_location}}</td> 
+                                                      @else                                               
+                                                      <td> From {{$route->from}} to {{$route->to}}</td>
+                                                         @endif
+
                                                 <td>{{$row->date}}</td>
                                                 <td>{{$row->activity}}</td>
                                             </tr>

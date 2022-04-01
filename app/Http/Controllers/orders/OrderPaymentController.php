@@ -61,7 +61,8 @@ class OrderPaymentController extends Controller
                 $quot=Transport_quotation::find($request->transport_id);
                 if($quot->status == 2){             
                 $result = $quot->toArray();
-                $result['transport_id']=$request->transport_id;
+                $result['module_id']=$request->transport_id;
+                $result['module']='Order';
                 $movement=OrderMovement::create($result);
                 }
                  

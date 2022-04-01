@@ -12,7 +12,7 @@ class OrderMovement extends Model
 
     protected $table = "order_movements";
 
-    protected $fillable = ['transport_id','crop_type','quantity','start_location','end_location','client_id','warehouse_id','amount','due_amount','tax','status','user_id','truck'];
+    protected $fillable = ['module','module_id','receiver_name','crop_type','quantity','start_location','end_location','client_id','warehouse_id','amount','due_amount','tax','status','user_id','truck'];
 
     public function movement_quotation_cost(){
 

@@ -86,13 +86,25 @@ $settings= App\Models\System::first();
             @can('manage-logistic-orders')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="command"></i><span>Logistic Order Tracking</span></a>
+                        data-feather="command"></i><span>Parcel Management</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{url('collection')}}">Order Collection</a></li>
-                    <li><a class="nav-link" href="{{url('loading')}}">Order Loading</a></li>
-                    <li><a class="nav-link" href="{{url('offloading')}}">Order Offloading</a></li>
-                    <li><a class="nav-link" href="{{url('delivering')}}">Order Delivery</a></li>
-                    <li><a class="nav-link" href="{{url('activity')}}">Track Order Activity</a></li>
+                    <li><a class="nav-link" href="{{url('pacel_list')}}">Item List</a></li>
+                    <li><a class="nav-link" href="{{url('pacel_quotation')}}">Quotation</a></li>                   
+                    <li><a class="nav-link" href="{{url('pacel_invoice')}}">Invoice</a></li>
+                </ul>
+            </li>
+            @endcan
+
+            @can('manage-logistic-orders')
+            <li class="dropdown">
+                <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                        data-feather="command"></i><span>Logistic Tracking</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{url('collection')}}"> Collection</a></li>
+                    <li><a class="nav-link" href="{{url('loading')}}"> Loading</a></li>
+                    <li><a class="nav-link" href="{{url('offloading')}}"> Offloading</a></li>
+                    <li><a class="nav-link" href="{{url('delivering')}}">Delivery</a></li>
+                    <li><a class="nav-link" href="{{url('activity')}}">Track Logistic Activity</a></li>
                     
                 </ul>
             </li>
@@ -100,6 +112,10 @@ $settings= App\Models\System::first();
 
             @can('manage-warehouse')
             <li><a class="nav-link" href="{{url('warehouse')}}"><i data-feather="command"></i>Warehouse</a></li>
+            @endcan
+
+            @can('manage-logistic')
+            <li><a class="nav-link" href="{{url('routes')}}"><i data-feather="command"></i>Routes</a></li>
             @endcan
 
             @can('manage-shop')
@@ -156,6 +172,7 @@ $settings= App\Models\System::first();
             </li>
             @endcan
 
+            
             @can('manage-inventory')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
