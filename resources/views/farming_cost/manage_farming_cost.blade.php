@@ -11,12 +11,13 @@
                         <h4>{{__('farming.farming_cost')}}</h4>
                     </div>
                     <div class="card-body">
-                    @can('view-farming-cost')
+                        @can('view-farming-cost')
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
-                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">{{__('farming.cost_list')}}
-                                   </a>
+                                    href="#home2" role="tab" aria-controls="home"
+                                    aria-selected="true">{{__('farming.cost_list')}}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if(!empty($id)) active show @endif" id="profile-tab2"
@@ -30,7 +31,7 @@
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2" role="tabpanel"
                                 aria-labelledby="home-tab2">
                                 <div class="table-responsive">
-                                @can('view-farming-cost')
+                                    @can('view-farming-cost')
                                     <table class="table table-striped" id="table-1">
                                         <thead>
                                             <tr>
@@ -131,12 +132,7 @@
                                                             data-toggle="dropdown">Change<span
                                                                 class="caret"></span></button>
                                                         <ul class="dropdown-menu animated zoomIn">
-                                                            <li class="nav-item"><a class="nav-link" title="Edit"
-                                                                    data-toggle="modal" class="discount" href=""
-                                                                    onclick="model({{ $row->id }},'discount')"
-                                                                    value="{{ $row->id}}"
-                                                                    data-target="#appFormModal2">Discount Quotation</a>
-                                                            </li>
+
                                                             <li class="nav-item"><a class="nav-link"
                                                                     title="Convert to Invoice"
                                                                     onclick="return confirm('Are you sure? you want to convert Quotation To Invoice')"
@@ -214,7 +210,8 @@
 
                                                     <div class="col-lg-10">
                                                         <div class="input-group">
-                                                            <select class="form-control m-b" name="farm_id" id="farm" required>
+                                                            <select class="form-control m-b" name="farm_id" id="farm"
+                                                                required>
                                                             </select>
                                                             <div class="input-group-append">
 
@@ -280,7 +277,7 @@
 
                                                     </tbody>
                                                     <tfoot>
-                                                        
+
                                                         @if(!@empty($data->costs))
                                                         @foreach ($data->costs as $i)
                                                         <tr class="line_items">
@@ -290,7 +287,8 @@
                                                                     <option value="">Select Item</option>@foreach($name
                                                                     as $n) <option value="{{ $n->id}}"
                                                                         @if(isset($i))@if($n->id == $i->item_name)
-                                                                        selected @endif @endif >{{$n->process_name}}</option>
+                                                                        selected @endif @endif >{{$n->process_name}}
+                                                                    </option>
                                                                     @endforeach
                                                                 </select></td>
                                                             <td><input type="text" name="quantity[]"
@@ -340,7 +338,7 @@
 
                                                         @endforeach
                                                         @endif
-                                                      
+
 
                                                         <tr class="line_items">
                                                             <td colspan="4"></td>
@@ -396,7 +394,7 @@
                                                     <div class="col-lg-offset-2 col-lg-12">
                                                         @if(!@empty($id))
 
-                                                      
+
                                                         <button class="btn btn-sm btn-primary float-right m-t-n-xs"
                                                             data-toggle="modal" data-target="#myModal"
                                                             type="submit">Update</button>
@@ -424,59 +422,13 @@
 </section>
 
 <!-- discount Modal -->
-<div class="modal inmodal show" id="appFormModal2" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-    </div>
-</div>
+
 </div>
 </div>
 
 
 <!-- route Modal -->
-<div class="modal inmodal show" id="routeModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Add Discount</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Make sure you enter valid information</strong> .</p>
 
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">from</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="arrival_point" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">To</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="destination_point" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Distance</label>
-
-                        <div class="col-lg-10">
-                            <input type="text" name="distance" class="form-control">
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 </div>
 
@@ -665,7 +617,7 @@ $(function() {
 $('#owner_id').change(function() {
 
     let id = $(this).val()
-   
+
     $.ajax({
         type: 'GET',
         url: '/agrihub/public/getFarm/',
@@ -675,7 +627,7 @@ $('#owner_id').change(function() {
         cache: false,
         async: true,
         success: function(response) {
-  
+
             var len = 0;
             if (response.data != null) {
                 len = response.data.length;
@@ -684,15 +636,16 @@ $('#owner_id').change(function() {
             if (len > 0) {
                 $('#farm').html("");
                 for (var i = 0; i < len; i++) {
-                   
+
                     var id = response.data[i].id;
                     var reg_no = response.data[i].reg_no;
                     var location = response.data[i].location;
 
-                    var option = "<option value='" + id + "'>" + reg_no + ":" + location +"</option>";
+                    var option = "<option value='" + id + "'>" + reg_no + ":" + location +
+                        "</option>";
 
                     $("#farm").append(option);
-                   
+
                 }
             }
         },
