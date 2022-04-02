@@ -135,7 +135,7 @@
                                                                     data-toggle="modal" class="discount" href=""
                                                                     onclick="model({{ $row->id }},'discount')"
                                                                     value="{{ $row->id}}"
-                                                                    data-target="#appFormModal">Discount Quotation</a>
+                                                                    data-target="#appFormModal2">Discount Quotation</a>
                                                             </li>
                                                             <li class="nav-item"><a class="nav-link"
                                                                     title="Convert to Invoice"
@@ -424,7 +424,7 @@
 </section>
 
 <!-- discount Modal -->
-<div class="modal inmodal show" id="appFormModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal show" id="appFormModal2" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
     </div>
 </div>
@@ -650,7 +650,7 @@ function model(id, type) {
             $('.modal-dialog').html(data);
         },
         error: function(error) {
-            $('#appFormModal').modal('toggle');
+            $('#appFormModal2').modal('toggle');
 
         }
     });
@@ -697,7 +697,7 @@ $('#owner_id').change(function() {
             }
         },
         error: function(error) {
-            $('#appFormModal').modal('toggle');
+            $('#appFormModal2').modal('toggle');
 
         }
     });
