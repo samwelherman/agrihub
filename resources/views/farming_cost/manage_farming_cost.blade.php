@@ -590,7 +590,7 @@ function model(id, type) {
 
     $.ajax({
         type: 'GET',
-        url: '/courier/public/discountModal/',
+        url: 'courier/public/discountModal/',
         data: {
             'id': id,
             'type': type,
