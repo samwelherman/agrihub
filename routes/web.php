@@ -247,6 +247,23 @@ Route::resource('tyre_return', 'Tyre\TyreReturnController');
 Route::get('findTyreDetails', 'Tyre\TyreReturnController@findPrice'); 
 Route::get('tyre_return_approve/{id}', 'Tyre\TyreReturnController@approve')->name('tyre_return.approve'); 
 
+//pacel
+Route::resource('pacel_list', 'Pacel\PacelListController');
+Route::resource('pacel_quotation', 'Pacel\PacelController');
+Route::get('pacel_invoice', 'Pacel\PacelController@invoice')->name('pacel.invoice');
+Route::get('findPacelPrice', 'Pacel\PacelController@findPrice'); 
+Route::get('pacel_approve/{id}', 'Pacel\PacelController@approve')->name('pacel.approve'); 
+Route::get('pacel_cancel/{id}', 'Pacel\PacelController@cancel')->name('pacel.cancel');  
+Route::get('make_pacel_payment/{id}', 'Pacel\PacelController@make_payment')->name('pacel.pay'); 
+Route::get('pacel_pdfview',array('as'=>'pacel_pdfview','uses'=>'Pacel\PacelController@pacel_pdfview'));
+Route::resource('pacel_payment', 'Pacel\PacelPaymentController');
+Route::get('pacelModal', 'Pacel\PacelController@discountModal');
+Route::post('newdiscount', 'Pacel\PacelController@newdiscount');
+Route::get('addSupplier', 'Pacel\PacelController@addSupplier');
+Route::get('addRoute', 'Pacel\PacelController@addRoute');
+
+Route::resource('routes', 'RouteController');
+
 Route::resource('permissions', 'PermissionController');
 Route::resource('roles', 'RoleController');
 

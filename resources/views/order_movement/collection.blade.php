@@ -37,31 +37,31 @@
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">{{__('ordering.ref_no')}}</th>
+                                                    style="width: 186.484px;">#</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">Type</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">{{__('ordering.crop_type')}}</th>
+                                                    style="width: 186.484px;">Shipment Name</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">{{__('ordering.quantity')}}</th>
+                                                    style="width: 186.484px;">Qty/Weight</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">{{__('ordering.from')}}</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">{{__('ordering.to')}}</th>
+                                                    style="width: 141.219px;">Route</th>
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">{{__('ordering.transporter')}}</th>
+                                                    style="width: 141.219px;">Client</th>
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">{{__('ordering.estimated_cost')}}</th>
+                                                    style="width: 141.219px;">Amount</th>
 
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
@@ -85,23 +85,37 @@
                                                 <td>
                                                    {{$loop->iteration}}
                                                 </td>
-                                                <td>{{$row->movement_crop_types->crop_name}}</td>
+                                                <td>{{$row->module}}</td>
+                                                @if ($row->module == 'Order')
+                                                <td>{{$row->movement_crop_types->crop_name}}</td>  
+                                                @else
+                                                <td>{{$row->crop_type}}</td>  
+                                                @endif
+                                                
                                                 <td>{{$row->quantity}}</td>
-
-                                                <td>{{$row->start_location}}</td>
-
-                                                <td>{{$row->end_location}}</td>
-
-                                                <td>{{$row->movement_user->name}}</td>
-
-                                                <td>{{$row->amount}}Tsh</td>
+                                                <td>From {{$row->start_location}} to {{$row->end_location}}</td>
+                                                @if ($row->module == 'Order')
+                                                <td>{{$row->movement_user->name}}</td>  
+                                                @else
+                                                <td>{{$row->receiver_name}}</td>  
+                                                @endif
+                                                
+                                                @if ($row->module == 'Order')
+                                                <td>{{$row->amount}}Tsh</td>  
+                                                @else
+                                                @php
+                                                    $code=App\Models\Pacel\Pacel::find($row->module_id);
+                                                @endphp
+                                                <td>{{$row->amount}} {{$code->currency_code}}</td>  
+                                                @endif
+                                               
 
                                                 <!--<td>{{$row->receiver_name}}</td>-->
 
 
                                                 <td>
                                                     @if($row->status == 2)
-                                                    <div class="badge badge-success badge-shadow">Fully Paid</div>
+                                                    <div class="badge badge-success badge-shadow">Paid Invoice</div>
 
                                                     @endif
                                                 </td>

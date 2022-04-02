@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateActivitiesTable extends Migration
+class CreatePacelListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('pacel_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('module_id');
-            $table->string('module');
-            $table->date('date');
-            $table->string('activity');
-            $table->string('notes')->nullable();               
+            $table->string('name');
+            $table->string('unit');
+            $table->decimal('price');
             $table->integer('added_by');
             $table->timestamps();
         });
@@ -32,6 +30,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('pacel_lists');
     }
 }

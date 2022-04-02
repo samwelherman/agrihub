@@ -15,12 +15,15 @@ class CreateOrderMovementsTable extends Migration
     {
         Schema::create('order_movements', function (Blueprint $table) {
             $table->id();
-            $table->integer('transport_id');
-            $table->integer('quantity');
+            $table->integer('module_id');
+            $table->string('module');
+            $table->string('crop_type');
+            $table->string('quantity');
             $table->string('start_location');
             $table->string('end_location');
-            $table->integer('client_id');
-            $table->integer('warehouse_id');
+            $table->string('client_id');
+            $table->string('receiver_name')->nullable();
+            $table->integer('warehouse_id')->nullable();
             $table->integer('amount');
             $table->decimal('due_amount');
             $table->integer('tax');
