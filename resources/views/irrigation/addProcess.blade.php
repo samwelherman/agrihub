@@ -18,11 +18,17 @@
                         <div style="height: 100px !important;"></div>
                     </div>
                 </div>
-        <form id="addProcessForm" method="post" action="javascript:void(0)">
-        @csrf
+                @if(!empty($id))
+    {{ Form::model($id, array('route' => array('irrigation.update', $id), 'method' => 'PUT')) }}
+    @else
+    {{ Form::open(['route' => 'irrigation.store']) }}
+    @method('POST')
+    @endif
+    @csrf
         <div class="modal-body">
         <div class="alert alert-danger d-none errors col-12" role="alert"> </div>
-
+        <input type="hidden" name="type2" value="process" class="form-control">
+        <input type="hidden" name="type" value="irrigation">
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
                     <div class="form-group">
@@ -70,9 +76,9 @@
            
         </div>
         <div class="modal-footer bg-whitesmoke br">
-        <input type="hidden" name="type" value="process" class="btn btn-primary" >
+       
             <input type="submit" value="Save" class="btn btn-primary" onclick="saveProcess(this)">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
-        </form>
+        {!! Form::close() !!}
 </div>

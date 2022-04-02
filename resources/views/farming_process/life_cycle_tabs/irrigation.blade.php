@@ -6,12 +6,7 @@
         </div>
         <div class="card-body">
             <ul class="nav nav-tabs" id="myTab2" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link @if($type =='irrigation')active show @endif" id="home-tab5" data-toggle="tab"
-                        href="#home5" role="tab5" aria-controls="home4" onclick="{ $type = 'irrigation'}"
-                        aria-selected="true">{{__('farming.irrigation')}}
-                    </a>
-                </li>
+              
                 <li class="nav-item">
                     <a class="nav-link @if($type =='edit-irrigation') active show @endif" id="profile-tab5"
                         data-toggle="tab" href="#profile6" role="tab" aria-controls="profile5"
@@ -26,80 +21,7 @@
 
             </ul>
             <div class="tab-content tab-bordered" id="myTab3Content">
-                <div class="tab-pane fade @if($type =='irrigation') active show @endif" id="home5" role="tabpanel"
-                    aria-labelledby="home-tab5">
-                    <div class="table-responsive">
-                        <table class="table table-striped col-lg-12 col-sm-12" id="table-1">
-                            <thead>
-                                <tr role="row">
-
-
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.package')}}</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.farming_process')}}</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.fertilizer_amount')}}</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.total_amount')}}</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.fertilizer_price')}}</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="CSS grade: activate to sort column ascending"
-                                        style="width: 98.1094px;">{{__('farming.total_costing')}}</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="CSS grade: activate to sort column ascending"
-                                        style="width: 98.1094px;">{{__('farming.action')}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(!@empty($irrigation))
-                                @foreach ($irrigation as $row)
-                                <tr class="gradeA even" role="row">
-                                    <td>{{$row->package}}</td>
-                                    <td>{{$row->farming_processes->process_name}}</td>
-                                    <td>{{$row->fertilizer_amount}}</td>
-
-                                    <td>{{$row->total_amount}}</td>
-                                    <td>{{$row->fertilizer_price}}</td>
-                                    <td>{{$row->total_costing}}</td>
-
-
-                                    <td>
-
-                                        <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
-                                            href="{{ route('editLifeCycle',['id'=> $row->id,'type'=>'preparation','seasson_id'=>$seasson_id])}}">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-xs btn-outline-danger text-uppercase px-2 rounded demo4"
-                                            href="{{ route('seasson.destroy', $row->id)}}">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                        <div class="btn-group">
-                                            <button class="btn btn-xs btn-success dropdown-toggle"
-                                                data-toggle="dropdown">Change<span class="caret"></span></button>
-                                            <ul class="dropdown-menu animated zoomIn">
-                                                <li class="nav-item"><a class="nav-link" title="quotation"
-                                                        href="{{ route('seasson.show', $row->id)}}">
-                                                        {{__('farming.crop_monitoring')}}</a></li>
-                                            </ul>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                                @endforeach
-
-                                @endif
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                
                 <div class="tab-pane fade @if($type =='irrigation') active show @endif" id="profile7" role="tabpanel"
                     aria-labelledby="home-tab6">
                     <button type="button" class="btn btn-outline-info btn-xs px-4" data-toggle="modal"
@@ -423,7 +345,7 @@
                     let form = $(e).closest('form');
                     let formID = '#' + form.attr('id');
                     let formElement = $(formID);
-
+                    type = document. getElementById('type');
                     var form1 = $('form')[0];
 
                     let modal = $('#appFormModal');
@@ -439,7 +361,7 @@
                         },
                         url: url,
                         type: 'POST',
-                        data: new FormData(form1),
+                        data: {'type':12},
                         contentType: false,
                         processData: false,
                         success: function(res) {

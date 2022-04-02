@@ -95,23 +95,29 @@ class IrrigationController extends Controller
      */
     public function store(Request $request)
     {  
-        // $this->validate($request, [
-        //     'name' => 'required',
+        $this->validate($request, [
+            'type' => 'required',
             
-        // ]);
+        ]);
         //
         $data = $request->all();
-        $data['user_id'] = auth()->user()->added_by;
 
-        if($request->type == "process"){
+        $data['user_id'] = auth()->user()->added_by;
+         
+        $function = $request->type;
+
+        if($request->type2 == "process"){
             $result = IrrigationProcess::create($data);
+           // echo $data[];
         }else{
             $result = IrrigationSettings::create($data);
+            //echo $data;
         }
 
        // $result = IrrigationProcess::create($data);
-
-        return response(['message' => true]);
+        
+       return redirect()->route('cropslifecycle.index', $function)->with(['success'=>$function,'seasson_id'=>$request->seasson_id]);
+        //return response(['message' => true]);
     }
 
     /**
