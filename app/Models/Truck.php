@@ -14,7 +14,12 @@ class Truck extends Model
     
     public function user()
     {
-        return $this->belongsTo('App\Models\user');
+        return $this->belongsTo('App\Models\User','added_by');
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo('App\Models\Driver','driver');
     }
           
 
