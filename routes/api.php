@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controller\Orders_Client_ManipulationsController;
+use App\Http\Controller\Auth_ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('manipulation',[Orders_Client_ManipulationsController::class,'index']);
+Route::resource('manipulation','Orders_Client_ManipulationsController');
+
+Route::post('login','Api_controllers\Auth_ApiController@login');
+Route::post('register','Api_controllers\Auth_ApiController@register');
