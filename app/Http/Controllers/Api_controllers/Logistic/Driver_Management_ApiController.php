@@ -44,40 +44,37 @@ class Driver_Management_ApiController extends Controller
     public function store(Request $request)
     {
         
-        // $this->validate($request,[
-        //     'warehouse_id'=>'required',
-        //     'quantity'=>'required',
-        //     'user_id'=>'required',
-        //     'client_id'=>'required',
-        //     'offer_amount'=>'required',
-        //     'crop_type'=>'required',
-        //     'start_location'=>'required',
-        //     'end_location'=>'required',
-        //     'route_type'=>'requied',
-        //     'status'=>'required'
-        // ]); 
-        // $user_id=auth()->user()->id;
-        // $order= new Order();
-        // $order->warehouse_id=$request->input('warehouse_id');
-        // $order->quantity=$request->input('quantity');
-        // $order->client_id=$user_id;
-        // $order->user_id=0;
-        // $order->offered_amount=$request->input('offer_amount');
-        // $order->crop_type=$request->input('crop_type');
-        // $order->start_location=$request->input('start_location');
-        // $order->end_location=$request->input('end_location');
-        // $order->route_type=1;
-        // $order->status=1;
-        // $order->save();
-        // if($order)
-        // {
-        //     return response()
-        //     ->json(" Order created successfull");
-        // }
-        // else
-        // {
-        //     return ;
-        // }
+       //
+
+       $this->validate($request,[
+        'profile' => 'image|required|max:1999',
+    ]);
+
+     //handle file upload
+     if($request->hasFile('profile')){
+        $filenameWithExt=$request->file('profile')->getClientOriginalName();
+        $filename=pathinfo($filenameWithExt,PATHINFO_FILENAME);
+        $extension=$request->file('profile')->getClientOriginalExtension();
+        $fileNameToStore=$filename.'_'.time().'.'.$extension;
+        $path=$request->file('profile')->storeAs('public/assets/img/driver',$fileNameToStore);
+    }
+
+    $data['driver_name']=$request->driver_name;
+    $data['address']=$request->address;
+    $data['referee']=$request->referee;
+    $data['experience']=$request->experience;
+    $data['driver_status']=$request->driver_status;
+    $data['profile']=$fileNameToStore;
+    $data['added_by']=auth()->user()->id;
+    $driver= Driver::create($data);
+
+    if($driver){
+        $response=['success'=>true,'error'=>false,'message'=>'Driver Registered Successfully','driver'=>$driver];
+        return response()->json($response,200);
+    }else{
+        $response=['success'=>false,'error'=>true,'message'=>'Registering Driver Fail'];
+        return response()->json($response,400);
+    }
 
       
     }

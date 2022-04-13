@@ -45,42 +45,20 @@ class Truck_Management_ApiController extends Controller
     public function store(Request $request)
     {
         
-        // $this->validate($request,[
-        //     'warehouse_id'=>'required',
-        //     'quantity'=>'required',
-        //     'user_id'=>'required',
-        //     'client_id'=>'required',
-        //     'offer_amount'=>'required',
-        //     'crop_type'=>'required',
-        //     'start_location'=>'required',
-        //     'end_location'=>'required',
-        //     'route_type'=>'requied',
-        //     'status'=>'required'
-        // ]); 
-        // $user_id=auth()->user()->id;
-        // $order= new Order();
-        // $order->warehouse_id=$request->input('warehouse_id');
-        // $order->quantity=$request->input('quantity');
-        // $order->client_id=$user_id;
-        // $order->user_id=0;
-        // $order->offered_amount=$request->input('offer_amount');
-        // $order->crop_type=$request->input('crop_type');
-        // $order->start_location=$request->input('start_location');
-        // $order->end_location=$request->input('end_location');
-        // $order->route_type=1;
-        // $order->status=1;
-        // $order->save();
-        // if($order)
-        // {
-        //     return response()
-        //     ->json(" Order created successfull");
-        // }
-        // else
-        // {
-        //     return ;
-        // }
-
-      
+         $data = $request->all();
+         $driver=Driver::where('id',$request->driver)->first();
+         $data['driver_status']=$driver->driver_status;
+         $data['added_by']=auth()->user()->id;
+         $truck= Truck::create($data);
+         if($truck){
+            $response=['success'=>true,'error'=>false,'message'=>'Truck Registered Successfully','truck'=>$truck];
+            return response()->json($response,200);
+         }else{
+            $response=['success'=>false,'error'=>true,'message'=>'Truck Registered Failed'];
+            return response()->json($response,400);
+         }
+        
+         
     }
     
     
