@@ -11,10 +11,9 @@
                         <h4>{{__('farming.seasson')}}</h4>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-2">
-                                <ul class="nav nav-pills flex-column" id="myTab4" role="tablist">
-                                    <li class="nav-item">
+
+                               <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                             <li class="nav-item">
                                         @can('view-manage_seasson')
                                         <a class="nav-link @if(empty($id)) active  @endif" id="#tab1" data-toggle="tab"
                                             href="#tab1" role="tab" aria-controls="home"
@@ -29,10 +28,10 @@
                                     </li>
                                     @endcan
 
-                                </ul>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-10">
-                                <div class="tab-content no-padding" id="myTab2Content">
+                        </ul>
+                               
+
+                                <div class="tab-content tab-bordered"  id="myTab2Content">
                                     <div class="tab-pane fade @if(empty($id)) active show  @endif" id="tab1"
                                         role="tabpanel" aria-labelledby="tab1">
                                         @can('view-manage_seasson')
@@ -82,11 +81,11 @@
                                                 @foreach ($seasson as $row)
                                                 <tr class="gradeA even" role="row">
                                                     <th>{{ $loop->iteration }}</th>
-                                                    <td>{{$row->farmer->firstname}}</td>
+                                                    <td>{{$row->farmer->firstname}} {{$row->farmer->lastname}}</td>
                                                     <td>{{$row->farm->reg_no}}:{{$row->farm->location}}</td>
                                                     <td>{{$row->seasson_name}}</td>
                                                     <td>{{$row->start_date}}</td>
-                                                    <td>{{$row->crop_name}}</td>
+                                                     <td>{{$row->crop->crop_name}}</td>
                                                     <td>{{$row->harvest_date}}</td>
                                                     <td>
                                                         @can('edit-manage_seasson')
@@ -134,7 +133,7 @@
                                                 @if(!empty($id))
                                                 <h5>{{__('farming.edit')}} {{__('farming.seasson')}}</h5>
                                                 @else
-                                                <h5>{{__('farming.add')}} {{__('farming.seasson')}}</h5>
+                                                <h5>Add {{__('farming.seasson')}}</h5>
                                                 @endif
                                             </div>
                                             <div class="card-body p-0">
@@ -150,14 +149,15 @@
 
                                                         <div class="col-lg-10">
                                                             <div class="input-group">
-                                                                <select class="form-control m-b" id="farmer_id"
+                                                                <select class="form-control farmer_id" id="farmer_id"
                                                                     name="farmer_id" required>
+                                                                  <option ="">Select</option>
                                                                     @if(!empty($farmer))
                                                                     @foreach($farmer as $row)
                                                                     <option value="{{$row->id}}"
                                                                         @if(isset($data))@if($data->farmer_id ==
                                                                         $row->id)
-                                                                        selected @endif @endif >{{$row->firstname}}
+                                                                        selected @endif @endif >{{$row->firstname}} {{$row->lastname}}
                                                                     </option>
 
                                                                     @endforeach
@@ -170,13 +170,39 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group row"><label
+                                                     @if(!empty($data))
+                            <div class="form-group row"><label
+                                 class="col-lg-2 col-form-label">Farm</label>
+                                  <div class="col-lg-10">
+                                                            <div class="input-group">
+                                  <select class="form-control m-b" name="farm_id"  id="farm_id" required>                                                               
+                                                              <option ="">Select</option>
+                                    
+                                    @if(!empty($farm))
+                                                        @foreach($farm as $row)
+
+                                                        <option @if(isset($data))
+                                                            {{ $data->farm_id == $row->id  ? 'selected' : ''}}
+                                                            @endif value="{{$row->id}}">{{$row->reg_no}} : {{$row->location}}</option>
+
+                                                        @endforeach
+                                                        @endif
+                                    </select>
+                                 <div class="input-group-append">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+@else
+                         <div class="form-group row"><label
                                                             class="col-lg-2 col-form-label">Farm</label>
 
                                                         <div class="col-lg-10">
                                                             <div class="input-group">
                                                                 <select class="form-control m-b" name="farm_id"
                                                                     id="farm_id" required>
+                                                              <option ="">Select</option>
                                                                 </select>
                                                                 <div class="input-group-append">
 
@@ -184,6 +210,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
+ @endif
+                              
+                                                    
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <input type="hidden" name="type" class="form-control"
@@ -212,10 +241,20 @@
                                                             <input type="hidden" name="type" class="form-control"
                                                                 id="type" value="tool" placeholder="">
                                                             <label for="inputEmail4">{{__('farming.crop_name')}}</label>
-                                                            <input type="text" name="crop_name" class="form-control"
-                                                                id="code_name"
-                                                                value=" {{ !empty($data) ? $data->crop_name : ''}}"
-                                                                placeholder="" required>
+                                                            <select class="form-control" name="crop_name" required
+                                                        id="supplier_id">
+                                                        <option value="">Select</option>
+                                                        @if(!empty($crop))
+                                                                @foreach($crop as $row)
+
+                                                                <option @if(isset($data))
+                                                                    {{  $data->crop_name == $row->id  ? 'selected' : ''}}
+                                                                    @endif value="{{ $row->id}}">{{$row->crop_name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+                                                     
+                                                    </select>
                                                         </div>
                                                         <div class="form-group col-md-6 col-lg-6">
                                                             <label for="date">{{__('farming.harvest_date')}}</label>
@@ -262,13 +301,46 @@
     </div>
 
 </section>
+
+<script>
+$(document).ready(function() {
+
+    $(document).on('change', '.farmer_id', function() {
+        var id = $(this).val();
+        $.ajax({
+            url: '{{url("findFarm")}}',
+            type: "GET",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#farm_id").empty();
+                $("#farm_id").append('<option value="">Select </option>');
+                $.each(response,function(key, value)
+                {
+                 
+                    $("#farm_id").append('<option value=' + value.id+ '>' + value.reg_no  + ' : '+value.location+'</option>');
+
+                });                      
+               
+            }
+
+        });
+
+    });
+
+
+});
+</script>
 <script>
 $(function() {
-    $('#farmer_id').trigger('change');
+    $('#farmer').trigger('change');
 
 })
 
-$('#farmer_id').change(function() {
+$('#farmer').change(function() {
 
     let id = $(this).val()
  
@@ -296,7 +368,7 @@ $('#farmer_id').change(function() {
                     var location = response.data[i].location;
 
                     var option = "<option value='" + id + "'>" + reg_no + ":" + location +"</option>";
-
+                     var option = "<option value='"+id+"'>From "+arrival_point+" to "+destination_point+"</option>"; 
                     $("#farm_id").append(option);
                    
                 }
@@ -309,4 +381,5 @@ $('#farmer_id').change(function() {
     });
 });
 </script>
+
 @endsection

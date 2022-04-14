@@ -3,7 +3,8 @@
         <div class="sidebar-brand">
             <a href="">
                 <?php
-$settings= App\Models\System::first();
+                  $settings= App\Models\System::first();
+                  //$settings= App\Models\System::all()->where('added_by',auth()->user()->user_id);
 ?>
                 <img alt="image" src="{{url('public/assets/img/logo')}}/{{$settings->picture}}" class="header-logo" />
                 <span class="logo-name"></span>
@@ -12,7 +13,7 @@ $settings= App\Models\System::first();
         <ul class="sidebar-menu active show">
             @can('manage-dashboard')
             <li class="dropdown {{  request()->is('/dashboard') ? 'active' : '' }}">
-                <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                <a href="/public"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
             </li>
             @endcan
             @can('manage-farmer')
@@ -27,6 +28,10 @@ $settings= App\Models\System::first();
                     @can('view-group')
                     <li><a class="nav-link" href="{{url('manage-group')}}">{{__('farmer.manage_group')}}</a></li>
                     @endcan
+                    @can('view-farmer')
+                    <li ><a class="nav-link"
+                            href="{{url('assign_farmer/')}}">{{__('farmer.assign_farmer')}}</a></li>
+                    @endcan
                 </ul>
             </li>
             @endcan
@@ -37,6 +42,15 @@ $settings= App\Models\System::first();
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>{{__('farming.farming')}}</span></a>
                 <ul class="dropdown-menu">
+                    @can('manage-farming')
+                    <li><a class="nav-link" href="{{url('crop_type')}}">Crop Type</a></li>
+                    @endcan
+                 @can('manage-farming')
+                    <li><a class="nav-link" href="{{url('seed_type')}}">Seed Type</a></li>
+                    @endcan
+                  @can('manage-farming')
+                    <li><a class="nav-link" href="{{url('pesticide_type')}}">Pesticide Type</a></li>
+                    @endcan
                     @can('view-farmer-assets')
                     <li><a class="nav-link" href="{{url('register_assets')}}">{{__('farming.farmer_assets')}}</a></li>
                     @endcan
@@ -47,11 +61,14 @@ $settings= App\Models\System::first();
                     <li><a class="nav-link" href="{{url('cost_centre')}}">{{__('farming.cost_centre')}}</a></li>
                     @endcan
                     @can('view-farming-process')
-                    <li><a class="nav-link" href="{{url('farming_process')}}">{{__('farming.farming_process')}}</a></li>
+                    <li><a class="nav-link" href="{{url('farming_process')}}">GAP</a></li>
                     @endcan
                     @can('view-crop-monitoring')
                     <li><a class="nav-link" href="{{url('crops_monitoring')}}">{{__('farming.crop_monitoring')}}</a>
                     </li>
+                    @endcan
+                       @can('manage-farming')
+                    <li><a class="nav-link" href="{{url('lime_base')}}">Lime Base</a></li>
                     @endcan
                     @can('view-manage_seasson')
                     <li><a class="nav-link" href="{{url('seasson')}}">{{__('farming.manage_seasson')}}</a></li>
@@ -86,7 +103,7 @@ $settings= App\Models\System::first();
             @can('manage-logistic-orders')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="command"></i><span>Parcel Management</span></a>
+                        data-feather="command"></i><span>Cargo Management</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{url('pacel_list')}}">Item List</a></li>
                     <li><a class="nav-link" href="{{url('pacel_quotation')}}">Quotation</a></li>                   
@@ -98,9 +115,9 @@ $settings= App\Models\System::first();
             @can('manage-logistic-orders')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="command"></i><span>Logistic Tracking</span></a>
+                        data-feather="command"></i><span>Cargo Tracking</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{url('collection')}}"> Collection</a></li>
+                    <li><a class="nav-link" href="{{url('collection')}}"> Create Cargo</a></li>
                     <li><a class="nav-link" href="{{url('loading')}}"> Loading</a></li>
                     <li><a class="nav-link" href="{{url('offloading')}}"> Offloading</a></li>
                     <li><a class="nav-link" href="{{url('delivering')}}">Delivery</a></li>
@@ -143,7 +160,7 @@ $settings= App\Models\System::first();
             @can('manage-logistic')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="command"></i><span>Logistic</span></a>
+                        data-feather="command"></i><span>Truck & Driver</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{url('truck')}}">Truck Management</a></li>
                     <li><a class="nav-link" href="{{url('driver')}}">Driver Management</a></li>
@@ -159,7 +176,7 @@ $settings= App\Models\System::first();
             @can('manage-inventory')
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="command"></i><span>Tyre Management</span></a>
+                        data-feather="command"></i><span>Tire Management</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{url('tyre_brand')}}">Tyre Brand</a></li>
                     <li><a class="nav-link" href="{{url('purchase_tyre')}}">Purchase Tyre</a></li>
@@ -192,6 +209,49 @@ $settings= App\Models\System::first();
                 </ul>
             </li>
             @endcan
+
+               @can('manage-shop')
+            <li class="dropdown">
+            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Transactions</span></a>
+              <ul class="dropdown-menu">
+
+                    <li class=""><a  class="nav-link" href="{{ url('deposit') }}">Deposit</a></li>
+                    <li class=" "><a class="nav-link" href="{{ url('expenses') }}">Expenses</a></li>
+
+                                            
+                </ul>
+            </li>
+          @endcan 
+
+              
+            <li class="dropdown">
+            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>GL SETUP</span></a>
+              <ul class="dropdown-menu">
+
+                    <li class=""><a  class="nav-link" href="{{ url('class_account') }}">Class Account </a></li>
+                    <li class=" "><a class="nav-link" href="{{ url('group_account') }}">Group Account</a></li>
+                    <li class=""><a class="nav-link"  href="{{ url('account_codes') }}">Account Codes</a></li>
+                  <li class=""><a class="nav-link"  href="{{ url('chart_of_account') }}">Chart of Accounts </a></li>
+                                            
+                </ul>
+            </li>
+          
+
+               
+           <li class="dropdown">
+            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Accounting</span></a>
+              <ul class="dropdown-menu">
+
+                    <li class=""><a  class="nav-link" href="{{ url('accounting/manual_entry') }}">Journal Entry</a></li>
+                    <li class=" "><a class="nav-link"href="{{ url('accounting/journal') }}">Journal Entry Report</a></li>
+                    <li class=""><a class="nav-link"  href="{{ url('accounting/ledger') }}">Ledger</a></li>
+                  <li class=""><a class="nav-link" href="{{url('financial_report/trial_balance')}}">Trial Balance  </a></li>
+                     <li class=""><a class="nav-link"  href="{{url('financial_report/income_statement')}}">Income Statement</a></li>
+                  <li class=""><a class="nav-link"  href="{{url('financial_report/balance_sheet')}}">Balance Sheet </a></li>
+                                             
+                </ul>
+            </li>
+            
 
             @can('manage-access-control')
             <li class="dropdown{{ request()->is('setting/*') ? 'active' : '' }}">

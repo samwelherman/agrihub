@@ -45,12 +45,18 @@ Route::group(['prefix'=>'farmer'],function()
 Route::resource('/farming_cost','farming\Farming_costController');
 Route::resource('/cost_centre','farming\Cost_CentreController');
 Route::resource('/farming_process','farming\Farming_processController');
+Route::resource('/crop_type','farming\CropTypeController');
+Route::resource('/seed_type','farming\FeedTypeController');
+Route::resource('/farm_program','farming\FarmProgramController');
 Route::resource('/crops_monitoring','farming\Crops_MonitoringController');
 Route::resource('/register_assets','farming\Farmer_assetsController');
+Route::resource('/lime_base','farming\LimeBaseController');
 Route::get('/landview',"farming\Farmer_assetsController@index1" );
 Route::get('/landdelete/{$id}',"farming\Farmer_assetsController@destroy2" );
 Route::get('getFarm',"farming\Farmer_assetsController@getFarm" );
+
 Route::resource('seeds_type',"farming\Seeds_TypesController" );
+Route::resource('pesticide_type',"farming\PesticideTypeController" );
 Route::get('download',array('as'=>'download','uses'=>'farming\Crops_MonitoringController@download'));
 // end farming routes
 
@@ -79,9 +85,12 @@ Route::resource('/seasson','farming\SeassonController');
 Route::resource('/cropslifecycle','farming\CropsLifeCycleController');
 Route::any('editLifeCycle',array('as'=>'editLifeCycle','uses'=>'farming\CropsLifeCycleController@editLifeCycle'));
 Route::any('deleteLifeCycle',array('as'=>'deleteLifeCycle','uses'=>'farming\CropsLifeCycleController@deleteLifeCycle'));
-
-
-
+Route::get('findFarm',"farming\SeassonController@findFarm" );
+Route::get('findLime',"farming\CropsLifeCycleController@findLime" );
+Route::get('findSeed',"farming\CropsLifeCycleController@findSeed" );
+Route::get('findPesticide',"farming\CropsLifeCycleController@findPesticide" );
+Route::get('monitorModal', 'farming\CropsLifeCycleController@discountModal');
+Route::post('save_monitor', 'farming\CropsLifeCycleController@save_monitor')->name('monitor.save');
 
 Route::get('/home',"HomeController@index" );
 Route::get('farmer','FarmerController@index');
@@ -92,6 +101,12 @@ Route::post('farmer/update/{id}','FarmerController@update');
 Route::post('farmer/save','FarmerController@store');
 Route::get('farmer/{id}/delete','FarmerController@destroy');
 Route::get('farmer/{id}/show','FarmerController@show');
+Route::get('findRegion', 'FarmerController@findRegion');  
+Route::get('findDistrict', 'FarmerController@findDistrict');  
+Route::get('assign_farmer','FarmerController@assign_farmer');
+Route::post('save_farmer', 'FarmerController@save_farmer')->name('farmer.save');
+Route::get('farmerModal', 'FarmerController@discountModal');
+
 
 Route::post('group/{id}/update','GroupController@update');
 Route::get('manage-group','GroupController@index');
@@ -264,6 +279,53 @@ Route::get('addRoute', 'Pacel\PacelController@addRoute');
 
 Route::resource('routes', 'RouteController');
 
+
+//GL SETUP
+Route::resource('class_account', 'ClassAccountController');
+Route::resource('group_account', 'GroupAccountController');
+Route::resource('account_codes', 'AccountCodesController');
+Route::resource('system', 'SystemController');
+Route::resource('chart_of_account', 'ChartOfAccountController');
+Route::resource('expenses', 'ExpensesController');
+Route::resource('deposit', 'DepositController');
+
+//route for reports
+Route::group(['prefix' => 'accounting'], function () {
+
+    Route::any('trial_balance', 'AccountingController@trial_balance');
+    Route::any('ledger', 'AccountingController@ledger');
+    Route::any('journal', 'AccountingController@journal');
+    Route::get('manual_entry', 'AccountingController@create_manual_entry');
+    Route::post('manual_entry/store', 'AccountingController@store_manual_entry');
+});
+
+
+    Route::group(['prefix' => 'financial_report'], function () {
+        Route::any('trial_balance', 'ReportController@trial_balance');
+        Route::any('trial_balance/pdf', 'ReportController@trial_balance_pdf');
+        Route::any('trial_balance/excel', 'ReportController@trial_balance_excel');
+        Route::any('trial_balance/csv', 'ReportController@trial_balance_csv');
+        Route::any('ledger', 'ReportController@ledger');
+        Route::any('journal', 'ReportController@journal');
+        Route::any('income_statement', 'ReportController@income_statement');
+        Route::any('income_statement/pdf', 'ReportController@income_statement_pdf');
+        Route::any('income_statement/excel', 'ReportController@income_statement_excel');
+        Route::any('income_statement/csv', 'ReportController@income_statement_csv');
+        Route::any('balance_sheet', 'ReportController@balance_sheet');
+        Route::any('balance_sheet/pdf', 'ReportController@balance_sheet_pdf');
+        Route::any('balance_sheet/excel', 'ReportController@balance_sheet_excel');
+        Route::any('balance_sheet/csv', 'ReportController@balance_sheet_csv');
+         Route::any('summary', 'ReportController@summary');
+        Route::any('summary/pdf', 'ReportController@summary_pdf');
+        Route::any('summary/excel', 'ReportController@summary');
+        Route::any('summary/csv', 'ReportController@summary');
+        Route::any('cash_flow', 'ReportController@cash_flow');
+        Route::any('provisioning', 'ReportController@provisioning');
+        Route::any('provisioning/pdf', 'ReportController@provisioning_pdf');
+        Route::any('provisioning/excel', 'ReportController@provisioning_excel');
+        Route::any('provisioning/csv', 'ReportController@provisioning_csv');
+    });
+
 Route::resource('permissions', 'PermissionController');
 Route::resource('roles', 'RoleController');
 
@@ -273,3 +335,6 @@ Route::resource('users_details', 'User\UserDetailsController');
 Route::resource('clients', 'ClientController');
 
 Route::resource('system', 'SystemController');
+
+//user Details
+Route::resource('user_details', 'UserDetailsController');

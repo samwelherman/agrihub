@@ -55,30 +55,37 @@
                                 <div class="form-row">
                                   <div class="form-group col-md-6">
                                     <label for="inputState">Region</label>
-                                    <select id="inputState" name="region" class="form-control">
-                                    
-                                      <option value="mwanza"   @if('mwanza'==$farmer->region)
-                                        selected
-                                        
-                                        @endif>Mwanza</option>
-                                      <option value="dar-es-salaam"  @if('dar-es-salaam'==$farmer->region)
-                                        selected
-                                        
-                                        @endif>Dar es salaam</option>
-                                      <option value="iringa"  @if('iringa'==$farmer->region)
-                                        selected
-                                        
-                                        @endif>Iringa</option>
-                                      <option value="kigoma"  @if('kigoma'==$farmer->region)
-                                        selected
-                                        
-                                        @endif>Kigoma</option>
-                                      <option value="morogoro"   @if('morogoro'==$farmer->region)
-                                        selected
-                                        
-                                        @endif>Morogoro</option>
+                                    <select  id="selectRegionid" name="region_id" class="form-control region">
+                                      <option ="">Select region</option>
+                                      @if(!empty($region))
+                                                        @foreach($region as $row)
+
+                                                        <option @if(isset($farmer))
+                                                            {{ $farmer->region_id == $row->id  ? 'selected' : ''}}
+                                                            @endif value="{{$row->id}}">{{$row->name}}</option>
+
+                                                        @endforeach
+                                                        @endif
                                     </select>
                                   </div>
+
+                              <div class="form-group col-md-6">
+                                    <label for="inputState">District</label>
+                                    <select id="selectDistrictid" name="district_id" class="form-control">
+                                      <option>Select district</option>
+                                    @if(!empty($district))
+                                                        @foreach($district as $row)
+
+                                                        <option @if(isset($farmer))
+                                                            {{ $farmer->district_id == $row->id  ? 'selected' : ''}}
+                                                            @endif value="{{$row->id}}">{{$row->name}}</option>
+
+                                                        @endforeach
+                                                        @endif
+                                    </select>
+                                  </div>
+                             </div>
+
                                   <div class="form-group col-md-6">
                                     <label for="inputCity">Physical Address</label>
                                     <input type="text" name="address" value="{{$farmer->address}}" class="form-control" id="inputCity">
@@ -94,7 +101,9 @@
                                       <option value="0" selected="">Select group</option>
                                     @if(count($group)>0)
                                     @foreach($group as $group)
-                                      <option value="{{$group->id}}">{{$group->name}}</option>
+                                      <option value="{{$group->id}}" @if(isset($data))
+                                                            {{ $farmer->group_id == $group->id ? 'selected' : ''}}
+                                                            @endif >{{$group->name}}</option>
                                     @endforeach
                                     @endif
                                     </select>
@@ -137,4 +146,37 @@
         </div>
     </div>
   </section>
+
+<script>
+$(document).ready(function() {
+
+    $(document).on('change', '.region', function() {
+        var id = $(this).val();
+        $.ajax({
+            url: '{{url("findRegion")}}',
+            type: "GET",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#selectDistrictid").empty();
+                $("#selectDistrictid").append('<option value="">Select district</option>');
+                $.each(response,function(key, value)
+                {
+                 
+                    $("#selectDistrictid").append('<option value=' + value.id+ '>' + value.name + '</option>');
+                   
+                });                      
+               
+            }
+
+        });
+
+    });
+
+
+});
+</script>
 @endsection

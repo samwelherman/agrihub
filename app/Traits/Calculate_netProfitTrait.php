@@ -52,13 +52,6 @@ if($group->group_id != 5110){
 foreach($group->accountCodes as $account_code){
      
      
-                           $cr = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
-                            $end_date)->where('branch_id',
-                            session('branch_id'))->sum('credit');
-                        $dr = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
-                            $end_date)->where('branch_id',
-                            session('branch_id'))->sum('debit');
-                            
                             
                         $cr1 = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
                             $start_date)->where('branch_id',
@@ -69,9 +62,6 @@ foreach($group->accountCodes as $account_code){
                             
                             
                  
-
-                       $income_balance=$dr- $cr;
-                          $total_incomes+=$income_balance ;
                           
                         $income_balance1=$dr1- $cr1;
                           $total_incomes1+=$income_balance1 ;      
@@ -83,13 +73,7 @@ foreach($income as $account_class){
 foreach($account_class->groupAccount  as $group) {  
 if($group->group_id == 5110){
 foreach($group->accountCodes as $account_code){
-   
-                     $cr = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
-                            $end_date)->where('branch_id',
-                            session('branch_id'))->sum('credit');
-                        $dr = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
-                            $end_date)->where('branch_id',
-                            session('branch_id'))->sum('debit');
+
                             
                             
                         $cr1 = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
@@ -100,10 +84,7 @@ foreach($group->accountCodes as $account_code){
                             session('branch_id'))->sum('debit');
                             
                    
-                
-                       $income_balance=$dr- $cr;
                         $income_balance1=$dr1- $cr1;
-                          $total_other_incomes+=$income_balance ;
                           $total_other_incomes1+=$income_balance1 ;
    
 
@@ -117,13 +98,7 @@ if($group->group_id == 6180){
 foreach($group->accountCodes as $account_code){
 
 
-                 $cr = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
-                            $end_date)->where('branch_id',
-                            session('branch_id'))->sum('credit');
-                        $dr = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
-                            $end_date)->where('branch_id',
-                            session('branch_id'))->sum('debit');
-                            
+
                             
                         $cr1 = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
                             $start_date)->where('branch_id',
@@ -137,10 +112,8 @@ foreach($group->accountCodes as $account_code){
                             
                             
                             
-                        $cost_balance=$dr- $cr;
                         $cost_balance1=$dr1- $cr1;
                         
-                        $total_cost+=$cost_balance ;
                         $total_cost1+=$cost_balance1 ;
                             
 
@@ -152,13 +125,7 @@ foreach($account_class->groupAccount  as $group)  {
 if($group->group_id != 6180){
 foreach($group->accountCodes as $account_code){
 
-                    $cr = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
-                            $end_date)->where('branch_id',
-                            session('branch_id'))->sum('credit');
-                        $dr = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
-                            $end_date)->where('branch_id',
-                            session('branch_id'))->sum('debit');
-                            
+
                             
                         $cr1 = \App\Models\JournalEntry::where('account_id', $account_code->account_id)->where('date', '<=',
                             $start_date)->where('branch_id',
@@ -171,9 +138,7 @@ foreach($group->accountCodes as $account_code){
                     
                             
                             
-                            
-                $expense_balance=$dr- $cr;
-                $total_expense+=$expense_balance ;
+
                           
                 $expense_balance1=$dr1- $cr1;
                 $total_expense1+=$expense_balance1 ;
@@ -184,12 +149,6 @@ foreach($group->accountCodes as $account_code){
 
 
   
-if($total_other_incomes < 0){
-$total_o=$total_other_incomes * -1;
-}
-else if($total_other_incomes >= 0){
-$total_o=$total_other_incomes ;
-}
 
 if($total_other_incomes1 < 0){
 $total_o1=$total_other_incomes1 * -1;
@@ -199,13 +158,7 @@ $total_o1=$total_other_incomes1 ;
 }
 
 
-if($total_incomes < 0){
-$total_s=$total_incomes * -1;
-$gross=$total_s+$total_o-$total_cost;
-}
-else if($total_incomes >= 0){
-$gross=$total_incomes+$total_o-$total_cost;
-}
+
 
 if($total_incomes1 < 0){
 $total_s1=$total_incomes1 * -1;
@@ -218,18 +171,7 @@ $gross1=$total_incomes1+$total_o1-$total_cost1;
    
 
 
-if($gross < 0){
-$profit=$gross+$total_expense;
-}
-else if($gross < 0 && $total_expense < 0){
-$profit=$gross+$total_expense;
-}
-else if($gross >= 0 && $total_expense < 0){
-$profit=$total_expense +$gross;
-}
-else{
-$profit=$gross-$total_expense;
-}
+
 
 //range for second date
 if($gross1 < 0){
@@ -246,18 +188,15 @@ $profit1=$gross1-$total_expense1;
 }  
    
   
-if($profit > 0){
-$tax=$profit*0.3;
-}
+
 if($profit1 > 0){
 $tax1=$profit1*0.3;
 }
 
- $data['profit_for_first_date'] =   $profit-$tax;
  
  $data['profit_for_second_date'] =  $profit1-$tax1;
  
-  $data['tax_for_first_date'] =   $tax;
+
  
  $data['tax_for_second_date'] =  $tax1;
 

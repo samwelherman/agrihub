@@ -14,9 +14,9 @@ return [
     */
 
     'farmer' => 'Farmer',
-    'manage_farmer' => 'manage Farmer',
+    'manage_farmer' => 'Manage Farmer',
     'manage_group'=>'Manage Group',
-   
+   'assign_farmer'=>'Assign Farmer',
     
 
 

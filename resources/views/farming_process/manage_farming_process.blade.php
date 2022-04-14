@@ -8,7 +8,7 @@
             <div class="col-12 col-sm-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Farming Process</h4>
+                        <h4>GAP</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -17,15 +17,14 @@
                                 @can('view-farming-process')
                                     <li class="nav-item">
                                         <a class="nav-link @if(empty($id)) active  @endif" id="#tab1" data-toggle="tab"
-                                            href="#tab1" role="tab" aria-controls="home" aria-selected="true">Farming
-                                            Process</a>
+                                            href="#tab1" role="tab" aria-controls="home" aria-selected="true">GAP</a>
                                     </li>
                                     @endcan
                                     @can('edit-farming-process')
                                     <li class="nav-item">
                                         <a class="nav-link @if(!empty($id)) active  @endif" id="#tab2" data-toggle="tab"
                                             href="#tab2" role="tab" aria-controls="profile" aria-selected="false">New
-                                             Process</a>
+                                             GAP</a>
                                     </li>
                                     @endcan
 
@@ -47,7 +46,7 @@
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Engine version: activate to sort column ascending"
-                                                        style="width: 141.219px;">Processs/Activity Name</th>
+                                                        style="width: 141.219px;">GAP Name</th>
 
 
 
@@ -95,9 +94,9 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 @if(!empty($id))
-                                                <h5>Edit Farming Process</h5>
+                                                <h5>Edit GAP</h5>
                                                 @else
-                                                <h5>Add Farming Process</h5>
+                                                <h5>Add GAP</h5>
                                                 @endif
                                             </div>
                                             <div class="card-body p-0">
@@ -112,7 +111,7 @@
                                                         <div class="form-group col-md-6  col-lg-12">
                                                             <input type="hidden" name="type" class="form-control"
                                                                 id="type" value="tool" placeholder="">
-                                                            <label for="inputEmail4">Farming Process/Activity</label>
+                                                            <label for="inputEmail4">GAP Name</label>
                                                             <input type="text" name="process_name" class="form-control"
                                                                 id="process_name"
                                                                 value=" {{ !empty($data) ? $data->process_name : ''}}"

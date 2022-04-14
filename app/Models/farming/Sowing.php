@@ -11,11 +11,11 @@ class Sowing extends Model
 
     protected $table = "tbl_sowings";
 
-    protected $fillable = ['qn','nh','seasson_id','cost','qheck','seed_type','harvest_date','crop_type','user_id'];
+    protected $fillable = ['qn','nh','seasson_id','cost','qheck','seed_type','harvest_date','crop_type','user_id','total_cost'];
 
     public function seeds_type(){
 
-        return $this->belongsTo('App\Models\farming\Seeds_type','seed_type');
+        return $this->belongsTo('App\Models\FeedType','seed_type');
     }
 
     public function crops_type(){

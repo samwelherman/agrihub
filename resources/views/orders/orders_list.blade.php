@@ -90,6 +90,7 @@
                                                             href="{{ route('purchase.show',$row->id)}}" role="tab"
                                                             aria-selected="false">{{$loop->iteration}}</a></li>
                                                 </td>
+                                                
                                                 <td>{{$row->crop_types->crop_name}}</td>
                                                 <td>{{$row->quantity}}</td>
 

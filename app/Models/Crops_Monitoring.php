@@ -11,7 +11,7 @@ class Crops_Monitoring extends Model
 
     protected $table = "tbl_crops_monitoring";
 
-    protected $fillable = ['name','type','farm_id','course','symptoms','attachment','status'];
+    protected $fillable = ['name','type','farm_id','course','symptoms','attachment','status','module','module_id','season_id','added_by'];
     public function farm()
     {
         return $this->belongsTo('App\Models\Land_properties','farm_id');

@@ -26,7 +26,7 @@ class SystemController extends Controller
     public function index()
     {
       
-        $system = System::all();
+        $system = System::all()->where('added_by',auth()->user()->added_by);
         
         return view('system.data', compact('system'));
     }
@@ -52,20 +52,23 @@ class SystemController extends Controller
     public function store(Request $request)
     {
       
-
+$data = $request->all();
+					 $data['added_by'] = auth()->user()->added_by;
       if ($request->hasFile('picture')) {
 					$photo=$request->file('picture');
 					$fileType=$photo->getClientOriginalExtension();
 					$fileName=rand(1,1000).date('dmyhis').".".$fileType;
 					$logo=$fileName;
 					$photo->move('public/assets/img/logo', $fileName );
+					 $data['picture'] = $logo;
             	}
-
-
-            $system = new System();
-              $system->name = $request->name ;         
-               $system->picture = $logo ;
-            $system->save();
+            
+           
+            
+            $system = System::create($data);
+            //   $system->name = $request->name;         
+            //   $system->picture = $logo ;
+            // $system->save();
 
             
             //Flash::success(trans('general.successfully_saved'));
@@ -101,19 +104,23 @@ class SystemController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+             $data = $request->all();
       if ($request->hasFile('picture')) {
 					$photo=$request->file('picture');
 					$fileType=$photo->getClientOriginalExtension();
 					$fileName=rand(1,1000).date('dmyhis').".".$fileType;
 					$logo=$fileName;
 					$photo->move('public/assets/img/logo', $fileName );
+					$data['picture'] = $logo;
             	}
             
      
 
+            
          $system= System::find($id);
-        $system->name = $request->name ;
+         
+        $system->update($data);
+        //= $request->name ;
   
        
       if($request->hasFile('picture')){

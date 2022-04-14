@@ -31,22 +31,19 @@
 
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.maturity_index')}}</th>
+                                        style="width: 141.219px;">Category</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.crop_type')}}</th>
+                                        style="width: 141.219px;"> Harvest Method</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.grade')}}</th>
+                                        style="width: 141.219px;">Harvest Date</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.distance')}}</th>
+                                        style="width: 141.219px;">Acre</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.parking_type')}}</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.moisture_level')}}</th>
+                                        style="width: 141.219px;">Total Cost</th>
 
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="CSS grade: activate to sort column ascending"
@@ -57,13 +54,12 @@
                                 @if(!empty($post_harvest))
                                 @foreach ($post_harvest as $row)
                                 <tr class="gradeA even" role="row">
-                                    <td>{{$row->maturity_index}}</td>
-                                    <td>{{$row->crops_type->crop_name}}</td>
-                                    <td>{{$row->grade}}</td>
-                                    <td>{{$row->distance}}</td>
-
-                                    <td>{{$row->parking_types->parking_name}}</td>
-                                    <td>{{$row->moisture_level}}</td>
+                                    <td>{{$row->category}}</td>
+                                 <td>{{$row->harvest_method}}</td>
+                                    <td>{{$row->harvest_date}}</td>
+                                    <td>{{$row->acre}}</td>
+                                  <td>{{number_format($row->total_cost,2)}}</td>
+                                    
 
 
 
@@ -77,6 +73,12 @@
                                             href="{{ route('seasson.destroy', $row->id)}}">
                                             <i class="fa fa-trash"></i>
                                         </a>
+
+                               
+                               <a class="nav-link" title="Crop Monitor" data-toggle="modal" href=""  value="{{ $row->id}}" data-type="assign" data-target="#appFormModal" 
+                            onclick="model({{ $row->id  }},'post_harvest')">Crop Monitor</a>
+
+
                                         <div class="btn-group">
                                             <button class="btn btn-xs btn-success dropdown-toggle"
                                                 data-toggle="dropdown">Change<span class="caret"></span></button>
@@ -124,23 +126,42 @@
                                                 value="post_harvest" placeholder="">
                                             <input type="hidden" name="seasson_id" class="form-control" id="type"
                                                 value="{{$seasson_id}}" placeholder="">
-                                            <?php $crops_type = App\Models\Crops_type::all();  ?>
-                                            <label for="inputEmail4">{{__('farming.crop_type')}}</label>
-                                            <select class="form-control" name="crop_type" required>
-                                                @if(!empty($crops_type))
-                                                @foreach($crops_type as $row)
-                                                <option value="{{$row->id}}"
-                                                    {{(!empty($data)&&($data->crop_type==$row->id))? 'selected':''}}>
-                                                    {{$row->crop_name}} </option>
-                                                @endforeach
-                                                @endif
-                                            </select>
+
+                                           <label  class="">Category</label> 
+                                                   <select class="form-control" name="category" required
+                                                        id="category1" onchange = "ShowHideDiv4()">
+                                                        <option value="">Select</option>
+                                                        
+                                                        <option  value="Grain" {{(!empty($data)&&($data->category=='Grain'))? 'selected':''}}>Grain</option>
+                                                 <option  value="Non Grain" {{(!empty($data)&&($data->category=='Non Grain'))? 'selected':''}}>Non Grain</option>
+
+                                                      
+
+                                                    </select>
                                         </div>
+
+<script type="text/javascript">
+                     function ShowHideDiv4() {
+                  var ddlPassport = document.getElementById("category1");
+                var dfPassport = document.getElementById("dry1");
+             var dzPassport = document.getElementById("market1");
+              var dbPassport = document.getElementById("water1");
+              dfPassport.style.display = ddlPassport.value == "Grain" ? "block" : "none";
+             dzPassport.style.display = ddlPassport.value == "Non Grain" ? "block" : "none";
+          dbPassport.style.display = ddlPassport.value == "Non Grain" ? "block" : "none";
+    }
+             </script>
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.grade')}} </label>
-                                            <input type="text" name="grade" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->grade : ''}}" placeholder=""
-                                                required>
+                                            <label for="date"> {{__('farming.harvest_method')}} </label>
+                                         <select class="form-control" name="harvest_method" required
+                                                        id="supplier_id">
+                                                        <option value="">Select</option>
+                                                        
+                                                        <option  value="Hand Harvesting" {{(!empty($data)&&($data->harvest_method=='Hand Harvesting'))? 'selected':''}}>Hand Harvesting</option>
+                                                       <option  value="Harvesting with Hand Tool" {{(!empty($data)&&($data->harvest_method=='Harvesting with Hand Tool'))? 'selected':''}}>Harvesting with Hand Tool</option>
+                                                       <option  value="Harvesting with Machinery" {{(!empty($data)&&($data->harvest_method=='Harvesting with Machinery'))? 'selected':''}}>Harvesting with Machinery</option>
+
+                                                    </select>
 
                                         </div>
 
@@ -157,9 +178,9 @@
                                         </div>
 
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.distance')}}</label>
-                                            <input type="number" name="distance" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->distance : ''}}" placeholder=""
+                                            <label for="date">Maturity Level</label>
+                                            <input type="text" name="maturity_level" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->maturity_level : ''}}" placeholder=""
                                                 required>
 
                                         </div>
@@ -172,32 +193,195 @@
 
 
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.moisture_level')}} </label>
-                                            <input type="number" name="moisture_level" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->moisture_level : ''}}" placeholder=""
+                                            <label for="date"> Harvest Date</label>
+                                            <input type="date" name="harvest_date" class="form-control date-picker" id="costing"
+                                                value="{{ !empty($data) ? $data->harvest_date : ''}}" placeholder=""
                                                 required>
 
                                         </div>
-                                        <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.parking_type')}} </label>
-                                            <?php $parking_type = App\Models\farming\ParkingType::all();  ?>
-                                            <select class="form-control" name="parking_type" required>
-                                                @if(!empty($parking_type))
-                                                @foreach($parking_type as $row)
-                                                <option value="{{$row->id}}"
-                                                    {{(!empty($data)&&($data->parking_type==$row->id))? 'selected':''}}>
-                                                    {{$row->parking_name}} </option>
-                                                @endforeach
-                                                @endif
-                                            </select>
+
+                             <div class="form-group col-md-6 col-lg-6">
+                                            <label for="date"> Packing Type</label>
+                                            <input type="text" name="packing_type" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->packing_type : ''}}" placeholder=""
+                                                required>
 
                                         </div>
-
 
 
                                     </div>
 
+                <div class="form-row">
 
+@if(!empty($data->drying_method))
+<div class="form-group col-md-6 col-lg-6" id="dry1" >
+                                            <label for="date"> Drying Method</label>
+                                             <select class="form-control" name="drying_method" 
+                                                        id="supplier_id">
+                                                        <option value="">Select</option>
+                                                        
+                                                        <option  value="Sun Drying" {{(!empty($data)&&($data->drying_method=='Sun Drying'))? 'selected':''}}>Sun Drying</option>
+                                                       <option  value="Hot Air Drying" {{(!empty($data)&&($data->drying_method=='Hot Air Drying'))? 'selected':''}}>Hot Air Drying</option>
+                                                      <option  value="Contact Drying" {{(!empty($data)&&($data->drying_method=='Contact Drying'))? 'selected':''}}>Contact Drying</option>
+                                                <option  value="Infrared Drying" {{(!empty($data)&&($data->drying_method=='Infrared Drying'))? 'selected':''}}>Infrared Drying</option>
+                                  <option  value="Freeze Drying" {{(!empty($data)&&($data->drying_method=='Freeze Drying'))? 'selected':''}}>Freeze Drying</option>
+                               <option  value="Fluidized Bed Drying" {{(!empty($data)&&($data->drying_method=='Fluidized Bed Drying'))? 'selected':''}}>Fluidized Bed Drying</option>
+                            <option  value="Dielectric Drying" {{(!empty($data)&&($data->drying_method=='Dielectric Drying'))? 'selected':''}}>Dielectric Drying</option>
+
+                                                    </select>
+
+                                        </div>
+
+@else
+                                        <div class="form-group col-md-6 col-lg-6" id="dry1" style="display:none;">
+                                            <label for="date"> Drying Method</label>
+                                             <select class="form-control" name="drying_method" 
+                                                        id="supplier_id">
+                                                        <option value="">Select</option>
+                                                        
+                                                        <option  value="Sun Drying">Sun Drying</option>
+                                                       <option  value="Hot Air Drying">Hot Air Drying</option>
+                                                      <option  value="Contact Drying">Contact Drying</option>
+                                                <option  value="Infrared Drying">Infrared Drying</option>
+                                  <option  value="Freeze Drying">Freeze Drying</option>
+                               <option  value="Fluidized Bed Drying">Fluidized Bed Drying</option>
+                            <option  value="Dielectric Drying">Dielectric Drying</option>
+
+                                                    </select>
+
+                                        </div>
+@endif
+
+
+@if(!empty($data->market))
+  <div class="form-group col-md-6 col-lg-6" id="market1">
+                                            <label for="date"> Travel Distance to Market</label>
+                                            <input type="text" name="market" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->market : ''}}" placeholder=""
+                                                >
+ </div>
+@else
+                             <div class="form-group col-md-6 col-lg-6" id="market1" style="display:none;">
+                                            <label for="date"> Travel Distance to Market</label>
+                                            <input type="text" name="market" class="form-control" id="costing"
+                                                value="{{ !empty($data) ? $data->market : ''}}" placeholder=""
+                                                >
+
+                                        </div>
+@endif
+
+                                    </div>
+
+                <div class="form-row">
+
+@if(!empty($data->water))
+ <div class="form-group col-md-6 col-lg-6" id="water1" >
+                                            <label for="date">Water Content</label>
+                                            <input type="text" name="water" class="form-control date-picker" id="costing"
+                                                value="{{ !empty($data) ? $data->water : ''}}" placeholder=""
+                                               >
+
+                                        </div>
+@else
+                                        <div class="form-group col-md-6 col-lg-6" id="water1" style="display:none;">
+                                            <label for="date">Water Content</label>
+                                            <input type="text" name="water" class="form-control date-picker" id="costing"
+                                                value="{{ !empty($data) ? $data->water : ''}}" placeholder=""
+                                               >
+
+                                        </div>
+@endif
+
+
+                                    </div>
+
+<?php $warehouse=App\Models\Warehouse::all(); ?>
+<div class="form row">
+                                       @if(!empty($data->warehouse_id))
+
+<div class="form-group col-md-6 col-lg-6" id="warehouse" >
+                                            <label for="date">Warehouse</label>
+                                             <select class="form-control" name="warehouse_id" 
+                                                        id="supplier_id">
+                                                        <option value="">Select</option>
+                                                          @if(!empty($warehouse))
+                                                                @foreach($warehouse as $row)
+                                                      <option @if(isset($data))
+                                                                    {{  $data->warehouse_id == $row->id  ? 'selected' : ''}}
+                                                                    @endif value="{{ $row->id}}">{{$row->warehouse_name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+
+                                                    </select>
+
+                                        </div>
+
+@else
+                                        <div class="form-group col-md-6 col-lg-6"  id="warehouse" style="display:none;">
+                                           <label for="date">Warehouse</label>
+                                             <select class="form-control" name="warehouse_id" 
+                                                        id="supplier_id">
+                                                        <option value="">Select</option>
+                                                       @if(!empty($warehouse))
+                                                                @foreach($warehouse as $row)
+                                                      <option value="{{ $row->id}}">{{$row->warehouse_name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+                                                    </select>
+
+                                        </div>
+@endif
+                                        </div>
+
+                         <div class="form row">
+                                        <div class="form-group col-md-6 col-lg-6" >
+                                         <label class=""> Cost per acre</label>
+                                                   <input type="number" name="cost" id="cost7"
+                                                            value="{{ isset($data) ? $data->cost : ''}}"
+                                                            class="form-control" required onkeyup="calculateDiscount7();">
+
+                                     
+
+                                        </div>
+                                     
+                               
+                                                   <div class="form-group col-md-6">
+                                                          <label for="date">{{__('farming.nh')}}</label>
+                                            <input type="number" name="acre" class="form-control" id="acre7"
+                                                value="{{ !empty($data) ? $data->acre : ''}}" placeholder=""
+                                                required  onkeyup="calculateDiscount7();">
+                                                    </div>
+                                                </div>
+
+                                <div class="form row">
+                                                   <div class="form-group col-md-6" id="total">
+                                                    <label class="">Total Cost</label>
+                                                   <input type="number" name="total_cost" id="total_cost7"
+                                                            value="{{ isset($data) ? $data->total_cost : ''}}"
+                                                            class="form-control" required readonly>
+                                                    </div>
+                                                </div>
+  <div class="form row">
+                                        <div class="form-group col-md-6 col-lg-6" >
+                                         <label class=""> Harvest Amount per acre</label>
+                                                   <input type="number" name="harvest_amount" id="harvest7"
+                                                            value="{{ isset($data) ? $data->harvest_amount : ''}}"
+                                                            class="form-control" required  onkeyup="calculateDiscount7();">
+
+                                      </div>
+                                     <div class="form-group col-md-6">
+                                                               <label class="">Total Harvest</label>
+                                                         <input type="number" name="total_harvest" id="total_harvest7"
+                                                            value="{{ isset($data) ? $data->total_harvest : ''}}"
+                                                            class="form-control" required readonly>
+
+                                                    </div>
+                                        </div>
+                                     
+                               
+                                                 
                                     <div class="form-group row">
                                         <div class="col-lg-offset-2 col-lg-12">
                                             @if($type =='edit-pre_harvest')
@@ -220,6 +404,25 @@
             </div>
         </div>
     </div>
+
+<script>
+function calculateDiscount7() {
+
+$('#cost7,#acre7').on('input',function() {
+var price7= parseInt($('#cost7').val());
+var qty7 = parseFloat($('#acre7').val());
+console.log(price7);
+$('#total_cost7').val(( price7 * qty7 ?  price7 * qty7 : 0).toFixed(2));
+});
+$('#harvest7,#acre7').on('input',function() {
+var h7= parseInt($('#harvest7').val());
+var qty7 = parseFloat($('#acre7').val());
+console.log(h7);
+$('#total_harvest7').val(( h7 * qty7 ?  h7 * qty7 : 0).toFixed(2));
+});
+}
+    
+    </script>
     <script>
     $(document).ready(function() {
 

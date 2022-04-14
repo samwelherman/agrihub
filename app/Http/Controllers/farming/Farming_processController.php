@@ -45,7 +45,7 @@ class Farming_processController extends Controller
 
         $process  = Farming_process::create($request->all());
 
-        return redirect(route('farming_process.index'))->with(['success'=>"Farming Process created successfukky"]);
+        return redirect(route('farming_process.index'))->with(['success'=>"Created successfukky"]);
     }
 
     /**
@@ -86,7 +86,7 @@ class Farming_processController extends Controller
         $process = Farming_process::find($id);
         $process->update($request->all());
 
-        return redirect(route('farming_process.index'))->with(['success'=>"Farming Process updated successfully"]);
+        return redirect(route('farming_process.index'))->with(['success'=>"Updated successfully"]);
     }
 
     /**
@@ -101,7 +101,7 @@ class Farming_processController extends Controller
         $cost = Farming_process::find($id);
         $cost->delete();
 
-        return redirect(route('farming_process.index'))->with(['success'=>"Farming Process deleted successfuly"]);
+        return redirect(route('farming_process.index'))->with(['success'=>"Deleted successfuly"]);
     }
 }
 

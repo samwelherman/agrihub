@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Farmer;
 use App\Models\User;
 use App\Models\Group;
+use App\Models\Region;
+use App\Models\District;
+use App\Models\Ward;
+
 class FarmerController extends Controller
 {
     public function __construct()
@@ -21,9 +25,11 @@ class FarmerController extends Controller
     {
         $user_id=auth()->user()->id;
         $user=User::find($user_id)->farmer;
-        $group=USer::find($user_id)->group;
+        $group=User::find($user_id)->group;
+      $region=Region::all();
+     $farm_all=Farmer::all();
         //return view('agrihub.dashboard');
-        return view('agrihub.manage-farmer')->with('farmer',$user)->with('group',$group);
+        return view('agrihub.manage-farmer')->with('farm',$user)->with('group',$group)->with('region',$region);
         //print_r($user->farmer);
     }
 
@@ -50,7 +56,7 @@ class FarmerController extends Controller
             'firstname'=>'required',
             'lastname'=>'required',
             'phone'=>'required',
-            'address'=>'required'
+
         ]); 
         
         //$data=$this->request();
@@ -61,12 +67,12 @@ class FarmerController extends Controller
 
         $farmer->firstname=$request->input('firstname');
         $farmer->lastname=$request->input('lastname');
-        //$farmer= Farmer::create($this->request());input('lastname');
         $farmer->phone=$request->input('phone');
         $farmer->email=$request->input('email');
-        $farmer->region=$request->input('region');
+        $farmer->region_id=$request->input('region_id');
+      $farmer->district_id=$request->input('district_id');
         $farmer->address=$request->input('address');
-        $farmer->group_id=$request->input('group');
+        $farmer->group_id=$request->input('group_id');
         $farmer->user_id=$user_id=auth()->user()->id;
         $farmer->save();
         if($farmer)
@@ -94,7 +100,9 @@ class FarmerController extends Controller
         $user_id=auth()->user()->id;
         $user=User::find($user_id);
         $farmer=Farmer::find($id);
-    
+      $region=Region::all();
+         $district= District::where('region_id', $farmer->region_id)->get();  
+       $ward= Ward::where('district_id', $farmer->district_id)->get();
         $group=User::find($user_id)->group;
         if(empty($farmer))
         {
@@ -106,7 +114,7 @@ class FarmerController extends Controller
         }
         else
         {
-            return view('agrihub.profile')->with('farmer',$farmer)->with('group',$group);
+            return view('agrihub.profile')->with('farmer',$farmer)->with('group',$group)->with('region',$region)->with('district',$district)->with('ward',$ward);
         }
         //return view('agrihub.profile');
     }
@@ -123,18 +131,17 @@ class FarmerController extends Controller
         $farmer=Farmer::find($id);
         $user_id=auth()->user()->id;
         $user=User::find($user_id);
+         $region=Region::all();
+         $district= District::where('region_id', $farmer->region_id)->get();  
+      $ward= Ward::where('district_id', $farmer->district_id)->get();
+        $farm=User::find($user_id)->farmer;
         //return view('agrihub.dashboard');
         $group=User::find($user_id)->group;
-        if(empty($farmer))
-        {
-       
-        return view('agrihub.manage-farmer')->with('farmer',$user->farmer);
 
-        }
-        else
-        {
-            return view('agrihub.farmer-edit')->with('farmer',$farmer)->with('group',$group);
-        }
+
+        return view('agrihub.manage-farmer')->with('farmer',$farmer)->with('group',$group)->with('region',$region)->with('district',$district)->with('id',$id)->with('farm',$farm)->with('ward',$ward);
+
+       
         
     }
 
@@ -152,7 +159,7 @@ class FarmerController extends Controller
             'firstname'=>'required',
             'lastname'=>'required',
             'phone'=>'required',
-            'address'=>'required'
+
         ]); 
        
         $result=$request->all();
@@ -192,4 +199,56 @@ class FarmerController extends Controller
             return redirect('/farmer')->with('messagev',$messagev);
         }
     }
+
+public function findRegion(Request $request)
+    {
+
+        $district= District::where('region_id',$request->id)->get();                                                                                    
+               return response()->json($district);
+
+}
+
+public function findDistrict(Request $request)
+    {
+
+        $ward= Ward::where('district_id',$request->id)->get();                                                                                    
+               return response()->json($ward);
+
+}
+
+
+   public function assign_farmer()
+    {
+     $farm_all=Farmer::orderBy('id','DESC')->get();
+        return view('agrihub.assign_farmer')->with('farm_all',$farm_all);
+    }
+
+public function discountModal(Request $request)
+    {
+                 $id=$request->id;
+                 $type = $request->type;
+                if($type == 'assign'){
+                    $data =  Farmer::find($id);
+                    $staff=User::where('role','agronomy')->get();
+                    return view('agrihub.adduser',compact('id','data','staff'));   
+                 }
+
+                 }
+
+ public function save_farmer(Request $request){
+                     //
+                     $farmer =  Farmer::find($request->id);
+                     $data['assign']=$request->assign;
+                      $farmer->update($data);
+        
+                 if($farmer)
+        {
+            $messagev="Farmer Assigned Successfully'";
+            return redirect('/assign_farmer')->with('messagev',$messagev);
+        }
+              
+
+                 }
+
+
 }

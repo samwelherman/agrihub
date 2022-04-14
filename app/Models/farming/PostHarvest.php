@@ -11,20 +11,25 @@ class PostHarvest extends Model
 
     protected $table = "tbl_post_harvests";
 
-    protected $fillable = ['maturity_index','crop_type','seasson_id','grade','moisture_level','distance','parking_type'];
+   protected $fillable = [
+ 'category' ,    
+   'harvest_method' , 
+    'maturity_index' , 
+    'maturity_level' , 
+    'harvest_date' , 
+      'packing_type' , 
+   'drying_method' , 
+'warehouse_id',
+    'market' ,    
+    'water' , 
+    'cost' , 
+     'acre' , 
+    'total_cost' , 
+'total_harvest',
+'harvest_amount',
+    'user_id' , 
+    'seasson_id' ,
+];
 
-    public function seeds_type(){
-
-        return $this->belongsTo('App\Models\farming\Seeds_type','seed_type');
-    }
-
-    public function crops_type(){
-
-        return $this->belongsTo('App\Models\Crops_type','crop_type');
-    }
-
-    public function parking_types(){
-
-        return $this->belongsTo('App\Models\farming\ParkingType','parking_type');
-    }
+    
 }

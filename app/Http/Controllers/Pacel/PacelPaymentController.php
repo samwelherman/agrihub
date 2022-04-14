@@ -9,6 +9,8 @@ use App\Models\Pacel\PacelPayment;
 use App\Models\Payment_methodes;
 use App\Models\Route;
 use Illuminate\Http\Request;
+use App\Models\AccountCodes;
+use App\Models\JournalEntry;
 
 class PacelPaymentController extends Controller
 {
@@ -80,6 +82,41 @@ class PacelPaymentController extends Controller
                  
                 $payment = PacelPayment::create($receipt);
 
+           $cr= AccountCodes::where('id','$request->account_id')->first();
+          $journal = new JournalEntry();
+        $journal->account_id = $request->account_id;
+        $date = explode('-',$request->date);
+        $journal->date =   $request->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'cargo_payment';
+        $journal->name = 'Invoice Payment';
+        $journal->debit = $receipt['amount'] *  $sales->exchange_rate;
+        $journal->payment_id= $payment->id;
+         $journal->currency_code =   $sales->currency_code;
+        $journal->exchange_rate=  $sales->exchange_rate;
+           $journal->notes= "Payment for Clear Credit  with reference no " .$sales->pacel_number  ;
+        $journal->save();
+
+
+        $codes= AccountCodes::where('account_group','Receivables')->first();
+        $journal = new JournalEntry();
+        $journal->account_id = $codes->id;
+          $date = explode('-',$request->date);
+        $journal->date =   $request->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'cargo_payment';
+        $journal->name = 'Invoice Payment';
+        $journal->credit =$receipt['amount'] *  $sales->exchange_rate;
+          $journal->payment_id= $payment->id;
+         $journal->currency_code =   $sales->currency_code;
+        $journal->exchange_rate=  $sales->exchange_rate;
+           $journal->notes= "Clear Creditor  with reference no " .$sales->pacel_number  ;
+        $journal->save();
+        
+
+
                 return redirect(route('pacel.invoice'))->with(['success'=>'Payment Added successfully']);
             }else{
                 return redirect(route('pacel.invoice'))->with(['error'=>'Amount should not be equal or less to zero']);
@@ -115,8 +152,8 @@ class PacelPaymentController extends Controller
         $data=PacelPayment::find($id);
         $invoice = Pacel::find($data->pacel_id);
         $payment_method = Payment_methodes::all();
-       
-        return view('pacel.pacel_edit_payment',compact('invoice','payment_method','data','id'));
+       $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+        return view('pacel.pacel_edit_payment',compact('invoice','payment_method','data','id','bank_accounts'));
     }
 
     /**
@@ -177,6 +214,39 @@ class PacelPaymentController extends Controller
                 }
                  
                 $payment->update($receipt);
+
+                         $cr= AccountCodes::where('id','$request->account_id')->first();
+          $journal =JournalEntry::where('transaction_type','cargo_payment')->where('payment_id', $payment->id)->whereNotNull('debit')->first();
+        $journal->account_id = $request->account_id;
+        $date = explode('-',$request->date);
+        $journal->date =   $request->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'cargo_payment';
+        $journal->name = 'Invoice Payment';
+        $journal->debit = $receipt['amount'] *  $sales->exchange_rate;
+        $journal->payment_id= $payment->id;
+         $journal->currency_code =   $sales->currency_code;
+        $journal->exchange_rate=  $sales->exchange_rate;
+           $journal->notes= "Payment for Clear Credit  with reference no " .$sales->pacel_number  ;
+        $journal->update();
+
+
+        $codes= AccountCodes::where('account_group','Receivables')->first();
+         $journal =JournalEntry::where('transaction_type','cargo_payment')->where('payment_id', $payment->id)->whereNotNull('credit')->first();
+        $journal->account_id = $codes->id;
+          $date = explode('-',$request->date);
+        $journal->date =   $request->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'cargo_payment';
+        $journal->name = 'Invoice Payment';
+        $journal->credit =$receipt['amount'] *  $sales->exchange_rate;
+          $journal->payment_id= $payment->id;
+         $journal->currency_code =   $sales->currency_code;
+        $journal->exchange_rate=  $sales->exchange_rate;
+           $journal->notes= "Clear Creditor  with reference no " .$sales->pacel_number  ;
+       $journal->update();
 
                 return redirect(route('pacel.invoice'))->with(['success'=>'Payment Added successfully']);
             }else{

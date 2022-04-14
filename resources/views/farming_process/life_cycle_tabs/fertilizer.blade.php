@@ -26,8 +26,9 @@
                         <table class="table table-striped col-lg-12 col-sm-12" id="table-1">
                             <thead>
                                 <tr role="row">
-
-
+                               <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
+                                        style="width: 141.219px;">Program</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
                                         style="width: 141.219px;">{{__('farming.package')}}</th>
@@ -40,9 +41,6 @@
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
                                         style="width: 141.219px;">{{__('farming.no_hector')}}</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.total_amount')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
                                         style="width: 141.219px;">{{__('farming.fertilizer_price')}}</th>
@@ -58,14 +56,13 @@
                                 @if(!@empty($fertilizer))
                                 @foreach ($fertilizer as $row)
                                 <tr class="gradeA even" role="row">
+                                <td>{{$row->program}}</td>
                                     <td>{{$row->package}}</td>
                                     <td>{{$row->farming_processes->process_name}}</td>
                                     <td>{{$row->fertilizer_amount}}</td>
-                                    <td>{{$row->no_hector}}</td>
-
-                                    <td>{{$row->total_amount}}</td>
-                                    <td>{{$row->fertilizer_price}}</td>
-                                    <td>{{$row->fertilizer_cost}}</td>
+                                    <td>{{$row->no_hector}}</td>                                   
+                                     <td>{{number_format($row->fertilizer_price,2)}}</td>
+                                     <td>{{number_format($row->total_cost,2)}}</td>
 
 
                                     <td>
@@ -78,6 +75,10 @@
                                             href="{{ route('seasson.destroy', $row->id)}}">
                                             <i class="fa fa-trash"></i>
                                         </a>
+                              
+                               <a class="nav-link" title="Crop Monitor" data-toggle="modal" href=""  value="{{ $row->id}}" data-type="assign" data-target="#appFormModal" 
+                            onclick="model({{ $row->id  }},'fertilizer')">Crop Monitor</a>
+
                                         <div class="btn-group">
                                                             <button class="btn btn-xs btn-success dropdown-toggle"
                                                                 data-toggle="dropdown">Change<span
@@ -122,71 +123,78 @@
                                     @endif
 
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
+                              <div class="form-group col-md-6">
                                             <input type="hidden" name="type" class="form-control" id="type"
                                                 value="fertilizer" placeholder="">
                                                 <input type="hidden" name="seasson_id" class="form-control" id="type"
                                                 value="{{$seasson_id}}" placeholder="">
-                                            <label for="inputEmail4">{{__('farming.package')}}</label>
+                                            <label for="inputEmail4">Fertilizer Program</label>
+                                            <select class="form-control" name="program" required>
+                                               <option value="">Select</option>
+                                                <option value="Soluble">Soluble</option>
+                                                <option value="Granular">Granular </option>
+                                            </select>
+                                        </div>
+                                    <div class="form-group col-md-6 col-lg-6">
+                                          <label for="inputEmail4">{{__('farming.package')}}</label>
                                             <select class="form-control" name="package" required>
+                                               <option value="">Select</option>
                                                 <option value="Small Package">Small Package </option>
                                                 <option value="Middle Package">Middle Package </option>
                                                 <option value="Large Package">Large Package </option>
                                             </select>
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.farming_process')}}</label>
+
+                                       <div class="form-row">
+                                        <div class="form-group col-md-6">
+
+                                           <label for="date">{{__('farming.farming_process')}}</label>
                                             <?php
                                            $farming = App\Models\Farming_process::all();
                                             ?>
                                             <select class="form-control" name="farming_process" required>
+                                            <option value="">Select</option>
                                                 @if(!empty($farming))
                                                 @foreach($farming as $row)
                                                 <option value="{{$row->id}}">{{$row->process_name}} </option>
                                                 @endforeach
-                                                @endif
-                                                
-
+                                                @endif                                               
                                             </select>
-
                                         </div>
-
-
+                                        <div class="form-group col-md-6 col-lg-6">
+                                           
+                                  <label for="inputEmail4">{{__('farming.fertilizer_amount')}}</label>
+                                            <input type="number" name="fertilizer_amount" class="form-control" id="quantity3"
+                                                value=" {{ !empty($data) ? $data->fertilizer_amount : ''}}" placeholder="" required  onkeyup="calculateDiscount3();">
+                                        </div>
                                     </div>
+
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-
-                                            <label for="inputEmail4">{{__('farming.fertilizer_amount')}}</label>
-                                            <input type="number" name="fertilizer_amount" class="form-control" id="code_name"
-                                                value=" {{ !empty($data) ? $data->fertilizer_amount : ''}}" placeholder="" required>
+                                    <label for="date">{{__('farming.fertilizer_price')}}</label>
+                                            <input type="number" name="fertilizer_price" class="form-control" id="cost3"
+                                                value="{{ !empty($data) ? $data->fertilizer_price : ''}}" placeholder=""
+                                                required onkeyup="calculateDiscount3();">
+                                        
                                         </div>
             
-                                        <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.fertilizer_price')}}</label>
-                                            <input type="number" name="fertilizer_price" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->fertilizer_price : ''}}" placeholder=""
-                                                required>
-
+                                        <div class="form-group col-md-6 col-lg-6">                                           
+                                    <label for="date">{{__('farming.no_hector')}} </label>
+                                            <input type="number" name="no_hector" class="form-control" id="acre3"
+                                                value="{{ !empty($data) ? $data->no_hector : ''}}" placeholder=""
+                                                required onkeyup="calculateDiscount3();">
                                         </div>
                                      
-                                        
-
-
                                     </div>
                                     <div class="form-row">
-                  
-            
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.no_hector')}} </label>
-                                            <input type="number" name="no_hector" class="form-control" id="costing"
-                                                value="{{ !empty($data) ? $data->no_hector : ''}}" placeholder=""
-                                                required>
+                                           <label class="">Total Cost</label>
+                                                   <input type="number" name="total_cost" id="total_cost3"
+                                                            value="{{ isset($data) ? $data->total_cost : ''}}"
+                                                            class="form-control" required readonly>
 
                                         </div>
-                                     
-                                        
-
-
                                     </div>
                                  
 
@@ -212,6 +220,23 @@
             </div>
         </div>
     </div>
+
+<script>
+function calculateDiscount3() {
+
+$('#cost3,#acre3,#quantity3').on('input',function() {
+var price3= parseInt($('#cost3').val());
+var qty3 = parseFloat($('#acre3').val());
+var weight3 = parseFloat($('#quantity3').val());
+console.log(price3);
+$('#total_cost3').val((weight3* price3 * qty3 ? weight3 * price3 * qty3 : 0).toFixed(2));
+});
+
+}
+    
+    </script>
+
+
     <script>
     $(document).ready(function() {
 

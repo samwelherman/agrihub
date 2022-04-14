@@ -7,6 +7,7 @@
             <div class="col-12 col-md-6 col-lg-8">
                 <?php
                     $settings= App\Models\System::first();
+                    //$settings= App\Models\System::first()->where('added_by',auth()->user()->user_id);
                  ?>
                 <div class="card">
                     <div class="card-header">

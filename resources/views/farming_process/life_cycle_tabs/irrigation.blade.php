@@ -167,40 +167,54 @@
                     </div>
                 </div>
 
-                <script>
-                $(document).ready(function() {
+               
+<script type="text/javascript">
 
-                    $(document).on('click', '.remove', function() {
-                        $(this).closest('tr').remove();
-                    });
+		  $(document).ready(function(){
 
-                    $(document).on('change', '.item_name', function() {
-                        var id = $(this).val();
-                        var sub_category_id = $(this).data('sub_category_id');
-                        $.ajax({
-                            url: '/courier/public/findPrice/',
-                            type: "GET",
-                            data: {
-                                id: id
-                            },
-                            dataType: "json",
-                            success: function(data) {
-                                console.log(data);
-                                $('.item_price' + sub_category_id).val(data[0][
-                                    "price"
-                                ]);
-                                $(".item_unit" + sub_category_id).val(data[0]["unit"]);
-                                $(".item_saved" + sub_category_id).val(data[0]["id"]);
-                            }
-
-                        });
-
-                    });
+      
+      var count = 0;
 
 
-                });
-                </script>
+			function autoCalcSetup() {
+				$('table#cart').jAutoCalc('destroy');
+				$('table#cart tr.line_items').jAutoCalc({keyEventsFire: true, decimalPlaces: 2, emptyAsZero: true});
+				$('table#cart').jAutoCalc({decimalPlaces: 2});
+			}
+			autoCalcSetup();
 
+	$('.add').on("click", function(e) {
+
+        count++;
+        var html = '';
+        html += '<tr class="line_items">';
+        html += '<td><input type="text" name="item_name[]" class="form-control item_quantity" data-category_id="'+count+'"placeholder ="quantity" id ="quantity" required /></td>';
+        html += '<td><select name="status[]" class="form-control item_name" required  data-sub_category_id="'+count+'"><option value="">Select Item</option><option value="Available">Available</option><option value="Unavailable">Available</option></select></td>';       
+       html += '<td><input type="text" name="cost[]" class="form-control item_price'+count+'" placeholder ="price"  value=""/></td>';
+        html += '<td><button type="button" name="remove" class="btn btn-danger btn-xs remove"><i class="fas fa-trash"></i></button></td>';
+
+        $('tbody').append(html);
+autoCalcSetup();
+      });
+
+  $(document).on('click', '.remove', function(){
+        $(this).closest('tr').remove();
+autoCalcSetup();
+      });
+      
+
+ $(document).on('click', '.rem', function(){  
+      var btn_value = $(this).attr("value");   
+               $(this).closest('tr').remove();  
+            $('tfoot').append('<input type="hidden" name="removed_id[]"  class="form-control name_list" value="'+btn_value+'"/>');  
+         autoCalcSetup();
+           });  
+
+		});
+	
+
+
+	</script>
 
 
                 <script type="text/javascript">
@@ -226,29 +240,10 @@
                                 name: 'irrigation_type'
                             },
                             {
-                                data: 'irrigation_cost',
-                                name: 'irrigation_cost'
+                                data: 'total_cost',
+                                name: 'total_cost'
                             },
-                            {
-                                data: 'number_of_hk',
-                                name: 'number_of_hk'
-                            },
-                            {
-                                data: 'water_volume',
-                                name: 'water_volume'
-                            },
-                            {
-                                data: 'power_source',
-                                name: 'power_source',
-                                orderable: true,
-                                searchable: true
-                            },
-                            {
-                                data: 'pump_cost',
-                                name: 'pump_cost',
-                                orderable: true,
-                                searchable: true
-                            },
+                         
                             {
                                 data: 'action',
                                 name: 'action',
@@ -470,4 +465,9 @@
                     })
                 }
                 </script>
-            </div>
+
+</div>
+
+
+
+           

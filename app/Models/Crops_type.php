@@ -10,7 +10,8 @@ class Crops_type extends Model
     use HasFactory;
     protected $table = "tbl_crops_types";
 
-    protected $fillable = ['crop_name','storage_type','status'];
+
+    protected $fillable = ['crop_name','storage_type','status','crop_category','added_by'];
     
     public function farmer_account()
     {

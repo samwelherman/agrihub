@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class System extends Model
 {
     protected $table = "system_control";
+    
+    protected $fillable = ['name','picture','email','address','vat','tin','phone','added_by'];
 
     public $timestamps = false;
     

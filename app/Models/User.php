@@ -85,6 +85,17 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Warehouse','id');
     }
     
+       public function basic_details()
+    {
+        return $this->hasOne('App\Models\UserDetails\BasicDetails','user_id');
+    }
+
+    public function bank_details()
+    {
+        return $this->hasOne('App\Models\UserDetails\BankDetails','user_id');
+    }
+    
+    
 
     use HasPermissionsTrait; //Import The Trait
 }

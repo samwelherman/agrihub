@@ -9,6 +9,10 @@ use App\Models\Product_tools;
 use App\Models\User;
 use App\Models\Farmer;
 use App\Models\Land_properties;
+use App\Models\Region;
+use App\Models\District;
+use App\Models\Ward;
+
 class Farmer_assetsController extends Controller
 {
    
@@ -22,8 +26,9 @@ class Farmer_assetsController extends Controller
        $tools = Product_tools::all();
        $farmer = Farmer::all();
        $type = "tool";
+     $region=Region::all();
        $land = Land_properties::all();
-        return view('farmer_assets.manage_assets',compact('tools','land','type','farmer'));
+        return view('farmer_assets.manage_assets',compact('tools','land','type','farmer','region'));
        
     }
 
@@ -31,9 +36,10 @@ class Farmer_assetsController extends Controller
     {
         $tools = Product_tools::all();
         $farmer = Farmer::all();
+      $region=Region::all();
         $type = "land";
         $land = Land_properties::all();
-         return view('farmer_assets.manage_assets',compact('tools','land','type','farmer'));
+         return view('farmer_assets.manage_assets',compact('tools','land','type','farmer','region'));
         
        
     }
@@ -90,6 +96,9 @@ class Farmer_assetsController extends Controller
         $type ="land";
         if($type == "land"){
             $data=Land_properties::find($id);
+          $region=Region::all();
+         $district= District::where('region_id', $data->region_id)->get(); 
+         $ward= Ward::where('district_id', $data->district_id)->get();
         }else{
           
 
@@ -97,8 +106,8 @@ class Farmer_assetsController extends Controller
         }
 
         $farmer = Farmer::all();
-
-        return view('farmer_assets.manage_assets',compact('data','type','id','farmer'));
+         $region=Region::all();
+        return view('farmer_assets.manage_assets',compact('data','type','id','farmer','region','district','ward'));
     }
 
     public function getFarm(Request $request){
@@ -115,13 +124,14 @@ class Farmer_assetsController extends Controller
             $data=Product_tools::find($id);
         }else{
           $data=Land_properties::find($id);
-
- 
+    $region=Region::all();
+         $district= District::where('region_id', $data->region_id)->get(); 
+        $ward= Ward::where('district_id', $data->district_id)->get();
         }
 
         $farmer = Farmer::all();
 
-        return view('farmer_assets.manage_assets',compact('data','type','id','farmer'));
+        return view('farmer_assets.manage_assets',compact('data','type','id','farmer','region','district','ward'));
 
         
      

@@ -40,6 +40,26 @@
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
                                                     style="width: 186.484px;">Systam Name</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">Email</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">Phone</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">Address</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">VAT</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">TIN</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
@@ -57,6 +77,11 @@
                                             <tr class="gradeA even" role="row">
                                                 <th>{{ $loop->iteration }}</th>
                                                 <td>{{$row->name}}</td>
+                                                <td>{{$row->email}}</td>
+                                                <td>{{$row->address}}</td>
+                                                <td>{{$row->phone}}</td>
+                                                <td>{{$row->vat}}</td>
+                                                <td>{{$row->tin}}</td>
                                                 <td><img src="{{url('public/assets/img/logo')}}/{{$row->picture}}" alt="{{$row->name}}" width="50"></td>
 
                                               
@@ -120,6 +145,48 @@
                                                             class="form-control">
                                                     </div>
                                                 </div>
+                                                
+                                                    <div class="form-group row">
+                           <label class="col-lg-2 col-form-label">VAT</label>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" name="vat" required
+                                                            value="{{ isset($data) ? $data->vat : ''}}"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                                    <div class="form-group row">
+                           <label class="col-lg-2 col-form-label">TIN</label>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" name="tin" required
+                                                            value="{{ isset($data) ? $data->tin : ''}}"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                                    <div class="form-group row">
+                           <label class="col-lg-2 col-form-label">Email</label>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" name="email" required
+                                                            value="{{ isset($data) ? $data->email : ''}}"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                                    <div class="form-group row">
+                           <label class="col-lg-2 col-form-label">Phone</label>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" name="phone" required
+                                                            value="{{ isset($data) ? $data->phone : ''}}"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                                    <div class="form-group row">
+                           <label class="col-lg-2 col-form-label">Address</label>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" name="address" required
+                                                            value="{{ isset($data) ? $data->address : ''}}"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                                
 
                                                <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label">System Logo</label>

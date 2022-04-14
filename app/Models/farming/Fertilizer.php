@@ -13,7 +13,7 @@ class Fertilizer extends Model
 
     protected $table = "tbl_fertilizers";
 
-    protected $fillable = ['package','farming_process','fertilizer_amount','total_amount','fertilizer_price','fertilizer_cost','user_id','seasson_id','no_hector'];
+    protected $fillable = ['program','package','farming_process','fertilizer_amount','total_amount','fertilizer_price','fertilizer_cost','user_id','seasson_id','no_hector','total_cost'];
 
 
     public function farming_processes(){

@@ -9,7 +9,14 @@ use App\Models\farming\Preparation_cost;
 use App\Models\farming\PreparationDetails;
 use App\Models\farming\Sowing;
 use App\Models\Farmer;
-use App\Models\farming\Fertilizer;
+use App\Models\Land_properties;
+use App\Models\Crops_type;
+use App\Models\FarmProgram;
+use App\Models\farming\Fertilizer; 
+use App\Models\farming\Weeding; 
+use App\Models\farming\PreHarvest; 
+use App\Models\farming\PostHarvest; 
+use App\Models\farming\Pestiside;
 
 class SeassonController extends Controller
 {
@@ -21,8 +28,8 @@ class SeassonController extends Controller
         $farmer = Farmer::all();
         $user_id = auth()->user()->id;
         $seasson = Seasson::all()->where('user_id',$user_id);
-
-        return view('farming_process.manage_seasson',compact('seasson','farmer'));
+$crop=Crops_type::all();
+        return view('farming_process.manage_seasson',compact('seasson','farmer','crop'));
     }
 
     /**
@@ -64,12 +71,17 @@ class SeassonController extends Controller
         //
         $name = Preparation_cost::all();
 
-        $preparationDetails = PreparationDetails::all();
+        $preparationDetails = PreparationDetails::where('seasson_id',$seasson_id)->get();  
         $name = Preparation_cost::all();
         $type = "preparation";
-        $sowing = Sowing::all();
-        $fertilizer = Fertilizer::all();
-        return view('farming_process.crop_life_cycle',compact('name','seasson_id','preparationDetails','type','sowing'));
+        $sowing = Sowing::where('seasson_id',$seasson_id)->get(); 
+        $fertilizer = Fertilizer::where('seasson_id',$seasson_id)->get(); 
+$program=FarmProgram::where('season_id',$seasson_id)->get(); 
+ $pestiside = Pestiside::where('seasson_id',$seasson_id)->get(); 
+     $weeding = Weeding::where('seasson_id',$seasson_id)->get(); 
+    $pre_harvest = PreHarvest::where('seasson_id',$seasson_id)->get(); 
+        $post_harvest = PostHarvest::where('seasson_id',$seasson_id)->get(); 
+        return view('farming_process.crop_life_cycle',compact('name','seasson_id','preparationDetails','type','sowing','program','fertilizer','pestiside','pre_harvest','post_harvest','weeding'));
 
     }
 
@@ -83,8 +95,10 @@ class SeassonController extends Controller
     {
         //
         $data = Seasson::find($id);
-
-        return view('farming_process.manage_seasson',compact('data','id'));    }
+  $farmer = Farmer::all();
+$farm= Land_properties::where('owner_id',$data->farmer_id)->get();  
+$crop=Crops_type::all(); 
+        return view('farming_process.manage_seasson',compact('data','id','farmer','farm','crop'));    }
 
     /**
      * Update the specified resource in storage.
@@ -115,4 +129,12 @@ class SeassonController extends Controller
     {
         //
     }
+
+public function findFarm(Request $request)
+    {
+
+        $farm= Land_properties::where('owner_id',$request->id)->get();                                                                                    
+               return response()->json($farm);
+
+}
 }

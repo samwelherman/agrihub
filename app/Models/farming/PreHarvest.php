@@ -11,15 +11,29 @@ class PreHarvest extends Model
 
     protected $table = "tbl_pre_harvests";
 
-    protected $fillable = ['maturity_index','crop_type','seasson_id','non_rain_day','moisture_level','harvest_method'];
+    protected $fillable = [
+ 'category' ,    
+   'harvest_method' , 
+    'maturity_index' , 
+    'maturity_level' , 
+    'harvest_date' , 
+      'packing_type' , 
+   'drying_method' , 
+    'market' ,    
+    'water' , 
+    'cost' , 
+     'acre' , 
+'warehouse_id',
+    'total_cost' , 
+'total_harvest',
+'harvest_amount',
+    'user_id' , 
+    'seasson_id' ,
+];
 
-    public function seeds_type(){
-
-        return $this->belongsTo('App\Models\farming\Seeds_type','seed_type');
+      public function warehouse()
+    {
+        return $this->belongsTo('App\Models\Warehouse','warehouse_id');
     }
 
-    public function crops_type(){
-
-        return $this->belongsTo('App\Models\Crops_type','crop_type');
-    }
 }

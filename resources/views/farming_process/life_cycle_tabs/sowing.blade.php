@@ -36,13 +36,16 @@
                                         style="width: 141.219px;">{{__('farming.seed_type')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.qheck')}}</th>
+                                        style="width: 141.219px;">Qty</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.nh')}}</th>
+                                        style="width: 141.219px;">Acre</th>
+                                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" aria-label="Engine version: activate to sort column ascending"
+                                        style="width: 141.219px;">Unit Cost</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 141.219px;">{{__('farming.qn')}}</th>
+                                        style="width: 141.219px;">{{__('farming.preparation_cost')}}</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" aria-label="CSS grade: activate to sort column ascending"
                                         style="width: 98.1094px;">Actions</th>
@@ -53,11 +56,11 @@
                                 @foreach ($sowing as $row)
                                 <tr class="gradeA even" role="row">
                                     <td>{{$row->crops_type->crop_name}}</td>
-                                    <td>{{$row->seeds_type->name}}</td>
+                                    <td>{{$row->seeds_type->feed_name}}</td>
                                     <td>{{$row->qheck}}</td>
-
                                     <td>{{$row->nh}}</td>
-                                    <td>{{$row->qn}}</td>
+                                    <td>{{number_format($row->cost,2)}}</td>
+                                    <td>{{number_format($row->total_cost,2)}}</td>
 
 
                                     <td>
@@ -71,7 +74,8 @@
                                             <i class="fa fa-trash"></i>
                                         </a>
 
-
+                               <a class="nav-link" title="Crop Monitor" data-toggle="modal" href=""  value="{{ $row->id}}" data-type="assign" data-target="#appFormModal" 
+                            onclick="model({{ $row->id  }},'sowing')">Crop Monitor</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -109,9 +113,11 @@
                                                 value="sowing" placeholder="">
                                                 <input type="hidden" name="seasson_id" class="form-control" id="type"
                                                 value="{{$seasson_id}}" placeholder="">
+
                                                 <?php $crops_type = App\Models\Crops_type::all();  ?>
                                             <label for="inputEmail4">{{__('farming.crops_type')}}</label>
-                                            <select class="form-control" name="crop_type" required>
+                                            <select class="form-control crop" name="crop_type" required>
+                                     <option value="" >Select </option>
                                                 @if(!empty($crops_type))
                                                 @foreach($crops_type as $row)
                                                 <option value="{{$row->id}}" {{(!empty($data)&&($data->crop_type==$row->id))? 'selected':''}}>{{$row->crop_name}} </option>
@@ -119,56 +125,78 @@
                                             @endif
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.seed_type')}}</label>
-                                            <?php $seeds_type = App\Models\farming\Seeds_type::all();  ?>
-                                            <select class="form-control" name="seed_type" required>
+
+                                      @if(!empty($data))
+                                      <div class="form-group col-md-6 col-lg-6">
+                                           <label for="date">{{__('farming.seed_type')}}</label>                                          
+                                            <select class="form-control" name="seed_type" id="seed" required>
+                                  <option value="" >Select </option>
                                             @if(!empty($seeds_type))
                                                 @foreach($seeds_type as $row)
-                                                <option value="{{$row->id}}" {{(!empty($data)&&($data->seed_type==$row->id))? 'selected':''}}>{{$row->name}} </option>
+                                                <option value="{{$row->id}}" {{(!empty($data)&&($data->seed_type==$row->id))? 'selected':''}}>{{$row->feed_name}} </option>
                                             @endforeach
                                             @endif
 
                                             </select>
 
                                         </div>
+                                        @else
 
+                                      <div class="form-group col-md-6 col-lg-6">
+                                           <label for="date">{{__('farming.seed_type')}}</label>                                          
+                                            <select class="form-control" name="seed_type" id="seed" required>
+                                  <option value="" >Select </option>
+                                         
+                                            </select>
 
-                                    </div>
+                                        </div>
+                                   @endif
+ </div>
+
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
 
                                             <label for="inputEmail4">{{__('farming.qheck')}}</label>
-                                            <input type="number" name="qheck" class="form-control" id="qheck"
-                                                value="{{ !empty($data) ? $data->qheck : ''}}" placeholder="" required>
+                                            <input type="number" name="qheck" class="form-control" id="quantity2"
+                                                value="{{ !empty($data) ? $data->qheck : ''}}" placeholder="" required   onkeyup="calculateDiscount2();">
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6">
-                                            <label for="date">{{__('farming.cost')}}</label>
-                                            <input type="number" name="cost" class="form-control" id="costing"
+                                            <label for="date">{{__('farming.cost')}} per Kg</label>
+                                            <input type="number" name="cost" class="form-control" id="cost2"
                                                 value="{{ !empty($data) ? $data->cost : ''}}" placeholder=""
-                                                required>
+                                                required   onkeyup="calculateDiscount2();">
 
                                         </div>
+ </div>
+
+  <div class="form-row">
                                         <div class="form-group col-md-6 col-lg-6">
                                             <label for="date">{{__('farming.nh')}}</label>
-                                            <input type="number" name="nh" class="form-control" id="costing"
+                                            <input type="number" name="nh" class="form-control" id="acre2"
                                                 value="{{ !empty($data) ? $data->nh : ''}}" placeholder=""
-                                                required>
+                                                required   onkeyup="calculateDiscount2();">
 
                                         </div>
 
                                         <div class="form-group col-md-6 col-lg-6">
                                             <label for="date">{{__('farming.harvest_date')}}</label>
                                             <input type="date" name="harvest_date" class="form-control" id="harvest_date"
-                                                value="{{ !empty($data) ? $data->nh : ''}}" placeholder=""
+                                                value="{{ !empty($data) ? $data->harvest_date : ''}}" placeholder=""
                                                 required>
 
                                         </div>
                                      
-                                        
-
-
                                     </div>
+
+                         <div class="form-group row">
+                               
+                                                   <div class="form-group col-md-6">
+                                                    <label class="">Total Cost</label>
+                                                   <input type="number" name="total_cost" id="total_cost2"
+                                                            value="{{ isset($data) ? $data->total_cost : ''}}"
+                                                            class="form-control" required readonly>
+                                                    </div>
+                                                </div>
 
                                     <div class="form-group row">
                                         <div class="col-lg-offset-2 col-lg-12">
@@ -195,25 +223,26 @@
     <script>
     $(document).ready(function() {
 
-        $(document).on('click', '.remove', function() {
-            $(this).closest('tr').remove();
-        });
-
-        $(document).on('change', '.item_name', function() {
+        $(document).on('change', '.crop', function() {
             var id = $(this).val();
-            var sub_category_id = $(this).data('sub_category_id');
             $.ajax({
-                url: '/courier/public/findPrice/',
+               url: '{{url("findSeed")}}',
                 type: "GET",
                 data: {
                     id: id
                 },
                 dataType: "json",
                 success: function(data) {
-                    console.log(data);
-                    $('.item_price' + sub_category_id).val(data[0]["price"]);
-                    $(".item_unit" + sub_category_id).val(data[0]["unit"]);
-                    $(".item_saved" + sub_category_id).val(data[0]["id"]);
+                 console.log(data);
+                     $("#seed").empty();
+                $("#seed").append('<option value="">Select </option>');
+                $.each(data,function(key, value)
+                {
+                 
+                    $("#seed").append('<option value=' + value.id+ '>' + value.feed_name + '</option>');
+
+                });            
+
                 }
 
             });
@@ -224,39 +253,20 @@
     });
     </script>
 
+<script>
+function calculateDiscount2() {
 
+$('#cost2,#acre2,#quantity2').on('input',function() {
+var price2= parseInt($('#cost2').val());
+var qty2 = parseFloat($('#acre2').val());
+var weight2 = parseFloat($('#quantity2').val());
+console.log(price2);
+$('#total_cost2').val((weight2* price2 * qty2 ? weight2 * price2 * qty2 : 0).toFixed(2));
+});
 
-    <script type="text/javascript">
-    <!--
-    $(document).ready(function() {
-
-
-        var count = 0;
-
-
-        function autoCalcSetup() {
-            $('table#cart').jAutoCalc('destroy');
-            $('table#cart tr.line_items').jAutoCalc({
-                keyEventsFire: true,
-                decimalPlaces: 2,
-                emptyAsZero: true
-            });
-            $('table#cart').jAutoCalc({
-                decimalPlaces: 2
-            });
-        }
-        autoCalcSetup();
-
-     
-
-
-
-
-    });
-    //
-    -->
-
-
-
+}
+    
     </script>
+
+  
 </div>

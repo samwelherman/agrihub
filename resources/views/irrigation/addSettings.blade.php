@@ -33,80 +33,96 @@
                 <input type="hidden" name="type2" id="type" value="setting" class="form-control">
                 <div class="form-group">
                     <label>{{__('farming.irrigation_type')}}</label>
-                    <select name="irrigation_type" id="irrigation_type" class="form-control">
-                        @if(!empty($irrigation_system))
-                        @foreach($irrigation_system as $row)
-                        <option value="{{$row->id}}">{{$row->name}}
-                        </option>
-                        @endforeach
-                        @endif
+                    <select name="irrigation_type" id="irrigation_type" class="form-control" required onchange = "ShowHideDiv()" >
+                         <option value="">Select</option>
+                                                <option value="Rainfall" >Rainfall</option>
+                                                <option value="Irrigation">Irrigation</option>
+                       
                     </select>
                 </div>
             </div>
-            <div class="col-lg-6 col-sm-12">
-                <div class="form-group">
-                    <label>{{__('farming.irrigation_cost')}}</label>
 
-                    <input type="number" name="irrigation_cost" id="irrigation_cost" class="form-control">
+ <script type="text/javascript">
+                     function ShowHideDiv() {
+                  var ddlPassport = document.getElementById("irrigation_type");
+                var dfPassport = document.getElementById("method");
+
+              dfPassport.style.display = ddlPassport.value == "Irrigation" ? "block" : "none";
+    }
+             </script>
+
+            <div class="col-lg-6 col-sm-12"  id="method"  style="display:none;">
+                <div class="form-group">
+                    <label>Method of Irrigation</label>
+  <select name="method" class="form-control">
+                         <option value="">Select</option>
+                                                <option value="Drip Irrigation System">Drip Irrigation System</option>
+                                                <option value="Splinker Irrigation">Splinker Irrigation</option>
+                                          <option value="Centre Pivot Irrigation">Centre Pivot Irrigation</option>
+                                                <option value="Furrow Irrigation Systems">Furrow Irrigation Systems</option>
+                                                <option value="Terraced Irrigation">Terraced Irrigation</option>
+                       
+                    </select>
                 </div>
             </div>
         </div>
+
+  <br>
+                                              <h5 align="center">Cost of Implementation</h5>
+                                            <hr>
+
+
+<button type="button" name="add" class="btn btn-success btn-xs add"><i class="fas fa-plus"> Add item</i></button><br>
+                                              <br>
+ <div class="table-responsive">
+<table class="table table-bordered" id="cart">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Cost</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                                    
+</tbody>
+
+<tfoot>
+
+ <tr class="line_items">
+<td colspan="2"></td>
+<td><span class="bold">Total </span>: </td><td><input type="text" name="total_cost[]" class="form-control item_total" placeholder ="total" required   jAutoCalc="SUM({cost})" readonly></td>   
+</tr>
+
+
+</tfoot>
+          </table>
+  </div>
+
+
         <div class="row">
-            <div class="col-lg-6 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <div class="form-group">
                     <label>{{__('farming.number_of_hk')}}</label>
-                    <input type="number" name="number_of_hk" id="number_of_hk" class="form-control">
+                    <input type="number" name="item_name" id="number_of_hk" class="form-control">
                 </div>
             </div>
-            <div class="col-lg-6 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <div class="form-group">
                     <label>{{__('farming.power_source')}}</label>
                     <input type="number" name="power_source" id="power_source" class="form-control">
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-sm-12">
+ <div class="col-lg-4 col-sm-12">
                 <div class="form-group">
                     <label>{{__('farming.pump_cost')}}</label>
-                    <input type="text" name="pump_cost" id="pump_cost" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
-                <div class="form-group">
-                    <label>{{__('farming.total_cost')}}</label>
-                    <input type="number" name="total_cost" id="total_cost" class="form-control">
+                    <input type="text" name="cost" id="pump_cost" class="form-control">
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-6 col-sm-12">
-                <div class="form-group">
-                    <label>{{__('farming.pump_rate')}}</label>
-                    <input type="text" name="pump_rate" id="pump_rate" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
-                <div class="form-group">
-                    <label>{{__('farming.hector_per_day')}}</label>
-                    <input type="number" name="hector_per_day" id="hector_per_day" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-sm-12">
-                <div class="form-group">
-                    <label>{{__('farming.pump_no')}}</label>
-                    <input type="text" name="pump_no" id="pump_no" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
-                <div class="form-group">
-                    <label>{{__('farming.hector_per_day')}}</label>
-                    <input type="number" name="total_pump_cost" id="total_pump_cost" class="form-control">
-                </div>
-            </div>
-        </div>
+    
 
     </div>
     <div class="modal-footer bg-whitesmoke br">
@@ -117,3 +133,5 @@
     </div>
     {!! Form::close() !!}
 </div>
+
+

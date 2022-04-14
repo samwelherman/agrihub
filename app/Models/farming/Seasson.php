@@ -26,4 +26,9 @@ class Seasson extends Model
 
         return $this->hasMany('App\Models\farming\PreparationDetails','seasson_id');
     }
+
+public function crop()
+    {
+        return $this->belongsTo('App\Models\Crops_type','crop_name');
+    }
 }

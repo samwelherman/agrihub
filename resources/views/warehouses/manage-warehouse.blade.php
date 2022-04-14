@@ -305,7 +305,10 @@ function getPageData(){
           //  function called when selecting region 
           selectRegionElement.onchange = function () {
             if (this.selectedIndex < 1) return; // done
+            $("#selectDistrictid").empty();
+           $("#selectDistrictid").append('<option value="">Select</option>');
             $.each(response.regions[selectRegionElement.value-1].districts,function(key,district){
+          
             $('#selectDistrictid').append('<option value="'+district.id+'">\
                                        '+district.name+'\
                                       </option>');

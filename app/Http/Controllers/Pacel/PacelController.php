@@ -13,6 +13,8 @@ use App\Models\Route;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use PDF;
+use App\Models\AccountCodes;
+use App\Models\JournalEntry;
 
 class PacelController extends Controller
 {
@@ -408,6 +410,57 @@ class PacelController extends Controller
        $purchase = Pacel::find($id);
        $data['good_receive'] = 1;
        $purchase->update($data);
+
+$cr= AccountCodes::where('account_name','Parcel')->first();
+          $journal = new JournalEntry();
+        $journal->account_id = $cr->id;
+        $date = explode('-',$purchase->date);
+        $journal->date =   $purchase->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'cargo';
+        $journal->name = 'Invoice';
+        $journal->credit = ($purchase->amount - $purchase->tax) *  $purchase->exchange_rate;
+        $journal->income_id= $id;
+         $journal->currency_code =  $purchase->currency_code;
+        $journal->exchange_rate= $purchase->exchange_rate;
+           $journal->notes= "Invoice with reference no " .$purchase->pacel_number  ;
+        $journal->save();
+
+if($purchase->tax > 0){
+       $tax= AccountCodes::where('account_name','VAT OUT')->first();
+          $journal = new JournalEntry();
+        $journal->account_id = $tax->id;
+        $date = explode('-',$purchase->date);
+        $journal->date =   $purchase->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+        $journal->transaction_type = 'cargo';
+        $journal->name = 'Invoice';
+        $journal->credit = $purchase->tax *  $purchase->exchange_rate;
+        $journal->income_id= $id;
+         $journal->currency_code =  $purchase->currency_code;
+        $journal->exchange_rate= $purchase->exchange_rate;
+           $journal->notes= "Invoice Tax with reference no " .$purchase->pacel_number  ;
+        $journal->save();
+}
+
+        $codes= AccountCodes::where('account_group','Receivables')->first();
+        $journal = new JournalEntry();
+        $journal->account_id = $codes->id;
+         $date = explode('-',$purchase->date);
+        $journal->date =   $purchase->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+          $journal->transaction_type = 'cargo';
+        $journal->name = 'Invoice';
+               $journal->income_id= $id;
+       $journal->notes= "Debit Receivables for Invoice with reference no " .$purchase->pacel_number  ;
+        $journal->debit =$purchase->amount *  $purchase->exchange_rate;
+            $journal->currency_code =  $purchase->currency_code;
+        $journal->exchange_rate= $purchase->exchange_rate;
+        $journal->save();
+        
        return redirect(route('pacel.invoice'))->with(['success'=>'Invoiced Successfully']);
    }
    public function invoice()
@@ -437,7 +490,8 @@ class PacelController extends Controller
        //
        $invoice = Pacel::find($id);
        $payment_method = Payment_methodes::all();
-       return view('pacel.pacel_payment',compact('invoice','payment_method'));
+  $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+       return view('pacel.pacel_payment',compact('invoice','payment_method','bank_accounts'));
    }
    
    public function pacel_pdfview(Request $request)

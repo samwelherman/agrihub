@@ -17,7 +17,8 @@ class PacelPayment extends Model
     'amount',
     'date',
     'payment_method',
-    'notes',   
+    'notes', 
+'account_id', 
     'added_by'];
     
     public function user()

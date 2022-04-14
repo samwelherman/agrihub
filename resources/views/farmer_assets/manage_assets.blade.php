@@ -236,7 +236,7 @@
                                                     @foreach ($land as $row)
                                                     <tr class="gradeA even" role="row">
                                                         <th>{{ $loop->iteration }}</th>
-                                                        <td>{{$row->location}}</td>
+                                                        <td>{{$row->ward->name}}, {{$row->district->name}}, {{$row->region->name}}</td>
                                                         <td>{{$row->owner->firstname}}</td>
 
                                                         <td>{{$row->size}}</td>
@@ -303,6 +303,79 @@
                                                                 placeholder="">
                                                         </div>
                                                     </div>
+                                                    <div class="form-row">
+                                  <div class="form-group col-md-4">
+                                    <label for="inputState">Region</label>
+                                    <select  id="selectRegionid" name="region_id" class="form-control region">
+                                      <option ="">Select region</option>
+                                      @if(!empty($region))
+                                                        @foreach($region as $row)
+
+                                                        <option @if(isset($data))
+                                                            {{ $data->region_id == $row->id  ? 'selected' : ''}}
+                                                            @endif value="{{$row->id}}">{{$row->name}}</option>
+
+                                                        @endforeach
+                                                        @endif
+                                    </select>
+                                  </div>
+  @if(!empty($data))
+                              <div class="form-group col-md-4">
+                                    <label for="inputState">District</label>
+                                    <select id="selectDistrictid" name="district_id" class="form-control district">
+                                      <option>Select district</option>
+                                    
+                                    @if(!empty($district))
+                                                        @foreach($district as $row)
+
+                                                        <option @if(isset($data))
+                                                            {{ $data->district_id == $row->id  ? 'selected' : ''}}
+                                                            @endif value="{{$row->id}}">{{$row->name}}</option>
+
+                                                        @endforeach
+                                                        @endif
+                                    </select>
+                                  
+                             </div>
+@else
+ <div class="form-group col-md-4">
+                                    <label for="inputState">District</label>
+                                    <select id="selectDistrictid" name="district_id" class="form-control district">
+                                      <option>Select district</option>
+                                    </select>
+                                  </div>
+                            
+ @endif
+
+ @if(!empty($data))
+                      <div class="form-group col-md-4">
+                                    <label for="inputState">Ward</label>
+                                    <select id="selectWardid" name="ward_id" class="form-control">
+                                      <option>Select ward</option>
+                                    @if(!empty($ward))
+                                                        @foreach($ward as $row)
+
+                                                        <option @if(isset($data))
+                                                            {{ $data->ward_id == $row->id  ? 'selected' : ''}}
+                                                            @endif value="{{$row->id}}">{{$row->name}}</option>
+
+                                                        @endforeach
+                                                        @endif
+                                    </select>
+                                  </div>
+                 @else
+              <div class="form-group col-md-4">
+                                   <label for="inputState">Ward</label>
+                                    <select id="selectWardid" name="ward_id" class="form-control">
+                                      <option>Select ward</option>
+                                    
+                                    </select>
+                                  </div>
+  @endif
+                             </div>
+            
+
+
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label for="inputPassword4">size</label>
@@ -393,4 +466,65 @@
     </div>
 </div>
 <!-- end of the delete model -->
+
+<script>
+$(document).ready(function() {
+
+    $(document).on('change', '.region', function() {
+        var id = $(this).val();
+        $.ajax({
+            url: '{{url("findRegion")}}',
+            type: "GET",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#selectDistrictid").empty();
+                $("#selectDistrictid").append('<option value="">Select district</option>');
+                $.each(response,function(key, value)
+                {
+                 
+                    $("#selectDistrictid").append('<option value=' + value.id+ '>' + value.name + '</option>');
+                   
+                });                      
+               
+            }
+
+        });
+
+    });
+
+
+ $(document).on('change', '.district', function() {
+        var id = $(this).val();
+        $.ajax({
+            url: '{{url("findDistrict")}}',
+            type: "GET",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#selectWardid").empty();
+                $("#selectWardid").append('<option value="">Select ward</option>');
+                $.each(response,function(key, value)
+                {
+                 
+                    $("#selectWardid").append('<option value=' + value.id+ '>' + value.name + '</option>');
+                   
+                });                      
+               
+            }
+
+        });
+
+    });
+
+
+
+});
+</script>
 @endsection
