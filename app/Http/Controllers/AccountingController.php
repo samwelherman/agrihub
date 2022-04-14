@@ -29,6 +29,8 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Clickatell\Api\ClickatellHttp;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Models\AccountCodes;
+use App\Models\BankReconciliation;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -154,5 +156,100 @@ else{
     }
 
 
+    public function bank_statement(Request $request)
+    {
+       
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $account_id=$request->account_id;
+        $chart_of_accounts = [];
+        foreach (AccountCodes::where('account_group','Cash and Cash Equivalent')->get() as $key) {
+            $chart_of_accounts[$key->id] = $key->account_name;
+        }
+        if($request->isMethod('post')){
+            $data=JournalEntry::where('reconcile', 0)->where('account_id', $request->account_id)->whereBetween('date',[$start_date,$end_date])->get();
+        }else{
+            $data=[];
+        }
 
+        if($request->isMethod('post')){
+            $open_debit=JournalEntry::where('reconcile', 0)->where('account_id', $request->account_id)->where('date','<', $start_date)->sum('debit');
+        }else{
+            $open_debit=[];
+        }
+
+        if($request->isMethod('post')){
+            $open_credit=JournalEntry::where('reconcile', 0)->where('account_id', $request->account_id)->where('date','<', $start_date)->sum('credit');
+        }else{
+            $open_credit=[];
+        }
+        return view('accounting.bank_statement',
+            compact('start_date',
+                'end_date','chart_of_accounts','data','account_id','open_debit','open_credit'));
+    }
+
+    public function bank_reconciliation(Request $request)
+    {
+       
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $account_id=$request->account_id;
+        $chart_of_accounts = [];
+        foreach (AccountCodes::where('account_group','Cash and Cash Equivalent')->get() as $key) {
+            $chart_of_accounts[$key->id] = $key->account_name;
+        }
+        if($request->isMethod('post')){
+            $data=JournalEntry::where('reconcile', 0)->where('account_id', $request->account_id)->whereBetween('date',[$start_date,$end_date])->get();
+        }else{
+            $data=[];
+        }
+
+       
+
+        return view('accounting.bank_reconciliation',
+            compact('start_date',
+                'end_date','chart_of_accounts','data','account_id'));
+    }
+
+
+    public function save_reconcile(Request $request)
+    {
+
+$trans_id= $request->trans_id;
+
+  if(!empty($trans_id)){
+    for($i = 0; $i < count($trans_id); $i++){
+   if(!empty($trans_id[$i])){
+    
+             $acc = JournalEntry::find($trans_id[$i]);       
+                  $items = array(
+                    'name' =>  $acc->name,
+                    'account_id' => $acc->account_id,
+                     'transaction_type' => $acc->transaction_type,
+                    'date' => date('Y-m-d'),
+                    'payment_id' => $acc->payment_id,
+                    'debit' =>$acc->debit,
+                    'credit' =>   $acc->credit,
+                    'currency_code' => $acc->currency_code,
+                    'notes' => $acc->notes,
+                    'added_by' =>  auth()->user()->id);
+
+                    BankReconciliation::create($items);  ;
+
+                    JournalEntry::where('id',$trans_id[$i])->update(['reconcile' => '1']);
+
+                  }
+                  }
+                }
+
+
+                return redirect(route('reconciliation.report'))->with(['success'=>'Reconciled Successfully']);
+}
+
+    public function reconciliation_report()
+    {
+        //
+        $data= BankReconciliation::all();
+       return view('accounting.reconciliation_report',compact('data'));
+    }
 }

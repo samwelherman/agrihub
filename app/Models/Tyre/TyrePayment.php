@@ -18,6 +18,7 @@ class TyrePayment extends Model
     'date',
     'payment_method',
     'notes',   
+    'account_id', 
     'added_by'];
     
     public function user()

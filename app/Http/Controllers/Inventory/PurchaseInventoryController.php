@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountCodes;
 use App\Models\Currency;
 use App\Models\Inventory;
 use App\Models\InventoryHistory;
 use App\Models\InventoryPayment;
+use App\Models\JournalEntry;
 use App\Models\Location;
 use App\Models\Payment_methodes;
 use App\Models\Purchase_items;
@@ -269,6 +271,57 @@ class PurchaseInventoryController extends Controller
             }    
     
     
+            $inv = PurchaseInventory::find($id);
+            $supp=Supplier::find($inv->supplier_id);
+            $cr= AccountCodes::where('account_name','Inventory')->first();
+            $journal = new JournalEntry();
+          $journal->account_id = $cr->id;
+          $date = explode('-',$inv->purchase_date);
+          $journal->date =   $inv->purchase_date ;
+          $journal->year = $date[0];
+          $journal->month = $date[1];
+         $journal->transaction_type = 'inventory';
+          $journal->name = 'Inventory Purchase';
+          $journal->debit = $inv->purchase_amount *  $inv->exchange_rate;
+          $journal->income_id= $inv->id;
+           $journal->currency_code =  $inv->exchange_code;
+          $journal->exchange_rate= $inv->exchange_rate;
+             $journal->notes= "Inventory Purchase with reference no " .$inv->reference_no ." by Supplier ". $supp->name ;
+          $journal->save();
+        
+        if($inv->purchase_tax > 0){
+         $tax= AccountCodes::where('account_name','VAT IN')->first();
+            $journal = new JournalEntry();
+          $journal->account_id = $tax->id;
+          $date = explode('-',$inv->purchase_date);
+          $journal->date =   $inv->purchase_date ;
+          $journal->year = $date[0];
+          $journal->month = $date[1];
+          $journal->transaction_type = 'inventory';
+          $journal->name = 'Inventory Purchase';
+          $journal->debit = $inv->purchase_tax *  $inv->exchange_rate;
+          $journal->income_id= $inv->id;
+           $journal->currency_code =  $inv->exchange_code;
+          $journal->exchange_rate= $inv->exchange_rate;
+             $journal->notes= "Inventory Purchase Tax with reference no " .$inv->reference_no ." by Supplier ".  $supp->name ;
+          $journal->save();
+        }
+        
+          $codes= AccountCodes::where('account_name','Payables')->first();
+          $journal = new JournalEntry();
+          $journal->account_id = $codes->id;
+          $date = explode('-',$inv->purchase_date);
+          $journal->date =   $inv->purchase_date ;
+          $journal->year = $date[0];
+          $journal->month = $date[1];
+          $journal->transaction_type = 'inventory';
+          $journal->name = 'Inventory Purchase';
+          $journal->income_id= $inv->id;
+          $journal->credit =$inv->due_amount *  $inv->exchange_rate;
+          $journal->currency_code =  $inv->exchange_code;
+          $journal->exchange_rate= $inv->exchange_rate;
+             $journal->notes= "Credit for Inventory Purchase with reference no " .$inv->reference_no ." by Supplier ".  $supp->name ;
+          $journal->save();
     
     
             return redirect(route('purchase_inventory.show',$id));
@@ -421,7 +474,8 @@ class PurchaseInventoryController extends Controller
         //
         $invoice = PurchaseInventory::find($id);
         $payment_method = Payment_methodes::all();
-        return view('inventory.inventory_payment',compact('invoice','payment_method'));
+        $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+        return view('inventory.inventory_payment',compact('invoice','payment_method','bank_accounts'));
     }
     
     public function inv_pdfview(Request $request)

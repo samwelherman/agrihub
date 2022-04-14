@@ -9,6 +9,20 @@ class Expenses extends Model
     protected $table = "tbl_expenses";
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'bank_id',
+        'trans_id',
+        'amount',
+        'date',
+        'type',
+        'status',
+        'exchange_rate',
+        'exchange_code',
+        'payment_method',
+        'notes',   
+        'account_id', 
+        'added_by'];
     
       public function classAccount()
     {

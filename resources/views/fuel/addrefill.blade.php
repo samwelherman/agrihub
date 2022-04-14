@@ -13,7 +13,7 @@
                 <label class="col-lg-6 col-form-label">Price per Litres</label>
 
                 <div class="col-lg-12">
-                    <input type="number" name="price" value="" id="price" required class="form-control" onkeyup=" calculateDiscount();">
+                    <input type="number" name="price" id="price" class="form-control" required  onkeyup="calculateCost();">
                     
                 </div>
             </div>
@@ -22,20 +22,27 @@
                 <label class="col-lg-6 col-form-label">Volume Refill</label>
 
                 <div class="col-lg-12">
-                    <input type="number" name="litres" value="" required class="form-control" id="litres"  onkeyup=" calculateDiscount();">
+                    <input type="number" name="litres"  id="litres"  class="form-control"  required  onkeyup="calculateCost();">
                     <input type="hidden" name="type" value="refill" >
                 </div>
             </div>
 
 
-            <div class="form-group">
-                <label class="col-lg-6 col-form-label">Total Cost</label>
+
+         
+
+            
+            <div class="form-group row"><label  class="col-lg-6 col-form-label">Bank/Cash Account</label>
 
                 <div class="col-lg-12">
-                    <input type="number" name="total_cost" id="total_cost" value="" required class="form-control" readonly>
+                   <select class="form-control" name="account_id" required>
+                <option value="">Select Payment Account</option> 
+                      @foreach ($bank_accounts as $bank)                                                             
+                        <option value="{{$bank->id}}" @if(isset($data))@if($data->account_id == $bank->id) selected @endif @endif >{{$bank->account_name}}</option>
+                           @endforeach
+                          </select>
                 </div>
             </div>
-
 
         </div>
         <div class="modal-footer bg-whitesmoke br">

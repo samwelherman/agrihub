@@ -112,7 +112,7 @@ class PacelPaymentController extends Controller
           $journal->payment_id= $payment->id;
          $journal->currency_code =   $sales->currency_code;
         $journal->exchange_rate=  $sales->exchange_rate;
-           $journal->notes= "Clear Creditor  with reference no " .$sales->pacel_number  ;
+           $journal->notes= "Clear Debitor  with reference no " .$sales->pacel_number  ;
         $journal->save();
         
 

@@ -11,6 +11,8 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use App\Models\JournalEntry;
 use App\Http\Requests;
+use App\Models\Currency;
+use App\Models\Payment_methodes;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -28,12 +30,12 @@ class DepositController extends Controller
     {
       
       $deposit = Deposit::all();
-
+      $payment_method = Payment_methodes::all();
  $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
      $chart_of_accounts =AccountCodes::where('account_group','!=','Cash and Cash Equivalent')->get() ;
-       
+     $currency = Currency::all();
           $group_account = GroupAccount::all();
-        return view('deposit.data', compact('deposit','group_account','chart_of_accounts','bank_accounts'));
+        return view('deposit.data', compact('currency','deposit','group_account','payment_method','chart_of_accounts','bank_accounts'));
     }
 
     /**
@@ -64,34 +66,17 @@ class DepositController extends Controller
          $deposit->account_id  = $request->account_id  ;
              $deposit->bank_id  = $request->bank_id ;
              $deposit->notes  = $request->notes ;
-
+             $deposit->status  = '0' ;
+             $deposit->exchange_code =   $request->exchange_code;
+             $deposit->exchange_rate=  $request->exchange_rate;
+             $random = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(4/strlen($x)) )),1,4);
+             $deposit->trans_id = "TRANS_DEP_".$random;
+             $deposit->type=' Deposit';
+             $deposit->added_by = auth()->user()->id;
+             $deposit->payment_method =  $request->payment_method;
              $deposit->save();
 
-         $journal = new JournalEntry();
-        $journal->account_id =    $deposit->account_id;
-      $date = explode('-',  $deposit->date);
-        $journal->date = $deposit->date;
-        $journal->year = $date[0];
-        $journal->month = $date[1];
-        $journal->transaction_type = 'deposit';
-        $journal->name = 'Deposit Payment';
-             $journal->other_income_id =    $deposit->id;
-              $journal->notes= 'Deposit Payment';
-        $journal->credit=   $deposit->amount;
-        $journal->save();
-
-         $journal = new JournalEntry();
-        $journal->account_id = $deposit->bank_id;
-        $date = explode('-',  $deposit->date);
-        $journal->date = $deposit->date;
-        $journal->year = $date[0];
-        $journal->month = $date[1];
-        $journal->transaction_type = 'deposit';
-         $journal->name = 'Deposit Payment';
-        $journal->debit=    $deposit->amount;
-        $journal->other_income_id =    $deposit->id;
-           $journal->notes= 'Deposit Payment';
-        $journal->save();
+       
 
             return redirect('deposit');
         }
@@ -110,10 +95,10 @@ class DepositController extends Controller
 
  $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
      $chart_of_accounts =AccountCodes::where('account_group','!=','Cash and Cash Equivalent')->get() ;
-   
-
+     $currency = Currency::all();
+     $payment_method = Payment_methodes::all();
             $group_account = GroupAccount::all();
-        return View::make('deposit.data', compact('data','group_account','id','chart_of_accounts','bank_accounts'))->render();
+        return View::make('deposit.data', compact('data','currency','group_account','id','payment_method','chart_of_accounts','bank_accounts'))->render();
     }
 
     /**
@@ -133,8 +118,12 @@ class DepositController extends Controller
          $deposit->account_id  = $request->account_id  ;
              $deposit->bank_id  = $request->bank_id ;
              $deposit->notes  = $request->notes ;
-  
-      
+             $deposit->status  = '0' ;
+             $deposit->exchange_code =   $request->exchange_code;
+             $deposit->exchange_rate=  $request->exchange_rate;
+             $deposit->type=' Deposit';
+             $deposit->added_by = auth()->user()->id;
+             $deposit->payment_method =  $request->payment_method;
             $deposit->save();
 
         //Flash::success(trans('general.successfully_saved'));
@@ -156,4 +145,51 @@ class DepositController extends Controller
         //Flash::success(trans('general.successfully_deleted'));
         return redirect('deposit');
     }
+
+    public function approve($id)
+    {
+        //
+        $deposit= Deposit::find($id);
+        $data['status'] = 1;
+        $deposit->update($data);
+
+        $journal = new JournalEntry();
+        $journal->account_id = $deposit->bank_id;
+        $date = explode('-',  $deposit->date);
+        $journal->date = $deposit->date;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+        $journal->transaction_type = 'deposit';
+        $journal->name = 'Deposit Payment';
+        $journal->payment_id =    $deposit->id;
+        $journal->notes= 'Deposit Payment with transaction id ' .$deposit->trans_id;
+        $journal->debit=    $deposit->amount * $deposit->exchange_rate;
+        $journal->currency_code =   $deposit->exchange_code;
+        $journal->exchange_rate=  $deposit->exchange_rate;
+        $journal->save();
+
+        $journal = new JournalEntry();
+        $journal->account_id =    $deposit->account_id;
+         $date = explode('-',  $deposit->date);
+        $journal->date = $deposit->date;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+        $journal->transaction_type = 'deposit';
+        $journal->name = 'Deposit Payment';
+        $journal->payment_id =    $deposit->id;
+        $journal->notes= 'Deposit Payment with transaction id ' .$deposit->trans_id;
+        $journal->credit=   $deposit->amount * $deposit->exchange_rate;
+        $journal->currency_code =   $deposit->exchange_code;
+        $journal->exchange_rate=  $deposit->exchange_rate;
+        $journal->save();
+    
+       
+
+
+      
+
+        return redirect(route('deposit.index'))->with(['success'=>'Approved Successfully']);
+    }
+
+   
 }
