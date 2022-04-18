@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controller\Orders_Client_ManipulationsController;
 use App\Http\Controller\Truck_Management_ApiController;
 use App\Http\Controller\Driver_Management_ApiController;
+use App\Http\Controller\Fuel_Management_ApiController;
 use App\Http\Controller\Auth_ApiController;
 
 /*
@@ -30,5 +31,6 @@ Route::post('register','Api_controllers\Auth_ApiController@register');
 Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::resource('truck_management','Api_controllers\Logistic\Truck_Management_ApiController');
     Route::resource('driver_management','Api_controllers\Logistic\Driver_Management_ApiController');
+    Route::resource('fuel_management','Api_controllers\Logistic\Fuel_Management_ApiController');
     Route::resource('manipulation','Orders_Client_ManipulationsController');
 });
