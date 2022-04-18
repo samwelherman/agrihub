@@ -147,7 +147,7 @@
                                                                     aria-selected="false">Good Receive</a>
                                                             </li>
                                                             @endif
-                                                            @if($row->status != 0 && $row->status != 4 && $row->status != 3)
+                                                            @if($row->status != 0 && $row->status != 4 && $row->status != 3 && $row->good_receive == 1)
                                                             <li> <a class="nav-link" id="profile-tab2"
                                                                     href="{{ route('purchase_tyre.pay',$row->id)}}"
                                                                     role="tab"

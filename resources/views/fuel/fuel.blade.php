@@ -76,7 +76,16 @@
                                                 <td>From {{$row->route->from}} to {{$row->route->to}}</td>
 
                                                 <td>{{$row->fuel_rate}}</td>
+
+                                                @php
+                                                    $a=App\Models\Fuel\Refill::where('fuel_id',$row->id)->first();
+                                                @endphp
+                                                @if (!empty($a))
                                                 <td> <a href="#view{{$row->id}}" data-toggle="modal">{{$row->fuel_used}} Litres</a></td>
+                                                @else
+                                                <td>{{$row->fuel_used}} Litres</td>
+                                                @endif
+                                               
 
                                                 <td>
                                                     @if($row->due_fuel != 0 && $row->status_approve != 1 )
@@ -448,6 +457,7 @@ $(document).ready(function() {
 });
 </script>
 
+
 <script>
     $(document).ready(function(){
       
@@ -524,19 +534,20 @@ $.ajax({
 
 }
 
-
-function calculateDiscount() {
-
-$('#price,#litres').on('input',function() {
-var price= parseInt($('#price').val());
-var qty = parseFloat($('#litres').val());
-console.log(price);
-$('#total_cost').val((qty* price ? qty * price : 0).toFixed(2));
-});
-
-}
+function calculateCost() {
     
-    </script>
+    $('#price,#litres').on('input',function() {
+    var price= parseInt($('#price').val());
+    var qty = parseFloat($('#litres').val());
+    console.log(qty);
+    $('#total_c').val((10* 2 ? 10* 2 : 0).toFixed(2));
+    });
+    
+    }
+</script>
+
+
+
 
 
 

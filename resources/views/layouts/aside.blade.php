@@ -217,8 +217,9 @@
 
                     <li class=""><a  class="nav-link" href="{{ url('deposit') }}">Deposit</a></li>
                     <li class=" "><a class="nav-link" href="{{ url('expenses') }}">Expenses</a></li>
-
-                                            
+                    <li class=""><a  class="nav-link" href="{{ url('accounting/bank_statement') }}">Bank Statement</a></li>
+                    <li class=" "><a class="nav-link" href="{{ url('accounting/bank_reconciliation') }}">Bank Reconciliation</a></li>
+                    <li class=" "><a class="nav-link" href="{{ url('accounting/reconciliation_report') }}">Bank Reconciliation Report</a></li>                    
                 </ul>
             </li>
           @endcan 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Fuel;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountCodes;
 use App\Models\Fuel\Fuel;
 use App\Models\Fuel\Refill;
+use App\Models\JournalEntry;
 use App\Models\Route;
 use App\Models\Truck;
 use Illuminate\Http\Request;
@@ -51,6 +53,9 @@ class FuelController extends Controller
         $data['due_fuel']=$route->distance/$request->fuel_rate;
         $data['added_by']=auth()->user()->id;
         $fuel= Fuel::create($data);
+
+
+      
  
         return redirect(route('fuel.index'))->with(['success'=>'Fuel Created Successfully']);
     }
@@ -71,8 +76,9 @@ class FuelController extends Controller
     {
                  $id=$request->id;
                  $type = $request->type;
+                 $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
                  if($type == 'refill'){
-                    return view('fuel.addrefill',compact('id'));
+                    return view('fuel.addrefill',compact('id','bank_accounts'));
                 
                  }elseif($type == 'adjustment'){
                     $data =  Fuel::find($id);
@@ -128,6 +134,7 @@ class FuelController extends Controller
             if($receipt['litres'] >= 0){
                 $receipt['truck'] = $sales->truck_id;
                 $receipt['route'] = $sales->route_id;
+                $receipt['total_cost'] = $request->price * $request->litres;
                 $receipt['fuel_id'] = $id;
                 $receipt['added_by'] = auth()->user()->id;
                 
@@ -135,6 +142,36 @@ class FuelController extends Controller
                 $data['due_fuel'] =  $sales->due_fuel-$receipt['litres'];              
                 $sales->update($data);
                 $refill = Refill::create($receipt);
+
+                $t=Truck::find($sales->truck_id);
+                $cr= AccountCodes::where('account_name','Fuel')->first();
+                $journal = new JournalEntry();
+              $journal->account_id = $cr->id;
+              $date = explode('-',$refill->created_at);
+              $journal->date =   $refill->created_at ;
+              $journal->year = $date[0];
+              $journal->month = $date[1];
+             $journal->transaction_type = 'fuel';
+              $journal->name = 'Fuel Refill';
+              $journal->debit = $refill->total_cost ;
+              $journal->payment_id= $refill->id;
+                 $journal->notes= "Fuel Refill for Truck " .$t->truck_name ;
+              $journal->save();
+      
+      
+
+              $journal = new JournalEntry();
+              $journal->account_id = $request->account_id;
+              $date = explode('-',$refill->created_at);
+              $journal->date =   $refill->created_at ;
+              $journal->year = $date[0];
+              $journal->month = $date[1];
+             $journal->transaction_type = 'fuel';
+              $journal->name = 'Fuel Refill';
+              $journal->credit =$refill->total_cost ;
+              $journal->payment_id= $refill->id;
+                 $journal->notes= "Payment for Fuel Refill for Truck " .$t->truck_name ;
+              $journal->save();
 
                 return redirect(route('fuel.index'))->with(['success'=>'Fuel Refill Updated Successfully']);
 

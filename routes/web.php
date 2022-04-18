@@ -287,7 +287,9 @@ Route::resource('account_codes', 'AccountCodesController');
 Route::resource('system', 'SystemController');
 Route::resource('chart_of_account', 'ChartOfAccountController');
 Route::resource('expenses', 'ExpensesController');
+Route::get('expenses_approve/{id}', 'ExpensesController@approve')->name('expenses.approve');
 Route::resource('deposit', 'DepositController');
+Route::get('deposit_approve/{id}', 'DepositController@approve')->name('deposit.approve');
 
 //route for reports
 Route::group(['prefix' => 'accounting'], function () {
@@ -297,6 +299,10 @@ Route::group(['prefix' => 'accounting'], function () {
     Route::any('journal', 'AccountingController@journal');
     Route::get('manual_entry', 'AccountingController@create_manual_entry');
     Route::post('manual_entry/store', 'AccountingController@store_manual_entry');
+    Route::any('bank_statement', 'AccountingController@bank_statement');
+    Route::any('bank_reconciliation', 'AccountingController@bank_reconciliation');
+    Route::any('reconciliation_report', 'AccountingController@reconciliation_report')->name('reconciliation.report');;
+    Route::post('save_reconcile', 'AccountingController@save_reconcile')->name('reconcile.save');
 });
 
 

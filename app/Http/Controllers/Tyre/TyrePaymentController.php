@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Tyre;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountCodes;
+use App\Models\JournalEntry;
 use App\Models\Payment_methodes;
+use App\Models\Supplier;
 use App\Models\Tyre\PurchaseTyre;
 use App\Models\Tyre\TyreActivity;
 use App\Models\Tyre\TyrePayment;
@@ -72,6 +75,42 @@ class TyrePaymentController extends Controller
                         );                      
         }
 
+        $supp=Supplier::find($sales->supplier_id);
+
+        $codes= AccountCodes::where('account_name','Payables')->first();
+        $journal = new JournalEntry();
+        $journal->account_id = $codes->id;
+          $date = explode('-',$request->date);
+        $journal->date =   $request->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'tire_payment';
+        $journal->name = 'Tire Payment';
+        $journal->debit =$receipt['amount'] *  $sales->exchange_rate;
+          $journal->payment_id= $payment->id;
+         $journal->currency_code =   $sales->exchange_code;
+        $journal->exchange_rate=  $sales->exchange_rate;
+           $journal->notes= "Clear Creditor  with reference no " .$sales->reference_no. " by Supplier ".  $supp->name ; ;
+        $journal->save();
+  
+
+        $journal = new JournalEntry();
+      $journal->account_id = $request->account_id;
+      $date = explode('-',$request->date);
+      $journal->date =   $request->date ;
+      $journal->year = $date[0];
+      $journal->month = $date[1];
+      $journal->transaction_type = 'tire_payment';
+      $journal->name = 'Tire Payment';
+      $journal->credit = $receipt['amount'] *  $sales->exchange_rate;
+      $journal->payment_id= $payment->id;
+       $journal->currency_code =   $sales->exchange_code;
+      $journal->exchange_rate=  $sales->exchange_rate;
+         $journal->notes= "Payment for Clear Credit  with reference no " .$sales->reference_no. " by Supplier ".  $supp->name ; ;
+      $journal->save();
+
+
+    
                 return redirect(route('purchase_tyre.index'))->with(['success'=>'Payment Added successfully']);
             }else{
                 return redirect(route('purchase_tyre.index'))->with(['error'=>'Amount should not be equal or less to zero']);
@@ -107,8 +146,8 @@ class TyrePaymentController extends Controller
         $data=TyrePayment::find($id);
         $invoice = PurchaseTyre::find($data->purchase_id);
         $payment_method = Payment_methodes::all();
-       
-        return view('tyre.tyre_edit_payment',compact('invoice','payment_method','data','id'));
+        $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+        return view('tyre.tyre_edit_payment',compact('invoice','payment_method','data','id','bank_accounts'));
     }
 
     /**
@@ -162,6 +201,41 @@ class TyrePaymentController extends Controller
                         ]
                         );                      
         }
+
+
+        $supp=Supplier::find($sales->supplier_id);
+
+        $codes= AccountCodes::where('account_name','Payables')->first();
+        $journal = JournalEntry::where('transaction_type','tire_payment')->where('payment_id', $payment->id)->whereNotNull('debit')->first();
+        $journal->account_id = $codes->id;
+          $date = explode('-',$request->date);
+        $journal->date =   $request->date ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'tire_payment';
+        $journal->name = 'Tire Payment';
+        $journal->debit =$receipt['amount'] *  $sales->exchange_rate;
+          $journal->payment_id= $payment->id;
+         $journal->currency_code =   $sales->exchange_code;
+        $journal->exchange_rate=  $sales->exchange_rate;
+           $journal->notes= "Clear Creditor  with reference no " .$sales->reference_no. " by Supplier ".  $supp->name ; ;
+        $journal->update();
+  
+
+        $journal = JournalEntry::where('transaction_type','tire_payment')->where('payment_id', $payment->id)->whereNotNull('credit')->first();
+      $journal->account_id = $request->account_id;
+      $date = explode('-',$request->date);
+      $journal->date =   $request->date ;
+      $journal->year = $date[0];
+      $journal->month = $date[1];
+      $journal->transaction_type = 'tire_payment';
+      $journal->name = 'Tire Payment';
+      $journal->credit = $receipt['amount'] *  $sales->exchange_rate;
+      $journal->payment_id= $payment->id;
+       $journal->currency_code =   $sales->exchange_code;
+      $journal->exchange_rate=  $sales->exchange_rate;
+         $journal->notes= "Payment for Clear Credit  with reference no " .$sales->reference_no. " by Supplier ".  $supp->name ; ;
+      $journal->update();
 
                 return redirect(route('purchase_tyre.index'))->with(['success'=>'Payment Added successfully']);
             }else{

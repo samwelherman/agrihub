@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountCodes;
 use App\Models\InventoryPayment;
+use App\Models\JournalEntry;
 use App\Models\Payment_methodes;
 use App\Models\PurchaseInventory;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class InventoryPaymentController extends Controller
@@ -59,6 +62,41 @@ class InventoryPaymentController extends Controller
                  
                 $payment = InventoryPayment::create($receipt);
 
+                $supp=Supplier::find($sales->supplier_id);
+
+                $codes= AccountCodes::where('account_name','Payables')->first();
+                $journal = new JournalEntry();
+                $journal->account_id = $codes->id;
+                  $date = explode('-',$request->date);
+                $journal->date =   $request->date ;
+                $journal->year = $date[0];
+                $journal->month = $date[1];
+               $journal->transaction_type = 'inventory_payment';
+                $journal->name = 'Inventory Payment';
+                $journal->debit =$receipt['amount'] *  $sales->exchange_rate;
+                  $journal->payment_id= $payment->id;
+                 $journal->currency_code =   $sales->exchange_code;
+                $journal->exchange_rate=  $sales->exchange_rate;
+                   $journal->notes= "Clear Creditor  with reference no " .$sales->reference_no. " by Supplier ".  $supp->name ; ;
+                $journal->save();
+          
+        
+                $journal = new JournalEntry();
+              $journal->account_id = $request->account_id;
+              $date = explode('-',$request->date);
+              $journal->date =   $request->date ;
+              $journal->year = $date[0];
+              $journal->month = $date[1];
+              $journal->transaction_type = 'inventory_payment';
+              $journal->name = 'Inventory Payment';
+              $journal->credit = $receipt['amount'] *  $sales->exchange_rate;
+              $journal->payment_id= $payment->id;
+               $journal->currency_code =   $sales->exchange_code;
+              $journal->exchange_rate=  $sales->exchange_rate;
+                 $journal->notes= "Payment for Clear Credit  with reference no " .$sales->reference_no. " by Supplier ".  $supp->name ; ;
+              $journal->save();
+
+
                 return redirect(route('purchase_inventory.index'))->with(['success'=>'Payment Added successfully']);
             }else{
                 return redirect(route('purchase_inventory.index'))->with(['error'=>'Amount should not be equal or less to zero']);
@@ -94,8 +132,8 @@ class InventoryPaymentController extends Controller
         $data=InventoryPayment::find($id);
         $invoice = PurchaseInventory::find($data->purchase_id);
         $payment_method = Payment_methodes::all();
-       
-        return view('inventory.inventory_edit_payment',compact('invoice','payment_method','data','id'));
+        $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+        return view('inventory.inventory_edit_payment',compact('invoice','payment_method','data','id','bank_accounts'));
     }
 
     /**
@@ -136,6 +174,42 @@ class InventoryPaymentController extends Controller
                 $sales->update($data);
                  
                 $payment->update($receipt);
+
+                $supp=Supplier::find($sales->supplier_id);
+
+                $codes= AccountCodes::where('account_name','Payables')->first();
+                $journal = JournalEntry::where('transaction_type','inventory_payment')->where('payment_id', $payment->id)->whereNotNull('debit')->first();
+                $journal->account_id = $codes->id;
+                  $date = explode('-',$request->date);
+                $journal->date =   $request->date ;
+                $journal->year = $date[0];
+                $journal->month = $date[1];
+               $journal->transaction_type = 'inventory_payment';
+                $journal->name = 'Inventory Payment';
+                $journal->debit =$receipt['amount'] *  $sales->exchange_rate;
+                  $journal->payment_id= $payment->id;
+                 $journal->currency_code =   $sales->exchange_code;
+                $journal->exchange_rate=  $sales->exchange_rate;
+                   $journal->notes= "Clear Creditor  with reference no " .$sales->reference_no. " by Supplier ".  $supp->name ; ;
+                $journal->update();
+          
+        
+
+                $journal = JournalEntry::where('transaction_type','inventory_payment')->where('payment_id', $payment->id)->whereNotNull('credit')->first();
+              $journal->account_id = $request->account_id;
+              $date = explode('-',$request->date);
+              $journal->date =   $request->date ;
+              $journal->year = $date[0];
+              $journal->month = $date[1];
+              $journal->transaction_type = 'inventory_payment';
+              $journal->name = 'Inventory Payment';
+              $journal->credit = $receipt['amount'] *  $sales->exchange_rate;
+              $journal->payment_id= $payment->id;
+               $journal->currency_code =   $sales->exchange_code;
+              $journal->exchange_rate=  $sales->exchange_rate;
+                 $journal->notes= "Payment for Clear Credit  with reference no " .$sales->reference_no. " by Supplier ".  $supp->name ; ;
+              $journal->update();
+
 
                 return redirect(route('purchase_inventory.index'))->with(['success'=>'Payment Added successfully']);
             }else{
