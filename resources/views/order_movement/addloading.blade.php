@@ -10,13 +10,15 @@
         <div class="modal-body">
         
             <p><strong>Make sure you enter valid information</strong> .</p>
-            <div class="form-group">
-                <label class="col-lg-6 col-form-label">Truck Name/NUmber</label>
+             <ul>
+                @php
+                   $data=App\Models\CargoLoading::find($id); 
+                @endphp
+                <li>Truck : {{ $data->truck->truck_name}} - {{ $data->truck->reg_no}}</li>
+               <li>Driver Name: {{ $data->driver->driver_name}} </li>
+              <li>Route Name: From {{ $data->route->from}} to  {{ $data->route->to}} </li>
+            </ul>
 
-                <div class="col-lg-12">
-                    <input type="text" name="truck" value=""  class="form-control">
-                </div>
-            </div>
 
             <div class="form-group">
                 <label class="col-lg-6 col-form-label">Description</label>

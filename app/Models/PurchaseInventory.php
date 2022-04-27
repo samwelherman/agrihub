@@ -26,8 +26,14 @@ class PurchaseInventory extends Model
     'good_receive',    
     'added_by'];
     
-    public function user()
+  public function user()
     {
-        return $this->belongsTo('App\Models\user');
+        return $this->belongsTo('App\Models\User','added_by');
     }
+
+ public function  supplier(){
+    
+        return $this->belongsTo('App\Models\Supplier','supplier_id');
+      }
+
 }

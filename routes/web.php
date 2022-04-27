@@ -176,6 +176,8 @@ Route::resource('manipulation','Orders_Client_ManipulationsController');
 Route::resource('truck', 'Truck\TruckController');
 Route::get('truck_sticker/{id}', 'Truck\TruckController@sticker')->name('truck.sticker');
 Route::get('truck_insurance/{id}', 'Truck\TruckController@insurance')->name('truck.insurance');
+Route::any('truck_fuel_report/{id}', 'Truck\TruckController@fuel')->name('truck.fuel');
+Route::any('truck_route/{id}', 'Truck\TruckController@route')->name('truck.route');
 Route::resource('sticker', 'Truck\StickerController');
 Route::resource('truckinsurance', 'Truck\TruckInsuranceController');
 Route::get('sdownload',array('as'=>'sdownload','uses'=>'Truck\StickerControllerr@sdownload'));
@@ -189,6 +191,8 @@ Route::resource('licence', 'Driver\LicenceController');
 Route::resource('performance', 'Driver\PerformanceController');
 Route::get('ldownload',array('as'=>'ldownload','uses'=>'Driver\LicenceController@ldownload'));
 Route::get('pdownload',array('as'=>'pdownload','uses'=>'Driver\PerformanceController@pdownload'));
+Route::any('driver_fuel_report/{id}', 'Driver\DriverController@fuel')->name('driver.fuel');
+Route::any('driver_route/{id}', 'Driver\DriverController@route')->name('driver.route');
 
 // inventory routes
 Route::resource('location', 'Inventory\LocationController');
@@ -205,7 +209,7 @@ Route::get('receive/{id}', 'Inventory\PurchaseInventoryController@receive')->nam
 Route::get('make_payment/{id}', 'Inventory\PurchaseInventoryController@make_payment')->name('inventory.pay'); 
 Route::get('inv_pdfview',array('as'=>'inv_pdfview','uses'=>'Inventory\PurchaseInventoryController@inv_pdfview'));
 Route::get('order_payment/{id}', 'orders\OrdersController@order_payment')->name('order.pay');
-
+Route::get('inventory_list', 'Inventory\PurchaseInventoryController@inventory_list');
 Route::resource('inventory_payment', 'Inventory\InventoryPaymentController');
 Route::resource('order_payment', 'orders\OrderPaymentController');
 
@@ -231,14 +235,30 @@ Route::get('loading', 'Activity\OrderMovementController@loading')->name('order.l
 Route::get('offloading', 'Activity\OrderMovementController@offloading')->name('order.offloading');
 Route::get('delivering', 'Activity\OrderMovementController@delivering')->name('order.delivering');
 Route::resource('order_movement', 'Activity\OrderMovementController');
+Route::get('findTruck', 'Activity\OrderMovementController@findTruck');  
 Route::resource('activity', 'Activity\ActivityController');
-
+Route::get('order_report', 'Activity\OrderMovementController@report')->name('order.report');
+Route::get('findReport', 'Activity\OrderMovementController@findReport');
+Route::get('findExp', 'Activity\OrderMovementController@findPrice');  
+Route::get('truck_mileage', 'Activity\OrderMovementController@return')->name('order.return');
 //fuel
 Route::resource('fuel', 'Fuel\FuelController');
 Route::get('addRoute', 'Fuel\FuelController@route');
 Route::resource('routes', 'RouteController');
 Route::get('fuel_approve/{id}', 'Fuel\FuelController@approve')->name('fuel.approve');
 Route::get('discountModal', 'Fuel\FuelController@discountModal');
+
+//leave
+Route::resource('leave', 'Leave\LeaveController');
+Route::post('addCategory', 'Leave\LeaveController@category');
+Route::get('leave_approve/{id}', 'Leave\LeaveController@approve')->name('leave.approve');
+Route::get('leave_reject/{id}', 'Leave\LeaveController@reject')->name('leave.reject');
+
+//training
+Route::resource('training', 'Training\TrainingController');
+Route::get('training_start/{id}', 'Training\TrainingController@start')->name('training.start');
+Route::get('training_approve/{id}', 'Training\TrainingController@approve')->name('training.approve');
+Route::get('training_reject/{id}', 'Training\TrainingController@reject')->name('training.reject');
 
 
 // tyre routes
@@ -262,9 +282,11 @@ Route::get('tyre_disposal_approve/{id}', 'Tyre\TyreDisposalController@approve')-
 Route::resource('tyre_return', 'Tyre\TyreReturnController');
 Route::get('findTyreDetails', 'Tyre\TyreReturnController@findPrice'); 
 Route::get('tyre_return_approve/{id}', 'Tyre\TyreReturnController@approve')->name('tyre_return.approve'); 
+Route::get('addSupp', 'Tyre\PurchaseTyreController@addSupp');
 
 //pacel
 Route::resource('pacel_list', 'Pacel\PacelListController');
+Route::resource('client', 'ClientController');
 Route::resource('pacel_quotation', 'Pacel\PacelController');
 Route::get('pacel_invoice', 'Pacel\PacelController@invoice')->name('pacel.invoice');
 Route::get('findPacelPrice', 'Pacel\PacelController@findPrice'); 
@@ -277,9 +299,11 @@ Route::get('pacelModal', 'Pacel\PacelController@discountModal');
 Route::post('newdiscount', 'Pacel\PacelController@newdiscount');
 Route::get('addSupplier', 'Pacel\PacelController@addSupplier');
 Route::get('addRoute', 'Pacel\PacelController@addRoute');
-
+Route::resource('mileage_payment', 'MileagePaymentController');
+Route::get('mileage', 'MileagePaymentController@mileage')->name('mileage'); ;
 Route::resource('routes', 'RouteController');
-
+Route::get('mileageModal', 'MileagePaymentController@discountModal');
+Route::get('mileage_approve/{id}', 'MileagePaymentController@approve')->name('mileage.approve');
 
 //GL SETUP
 Route::resource('class_account', 'ClassAccountController');
@@ -288,7 +312,9 @@ Route::resource('account_codes', 'AccountCodesController');
 Route::resource('system', 'SystemController');
 Route::resource('chart_of_account', 'ChartOfAccountController');
 Route::resource('expenses', 'ExpensesController');
+Route::get('expenses_approve/{id}', 'ExpensesController@approve')->name('expenses.approve');
 Route::resource('deposit', 'DepositController');
+Route::get('deposit_approve/{id}', 'DepositController@approve')->name('deposit.approve');
 
 //route for reports
 Route::group(['prefix' => 'accounting'], function () {
@@ -298,6 +324,10 @@ Route::group(['prefix' => 'accounting'], function () {
     Route::any('journal', 'AccountingController@journal');
     Route::get('manual_entry', 'AccountingController@create_manual_entry');
     Route::post('manual_entry/store', 'AccountingController@store_manual_entry');
+    Route::any('bank_statement', 'AccountingController@bank_statement');
+    Route::any('bank_reconciliation', 'AccountingController@bank_reconciliation');
+    Route::any('reconciliation_report', 'AccountingController@reconciliation_report')->name('reconciliation.report');;
+    Route::post('save_reconcile', 'AccountingController@save_reconcile')->name('reconcile.save');
 });
 
 

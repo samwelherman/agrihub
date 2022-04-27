@@ -62,23 +62,7 @@ class PacelPaymentController extends Controller
                 }
                 $sales->update($data);
 
-                $quot=Pacel::find($request->pacel_id);
-                if($quot->status == 2){    
-                $route = Route::find($quot->route_id);         
-                $result['module_id']=$request->pacel_id;
-                $result['module']='Parcel';
-                $result['crop_type']=$quot->pacel_name;
-                $result['quantity']=$quot->weight;
-                $result['start_location']=$route->from;
-                $result['end_location']=$route->to;
-                $result['receiver_name']=$quot->receiver_name;
-                $result['amount']=$quot->amount;
-                $result['due_amount']=$quot->due_amount;
-                $result['tax']=$quot->tax;
-                $result['status']=$quot->status;
-                $result['added_by'] = auth()->user()->id;
-                $movement=OrderMovement::create($result);
-                }
+               
                  
                 $payment = PacelPayment::create($receipt);
 
@@ -112,7 +96,7 @@ class PacelPaymentController extends Controller
           $journal->payment_id= $payment->id;
          $journal->currency_code =   $sales->currency_code;
         $journal->exchange_rate=  $sales->exchange_rate;
-           $journal->notes= "Clear Creditor  with reference no " .$sales->pacel_number  ;
+           $journal->notes= "Clear Debitor  with reference no " .$sales->pacel_number  ;
         $journal->save();
         
 
@@ -195,23 +179,7 @@ class PacelPaymentController extends Controller
                 }
                 $sales->update($data);
 
-                $quot=Pacel::find($request->pacel_id);
-                if($quot->status == 2){    
-                $route = Route::find($quot->route_id);         
-                $result['module_id']=$request->pacel_id;
-                $result['module']='Parcel';
-                $result['crop_type']=$quot->pacel_name;
-                $result['quantity']=$quot->weight;
-                $result['start_location']=$route->from;
-                $result['end_location']=$route->to;
-                $result['receiver_name']=$quot->receiver_name;
-                $result['amount']=$quot->amount;
-                $result['due_amount']=$quot->due_amount;
-                $result['tax']=$quot->tax;
-                $result['status']=$quot->status;
-                $result['added_by'] = auth()->user()->id;
-                $movement=OrderMovement::create($result);
-                }
+              
                  
                 $payment->update($receipt);
 

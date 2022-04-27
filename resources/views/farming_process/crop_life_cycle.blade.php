@@ -35,13 +35,14 @@
                                             href="#fertilizer" role="tab" aria-controls="profile"
                                             aria-selected="false">{{__('farming.fertilizer')}}</a>
                                     </li>
-<!--
+<!---
                                     <li class="nav-item">
                                         <a class="nav-link @if($type == 'irrigation') active  @endif" onclick="{ $type = 'irrigation'}" id="#irrigation" data-toggle="tab"
                                             href="#irrigation" role="tab" aria-controls="profile"
                                             aria-selected="false">Irrigation</a>
                                     </li>
 -->
+
                                     <li class="nav-item">
                                         <a class="nav-link @if($type == 'weeding') active  @endif" onclick="{ $type = 'weeding'}" id="#weeding" data-toggle="tab"
                                             href="#weeding"  role="tab" aria-controls="profile"
@@ -107,6 +108,14 @@
 </div>
 </div>
 </div>
+
+<div class="modal inmodal show" id="newFormModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+    </div>
+</div>
+</div>
+</div>
+
 @endsection
 
 @section('scripts')

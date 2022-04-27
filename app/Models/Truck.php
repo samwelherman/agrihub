@@ -10,7 +10,7 @@ class Truck extends Model
     use HasFactory;
     protected $table = "trucks";
 
-    protected $fillable = ['truck_name','reg_no','driver','truck_type','capacity','driver_status','fuel','truck_status','tyre','staff','added_by'];
+    protected $fillable = ['truck_name','reg_no','driver','truck_type','capacity','driver_status','fuel','truck_status','tyre','staff','location','added_by','type'];
     
     public function user()
     {
@@ -22,6 +22,16 @@ class Truck extends Model
         return $this->belongsTo('App\Models\Driver','driver');
     }
           
+public function region()
+    {
+        return $this->belongsTo('App\Models\Region','location');
+    }
+ public function  movement_crop_types(){
 
-    
+        return $this->belongsTo('App\Models\Crops_type','crop_type');
+      }
+public function route()
+    {
+        return $this->belongsTo('App\Models\Route','route_id');
+    }
 }

@@ -52,6 +52,10 @@
                                                     rowspan="1" colspan="1"
                                                     aria-label="CSS grade: activate to sort column ascending"
                                                     style="width: 98.1094px;">Experience</th>
+                                              <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="CSS grade: activate to sort column ascending"
+                                                    style="width: 98.1094px;">Employment</th>
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="CSS grade: activate to sort column ascending"
@@ -71,6 +75,13 @@
                                                 <td>{{$row->address}}</td>
                                                 <td>{{$row->referee}}</td>
                                                 <td>{{$row->experience}}</td>
+                                                <td>
+                                             @if($row->type == 'owned')
+                                               Hired by Company
+                                              @else
+                                               Hired by Third Party Company
+                                         @endif
+                                                </td>
                                                 <td>{{$row->driver_status}}</td>
                                                 <td>
                                                     <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
@@ -155,6 +166,22 @@
                                                      </div>
                                                  </div>
                                                 
+                                         <div class="form-group row"><label
+                                                class="col-lg-2 col-form-label"> Employment</label>
+
+                                            <div class="col-lg-10">
+                                               <select class="form-control" name="type" required>
+                                                   <option value="">Select</option>
+                                               <option @if(isset($data))
+                                                   {{$data->type == 'owned'  ? 'selected' : ''}}
+                                                   @endif value="owned">Hired by Company</option>
+                                                   <option @if(isset($data))
+                                                   {{$data->type == 'non_owned'  ? 'selected' : ''}}
+                                                   @endif value="non_owned">Hired by Third Party Company</option>
+                                                 </select>
+                                                
+                                            </div>
+                                        </div>
                                                  <div class="form-group row"><label
                                                          class="col-lg-2 col-form-label">Status</label>
  

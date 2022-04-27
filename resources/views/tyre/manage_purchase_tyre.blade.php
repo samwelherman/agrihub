@@ -8,19 +8,19 @@
             <div class="col-12 col-sm-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Purchase Tyre</h4>
+                        <h4>Purchase Tire</h4>
                     </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
                                     href="#home2" role="tab" aria-controls="home" aria-selected="true">Purchase
-                                   Tyre List</a>
+                                   Tire List</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if(!empty($id)) active show @endif" id="profile-tab2"
                                     data-toggle="tab" href="#profile2" role="tab" aria-controls="profile"
-                                    aria-selected="false">New Purchase Tyre</a>
+                                    aria-selected="false">New Purchase Tire</a>
                             </li>
 
                         </ul>
@@ -76,17 +76,13 @@
                                                             aria-selected="false">{{$row->reference_no}}</a>
                                                 </td>
                                                 <td>
-                                                    @php    
-                                                    $supp=App\Models\Supplier::where('id', $row->supplier_id)->get();   
-                                                  @endphp
-                                                     @foreach($supp as $s)
-                                                    {{$s->name}}
-                                                    @endforeach
+                                                    {{$row->supplier->name}}
+                                                    
                                                 </td>
                                                 
                                                 <td>{{$row->purchase_date}}</td>
 
-                                                <td>{{$row->due_amount}} {{$row->exchange_code}}</td>
+                                                <td>{{number_format($row->due_amount,2)}} {{$row->exchange_code}}</td>
 
                                                 <td>
                                                     @php    
@@ -114,7 +110,7 @@
                                                     @endif
                                                 </td>
                                                
-                                                @if($row->status != 4)
+                                                @if($row->status != 4 && $row->status != 3)
                                                 <td>
                                                     @if($row->good_receive == 0)
                                                     <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
@@ -147,18 +143,19 @@
                                                                     aria-selected="false">Good Receive</a>
                                                             </li>
                                                             @endif
-                                                            @if($row->status != 0 && $row->status != 4 && $row->status != 3)
+                                                            @if($row->status != 0 && $row->status != 4 && $row->status != 3 && $row->good_receive == 1)
                                                             <li> <a class="nav-link" id="profile-tab2"
                                                                     href="{{ route('purchase_tyre.pay',$row->id)}}"
                                                                     role="tab"
                                                                     aria-selected="false">Make Payments</a>
                                                             </li>
                                                             @endif
-                                                           
+                                                              @if($row->good_receive == 0)
                                                             <li class="nav-item"><a class="nav-link" title="Cancel"
                                                                     onclick="return confirm('Are you sure?')"
                                                                     href="{{ route('purchase_tyre.cancel', $row->id)}}">Cancel
                                                                    Purchase</a></li>
+   @endif
                                                         </ul>
                                                     </div>
 
@@ -181,9 +178,9 @@
                                 <div class="card">
                                     <div class="card-header">
                                         @if(empty($id))
-                                        <h5>Create Purchase Tyre</h5>
+                                        <h5>Create Purchase Tire</h5>
                                         @else
-                                        <h5>Edit Purchase Tyre </h5>
+                                        <h5>Edit Purchase Tire </h5>
                                         @endif
                                     </div>
                                     <div class="card-body">
@@ -240,8 +237,8 @@
                                                             </select>
                                                             <div class="input-group-append">
                                                                 <button class="btn btn-primary" type="button"
-                                                                    data-toggle="modal" onclick="model()" value=""
-                                                                    data-target="#appFormModal"><i
+                                                                    data-toggle="modal"  value=""
+                                                                    data-target="#appFormModal" href="appFormModal"><i
                                                                         class="fa fa-plus-circle"></i></button>
                                                             </div>
                                                         </div>
@@ -272,27 +269,41 @@
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label">Currency</label>
                                                     <div class="col-lg-4">
-                                                        <select class="form-control" name="exchange_code"
-                                                            id="currency_code" required>
-                                                            <option value="{{ old('currency_code')}}" disabled selected>
-                                                                Choose option</option>                                                
-                                                            @if(isset($currency))
-                                                            @foreach($currency as $row)
-                                                            <option @if(isset($data))
-                                                            {{$data->exchange_code == $row->code  ? 'selected' : ''}}
-                                                            @endif value="{{ $row->code }}">{{$row->name}}</option>
-                                                            @endforeach
-                                                            @endif
-                                                        </select>
-                                                        @error('address')
-                                                        <p class="text-danger">. {{$message}}</p>
-                                                        @enderror
+                                                       @if(!empty($data->exchange_code))
+
+                              <select class="form-control" name="exchange_code" id="currency_code" required >
+                            <option value="{{ old('currency_code')}}" disabled selected>Choose option</option>
+                            @if(isset($currency))
+                            @foreach($currency as $row)
+                            <option  @if(isset($data)) {{$data->exchange_code == $row->code ? 'selected' : 'TZS' }} @endif  value="{{ $row->code }}">{{ $row->name }}</option>
+                            @endforeach
+                            @endif
+                        </select>
+
+                         @else
+                       <select class="form-control" name="exchange_code" id="currency_code" required >
+                            <option value="{{ old('currency_code')}}" disabled >Choose option</option>
+                            @if(isset($currency))
+                            @foreach($currency as $row)
+
+                           @if($row->code == 'TZS')
+                            <option value="{{ $row->code }}" selected>{{ $row->name }}</option>
+                           @else
+                          <option value="{{ $row->code }}" >{{ $row->name }}</option>
+                           @endif
+
+                            @endforeach
+                            @endif
+                        </select>
+
+
+                     @endif
                                                     </div>
                                                     <label class="col-lg-2 col-form-label">Exchange Rate</label>
                                                     <div class="col-lg-4">
                                                         <input type="number" name="exchange_rate"
                                                             placeholder="1 if TZSH"
-                                                            value="{{ isset($data) ? $data->exchange_rate : ''}}"
+                                                            value="{{ isset($data) ? $data->exchange_rate : '1.00'}}"
                                                             class="form-control" required>
                                                     </div>
                                                 </div>
@@ -464,55 +475,85 @@
     </div>
 </section>
 
-<!-- discount Modal -->
+<!-- supplier Modal -->
 <div class="modal inmodal show" id="appFormModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-    </div>
-</div>
-</div>
-</div>
-
-
-<!-- route Modal -->
-<div class="modal inmodal show" id="routeModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Add Discount</h5>
+                    <h5 class="modal-title" id="formModal">Add Supplier</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <p><strong>Make sure you enter valid information</strong> .</p>
+               <form id="addClientForm" method="post" action="javascript:void(0)">
+            @csrf
+        <div class="modal-body">
 
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">from</label>
+            <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-12 ">
 
-                        <div class="col-lg-10">
-                            <input type="text" name="arrival_point" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">To</label>
+      <div class="form-group row"><label
+                                                            class="col-lg-2 col-form-label">Name</label>
 
-                        <div class="col-lg-10">
-                            <input type="text" name="destination_point" class="form-control" required>
-                        </div>
-                    </div>
+                                                        <div class="col-lg-10">
+                                                            <input type="text" name="name"  id="name"                                                                
+                                                                class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row"><label
+                                                            class="col-lg-2 col-form-label">Phone</label>
 
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Distance</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="text" name="phone" id="phone"
+                                                                class="form-control"  placeholder="+255713000000" required>
+                                                        </div>
+                                                    </div>
 
-                        <div class="col-lg-10">
-                            <input type="text" name="distance" class="form-control">
-                        </div>
-                    </div>
+                                                    <div class="form-group row"><label
+                                                            class="col-lg-2 col-form-label">Email</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="email" name="email" id="email"
+                                                                class="form-control" required>
+                                                        </div>
+                                                    </div>
 
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                                                <div class="form-group row"><label
+                                                            class="col-lg-2 col-form-label">Address</label>
 
+                                                        <div class="col-lg-10">
+                                                            <textarea name="address" id="address" class="form-control" required>  </textarea>
+                                                                                                                    
+
+</div>
+                                                    </div>
+
+  <div class="form-group row"><label
+                                                            class="col-lg-2 col-form-label">TIN</label>
+
+                                                        <div class="col-lg-10">
+                                                            <input type="text" name="TIN"  id="TIN"
+                                                                value="{{ isset($data) ? $data->TIN : ''}}"
+                                                                class="form-control" required>
+                                                        </div>
+                                                    </div>
+
+                 
+               
+              </div>
+</div>
+                                                    </div>
+
+
+        </div>
+        <div class="modal-footer bg-whitesmoke br">
+            <button type="submit" class="btn btn-primary" id="save" onclick="saveSupplier(this)" data-dismiss="modal">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+
+       </form>
 
             </div>
         </div>
@@ -692,57 +733,41 @@ function model(id, type) {
 
 }
 
-function saveClient(e) {
-    alert($('#address').val());
+function saveSupplier(e) {
+     
+     var name = $('#name').val();
+     var phone = $('#phone').val();
+     var email = $('#email').val();
+     var address = $('#address').val();
+   var TIN= $('#TIN').val();
 
-    var fname = $('#fname').val();
-    var lname = $('#lname').val();
-    var phone = $('#phone').val();
-    var email = $('#email').val();
-    var address = $('#address').val();
-    var currency_code = $('currency_code').val();
-    var tin = $('#tin').val;
-    var vat = $('#vat').val;
+     
+          $.ajax({
+            type: 'GET',
+            url: '{{url("addSupp")}}',
+             data: {
+                 'name':name,
+                 'phone':phone,
+                 'email':email,
+                 'address':address,
+                  'TIN':TIN,
+             },
+                dataType: "json",
+             success: function(response) {
+                console.log(response);
 
-    $.ajax({
-        type: 'GET',
-        url: '/courier/public/addClient/',
-        data: {
-            'fname': fname,
-            'lname': lname,
-            'phone': phone,
-            'email': email,
-            'address': address,
-            'tin': tin,
-            'vat': vat,
-            'currency_code': currency_code,
-        },
-        cache: false,
-        async: true,
-        success: function(response) {
-            var len = 0;
-            if (response.data != null) {
-                len = response.data.length;
+                               var id = response.id;
+                             var name = response.name;
+
+                             var option = "<option value='"+id+"'  selected>"+name+" </option>"; 
+
+                             $('#supplier_id').append(option);
+                              $('#appFormModal').hide();
+                   
+                               
+               
             }
-
-            if (len > 0) {
-                $('#client').html("");
-                for (var i = 0; i < len; i++) {
-                    var id = response.data[i].id;
-                    var name = response.data[i].fname;
-
-                    var option = "<option value='" + id + "'>" + name + "</option>";
-
-                    $("#client").append(option);
-                    $('#appFormModal').hide();
-                }
-            }
-        },
-        error: function(error) {
-            $('#appFormModal').modal('toggle');
-
-        }
-    });
+        });
 }
 </script>
 

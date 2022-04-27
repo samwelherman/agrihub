@@ -8,13 +8,13 @@
             <div class="col-12 col-sm-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Tyre List</h4>
+                        <h4>Tire List</h4>
                     </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab2" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link @if(empty($id)) active show @endif" id="home-tab2" data-toggle="tab"
-                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">Tyre
+                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">Tire
                                     List</a>
                             </li>
                            

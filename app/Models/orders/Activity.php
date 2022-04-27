@@ -17,6 +17,7 @@ class Activity extends Model
     'date',
     'activity',
     'notes',   
+' loading_id',
     'added_by'];
     
    

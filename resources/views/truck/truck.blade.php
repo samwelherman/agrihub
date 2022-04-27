@@ -48,10 +48,14 @@
                                                     rowspan="1" colspan="1"
                                                     aria-label="CSS grade: activate to sort column ascending"
                                                     style="width: 98.1094px;">Truck Type</th>
+                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="CSS grade: activate to sort column ascending"
+                                                    style="width: 98.1094px;">Ownership</th>
                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 141.219px;">Driver</th>
+                                                    style="width: 141.219px;">Location</th>
                                                  
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
@@ -75,15 +79,18 @@
                                                 <td>{{$row->truck_name }}</td>
                                                 <td>{{$row->reg_no}}</td>
                                                 <td>{{$row->truck_type}}</td>
+                                        <td>
+                                             @if($row->type == 'owned')
+                                               Owned by Company
+                                              @else
+                                               Third Party Company
+                                         @endif
                                                 <td>
-                                                    @php    
-                                                    $dr=App\Models\Driver::where('id', $row->driver)->get();   
-                                                  @endphp
-                                                     @foreach($dr as $d)
-                                                    {{$d->driver_name}}
-                                                    @endforeach
+                                                  
+                                                    {{$row->region->name}}
+                                                
                                                 </td>
-                                                <td>{{$row->capacity}}</td>
+                                                <td>{{$row->capacity}} KG </td>
                                                 <td>{{$row->truck_status}}</td>
                                                 <td>
                                                     <a class="btn btn-xs btn-outline-info text-uppercase px-2 rounded"
@@ -148,20 +155,20 @@
                                                      </div>
                                                  </div>
                                                  <div class="form-group row"><label
-                                                    class="col-lg-2 col-form-label">Driver</label>
+                                                    class="col-lg-2 col-form-label">Location</label>
 
                                                 <div class="col-lg-10">
-                                                   <select class="form-control" name="driver" required>
-                                                       <option value="">Select Driver</option>
-                                                       @if(!empty($driver))
-                                                       @foreach($driver as $row)
+                                                   <select class="form-control" name="location" required>
+                                                       <option value="">Select </option>
+                                                        @if(!empty($region))
+                                                                @foreach($region as $row)
 
-                                                       <option @if(isset($data))
-                                                           {{$data->driver == $row->id  ? 'selected' : ''}}
-                                                           @endif value="{{ $row->id}}">{{$row->driver_name}}</option>
+                                                                <option @if(isset($data))
+                                                                    {{  $data->location== $row->id ? 'selected' : ''}}
+                                                                    @endif value="{{ $row->id}}">{{$row->name}} </option>
 
-                                                       @endforeach
-                                                       @endif
+                                                                @endforeach
+                                                                @endif
                                                  
                                                </select>
                                                     
@@ -186,11 +193,27 @@
                                                 
                                             </div>
                                         </div>
+                                              <div class="form-group row"><label
+                                                class="col-lg-2 col-form-label"> Ownership</label>
+
+                                            <div class="col-lg-10">
+                                               <select class="form-control" name="type" required>
+                                                   <option value="">Select</option>
+                                               <option @if(isset($data))
+                                                   {{$data->type == 'owned'  ? 'selected' : ''}}
+                                                   @endif value="owned">Owned by Company</option>
+                                                   <option @if(isset($data))
+                                                   {{$data->type == 'non_owned'  ? 'selected' : ''}}
+                                                   @endif value="non_owned">Third Party Company</option>
+                                                 </select>
+                                                
+                                            </div>
+                                        </div>
                                                 <div class="form-group row"><label
-                                                        class="col-lg-2 col-form-label">Truck Capacity</label>
+                                                        class="col-lg-2 col-form-label">Truck Capacity (KG)</label>
 
                                                     <div class="col-lg-10">
-                                                        <input type="text" name="capacity"
+                                                        <input type="number" name="capacity" step="0.01"
                                                             value="{{ isset($data) ? $data->capacity : ''}}"
                                                             class="form-control" required>
                                                     </div>
@@ -207,23 +230,7 @@
                                                 
                                                 
                                               
-                                                 <div class="form-group row"><label
-                                                    class="col-lg-2 col-form-label">Truck Status</label>
-
-                                                <div class="col-lg-10">
-                                                   <select class="form-control" name="truck_status" required>
-                                                       <option value="">Select Truck Status</option>
-                                                   <option @if(isset($data))
-                                                       {{$data->truck_status == 'Available'  ? 'selected' : ''}}
-                                                       @endif value="Available">Available</option>
-                                                       <option @if(isset($data))
-                                                       {{$data->truck_status == 'Unavailable'  ? 'selected' : ''}}
-                                                       @endif value="Unavailable">Unavailable</option>
-                                                     
-                                               </select>
-                                                    
-                                                </div>
-                                            </div>
+                                         
                                                     <div class="form-group row">
  
                                                      

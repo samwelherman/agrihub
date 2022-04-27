@@ -10,11 +10,14 @@ use App\Models\Pacel\PacelList;
 use App\Models\Pacel\PacelPayment;
 use App\Models\Payment_methodes;
 use App\Models\Route;
-use App\Models\Supplier;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use PDF;
 use App\Models\AccountCodes;
 use App\Models\JournalEntry;
+use App\Models\orders\OrderMovement;
+use App\Models\Region;
+use App\Models\CargoCollection;
 
 class PacelController extends Controller
 {
@@ -28,7 +31,7 @@ class PacelController extends Controller
         //
         $pacel = Pacel::where('good_receive','0')->orwhere('status','7')->get();
         $route = Route::all();
-        $users = Supplier::all();
+        $users = Client::all();
           $name = PacelList::all();
           $currency = Currency::all();
         return view('pacel.quotation',compact('pacel','route','users','name','currency'));
@@ -60,6 +63,7 @@ class PacelController extends Controller
      'pacel_name' => $request->pacel_name ,
    'pacel_number' => '12AB' ,
    'date' => $request->date ,
+  'due_date' => $request->due_date ,
      'owner_id' => $request->owner_id ,
      'weight' => $request->weight  ,
      'receiver_name' => $request->receiver_name ,
@@ -172,7 +176,7 @@ class PacelController extends Controller
         //
         $data =  Pacel::find($id);
         $route = Route::all();
-        $users = Supplier::all();
+        $users = Client::all();
         $name = PacelList::all();
         $items = PacelItem::where('pacel_id',$id)->get(); 
          $currency = Currency::all();
@@ -194,6 +198,7 @@ class PacelController extends Controller
         Pacel::where('id',$id)->update([
             'pacel_name' => $request->pacel_name ,
           'date' => $request->date ,
+      'due_date' => $request->due_date ,
             'owner_id' => $request->owner_id ,
             'route_id' => $request->route_id ,
             'weight' => $request->weight  ,
@@ -329,7 +334,8 @@ class PacelController extends Controller
                
                 }elseif($type == 'route'){
                     $old = Pacel::find($id);
-                return view('pacel.addRoute',compact('id','old'));   
+               $region = Region::all();   
+                return view('pacel.addRoute',compact('id','old','region'));   
                 }else{
                
                  $old = Pacel::find($id);
@@ -344,29 +350,20 @@ class PacelController extends Controller
 
    public function addSupplier(Request $request){
        
-       
-      $validatedData = $request->validate([
-        'name'=>'required',
-        'address'=>'required',
-        'phone'=>'required',
-        'TIN'=>'required'
-                
-          
-        ]);
-        //
-        $supplier = Supplier::create([
+    
+        $client= Client::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'address' => $request['address'],
             'phone' => $request['phone'],
-            'TIN'=> $request['TIN'],
+        'TIN' => $request['TIN'],
             'user_id'=> auth()->user()->id,
         ]);
         
       
 
-        if (!empty($supplier)) {           
-            return response()->json(['data' => $data]);
+        if (!empty($client)) {           
+            return response()->json($client);
          }
 
        
@@ -380,13 +377,13 @@ class PacelController extends Controller
           'from' => $request['from'],
           'to' => $request['to'],
           'distance' => $request['distance'],
-          'user_id'=> auth()->user()->id,
+          'added_by'=> auth()->user()->id,
       ]);
       
     
 
       if (!empty($route)) {           
-          return response()->json(['data' => $data]);
+          return response()->json($route);
        }
 
      
@@ -411,6 +408,30 @@ class PacelController extends Controller
        $data['good_receive'] = 1;
        $purchase->update($data);
 
+
+            $quot=Pacel::find($id);  
+                $route = Route::find($quot->route_id); 
+               $region_from= Region::where('name',$route->from)->first(); 
+             $region_to= Region::where('name',$route->to)->first(); 
+        
+                $result['pacel_id']=$id;
+                $result['pacel_name']=$quot->pacel_name;
+                $result['pacel_number']=$quot->pacel_number;
+                $result['weight']=$quot->weight;
+               $result['due_weight']=$quot->weight;
+                $result['start_location']= $region_from->id;
+                $result['end_location']=$region_to->id;
+                $result['owner_id']=$quot->owner_id;
+              $result['receiver_name']=$quot->receiver_name;
+                $result['amount']=$quot->amount;
+                $result['route_id']=$quot->route_id;
+                $result['status']='2';
+                $result['added_by'] = auth()->user()->id;
+                $movement=CargoCollection::create($result);
+                
+
+$client=Client::find($purchase->owner_id);
+
 $cr= AccountCodes::where('account_name','Parcel')->first();
           $journal = new JournalEntry();
         $journal->account_id = $cr->id;
@@ -424,7 +445,7 @@ $cr= AccountCodes::where('account_name','Parcel')->first();
         $journal->income_id= $id;
          $journal->currency_code =  $purchase->currency_code;
         $journal->exchange_rate= $purchase->exchange_rate;
-           $journal->notes= "Invoice with reference no " .$purchase->pacel_number  ;
+           $journal->notes= "Invoice with reference no " .$purchase->pacel_number. "  by Client ".  $client->name ;
         $journal->save();
 
 if($purchase->tax > 0){
@@ -441,7 +462,7 @@ if($purchase->tax > 0){
         $journal->income_id= $id;
          $journal->currency_code =  $purchase->currency_code;
         $journal->exchange_rate= $purchase->exchange_rate;
-           $journal->notes= "Invoice Tax with reference no " .$purchase->pacel_number  ;
+           $journal->notes= "Invoice Tax with reference no " .$purchase->pacel_number. "  by Client ".  $client->name ;
         $journal->save();
 }
 
@@ -455,7 +476,7 @@ if($purchase->tax > 0){
           $journal->transaction_type = 'cargo';
         $journal->name = 'Invoice';
                $journal->income_id= $id;
-       $journal->notes= "Debit Receivables for Invoice with reference no " .$purchase->pacel_number  ;
+       $journal->notes= "Debit Receivables for Invoice with reference no " .$purchase->pacel_number. "  by Client ".  $client->name ;
         $journal->debit =$purchase->amount *  $purchase->exchange_rate;
             $journal->currency_code =  $purchase->currency_code;
         $journal->exchange_rate= $purchase->exchange_rate;
@@ -468,7 +489,7 @@ if($purchase->tax > 0){
        //
        $pacel = Pacel::where('good_receive','1')->get();
        $route = Route::all();
-       $users = Supplier::all();
+       $users = Client::all();
          $name = PacelList::all();
          $currency = Currency::all();
        return view('pacel.invoice',compact('pacel','route','users','name','currency'));
@@ -504,7 +525,7 @@ if($purchase->tax > 0){
 
        if($request->has('download')){
        $pdf = PDF::loadView('pacel.quotation_pdf')->setPaper('a4', 'landscape');
-       return $pdf->download('invoice.pdf'); 
+      return $pdf->download('CARGO PARCEL NO # ' .  $purchases->pacel_number . ".pdf");
        }
        return view('pacel_pdfview');
    }

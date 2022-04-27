@@ -15,6 +15,7 @@ class Pacel extends Model
     'pacel_name',
     'pacel_number',
     'date',
+   'due_date',
     'owner_id',
     'confirmation_number',
     'weight',
@@ -35,10 +36,6 @@ class Pacel extends Model
     'good_receive',    
     'added_by'];
     
-    public function user()
-    {
-        return $this->belongsTo('App\Models\user');
-    }
 
     public function  route(){
     
@@ -47,6 +44,11 @@ class Pacel extends Model
 
       public function  supplier(){
     
-        return $this->belongsTo('App\Models\Supplier','owner_id');
+        return $this->belongsTo('App\Models\Client','owner_id');
+      }
+
+ public function user(){
+    
+        return $this->belongsTo('App\Models\User','added_by');
       }
 }

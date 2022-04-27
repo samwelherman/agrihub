@@ -45,7 +45,7 @@
                                                       <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">Supplier Name</th>
+                                                    style="width: 186.484px;">Client Name</th>
                                                
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
@@ -84,7 +84,7 @@
                                                 <td>From {{$row->route->from}} to {{$row->route->to}}</td>
                                                 
                                                 <td>{{$row->receiver_name}}</td>
-                                                <td>{{$row->due_amount}} {{$row->currency_code}}</td>
+                                                <td>{{number_format($row->due_amount,2)}} {{$row->currency_code}}</td>
                                                 
 
 
@@ -183,7 +183,7 @@
                                                             class="form-control">
                                                     </div>
                                                     <label
-                                                        class="col-lg-2 col-form-label">Weight</label>
+                                                        class="col-lg-2 col-form-label">Weight (KG)</label>
 
                                                     <div class="col-lg-4">
                                                         <input type="number" name="weight"
@@ -203,8 +203,18 @@
                                                     </div>
                                             </div>
 
+                                       <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label">Due Date</label>
+                                                    <div class="col-lg-10">
+                                                        <input type="date" name="due_date"
+                                                            placeholder="0 if does not exist"
+                                                            value="{{ isset($data) ? $data->due_date : ''}}"
+                                                            class="form-control" required>
+                                                    </div>
+                                            </div>
+
                                                 <div class="form-group row"><label
-                                                        class="col-lg-2 col-form-label">Supplier Name</label>
+                                                        class="col-lg-2 col-form-label">Client Name</label>
 
                                                     <div class="col-lg-10">
                                                     <div class="input-group">
@@ -292,29 +302,51 @@
                                                  <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label">Currency</label>
                                                     <div class="col-lg-4">
-                                                        <select class="form-control" name="currency_code" id="currency_code" required >
+                                 @if(!empty($data->currency_code))
+
+                              <select class="form-control" name="currency_code" id="currency_code" required >
                             <option value="{{ old('currency_code')}}" disabled selected>Choose option</option>
                             @if(isset($currency))
                             @foreach($currency as $row)
-                            <option value="{{ $row->code }}" @if(isset($data))@if($data->currency_code == $row->code) selected @endif @endif >{{ $row->name }}</option>
+                            <option  @if(isset($data)) {{$data->currency_code == $row->code ? 'selected' : 'TZS' }} @endif  value="{{ $row->code }}">{{ $row->name }}</option>
                             @endforeach
                             @endif
                         </select>
-                        @error('address')
-                        <p class="text-danger">. {{$message}}</p>
-                        @enderror
+
+                         @else
+                       <select class="form-control" name="currency_code" id="currency_code" required >
+                            <option value="{{ old('currency_code')}}" disabled >Choose option</option>
+                            @if(isset($currency))
+                            @foreach($currency as $row)
+
+                           @if($row->code == 'TZS')
+                            <option value="{{ $row->code }}" selected>{{ $row->name }}</option>
+                           @else
+                          <option value="{{ $row->code }}" >{{ $row->name }}</option>
+                           @endif
+
+                            @endforeach
+                            @endif
+                        </select>
+
+
+                     @endif
+                      
                                                     </div>
                                                     <label class="col-lg-2 col-form-label">Exchange Rate</label>
                                                     <div class="col-lg-4">
                                                         <input type="number" name="exchange_rate"
                                                             placeholder="1 if TZSH"
-                                                            value="{{ isset($data) ? $data->exchange_rate : ''}}"
+                                                            value="{{ isset($data) ? $data->exchange_rate : '1.00'}}"
                                                             class="form-control" required>
                                                     </div>
                                                 </div>
                                                 <hr>
                                              <button type="button" name="add" class="btn btn-success btn-xs add"><i class="fas fa-plus"> Add item</i></button><br>
-                                              <br><table class="table table-bordered" id="cart">
+                        
+                                              <br>
+    <div class="table-responsive">
+<table class="table table-bordered" id="cart">
             <thead>
               <tr>
                 <th>Name</th>
@@ -555,7 +587,7 @@ $(document).ready(function() {
 
 	
 	<script type="text/javascript">
-		<!--
+		
 		  $(document).ready(function(){
 
       
@@ -602,7 +634,7 @@ autoCalcSetup();
            });  
 
 		});
-		//-->
+		
 
 
 	</script>
@@ -652,7 +684,7 @@ console.log(price);
      var phone = $('#phone').val();
      var email = $('#email').val();
      var address = $('#address').val();
-     var TIN = $('#TIN').val;
+   var TIN= $('#TIN').val();
 
      
           $.ajax({
@@ -663,36 +695,27 @@ console.log(price);
                  'phone':phone,
                  'email':email,
                  'address':address,
-                 'TIN':TIN,
-
+                  'TIN':TIN,
              },
-            cache: false,
-            async: true,
-            success: function(response) {
-                      var len = 0;
-                    if (response.data != null) {
-                        len = response.data.length;
-                    }
+                dataType: "json",
+             success: function(response) {
+                console.log(response);
 
-                    if (len>0) {
-                        $('.supplier').html("");
-                        for (var i = 0; i<len; i++) {
-                             var id = response.data[i].id;
-                             var name = response.data[i].name;
+                               var id = response.id;
+                             var name = response.name;
 
-                             var option = "<option value='"+id+"'>"+name+"</option>"; 
+                             var option = "<option value='"+id+"'  selected>"+name+" </option>"; 
 
-                             $('.supplier').append(option);
+                             $('#supplier').append(option);
                               $('#appFormModal').hide();
-                        }
-                    }
-            },
-            error: function(error) {
-                $('#appFormModal').modal('toggle');
-
+                   
+                               
+               
             }
         });
 }
+
+
     function saveRoute(e){
      
      
@@ -709,32 +732,23 @@ console.log(price);
                  'distance':distance,
                  'from':from,
              },
-            cache: false,
-            async: true,
-            success: function(response) {
-                      var len = 0;
-                    if (response.data != null) {
-                        len = response.data.length;
-                    }
+          dataType: "json",
+             success: function(response) {
+                console.log(response);
 
-                    if (len>0) {
-                        $('.route').html("");
-                        for (var i = 0; i<len; i++) {
-                             var id = response.data[i].id;
-                             var arrival_point = response.data[i].from;
-                              var destination_point = response.data[i].to;
+                               var id = response.id;
+                             var arrival_point = response.from;
+                              var destination_point = response.to;
 
-                             var option = "<option value='"+id+"'>From "+arrival_point+" to "+destination_point+"</option>"; 
+                             var option = "<option value='"+id+"'  selected>From "+arrival_point+" to "+destination_point+"</option>"; 
 
-                             $('.route').append(option);
+                             $('#route').append(option);
                               $('#appFormModal').hide();
-                        }
-                    }
-            },
-            error: function(error) {
-                $('#appFormModal').modal('toggle');
-
+                   
+                               
+               
             }
+          
         });
 }
     </script>

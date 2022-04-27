@@ -39,7 +39,7 @@
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">Expenses Name</th>
+                                                    style="width: 186.484px;">Transaction id</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
@@ -67,7 +67,7 @@
                                             @foreach ($expense as $row)
                                             <tr class="gradeA even" role="row">
                                                 <th>{{ $loop->iteration }}</th>
-                                                <td>{{$row->name}}</td>
+                                                <td>{{$row->trans_id}}</td>
                                                     @php
                                                  $account=App\Models\AccountCodes::where('id',$row->account_id)->first();
                                                 @endphp
@@ -76,10 +76,11 @@
                                                  $bank=App\Models\AccountCodes::where('id',$row->bank_id)->first();
                                                 @endphp
                                                 <td>{{$bank->account_name}}</td>                                           
-                                                  <td>{{number_format($row->amount,2)}}</td>
+                                                  <td>{{number_format($row->amount,2)}} {{$row->exchange_code}}</td>
                                                    <td>{{$row->date}}</td>
 
                                                 <td>
+                                                    @if($row->status == 0)
                                                     <div class="row">
                                                        
                                                         <div class="col-lg-6">
@@ -94,7 +95,14 @@
                                                      
                                                     </div>
                                                   
-
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown">Change<span class="caret"></span></button>
+                                                        <ul class="dropdown-menu animated zoomIn">
+                                                            <a  class="nav-link" title="Convert to Invoice" onclick="return confirm('Are you sure? you want to confirm')"  href="{{ route('expenses.approve', $row->id)}}">Confirm Payment</a></li>
+                                                                          </ul></div>
+                                                
+                                                 
+                                                    @endif
                                              
 
                                                 </td>
@@ -181,13 +189,62 @@
                                                               </select>
                                                     </div>
                                                 </div>
-                                              
+                                                <div class="form-group row"><label class="col-lg-2 col-form-label">Payment
+                                                    Method</label>
+            
+                                                <div class="col-lg-8">
+                                                    <select class="form-control m-b" name="payment_method">
+                                                        <option value="">Select
+                                                        </option>
+                                                        @if(!empty($payment_method))
+                                                        @foreach($payment_method as $row)
+                                                        <option value="{{$row->id}}" @if(isset($data))@if($data->
+                                                            payment_method == $row->id) selected @endif @endif >From
+                                                            {{$row->name}}
+                                                        </option>
+            
+                                                        @endforeach
+                                                        @endif
+                                                    </select>
+            
+                                                </div>
+                                            </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label">Currency</label>
+                                                    <div class="col-lg-8">
+                                                        <select class="form-control" name="exchange_code"
+                                                            id="currency_code" required>
+                                                            <option value="{{ old('currency_code')}}" disabled selected>
+                                                                Choose option</option>                                                
+                                                            @if(isset($currency))
+                                                            @foreach($currency as $row)
+                                                            <option @if(isset($data))
+                                                            {{$data->exchange_code == $row->code  ? 'selected' : ''}}
+                                                            @endif value="{{ $row->code }}">{{$row->name}}</option>
+                                                            @endforeach
+                                                            @endif
+                                                        </select>
+                                                        @error('address')
+                                                        <p class="text-danger">. {{$message}}</p>
+                                                        @enderror
+                                                    </div> </div>
+
+                                                    <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label">Exchange Rate</label>
+                                                    <div class="col-lg-8">
+                                                        <input type="number" name="exchange_rate"
+                                                            placeholder="1 if TZSH"
+                                                            value="{{ isset($data) ? $data->exchange_rate : ''}}"
+                                                            class="form-control" required>
+                                                    </div>
+                                                </div>
+
                                                   <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label">Notes</label>
                                                     <div class="col-lg-8">
                                                         <textarea name="notes"
                                                             placeholder=""
-                                                            class="form-control" rows="2"></textarea>
+                                                            class="form-control" rows="2">{{isset($data) ? $data->notes : '' }}</textarea>
                                                     </div>
                                                 </div>
 

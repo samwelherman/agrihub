@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Tyre;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountCodes;
 use App\Models\Currency;
 use App\Models\FieldStaff;
+use App\Models\JournalEntry;
 use App\Models\Location;
 use App\Models\Payment_methodes;
 use App\Models\Supplier;
@@ -17,6 +19,7 @@ use App\Models\Tyre\TyreBrand;
 use App\Models\Tyre\TyreHistory;
 use App\Models\Tyre\TyrePayment;
 use Illuminate\Http\Request;
+use PDF;
 
 class PurchaseTyreController extends Controller
 {
@@ -317,7 +320,57 @@ class PurchaseTyreController extends Controller
     }
 
 
+    $tyre = PurchaseTyre::find($id);
+    $supp=Supplier::find($tyre->supplier_id);
+    $cr= AccountCodes::where('account_name','Tire')->first();
+    $journal = new JournalEntry();
+  $journal->account_id = $cr->id;
+  $date = explode('-',$tyre->purchase_date);
+  $journal->date =   $tyre->purchase_date ;
+  $journal->year = $date[0];
+  $journal->month = $date[1];
+ $journal->transaction_type = 'tire';
+  $journal->name = 'Tire Purchase';
+  $journal->debit = $tyre->purchase_amount *  $tyre->exchange_rate;
+  $journal->income_id= $tyre->id;
+   $journal->currency_code =  $tyre->exchange_code;
+  $journal->exchange_rate= $tyre->exchange_rate;
+     $journal->notes= "Tire Purchase with reference no " .$tyre->reference_no ." by Supplier ". $supp->name ;
+  $journal->save();
 
+if($tyre->purchase_tax > 0){
+ $tax= AccountCodes::where('account_name','VAT IN')->first();
+    $journal = new JournalEntry();
+  $journal->account_id = $tax->id;
+  $date = explode('-',$tyre->purchase_date);
+  $journal->date =   $tyre->purchase_date ;
+  $journal->year = $date[0];
+  $journal->month = $date[1];
+  $journal->transaction_type = 'tire';
+  $journal->name = 'Tire Purchase';
+  $journal->debit = $tyre->purchase_tax *  $tyre->exchange_rate;
+  $journal->income_id= $tyre->id;
+   $journal->currency_code =  $tyre->exchange_code;
+  $journal->exchange_rate= $tyre->exchange_rate;
+     $journal->notes= "Tire Purchase Tax with reference no " .$tyre->reference_no ." by Supplier ".  $supp->name ;
+  $journal->save();
+}
+
+  $codes= AccountCodes::where('account_name','Payables')->first();
+  $journal = new JournalEntry();
+  $journal->account_id = $codes->id;
+  $date = explode('-',$tyre->purchase_date);
+  $journal->date =   $tyre->purchase_date ;
+  $journal->year = $date[0];
+  $journal->month = $date[1];
+  $journal->transaction_type = 'tire';
+  $journal->name = 'Tire Purchase';
+  $journal->income_id= $tyre->id;
+  $journal->credit =$tyre->due_amount *  $tyre->exchange_rate;
+  $journal->currency_code =  $tyre->exchange_code;
+  $journal->exchange_rate= $tyre->exchange_rate;
+     $journal->notes= "Credit for Tire Purchase with reference no " .$tyre->reference_no ." by Supplier ".  $supp->name ;
+  $journal->save();
 
             return redirect(route('purchase_tyre.show',$id));
     
@@ -414,6 +467,7 @@ class PurchaseTyreController extends Controller
     }
 
     }
+ 
 
     /**
      * Remove the specified resource from storage.
@@ -514,7 +568,8 @@ class PurchaseTyreController extends Controller
         //
         $invoice = PurchaseTyre::find($id);
         $payment_method = Payment_methodes::all();
-        return view('tyre.tyre_payment',compact('invoice','payment_method'));
+        $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+        return view('tyre.tyre_payment',compact('invoice','payment_method','bank_accounts'));
     }
     
     public function tyre_pdfview(Request $request)
@@ -527,7 +582,9 @@ class PurchaseTyreController extends Controller
 
         if($request->has('download')){
         $pdf = PDF::loadView('tyre.purchase_tyre_pdf')->setPaper('a4', 'landscape');
-        return $pdf->download('purchase_tyre.pdf'); 
+     return $pdf->download('PURCHASE_TIRE REF NO # ' .  $purchases->reference_no . ".pdf");
+   
+
         }
         return view('tyre_pdfview');
     }
@@ -548,6 +605,27 @@ class PurchaseTyreController extends Controller
                  }
 
                  }
+
+         public function addSupp(Request $request){
+       
+    
+        $supplier= Supplier::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'address' => $request['address'],
+            'phone' => $request['phone'],
+        'TIN' => $request['TIN'],
+            'user_id'=> auth()->user()->id,
+        ]);
+        
+      
+
+        if (!empty($supplier)) {           
+            return response()->json($supplier);
+         }
+
+       
+   }
 
                  
     public function tyre_list()

@@ -31,82 +31,60 @@
                                 aria-labelledby="home-tab2">
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="table-1">
+                                  <thead>
                                         <tr>
 
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Platform(s): activate to sort column ascending"
-                                                style="width: 186.484px;">#</th>
+                                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">#</th>
+                                                   
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Platform(s): activate to sort column ascending"
-                                                style="width: 186.484px;">Type</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Platform(s): activate to sort column ascending"
-                                                style="width: 186.484px;">Shipment Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Platform(s): activate to sort column ascending"
-                                                style="width: 186.484px;">Qty/Weight</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Engine version: activate to sort column ascending"
-                                                style="width: 141.219px;">Route</th>
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">REF NO</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Engine version: activate to sort column ascending"
-                                                style="width: 141.219px;">Client</th>
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending"
+                                                    style="width: 186.484px;">Weight</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Engine version: activate to sort column ascending"
-                                                style="width: 141.219px;">Amount</th>
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Engine version: activate to sort column ascending"
+                                                    style="width: 141.219px;">Route</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Engine version: activate to sort column ascending"
+                                                    style="width: 141.219px;">Client</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Engine version: activate to sort column ascending"
+                                                    style="width: 141.219px;">Amount</th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Engine version: activate to sort column ascending"
+                                                    style="width: 141.219px;">{{__('ordering.status')}}</th>
+
+
+    
 
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Engine version: activate to sort column ascending"
-                                                style="width: 141.219px;">{{__('ordering.status')}}</th>
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="CSS grade: activate to sort column ascending"
+                                                    style="width: 98.1094px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(!@empty($quotation))
+                                            @foreach ($quotation as $row)
+                                            <tr class="gradeA even" role="row">
 
-
-
-
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                rowspan="1" colspan="1"
-                                                aria-label="CSS grade: activate to sort column ascending"
-                                                style="width: 98.1094px;">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if(!@empty($quotation))
-                                        @foreach ($quotation as $row)
-                                        <tr class="gradeA even" role="row">
-
-                                            <td>
-                                               {{$loop->iteration}}
-                                            </td>
-                                            <td>{{$row->module}}</td>
-                                            @if ($row->module == 'Order')
-                                            <td>{{$row->movement_crop_types->crop_name}}</td>  
-                                            @else
-                                            <td>{{$row->crop_type}}</td>  
-                                            @endif
-                                            
-                                            <td>{{$row->quantity}}</td>
-                                            <td>From {{$row->start_location}} to {{$row->end_location}}</td>
-                                            @if ($row->module == 'Order')
-                                            <td>{{$row->movement_user->name}}</td>  
-                                            @else
-                                            <td>{{$row->receiver_name}}</td>  
-                                            @endif
-                                            
-                                            @if ($row->module == 'Order')
-                                            <td>{{$row->amount}}Tsh</td>  
-                                            @else
-                                            @php
-                                                $code=App\Models\Pacel\Pacel::find($row->module_id);
-                                            @endphp
-                                            <td>{{$row->amount}} {{$code->currency_code}}</td>  
-                                            @endif
+                                                <td> {{$loop->iteration}}</td>
+                                                <td>{{$row->pacel_number}}</td>              
+                                               <td>{{$row->weight}} kgs</td>
+                                                <td>From {{$row->route->from}} to {{$row->route->to}}</td>
+                                                <td>{{$row->client->name}}</td>           
+                                                <td>{{$row->amount}}TZS</td>  
 
                                                 <!--<td>{{$row->receiver_name}}</td>-->
 
@@ -128,7 +106,7 @@
                                             data-id="{{ $row->id }}" data-type="delivering"
                                             onclick="model({{ $row->id }},'delivering')">
                                             <i class="icon-eye-open"> </i>
-                                            confirm delivery
+                                           Delivery
                                         </button>
                                                    
                                                     @endif

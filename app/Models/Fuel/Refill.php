@@ -16,7 +16,9 @@ class Refill extends Model
         'route',
         'fuel_id',
         'litres',  
-        'price',      
+        'price', 
+       'payment_type', 
+        'account_id',     
         'total_cost',
         'added_by'];
 
