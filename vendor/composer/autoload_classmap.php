@@ -15,6 +15,7 @@ return array(
     'App\\Http\\Controllers\\Api_controllers\\Auth_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Auth_ApiController.php',
     'App\\Http\\Controllers\\Api_controllers\\Home_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Home_ApiController.php',
     'App\\Http\\Controllers\\Api_controllers\\Logistic\\Driver_Management_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Logistic/Driver_Management_ApiController.php',
+    'App\\Http\\Controllers\\Api_controllers\\Logistic\\Fuel_Management_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Logistic/Fuel_Management_ApiController.php',
     'App\\Http\\Controllers\\Api_controllers\\Logistic\\Truck_Management_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Logistic/Truck_Management_ApiController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',

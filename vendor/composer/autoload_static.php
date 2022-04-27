@@ -8,8 +8,8 @@ class ComposerStaticInitf23cf27139e659cb4bf3f1cf81d9fdf6
 {
     public static $files = array (
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
@@ -35,6 +35,10 @@ class ComposerStaticInitf23cf27139e659cb4bf3f1cf81d9fdf6
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '9cdd7b9056abc3081735233ba9dd9c7f' => __DIR__ . '/..' . '/facade/flare-client-php/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+<<<<<<< HEAD
+=======
+        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+>>>>>>> bf3a84391b13dece08badff93e47cb736dfad849
         '40275907c8566c390185147049ef6e5d' => __DIR__ . '/..' . '/livewire/livewire/src/helpers.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
@@ -586,6 +590,7 @@ class ComposerStaticInitf23cf27139e659cb4bf3f1cf81d9fdf6
         'App\\Http\\Controllers\\Api_controllers\\Auth_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Auth_ApiController.php',
         'App\\Http\\Controllers\\Api_controllers\\Home_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Home_ApiController.php',
         'App\\Http\\Controllers\\Api_controllers\\Logistic\\Driver_Management_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Logistic/Driver_Management_ApiController.php',
+        'App\\Http\\Controllers\\Api_controllers\\Logistic\\Fuel_Management_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Logistic/Fuel_Management_ApiController.php',
         'App\\Http\\Controllers\\Api_controllers\\Logistic\\Truck_Management_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Logistic/Truck_Management_ApiController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
