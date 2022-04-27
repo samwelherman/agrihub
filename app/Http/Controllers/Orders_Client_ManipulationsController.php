@@ -80,7 +80,7 @@ class Orders_Client_ManipulationsController extends Controller
         if($order)
         {
             return response()
-            ->json(" Order created successfull");
+            ->json("Order created successfull");
         }
         else
         {
@@ -136,20 +136,19 @@ class Orders_Client_ManipulationsController extends Controller
      */
     public function update(Request $request, $id)
     { 
-       
         $user_id=auth()->user()->id;
         $order= Order::find($id);
         $order->user_id=$user_id;
-        $order->logistic_id=$user_id;
+        $order->logistics_id=$user_id;
         $order->status=2;
         $order->update();
         if($order){
             return response()
-            ->json(" Order updated successfuly");
+            ->json("Order updated successfuly",200);
         }
         else{
             return response()
-            ->json(" Order updated fail");
+            ->json("Order updated fail",500);
         }
     }
 
