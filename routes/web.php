@@ -14,6 +14,7 @@ use App\Http\Controller\SalesController;
 use App\Http\Controller\Single_warehouseController;
 use App\Http\Controller\Orders_Client_ManipulationsController;
 use App\Http\Controller\Warehouse_backendController;
+
 //use ;
 use App\Models\Counter;
 /*
@@ -297,6 +298,26 @@ Route::group(['prefix' => 'accounting'], function () {
     Route::any('journal', 'AccountingController@journal');
     Route::get('manual_entry', 'AccountingController@create_manual_entry');
     Route::post('manual_entry/store', 'AccountingController@store_manual_entry');
+});
+
+
+//route for payroll
+Route::group(['prefix' => 'payroll'], function () {
+
+    Route::resource('salary_template', 'Payroll\SalaryTemplateController');
+    Route::resource('manage_salary', 'Payroll\ManageSalaryController'); 
+    Route::resource('make_payment', 'Payroll\MakePaymentsController'); 
+    Route::resource('get_payment', 'Payroll\GetPaymentController'); 
+    Route::resource('get_payment2', 'Payroll\GetPayment2Controller');
+    Route::resource('make_payment2', 'Payroll\MakePayments2Controller'); 
+    //Route::post('make_payment/store{user_id}{departments_id}{payment_month}', 'Payroll\MakePaymentsController@store')->name('make_payment.store'); 
+    Route::post('manage_salary_details','Payroll\ManageSalaryController@getDetails');
+    Route::get('manage_salary_details',array('as'=>'manage_salary_details','uses'=>'Payroll\ManageSalaryController@getDetails'));
+    Route::post('save_salary_details',array('as'=>'save_salary_details','uses'=>'Payroll\ManageSalaryController@save_salary_details'));
+    Route::get('employee_salary_list',array('as'=>'employee_salary_list','uses'=>'Payroll\ManageSalaryController@employee_salary_list'));
+    
+
+    
 });
 
 

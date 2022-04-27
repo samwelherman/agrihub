@@ -126,6 +126,20 @@
                 </ul>
             </li>
             @endcan
+           
+            <li class="dropdown">
+                <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                        data-feather="command"></i><span>Payroll</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{url('payroll/salary_template')}}"> Salary Template</a></li>
+                    <li><a class="nav-link" href="{{url('payroll/manage_salary')}}"> Manage Salary</a></li>
+                    <li><a class="nav-link" href="{{ route('manage_salary.create') }}"> Employee Salary List</a></li>
+                    <li><a class="nav-link" href="{{url('payroll/make_payment')}}">Make Payment</a></li>
+                    <li><a class="nav-link" href="{{url('activity')}}">Track Logistic Activity</a></li>
+                    
+                </ul>
+            </li>
+        
 
             @can('manage-warehouse')
             <li><a class="nav-link" href="{{url('warehouse')}}"><i data-feather="command"></i>Warehouse</a></li>
