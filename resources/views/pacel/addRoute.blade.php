@@ -12,29 +12,45 @@
                         <div class="row">
                     <div class="form-group col-lg-12 col-md-12 col-sm-12">
                         <label class="control-label">Starting Point<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="from" id="arrival_point" value="{{ old('arrival_point')}}" required>
-                        @error('arrival_point')
-                        <p class="text-danger">. {{$message}}</p>
-                        @enderror
+                    <select class="form-control" name="from" required
+                                                                id="from">
+                                                                <option value="">Select</option>
+                                                                @if(!empty($region))
+                                                                @foreach($region as $row)
+
+                                                                <option value="{{ $row->name}}">{{$row->name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+
+                                                            </select>
                     </div>
                    
                        
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-12 col-md-12 col-sm-12">
-                        <label class="control-label">Destination Point<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="to" id="destination_point" value="{{ old('destination_point')}}" required>
-                        @error('destination_point')
-                        <p class="text-danger">. {{$message}}</p>
-                        @enderror
+                        <label class="control-label">Destination Point <span class="text-danger">*</span></label>
+                      <select class="form-control" name="to" required
+                                                                id="to">
+                                                                <option value="">Select</option>
+                                                                @if(!empty($region))
+                                                                @foreach($region as $row)
+
+                                                                <option value="{{ $row->name}}">{{$row->name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+
+                                                            </select>
                     </div>
                    
                 </div>
          
                      <div class="row">
                     <div class="form-group col-lg-12 col-md-12 col-sm-12">
-                        <label class="control-label">Distance</label>
-                        <input type="number" class="form-control" name="distance" id="distance" required>
+                        <label class="control-label">Distance <span class="text-danger">*</span></label>
+                        <input type="number"  step="0.001" class="form-control" name="distance" id="distance" required>
                         @error('distance')
                         <p class="text-danger">. {{$message}}</p>
                         @enderror

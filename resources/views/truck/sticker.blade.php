@@ -8,7 +8,7 @@
             <div class="col-12 col-sm-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Truck Details For {{$truck->truck_name}}</h4>
+                         <h4>Truck Details For {{$truck->truck_name}} - {{$truck->reg_no}}</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -24,7 +24,17 @@
                                             href="{{ route('truck.sticker', $truck->id)}}"  aria-controls="profile"
                                             aria-selected="false">LATRA Sticker</a>
                                     </li>
-                                  
+                                     <li class="nav-item">
+                                        <a class="nav-link" id="#tab3" 
+                                            href="{{ route('truck.fuel', $truck->id)}}"  aria-controls="profile"
+                                            aria-selected="false">Fuel Report</a>
+                                    </li>
+
+                               <li class="nav-item">
+                                        <a class="nav-link" id="#tab4" 
+                                            href="{{ route('truck.route', $truck->id)}}"  aria-controls="profile"
+                                            aria-selected="false">Routes</a>
+                                    </li>
                                      
 
 

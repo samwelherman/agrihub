@@ -41,7 +41,7 @@
                                                       <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">Supplier Name</th>
+                                                    style="width: 186.484px;">Client Name</th>
                                                
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
@@ -80,7 +80,7 @@
                                                 <td>From {{$row->route->from}} to {{$row->route->to}}</td>
                                                 
                                                 <td>{{$row->receiver_name}}</td>
-                                                <td>{{$row->due_amount}} {{$row->currency_code}}</td>
+                                                <td>{{number_format($row->due_amount,2)}} {{$row->currency_code}}</td>
                                                 
 
 

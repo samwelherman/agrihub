@@ -15,6 +15,7 @@ use App\Models\Purchase_items;
 use App\Models\PurchaseInventory;
 use App\Models\PurchaseItemInventory;
 use App\Models\Supplier;
+use App\Models\InventoryList;
 use PDF;
 
 use Illuminate\Http\Request;
@@ -237,7 +238,27 @@ class PurchaseInventoryController extends Controller
           else{
             PurchaseItemInventory::create($items);   
           }
-                        
+                      
+                  if(!empty($qtyArr[$i])){
+            for($x = 1; $x <= $qtyArr[$i]; $x++){    
+                $name=Inventory::where('id', $savedArr[$i])->first();
+                $dt=date('Y',strtotime($data['purchase_date']));
+                    $lists = array(
+                        'serial_no' => $name->name."_" .$id."_".$x."_" .$dt,                      
+                         'brand_id' => $savedArr[$i],
+                           'added_by' => auth()->user()->id,
+                           'purchase_id' =>   $id,
+                         'purchase_date' =>  $data['purchase_date'],
+                           'location' => $data['location'],
+                           'status' => '0');
+                       
+     
+                    InventoryList::create($lists);   
+      
+                }
+            }
+         
+  
                     }
                 }
                 $cost['due_amount'] =  $cost['purchase_amount'] + $cost['purchase_tax'];
@@ -469,6 +490,12 @@ class PurchaseInventoryController extends Controller
        return view('inventory.manage_purchase_inv',compact('name','supplier','currency','location','data','id','items','type'));
     }
 
+  public function inventory_list()
+    {
+        //
+        $tyre= InventoryList ::all();
+       return view('inventory.list',compact('tyre'));
+    }
     public function make_payment($id)
     {
         //
@@ -488,7 +515,7 @@ class PurchaseInventoryController extends Controller
 
         if($request->has('download')){
         $pdf = PDF::loadView('inventory.purchase_inv_pdf')->setPaper('a4', 'landscape');
-        return $pdf->download('purchase_inventory.pdf'); 
+         return $pdf->download('PURCHASE_INVENTORY REF NO # ' .  $purchases->reference_no . ".pdf");
         }
         return view('inv_pdfview');
     }

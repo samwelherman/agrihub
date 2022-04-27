@@ -7,8 +7,52 @@
             </button>
         </div>
         {{ Form::model($id, array('route' => array('order_movement.update', $id), 'method' => 'PUT')) }}
-        <div class="modal-body">
+        <div class="modal-body" id="modal_body">
+
+              <div class="form-group">
+                <label class="col-lg-6 col-form-label">Transport Type </label>
+
+                <div class="col-lg-12">
+                    <select class="form-control type" name="owner_type" id="type" required>
+                                                   <option value="">Select</option>
+                                            <option @if(isset($data))
+                                                   {{$data->type == 'owned'  ? 'selected' : ''}}
+                                                   @endif value="owned">From Company</option>
+                                                   <option @if(isset($data))
+                                                   {{$data->type == 'non_owned'  ? 'selected' : ''}}
+                                                   @endif value="non_owned">From Third Party Company</option>
+
+                                                 </select>
+                </div>
+            </div>
+<div class="" id="test">
+     <div class="form-group">
+                <label class="col-lg-6 col-form-label">Truck </label>
+
+                <div class="col-lg-12">
+                    <select class="form-control truck_id" name="truck_id"  id="truck" required>
+                                                      
+                                                        <option value="">Select Truck</option>
+                                                     
+
+                                                    </select>
+                </div>
+            </div>
+
         
+      <div class="form-group">
+                <label class="col-lg-6 col-form-label">Driver</label>
+
+                <div class="col-lg-12">
+                    <select class="form-control driver_id" name="driver_id" id="driver" required>
+                                                      
+                                                        <option value="">Select Driver</option>
+                                                       
+
+                                                    </select>
+                </div>
+            </div>
+</div>
             <div class="form-group">
                 <label class="col-lg-6 col-form-label">Description</label>
 
@@ -24,7 +68,8 @@
                 <div class="col-lg-12">
                     <input type="date" name="collection_date" value="" required class="form-control">
                     <input type="hidden" name="type" value="collection" required class="form-control">
-                </div>
+                    <input type="hidden" name="id" value="{{ $id}}" required class="form-control" id="collection">
+</div>
             </div>
 
 

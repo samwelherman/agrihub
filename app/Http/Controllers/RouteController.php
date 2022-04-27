@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Route;
+use App\Models\Region;
 use Illuminate\Http\Request;
 
 class RouteController extends Controller
@@ -16,8 +17,9 @@ class RouteController extends Controller
     public function index()
    {
        //
+   $region = Region::all();   
        $route = Route::all();     
-       return view('route.route',compact('route'));
+       return view('route.route',compact('route','region'));
    }
 
    /**
@@ -39,12 +41,19 @@ class RouteController extends Controller
    public function store(Request $request)
    {
        //
-
+ if($request->from != $request->to){
       $data=$request->post();
       $data['added_by']=auth()->user()->id;
       $route = Route::create($data);
 
       return redirect(route('routes.index'))->with(['success'=>'Route Created Successfully']);
+}
+
+else{
+    return redirect(route('routes.index'))->with(['error'=>'Start Point and Destination Point cannot be the same']);
+
+}
+
    }
 
    /**
@@ -66,8 +75,9 @@ class RouteController extends Controller
     */
    public function edit($id)
    {
+ $region = Region::all(); 
        $data =  Route::find($id);
-       return view('route.route',compact('data','id'));
+       return view('route.route',compact('data','id','region'));
 
    }
 
@@ -82,11 +92,18 @@ class RouteController extends Controller
    {
        //
        $route = Route::find($id);
+      if($request->from != $request->to){
        $data=$request->post();
        $data['added_by']=auth()->user()->id;
        $route->update($data);
 
        return redirect(route('routes.index'))->with(['success'=>'Route Updated Successfully']);
+
+}else{
+    return redirect(route('routes.index'))->with(['error'=>'Start Point and Destination Point cannot be the same']);
+
+}
+
    }
 
    /**
@@ -99,7 +116,7 @@ class RouteController extends Controller
    {
        //
 
-       $route = Routes::find($id);
+       $route = Route::find($id);
        $route->delete();
 
        return redirect(route('route.index'))->with(['success'=>'Route Deleted Successfully']);

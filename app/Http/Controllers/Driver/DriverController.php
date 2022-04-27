@@ -8,7 +8,9 @@ use App\Models\Driver;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Licence;
 use App\Models\Performance;
-
+use App\Models\Fuel\Fuel;
+use App\Models\orders\OrderMovement;
+use App\Models\CargoLoading;
 
 class DriverController extends Controller
 {
@@ -61,6 +63,7 @@ class DriverController extends Controller
         $data['address']=$request->address;
         $data['referee']=$request->referee;
         $data['experience']=$request->experience;
+         $data['type']=$request->type;
         $data['driver_status']=$request->driver_status;
         $data['profile']=$fileNameToStore;
         $data['added_by']=auth()->user()->id;
@@ -124,7 +127,8 @@ class DriverController extends Controller
         $data['address']=$request->address;
         $data['referee']=$request->referee;
         $data['experience']=$request->experience;
-        $data['driver_status']=$request->driver_status;       
+        $data['driver_status']=$request->driver_status;  
+     $data['type']=$request->type;     
         $data['added_by']=auth()->user()->id;
 
         if(!empty($driver->attachment)){
@@ -173,5 +177,41 @@ class DriverController extends Controller
         return view('driver.performance',compact('performance','type','driver'));
     }
 
-    
+     public function fuel(Request $request, $id)
+    {
+        //
+        $driver =  Driver::find($id);
+      
+        $type = "fuel";
+         $start_date = $request->start_date;
+        $end_date = $request->end_date;
+  if(!empty($start_date) || !empty($end_date)){
+  $fuel=Fuel::where('driver_id',$id)->whereBetween('created_at',  [$start_date, $end_date])->paginate(10);                             
+}
+
+else{
+  $fuel=Fuel::where('driver_id',$id)->paginate(10);    
+
+}
+        return view('driver.fuel',compact('fuel','type','driver','start_date','end_date'));
+    }
+  public function route(Request $request, $id)
+    {
+        //
+        $driver =  Driver::find($id);
+        $route=CargoLoading::where('driver_id',$id)->paginate(10);    
+        $type = "route";
+         $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        if(!empty($start_date) || !empty($end_date)){
+ $route=CargoLoading::where('driver_id',$id)->whereBetween('collection_date', [$start_date, $end_date])->paginate(10);                            
+}
+
+else{
+ $route=CargoLoading::where('driver_id',$id)->paginate(10);    
+}
+        return view('driver.route',compact('route','type','driver','start_date','end_date'));
+    }
+
 }

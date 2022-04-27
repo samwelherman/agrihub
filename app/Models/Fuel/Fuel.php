@@ -12,6 +12,7 @@ class Fuel extends Model
 
     protected $fillable = [      
         'truck_id',
+     'driver_id',
         'route_id',
         'fuel_rate',
         'fuel_used',  
@@ -19,6 +20,8 @@ class Fuel extends Model
         'fuel_adjustment',
         'reason',
         'status_approve',
+   'approved_by',
+  'movement_id',
         'added_by'];
 
         public function route(){

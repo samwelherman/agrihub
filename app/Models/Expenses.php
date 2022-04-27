@@ -21,7 +21,9 @@ class Expenses extends Model
         'exchange_code',
         'payment_method',
         'notes',   
+       'name',
         'account_id', 
+      'refill_id', 
         'added_by'];
     
       public function classAccount()

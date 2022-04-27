@@ -106,8 +106,10 @@
                         data-feather="command"></i><span>Cargo Management</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{url('pacel_list')}}">Item List</a></li>
+                    <li><a class="nav-link" href="{{url('client')}}">Client List</a></li>
                     <li><a class="nav-link" href="{{url('pacel_quotation')}}">Quotation</a></li>                   
                     <li><a class="nav-link" href="{{url('pacel_invoice')}}">Invoice</a></li>
+               <li><a class="nav-link" href="{{url('mileage')}}">Mileage List</a></li>
                 </ul>
             </li>
             @endcan
@@ -117,12 +119,13 @@
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>Cargo Tracking</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{url('collection')}}"> Create Cargo</a></li>
+                    <li><a class="nav-link" href="{{url('collection')}}"> Cargo List</a></li>
                     <li><a class="nav-link" href="{{url('loading')}}"> Loading</a></li>
                     <li><a class="nav-link" href="{{url('offloading')}}"> Offloading</a></li>
                     <li><a class="nav-link" href="{{url('delivering')}}">Delivery</a></li>
                     <li><a class="nav-link" href="{{url('activity')}}">Track Logistic Activity</a></li>
-                    
+                     <li><a class="nav-link" href="{{url('order_report')}}">Uplift Report</a></li>
+              <li><a class="nav-link" href="{{url('truck_mileage')}}">Return Truck Fuel & Mileage</a></li>
                 </ul>
             </li>
             @endcan
@@ -178,9 +181,9 @@
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="command"></i><span>Tire Management</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{url('tyre_brand')}}">Tyre Brand</a></li>
-                    <li><a class="nav-link" href="{{url('purchase_tyre')}}">Purchase Tyre</a></li>
-                    <li><a class="nav-link" href="{{url('tyre_list')}}">Tyre List</a></li>
+                    <li><a class="nav-link" href="{{url('tyre_brand')}}">Tire Brand</a></li>
+                    <li><a class="nav-link" href="{{url('purchase_tyre')}}">Purchase Tire</a></li>
+                    <li><a class="nav-link" href="{{url('tyre_list')}}">Tire List</a></li>
                     <li><a class="nav-link" href="{{url('assign_truck')}}">Assign Truck</a></li>
                     <li><a class="nav-link" href="{{url('tyre_return')}}">Good Return</a></li>
                     <li><a class="nav-link" href="{{url('tyre_reallocation')}}">Good Reallocation</a></li>
@@ -199,6 +202,7 @@
                     <li><a class="nav-link" href="{{url('inventory')}}">Inventory Items</a></li>
                     <li><a class="nav-link" href="{{url('fieldstaff')}}">Field Staff</a></li>
                     <li><a class="nav-link" href="{{url('purchase_inventory')}}">Purchase Inventory</a></li>
+                        <li><a class="nav-link" href="{{url('inventory_list')}}">Inventory List</a></li>
                     <li><a class="nav-link" href="{{url('maintainance')}}">Maintainance</a></li>
                     <li><a class="nav-link" href="{{url('service')}}">Service</a></li>
                     <li><a class="nav-link" href="{{url('good_issue')}}">Good Issue</a></li>
@@ -211,6 +215,9 @@
             @endcan
 
                @can('manage-shop')
+          <li><a class="nav-link" href="{{url('leave')}}"><i data-feather="command"></i>Leave Management</a></li>
+<li><a class="nav-link" href="{{url('training')}}"><i data-feather="command"></i>Training</a></li>
+
             <li class="dropdown">
             <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Transactions</span></a>
               <ul class="dropdown-menu">

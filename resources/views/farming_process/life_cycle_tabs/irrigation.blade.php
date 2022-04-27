@@ -25,7 +25,7 @@
                 <div class="tab-pane fade @if($type =='irrigation') active show @endif" id="profile7" role="tabpanel"
                     aria-labelledby="home-tab6">
                     <button type="button" class="btn btn-outline-info btn-xs px-4" data-toggle="modal"
-                        onclick="model(1,'add2')" data-target="#appFormModal">
+                        onclick="model(1,'add2')" data-target="#newFormModal">
                         <i class="fa fa-plus-circle"></i>
                         Add2
                     </button>
@@ -65,7 +65,7 @@
 
                             <h5>{{__('farming.irrigation_setting')}}</h5>
                             <button type="button" class="btn btn-outline-info btn-xs px-4" data-toggle="modal"
-                                onclick="model(1,'add')" data-target="#appFormModal">
+                                onclick="model(1,'add')" data-target="#newFormModal">
                                 <i class="fa fa-plus-circle"></i>
                                 Add
                             </button>
@@ -112,7 +112,7 @@
 
                                     <h5>{{__('farming.irrigation_process')}}</h5>
                                     <button type="button" class="btn btn-outline-info btn-xs px-4" data-toggle="modal"
-                                        onclick="model(1,'add2')" data-target="#appFormModal">
+                                        onclick="model(1,'add2')" data-target="#newFormModal">
                                         <i class="fa fa-plus-circle"></i>
                                         Add2
                                     </button>
@@ -175,14 +175,6 @@
       
       var count = 0;
 
-
-			function autoCalcSetup() {
-				$('table#cart').jAutoCalc('destroy');
-				$('table#cart tr.line_items').jAutoCalc({keyEventsFire: true, decimalPlaces: 2, emptyAsZero: true});
-				$('table#cart').jAutoCalc({decimalPlaces: 2});
-			}
-			autoCalcSetup();
-
 	$('.add').on("click", function(e) {
 
         count++;
@@ -209,6 +201,14 @@ autoCalcSetup();
             $('tfoot').append('<input type="hidden" name="removed_id[]"  class="form-control name_list" value="'+btn_value+'"/>');  
          autoCalcSetup();
            });  
+
+
+			function autoCalcSetup() {
+				$('table#cart').jAutoCalc('destroy');
+				$('table#cart tr.line_items').jAutoCalc({keyEventsFire: true, decimalPlaces: 2, emptyAsZero: true});
+				$('table#cart').jAutoCalc({decimalPlaces: 2});
+			}
+			autoCalcSetup();
 
 		});
 	
@@ -328,7 +328,7 @@ autoCalcSetup();
                             $('.modal-dialog').html(data);
                         },
                         error: function(error) {
-                            $('#appFormModal').modal('toggle');
+                            $('#newFormModal').modal('toggle');
 
                         }
                     });
@@ -343,7 +343,7 @@ autoCalcSetup();
                     type = document. getElementById('type');
                     var form1 = $('form')[0];
 
-                    let modal = $('#appFormModal');
+                    let modal = $('#newFormModal');
                     let loading = $('.ibox-loading');
                     modal.find('.modal-content').addClass('d-none').removeClass('d-block');
                     loading.removeClass('d-none').addClass('d-block');
@@ -408,7 +408,7 @@ autoCalcSetup();
 
                     var form1 = $('form')[0];
 
-                    let modal = $('#appFormModal');
+                    let modal = $('#newFormModal');
                     let loading = $('.ibox-loading');
                     modal.find('.modal-content').addClass('d-none').removeClass('d-block');
                     loading.removeClass('d-none').addClass('d-block');

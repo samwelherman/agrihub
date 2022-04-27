@@ -8,6 +8,11 @@ use App\Models\Sticker;
 use App\Models\Truck;
 use App\Models\TruckInsurance;
 use Illuminate\Http\Request;
+use App\Models\Fuel\Fuel;
+use App\Models\orders\OrderMovement;
+use App\Models\Region;
+use App\Models\CargoLoading;
+
 
 class TruckController extends Controller
 {
@@ -20,8 +25,9 @@ class TruckController extends Controller
     {
         //
         $truck = Truck::all(); 
-        $driver=Driver::all();        
-        return view('truck.truck',compact('truck','driver'));
+        $driver=Driver::all(); 
+  $region = Region::all();          
+        return view('truck.truck',compact('truck','driver','region'));
     }
 
     /**
@@ -44,8 +50,6 @@ class TruckController extends Controller
     {
         //
         $data = $request->all();
-        $driver=Driver::where('id',$request->driver)->first();
-        $data['driver_status']=$driver->driver_status;
         $data['added_by']=auth()->user()->id;
         $truck= Truck::create($data);
  
@@ -75,7 +79,8 @@ class TruckController extends Controller
         //
         $data =  Truck::find($id);
         $driver=Driver::all();  
-        return view('truck.truck',compact('data','id','driver'));
+  $region = Region::all();   
+        return view('truck.truck',compact('data','id','driver','region'));
     }
 
     /**
@@ -90,8 +95,6 @@ class TruckController extends Controller
         //
         $truck =  Truck::find($id);
         $data = $request->all();
-        $driver=Driver::where('id',$request->driver)->first();
-        $data['driver_status']=$driver->driver_status;
         $data['added_by']=auth()->user()->id;
         $truck->update($data);
  
@@ -128,4 +131,42 @@ class TruckController extends Controller
         $type = "sticker";
         return view('truck.sticker',compact('sticker','type','truck'));
     }
+  public function fuel(Request $request, $id)
+    {
+        //
+        $truck =  Truck::find($id);
+      
+        $type = "fuel";
+         $start_date = $request->start_date;
+        $end_date = $request->end_date;
+  if(!empty($start_date) || !empty($end_date)){
+  $fuel=Fuel::where('truck_id',$id)->whereBetween('created_at',  [$start_date, $end_date])->paginate(10);                            
+}
+
+else{
+  $fuel=Fuel::where('truck_id',$id)->paginate(10);    
+}
+
+
+        return view('truck.fuel',compact('fuel','type','truck','start_date','end_date'));
+    }
+  public function route(Request $request, $id)
+    {
+        //
+        $truck =  Truck::find($id);
+        $route=CargoLoading::where('truck_id',$id)->get();
+        $type = "route";
+         $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        if(!empty($start_date) || !empty($end_date)){
+ $route=CargoLoading::where('truck_id',$id)->whereBetween('collection_date', [$start_date, $end_date])->paginate(10);                          
+}
+
+else{
+ $route=CargoLoading::where('truck_id',$id)->paginate(1);       
+}
+        return view('truck.route',compact('route','type','truck','start_date','end_date'));
+    }
+
 }

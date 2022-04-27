@@ -40,18 +40,15 @@
                                                     aria-label="Platform(s): activate to sort column ascending"
                                                     style="width: 186.484px;">Staff Phone</th>
 
-                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">Type</th>
+                                                    
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">Shipment Name</th>
+                                                    style="width: 186.484px;">REF NO - Shipment Name</th>
                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 186.484px;">Qty/Weight</th>
+                                                    style="width: 186.484px;">Weight</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Engine version: activate to sort column ascending"
@@ -80,16 +77,16 @@
 
                                             @else
                                             @php
-                                            $pacel=App\Models\Pacel\Pacel::find($row->module_id); 
+                                            $pacel=App\Models\CargoLoading::find($row->loading_id); 
                                             $route = App\Models\Route::find($pacel->route_id); 
                                         @endphp
                                         
                                             @endif
 
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{$row->user->fname}} {{$row->user->lname}}</td>
+                                                <td>{{$row->user->name}}</td>
                                                 <td>{{$row->user->phone}}</td>
-                                                <td>{{$row->module}}</td>
+                                                
                                               
 
                                                 @if ($row->module == 'Order')
@@ -101,13 +98,13 @@
                                                
                                                 @else
                                              
-                                                <td>{{$pacel->pacel_name}} </td>
+                                                <td>{{$pacel->pacel_number}} - {{$pacel->pacel_name}} </td>
                                                    @endif
 
                                                    @if ($row->module == 'Order')
-                                                   <td> {{$order->quantity}}</td> 
+                                                   <td> {{$order->quantity}} kgs</td> 
                                                    @else                                               
-                                                   <td>{{$pacel->weight}} </td>
+                                                   <td>{{$pacel->weight}} kgs </td>
                                                       @endif
 
                                                     @if ($row->module == 'Order')

@@ -79,7 +79,7 @@ return array (
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'sourcesanspro' => array(
-    'normal' => $fontDir . '/sourcesanspro_normal_cab6b20ba12e4de1106fbe4db10e30dc',
+    'normal' => $fontDir . '/sourcesanspro_normal_1c5a05c908feed47dae95c7a4939e6f7',
   ),
   'font awesome 5 brands' => array(
     'normal' => $fontDir . '/font_awesome_5_brands_normal_c38c4d17c258f3befc01f80a627085e7',

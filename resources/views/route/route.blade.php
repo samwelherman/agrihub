@@ -109,28 +109,50 @@
 
                                                     <div class="form-group row"><label
                                                             class="col-lg-2 col-form-label">Starting Point</label>
-
+                                                            
                                                         <div class="col-lg-10">
-                                                            <input type="text" name="from"
-                                                                value="{{ isset($data) ? $data->from : ''}}"
-                                                                class="form-control" required>
+                                                            <select class="form-control" name="from" required
+                                                                id="route">
+                                                                <option value="">Select</option>
+                                                                @if(!empty($region))
+                                                                @foreach($region as $row)
+
+                                                                <option @if(isset($data))
+                                                                    {{  $data->from== $row->name  ? 'selected' : ''}}
+                                                                    @endif value="{{ $row->name}}">{{$row->name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row"><label
                                                             class="col-lg-2 col-form-label">Destination Point</label>
 
                                                         <div class="col-lg-10">
-                                                            <input type="text" name="to"
-                                                                value="{{ isset($data) ? $data->to : ''}}"
-                                                                class="form-control" required>
+                                                           <select class="form-control" name="to" required
+                                                                id="route">
+                                                                <option value="">Select</option>
+                                                                @if(!empty($region))
+                                                                @foreach($region as $row)
+
+                                                                <option @if(isset($data))
+                                                                    {{  $data->to== $row->name  ? 'selected' : ''}}
+                                                                    @endif value="{{ $row->name}}">{{$row->name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+
+                                                            </select>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row"><label
-                                                            class="col-lg-2 col-form-label">Distance</label>
+                                                            class="col-lg-2 col-form-label">Distance (KM)</label>
 
                                                         <div class="col-lg-10">
-                                                            <input type="text" name="distance"
+                                                            <input type="number" name="distance"  step="0.001"
                                                                 value="{{ isset($data) ? $data->distance : ''}}"
                                                                 class="form-control">
                                                         </div>

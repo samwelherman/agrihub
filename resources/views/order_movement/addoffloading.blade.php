@@ -10,12 +10,15 @@
         <div class="modal-body">
         
             <p><strong>Make sure the offloaded order is the same as the order confirmed</strong> .</p>
-            <ul>
+             <ul>
                 @php
-                   $data=App\Models\orders\OrderMovement::find($id); 
+                   $data=App\Models\CargoLoading::find($id); 
                 @endphp
-                <li>Truck Name/NUmber: {{ $data->truck}} </li>
+                <li>Truck : {{ $data->truck->truck_name}} - {{ $data->truck->reg_no}}</li>
+               <li>Driver Name: {{ $data->driver->driver_name}} </li>
+              <li>Route Name: From {{ $data->route->from}} to  {{ $data->route->to}} </li>
             </ul>
+
 
             <div class="form-group">
                 <label class="col-lg-6 col-form-label">Description</label>

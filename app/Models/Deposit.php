@@ -16,6 +16,7 @@ class Deposit extends Model
         'amount',
         'date',
         'type',
+       'name',
         'status',
         'exchange_rate',
         'exchange_code',

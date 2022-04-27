@@ -30,7 +30,7 @@ class ExpensesController extends Controller
         $payment_method = Payment_methodes::all();
       $expense = Expenses::all();
       $currency = Currency::all();
- $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+ $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->orwhere('account_name','Payables')->get() ;
      $chart_of_accounts =AccountCodes::where('account_group','!=','Cash and Cash Equivalent')->get() ;
        
           $group_account = GroupAccount::all();
@@ -92,7 +92,7 @@ class ExpensesController extends Controller
        $data= Expenses::find($id);
 
 
- $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+ $bank_accounts=AccountCodes::where('account_group','Cash and Cash Equivalent')->orwhere('account_name','Payables')->get() ;
      $chart_of_accounts =AccountCodes::where('account_group','!=','Cash and Cash Equivalent')->get() ;
      $currency = Currency::all();
      $payment_method = Payment_methodes::all();
@@ -150,7 +150,8 @@ class ExpensesController extends Controller
         $expenses= Expenses::find($id);
         $data['status'] = 1;
         $expenses->update($data);
-
+   
+   if( $expenses->refill_id == NULL){
         $journal = new JournalEntry();
         $journal->account_id =    $expenses->account_id;
       $date = explode('-',  $expenses->date);
@@ -180,6 +181,42 @@ class ExpensesController extends Controller
         $journal->exchange_rate=  $expenses->exchange_rate;
         $journal->notes= 'Expense Payment with transaction id ' .$expenses->trans_id;
         $journal->save();
+
+}
+
+ else {
+        $journal = new JournalEntry();
+        $journal->account_id =    $expenses->account_id;
+      $date = explode('-',  $expenses->date);
+        $journal->date = $expenses->date;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+         $journal->transaction_type = 'fuel';
+              $journal->name = 'Fuel Refill';
+             $journal->payment_id=    $expenses->refill_id;
+             $journal->notes= 'Fuel Refill Payment with transaction id ' .$expenses->trans_id;
+              $journal->currency_code =   $expenses->exchange_code;
+              $journal->exchange_rate=  $expenses->exchange_rate;
+        $journal->debit =   $expenses->amount * $expenses->exchange_rate;
+        $journal->save();
+
+         $journal = new JournalEntry();
+        $journal->account_id = $expenses->bank_id;
+        $date = explode('-',  $expenses->date);
+        $journal->date = $expenses->date;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+        $journal->transaction_type = 'fuel';
+              $journal->name = 'Fuel Refill';
+             $journal->payment_id=    $expenses->refill_id;
+        $journal->credit =    $expenses->amount* $expenses->exchange_rate;
+        $journal->currency_code =   $expenses->exchange_code;
+        $journal->exchange_rate=  $expenses->exchange_rate;
+      $journal->notes= 'Fuel Refill Payment with transaction id ' .$expenses->trans_id;
+        $journal->save();
+
+}
+
 
         return redirect(route('expenses.index'))->with(['success'=>'Approved Successfully']);
     }

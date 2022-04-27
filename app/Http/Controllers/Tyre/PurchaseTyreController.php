@@ -19,6 +19,7 @@ use App\Models\Tyre\TyreBrand;
 use App\Models\Tyre\TyreHistory;
 use App\Models\Tyre\TyrePayment;
 use Illuminate\Http\Request;
+use PDF;
 
 class PurchaseTyreController extends Controller
 {
@@ -581,7 +582,9 @@ if($tyre->purchase_tax > 0){
 
         if($request->has('download')){
         $pdf = PDF::loadView('tyre.purchase_tyre_pdf')->setPaper('a4', 'landscape');
-        return $pdf->download('purchase_tyre.pdf'); 
+     return $pdf->download('PURCHASE_TIRE REF NO # ' .  $purchases->reference_no . ".pdf");
+   
+
         }
         return view('tyre_pdfview');
     }
@@ -602,6 +605,27 @@ if($tyre->purchase_tax > 0){
                  }
 
                  }
+
+         public function addSupp(Request $request){
+       
+    
+        $supplier= Supplier::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'address' => $request['address'],
+            'phone' => $request['phone'],
+        'TIN' => $request['TIN'],
+            'user_id'=> auth()->user()->id,
+        ]);
+        
+      
+
+        if (!empty($supplier)) {           
+            return response()->json($supplier);
+         }
+
+       
+   }
 
                  
     public function tyre_list()

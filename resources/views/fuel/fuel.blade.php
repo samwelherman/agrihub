@@ -72,7 +72,7 @@
                                                 <td>
                                                     {{ $loop->iteration }}
                                                 </td>
-                                                <td>{{$row->truck->truck_name}}</td>
+                                                <td>{{$row->truck->reg_no}}</td>
                                                 <td>From {{$row->route->from}} to {{$row->route->to}}</td>
 
                                                 <td>{{$row->fuel_rate}}</td>
@@ -181,7 +181,7 @@
 
                                                         <option @if(isset($data))
                                                             {{  $data->truck_id == $row->id  ? 'selected' : ''}}
-                                                            @endif value="{{ $row->id}}">{{$row->truck_name}}</option>
+                                                            @endif value="{{ $row->id}}">{{$row->reg_no}}</option>
 
                                                         @endforeach
                                                         @endif
@@ -218,7 +218,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label">Fuel Rate</label>
                                                     <div class="col-lg-4">
-                                                        <input type="number" name="fuel_rate"
+                                                        <input type="number" step="0.001" name="fuel_rate"
                                                             placeholder=""
                                                             value="{{ isset($data) ? $data->fuel_rate : ''}}"
                                                             class="form-control">
@@ -321,10 +321,11 @@
                     <td >{{$h->litres }} Litres</td>
                    <td>{{number_format($h->price,2) }}</td>                  
                    <td>{{number_format($h->total_cost,2) }} </td>
-
+ 
                    @php    
                    $total_l+=$h->litres; 
                    $total_c+=$h->total_cost;   
+                  $fuel_b=\App\Models\Fuel\Fuel::find($row->fuel_id); 
                  @endphp
                    
                </tr> 
@@ -334,12 +335,23 @@
 
                    <tfoot>
                  
+<tr>
                     <td><b>Total</b></td>
                   
                     
         <td >{{number_format($total_l,2)}} Litres</td>
        <td></td>                  
        <td>{{number_format($total_c,2) }} </td>
+
+   </tr> 
+
+<tr>
+                    <td><b>Balance</b></td>
+                  
+                    
+        <td >{{number_format( $fuel_b->fuel_used - $total_l,2)}} Litres</td>
+       <td></td>                  
+       <td> </td>
 
    </tr> 
 
@@ -376,38 +388,62 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+  <form id="addRouteForm" method="post" action="javascript:void(0)">
+            @csrf
                 <div class="modal-body">
                     <p><strong>Make sure you enter valid information</strong> .</p>
 
                     
                   
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">From</label>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Starting Point</label>
 
                         <div class="col-lg-10">
-                            <input type="text" name="from" id="from" class="form-control" required>
+                            <select class="form-control" name="from" required
+                                                                id="from">
+                                                                <option value="">Select</option>
+                                                                @if(!empty($region))
+                                                                @foreach($region as $row)
+
+                                                                <option value="{{ $row->name}}">{{$row->name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+
+                                                            </select>
                         </div>
                     </div>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">To</label>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Destination Point</label>
 
                         <div class="col-lg-10">
-                            <input type="text" name="to" id="to" class="form-control" required>
+                            <select class="form-control" name="to" required
+                                                                id="to">
+                                                                <option value="">Select</option>
+                                                                @if(!empty($region))
+                                                                @foreach($region as $row)
+
+                                                                <option value="{{ $row->name}}">{{$row->name}} </option>
+
+                                                                @endforeach
+                                                                @endif
+
+                                                            </select>
                         </div>
                     </div>
 
                     <div class="form-group row"><label class="col-lg-2 col-form-label">Distance(km)</label>
 
                         <div class="col-lg-10">
-                            <input type="number" name="distance" id="distance" class="form-control">
+                            <input type="number"  step="0.001" name="distance" id="distance" class="form-control">
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary route">Save</button>
+                    <button type="submit" class="btn btn-primary route" onclick="saveRoute(this)">Save</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
 
-                {!! Form::close() !!}
+                 </form>
             </div>
         </div>
     </div>
@@ -418,8 +454,11 @@
 @endsection
 
 @section('scripts')
+
+ 
 <script>
 $(document).ready(function() {
+
     $('.dataTables-example').DataTable({
         pageLength: 25,
         responsive: true,
@@ -456,51 +495,22 @@ $(document).ready(function() {
 
 });
 </script>
+<script src="{{ url('assets/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
 
 
 <script>
     $(document).ready(function(){
-      
-     
+   
 
- $(document).on('click', '.route', function(){
-
-    var to = $('#to').val();
-     var distance = $('#distance').val();
-     var from = $('#from').val();
-
-
-        $.ajax({
-            type: 'GET',
-            url: '{{url("addRoute")}}',
-            data: {
-                 'to':to,
-                 'distance':distance,
-                 'from':from,
-             },
-            cache: false,
-            async: true,
-            success: function(response) {
-
-console.log( response);
-                             var id = response[0]["id"];
-                             
-                             var arrival_point = response[0]["from"];
-                              var destination_point =response[0]["to"];
-
-                             var option = "<option value='"+id+"'>From "+from+" to "+to+"</option>"; 
-
-                             $("#route").append(option);
-                              $('#routeModal').hide();
-                    
-        },
-        error: function() {
-            alert('Error');
-        }
-
-
-
-        });
+ $(document).on('change', '.type', function(){
+var id=$(this).val() ;
+console.log(id);
+         if($(this).val() == 'cash') {
+          $('.account').show(); 
+        } else {
+            $('.account').hide(); 
+        } 
 
 });
 
@@ -508,9 +518,46 @@ console.log( response);
     });
 </script>
 
-<script src="{{ url('assets/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
-
 <script type="text/javascript">
+
+    function saveRoute(e){
+     
+     
+     var to = $('#to').val();
+     var distance = $('#distance').val();
+     var from = $('#from').val();
+
+     
+          $.ajax({
+            type: 'GET',
+            url: '{{url("addRoute")}}',
+             data: {
+                 'to':to,
+                 'distance':distance,
+                 'from':from,
+             },
+          dataType: "json",
+             success: function(response) {
+                console.log(response);
+
+                               var id = response.id;
+                             var arrival_point = response.from;
+                              var destination_point = response.to;
+
+                             var option = "<option value='"+id+"'  selected>From "+arrival_point+" to "+destination_point+"</option>"; 
+
+                             $('#route').append(option);
+                              $('#routeModal').hide();
+                   
+                               
+               
+            }
+          
+        });
+}
+
+
+
     function model(id,type) {
 
 $.ajax({
@@ -534,6 +581,8 @@ $.ajax({
 
 }
 
+
+
 function calculateCost() {
     
     $('#price,#litres').on('input',function() {
@@ -547,7 +596,7 @@ function calculateCost() {
 </script>
 
 
-
+  
 
 
 

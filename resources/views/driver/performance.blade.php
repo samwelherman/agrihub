@@ -24,7 +24,18 @@
                                         href="#tab1"  aria-controls="profile"
                                             aria-selected="false">Perfomance</a>
                                     </li>
-                                  
+                                     <li class="nav-item">
+                                        <a class="nav-link " id="#tab3" 
+                                            href="{{ route('driver.fuel', $driver->id)}}"  aria-controls="profile"
+                                            aria-selected="false">Fuel Report</a>
+                                    </li>
+
+                               <li class="nav-item">
+                                        <a class="nav-link" id="#tab4" 
+                                            href="{{ route('driver.route', $driver->id)}}"  aria-controls="profile"
+                                            aria-selected="false">Routes</a>
+                                    </li>
+                                   
                                      
 
 

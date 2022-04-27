@@ -78,7 +78,7 @@
                                     <label class="col-lg-2 col-form-label">Amount
                                     </label>
                                     <div class="col-lg-10">
-                                        <input type="number" name="amount"
+                                        <input type="number" name="amount"  step="0.01"
                                             value="{{ $invoice->due_amount}}" class="form-control">
 
                                             <input type="hidden" name="purchase_id"
