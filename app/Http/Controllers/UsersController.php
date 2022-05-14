@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Application;
-//use App\Region;
-
+use App\Models\Region;
+use App\Models\Departments;
+use App\Models\Designation;
 
 
 class UsersController extends Controller
@@ -37,7 +38,8 @@ class UsersController extends Controller
         //
         $roles = Role::all();
         //$region = Region::all();
-        return view('manage.users.add',Compact('roles'));
+      $department = Departments::all();
+        return view('manage.users.add',Compact('roles','department'));
     }
 
     /**
@@ -69,6 +71,8 @@ class UsersController extends Controller
             'phone' => $request['phone'],
             'added_by' => auth()->user()->id,
             'status' => 1,
+       'department_id' => $request['department_id'],
+        'designation_id' => $request['designation_id'],
         ]);
 
         if (!$user) {
@@ -107,7 +111,10 @@ class UsersController extends Controller
         $region = Region::all();
         //$user = User::with('Role')->where('id',$id)->get();
         $user = User::all()->where('id',$id);
-        return view('manage.users.edit',Compact('user','role','region'));
+      $users = User::find($id);
+        $department = Departments::all();
+     $designation= Designation::where('department_id', $users->department_id)->get();
+        return view('manage.users.edit',Compact('user','role','region','department','designation'));
     }
 
     /**
@@ -126,6 +133,8 @@ class UsersController extends Controller
         $user->email = $request['email'];
         $user->phone = $request['phone'];
         $user->address = $request['address'];
+        $user->department_id = $request['department_id'];
+        $user->designation_id = $request['designation_id'];
         $user->save();
 
         if (!$user) {
@@ -149,4 +158,14 @@ class UsersController extends Controller
         $user->delete();
         return redirect(route('users.index'));
     }
+
+public function findDepartment(Request $request)
+    {
+
+        $district= Designation::where('department_id',$request->id)->get();                                                                                    
+               return response()->json($district);
+
+}
+
+
 }

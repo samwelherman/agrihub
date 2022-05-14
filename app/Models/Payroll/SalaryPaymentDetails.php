@@ -11,6 +11,6 @@ class SalaryPaymentDetails extends Model
 
     protected $table = "tbl_salary_payment_details";
 
-    protected $fillable = ['salary_payment_details_id','salary_payment_id','salary_payment_details_label','salary_payment_details_value'];
+    protected $fillable = ['salary_payment_id','salary_payment_details_label','salary_payment_details_value'];
 }
 

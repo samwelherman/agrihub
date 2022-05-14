@@ -27,7 +27,9 @@ class User extends Authenticatable
         'address',
         'phone',
         'added_by',
-        'status'
+        'status',
+ 'department_id',
+'designation_id'
     ];
 
     /**
@@ -95,7 +97,13 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\UserDetails\BankDetails','user_id');
     }
     
+    public function designation(){
     
-
+        return $this->belongsTo('App\Models\Designation','designation_id');
+      }
+  public function department(){
+    
+        return $this->belongsTo('App\Models\Departments','department_id');
+      }
     use HasPermissionsTrait; //Import The Trait
 }

@@ -2,7 +2,7 @@
 
 
 
-@section('contents')
+@section('content')
 <section class="section">
     <div class="section-body">
         @include('layouts.alerts.message')
@@ -21,7 +21,7 @@
                             </a>
 
 
-                        </ul>
+                        </ul><br>
                         <div class="tab-content tab-bordered" id="myTab3Content">
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2" role="tabpanel"
                                 aria-labelledby="home-tab2">
@@ -45,12 +45,7 @@
                     </div>
                     <div class="form-group col-lg-6 col-md-12 col-sm-12">
                         <label class="control-label">Address</label>
-                        <select class="form-control" name="address" required>
-                            <option value="{{ old('address')}}" disabled selected>Choose option</option>
-                            @foreach($region as $row)
-                            <option value="{{ $row->name }}">{{ $row->name }}</option>
-                            @endforeach
-                        </select>
+                         <input type="text" class="form-control" name="address" id="address" value="{{ $users->address}}">
                     </div>
                 </div>
                 <div class="row">
@@ -60,15 +55,61 @@
                     </div>
                     <div class="form-group col-lg-6 col-md-12 col-sm-12">
                         <label class="">Role </label>
-                        <select class="form-control" name="role" required>
+                        <select class="form-control" name="role" >
                             <option value="" disabled selected>Choose option</option>
                             @if(isset($role))
                             @foreach($role as $roles)
-                            <option value="{{$roles->id}}">{{$roles->slug}}</option>
+                            <option value="@if(isset($users))
+                                                            {{ $users->role == $roles->id  ? 'selected' : ''}}
+                                                            @endif  {{$roles->id}}">{{$roles->slug}}</option>
                             @endforeach
                             @endif
                         </select>
                     </div>
+                </div>
+
+       <div class="row">
+                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                        <label class="control-label">Department</label>
+                        <select  id="department_id" name="department_id" class="form-control department">
+                                      <option ="">Select Department</option>
+                                      @if(!empty($department))
+                                                        @foreach($department as $row)
+
+                                                        <option @if(isset($users))
+                                                            {{ $users->department_id == $row->id  ? 'selected' : ''}}
+                                                            @endif value="{{$row->id}}">{{$row->name}}</option>
+
+                                                        @endforeach
+                                                        @endif
+                                    </select>
+                    </div>
+
+ @if(!empty($users->designation_id))
+                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                        <label class="">Designation </label>
+                        <select id="designation_id" name="designation_id" class="form-control designation">
+                                      <option>Select Designation</option>
+                           @if(!empty($designation))
+                                                        @foreach($designation as $row)
+
+                                                        <option @if(isset($users))
+                                                            {{ $users->designation_id == $row->id  ? 'selected' : ''}}
+                                                            @endif value="{{$row->id}}">{{$row->name}}</option>
+
+                                                        @endforeach
+                                                        @endif
+                        </select>
+                    </div>
+             @else
+                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                        <label class="">Designation </label>
+                        <select id="designation_id" name="designation_id" class="form-control designation">
+                                      <option>Select Designation</option>                         
+                        </select>
+                    </div>
+             @endif
+
                 </div>
             </div>
             <div class="ibox-footer">
@@ -106,6 +147,43 @@ $(document).on('click', '.edit_user_btn', function() {
     $('#p-slug_').val(slug);
     $('#p-module_').val(module);
     $('#editPermissionModal').modal('show');
+});
+</script>
+
+<script>
+$(document).ready(function() {
+
+    $(document).on('change', '.department', function() {
+        var id = $(this).val();
+        $.ajax({
+            url: '{{url("findDepartment")}}',
+            type: "GET",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#designation_id").empty();
+                $("#designation_id").append('<option value="">Select Designation</option>');
+                $.each(response,function(key, value)
+                {
+                 
+                    $("#designation_id").append('<option value=' + value.id+ '>' + value.name + '</option>');
+                   
+                });                      
+               
+            }
+
+        });
+
+    });
+
+
+
+
+
+
 });
 </script>
 @endsection

@@ -590,10 +590,7 @@ class ComposerStaticInitf23cf27139e659cb4bf3f1cf81d9fdf6
         'App\\Http\\Controllers\\Api_controllers\\Auth_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Auth_ApiController.php',
         'App\\Http\\Controllers\\Api_controllers\\Home_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Home_ApiController.php',
         'App\\Http\\Controllers\\Api_controllers\\Logistic\\Driver_Management_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Logistic/Driver_Management_ApiController.php',
-<<<<<<< HEAD
-=======
         'App\\Http\\Controllers\\Api_controllers\\Logistic\\Fuel_Management_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Logistic/Fuel_Management_ApiController.php',
->>>>>>> 88f6abd42716f0a19e18ec02b64d6f8b55b0c205
         'App\\Http\\Controllers\\Api_controllers\\Logistic\\Truck_Management_ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api_controllers/Logistic/Truck_Management_ApiController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -707,10 +704,7 @@ class ComposerStaticInitf23cf27139e659cb4bf3f1cf81d9fdf6
         'App\\Models\\Crops_Monitoring' => __DIR__ . '/../..' . '/app/Models/Crops_Monitoring.php',
         'App\\Models\\Crops_type' => __DIR__ . '/../..' . '/app/Models/Crops_type.php',
         'App\\Models\\Currency' => __DIR__ . '/../..' . '/app/Models/Currency.php',
-<<<<<<< HEAD
         'App\\Models\\Departments' => __DIR__ . '/../..' . '/app/Models/Departments.php',
-=======
->>>>>>> 88f6abd42716f0a19e18ec02b64d6f8b55b0c205
         'App\\Models\\Deposit' => __DIR__ . '/../..' . '/app/Models/Deposit.php',
         'App\\Models\\Deposite_withdraw' => __DIR__ . '/../..' . '/app/Models/Deposite_withdraw.php',
         'App\\Models\\Details\\UserDetails' => __DIR__ . '/../..' . '/app/Models/Details/UserDetails.php',

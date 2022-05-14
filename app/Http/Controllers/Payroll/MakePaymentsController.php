@@ -13,9 +13,20 @@ use App\Models\Payroll\SalaryPayment;
 use App\Models\Payroll\SalaryPaymentDetails;
 use App\Models\Payroll\SalaryPaymentAllowance;
 use App\Models\Payroll\SalaryPaymentDeduction;
+use App\Models\Payroll\Overtime;
+use App\Models\Payroll\AdvanceSalary;
+use App\Models\Payroll\EmployeeAward;
+use App\Models\Payroll\EmployeeLoan;
+use App\Models\Payroll\EmployeeLoanReturn;
+use App\Models\Payroll\PayrollActivity;
+use App\Models\Payment_methodes;
+use App\Models\AccountCodes;
+use App\Models\JournalEntry;
 use App\Models\UserDetails\BasicDetails;
+use App\Models\User;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use  DateTime;
 
 class MakePaymentsController extends Controller
 {
@@ -48,153 +59,681 @@ class MakePaymentsController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request,$user_id = NULL, $departments_id = NULL, $payment_month = NULL)
-    {   $data['payment_flag'] = null;
-        $data['flag'] = null;
+     */ 
+    public function store(Request $request)
+    {  
+
+        $flag = $request->flag;
         $departments_id = $request->departments_id;
-        $user_id = $request->user_id;
-        $payment_month = $request->payment_month;
-        // retrive all data from department table
-                $data['all_department_info'] = Departments::all();
-                if ($user_id != 0 && !empty($payment_month)) {
-        // check payment history by employee id
+         $payment_month ='';
+        $employee_info='';
+         $allowance_info='';
+        $deduction_info='';
+        $overtime_info='';
+        $award_info='';
+       $advance_salary='';
+       $total_hours='';
+      $salary_info='';
+  $loan_info='';
+$salary_loan_info='';
+
+$all_department_info=Departments::all();
+if (!empty($flag) || !empty($departments_id)) {
+    $payment_month = $request->payment_month;    
+     $date = new DateTime($payment_month . '-01');
+        $start_date = $date->modify('first day of this month')->format('Y-m-d');
+        $end_date = $date->modify('last day of this month')->format('Y-m-d');
+  
+                          $employee_info  = EmployeePayroll::where('department_id',$departments_id)->get();
+
+
+
+}
+
+return view('payroll.make_payment',compact('employee_info','flag','payment_month','departments_id','all_department_info','start_date','end_date'));
+    }
+
+  public function getPayment($user_id,$departments_id,$payment_month)
+    {
+        //
+
+        $employee_info='';
+         $allowance_info='';
+        $deduction_info='';
+        $overtime_info='';
+        $award_info='';
+       $advance_salary='';
+       $total_hours='';
+      $salary_info='';
+ $total_paid_amount='';
+       $ttl_deduction='';
+      $ttl_allowance='';
+      $loan_info='';
+
+
+$all_department_info=Departments::all();
+if (!empty($user_id) || !empty($departments_id)) {
+        
+     $date = new DateTime($payment_month . '-01');
+        $start_date = $date->modify('first day of this month')->format('Y-m-d');
+        $end_date = $date->modify('last day of this month')->format('Y-m-d');
+
+
+
+                 // check payment history by employee id
                     $check_existing_payment = SalaryPayment::all()->where('user_id', $user_id);
-        
-                    $data['user_id'] = $user_id;
-                    $data['staff_details'] = get_staff_details($user_id);
-                    $total_slary_amount = 0;
-                    if (!empty($check_existing_payment)) {
-                        foreach ($check_existing_payment as $key => $v_paymented_id) {
-                            $salary_payment_id = $v_paymented_id->salary_payment_id;
-                            $data['emp_salary_info'] = $this->get_salary_payment_info($salary_payment_id);
-                            $data['salary_payment_info'][] = $this->get_salary_payment_info($salary_payment_id, true);
-        
-                            $this->payroll_model->_table_name = "tbl_salary_payment_details"; // table name
-                            $this->payroll_model->_order_by = "salary_payment_id"; // $id
+               
+  
+                        // get all salary Template info
+                          $employee_info  = EmployeePayroll::where('user_id', $user_id)->first();
 
-                            $salary_payment_history = SalaryPaymentDetails::all()->where('salary_payment_id', $salary_payment_id);
+                          // get all allowance info by salary template id
+                                          $allowance_info =  SalaryAllowance::where('salary_template_id',$employee_info->salary_template_id)->get();
+        // get all deduction info by salary template id
+                                         $deduction_info = SalaryDeduction::where('salary_template_id',$employee_info->salary_template_id)->get();
+                                           // get all overtime info by month and employee id
+                                      $overtime_info =Overtime::where('user_id',$user_id)->where('overtime_date','>=', $start_date)->where('overtime_date','<=', $end_date)->get();                                    
+        // get all advance salary info by month and employee id
+                                    $advance_salary= AdvanceSalary::where('user_id',$user_id)->where('deduct_month', $payment_month)->where('status', '1')->get();
+                              $loan_info= EmployeeLoanReturn::where('user_id',$user_id)->where('deduct_month', $payment_month)->where('status', '1')->get();
+        // get award info by employee id and payment month
+                                  $award_info= EmployeeAward::where('user_id',$user_id)->where('award_date', $payment_month)->get();;
+  
+                                  $total_hours = '0';
 
-                            if (!empty($salary_payment_history)) {
-                                foreach ($salary_payment_history as $v_payment_history) {
-                                    if (is_numeric($v_payment_history->salary_payment_details_value)) {
-                                        if ($v_payment_history->salary_payment_details_label == 'overtime_salary') {
-                                            $rate = $v_payment_history->salary_payment_details_value;
-                                        } elseif ($v_payment_history->salary_payment_details_label == 'hourly_rates') {
-                                            $rate = $v_payment_history->salary_payment_details_value;
-                                        }
-                                        $total_slary_amount += $v_payment_history->salary_payment_details_value;
-                                    }
-                                }
-                            }
-                           
-                            $salary_allowance_info = SalaryPaymentAllowance::all()->where('salary_payment_id', $salary_payment_id);
-                            $total_allowance = 0;
-                            if (!empty($salary_allowance_info)) {
-                                foreach ($salary_allowance_info as $v_salary_allowance_info) {
-                                    $total_allowance += $v_salary_allowance_info->salary_payment_allowance_value;
-                                }
-                            }
-                            if (!empty($rate)) {
-                                $rate = $rate;
-                            } else {
-                                $rate = 0;
-                            }
-        
-                            $data['total_paid_amount'][] = $total_slary_amount + $total_allowance - $rate;
-                            SalaryPaymentDeduction::all()->where('salary_payment_id', $salary_payment_id);
-                            $total_deduction = 0;
-                            if (!empty($salary_deduction_info)) {
-                                foreach ($salary_deduction_info as $v_salary_deduction_info) {
-                                    $total_deduction += $v_salary_deduction_info->salary_payment_deduction_value;
-                                }
-                            }
-                            $data['total_deduction'][] = $total_deduction;
-                        }
-                    }
-                    $data['payment_month'] = $payment_month;
-                    $data['payment_flag'] = 1;
-                    $data['departments_id'] = $departments_id;
-        // get employee info by employee id
-                    $data['employee_info'] = $this->get_emp_salary_list($user_id);
-        // get all allowance info by salary template id
-                    if (!empty($data['employee_info']->salary_template_id)) {
-                        $data['allowance_info'] = $this->get_allowance_info_by_id($data['employee_info']->salary_template_id);
-        // get all deduction info by salary template id
-                        $data['deduction_info'] = $this->get_deduction_info_by_id($data['employee_info']->salary_template_id);
-        // get all overtime info by month and employee id
-                        $data['overtime_info'] = $this->get_overtime_info_by_id($user_id, $data['payment_month']);
-                    }
-        // get all advance salary info by month and employee id
-                    $data['advance_salary'] = $this->get_advance_salary_info_by_id($user_id, $data['payment_month']);
-        // get award info by employee id and payment month
-        // get award info by employee id and payment date
-                    $this->payroll_model->_table_name = 'tbl_employee_award';
-                    $this->payroll_model->_order_by = 'user_id';
-                    $data['award_info'] = $this->payroll_model->get_by(array('user_id' => $user_id, 'award_date' => $data['payment_month']), FALSE);
-        // check hourly payment info
-        // if exist count total hours in a month
-        // get hourly payment info by id
-                    if (!empty($data['employee_info']->hourly_rate_id)) {
-                        $data['total_hours'] = $this->get_total_hours_in_month($user_id, $data['payment_month']);
-                    }
-                    if (!empty($data['total_hours'])) {
-                        if ($data['total_hours'] == 0 && $data['total_minutes'] == 0) {
-                            $type = 'error';
-                            $message = '<strong>' . $data['employee_info']->fullname . ' ' . '</strong>' . lang('working_hour_empty');
-                            set_message($type, $message);
-                            redirect('admin/payroll/make_payment/' . '0' . '/' . $data['employee_info']->departments_id . '/' . $data['payment_month']);
-                        }
-                    }
-                } else {
-                    $flag = $request->flag;
-                    if (!empty($flag) || !empty($departments_id)) { // check employee id is empty or not
-                        $data['flag'] = 1;
-                        if (!empty($departments_id)) {
-                            $data['departments_id'] = $departments_id;
-                        } else {
-                            $data['departments_id'] = $request->departments_id;
-                        }
-                        if (!empty($payment_month)) {
-                            $data['payment_month'] = $payment_month;
-                        } else {
-                            $data['payment_month'] = $request->payment_month;
-                        }
-        // get all designation info by Department id
-                        $designation = $data['departments_id'];
-                        if (!empty($designation)) {
-                            
-                                $data['employee_info'][] = $this->get_emp_salary_list('', $designation);
-                                $employee_info = $this->get_emp_salary_list('', $designation);
-                                foreach ($employee_info as $value) {
-        
-        // get all allowance info by salary template id
-                                    if (!empty($value->salary_template_id)) {
-                                        $data['allowance_info'][$value->user_id] = $this->get_allowance_info_by_id($value->salary_template_id);
-        // get all deduction info by salary template id
-                                        $data['deduction_info'][$value->user_id] = $this->get_deduction_info_by_id($value->salary_template_id);
-        // get all overtime info by month and employee id
-                                      //  $data['overtime_info'][$value->user_id] = $this->get_overtime_info_by_id($value->user_id, $data['payment_month']);
-                                    }
-        // get all advance salary info by month and employee id
-                                   // $data['advance_salary'][$value->user_id] = $this->get_advance_salary_info_by_id($value->user_id, $data['payment_month']);
-        // get award info by employee id and payment month
-                                   // $data['award_info'][$value->user_id] = $this->get_award_info_by_id($value->user_id, $data['payment_month']);
-        // check hourly payment info
-        // if exist count total hours in a month
-        // get hourly payment info by id
-                                    if (!empty($value->hourly_rate_id)) {
-                                        $data['total_hours'][$value->user_id] = $this->get_total_hours_in_month($value->user_id, $data['payment_month']);
-                                    }
-                                }
-                            
-                        }
-                    }
+             $all_payment_method = Payment_methodes::all();
+           $account_info=AccountCodes::where('account_group','Cash and Cash Equivalent')->get() ;
+
+
+}
+
+return view('payroll.employee_payment',compact('employee_info','allowance_info','deduction_info','overtime_info','advance_salary','award_info','total_hours','payment_month','departments_id','all_department_info','salary_info','user_id','all_payment_method','account_info','check_existing_payment','loan_info'));
+    }
+
+   public function save_payment(Request $request){
+
+   // input data
+
+     $data['user_id']=$request->user_id ;
+     $data['payment_month']=$request->payment_month ;
+       $data['fine_deduction']=$request->fine_deduction ;
+       $data['payment_type']=$request->payment_type ;
+       $data['comments']=$request->comments ;
+      $data['account_id']=$request->account_id ;
+       
+            $salary_payment=SalaryPayment::create($data);  ;
+
+    $date = new DateTime($request->payment_month . '-01');
+        $start_date = $date->modify('first day of this month')->format('Y-m-d');
+        $end_date = $date->modify('last day of this month')->format('Y-m-d');
+
+ $emp_info = User::find($request->user_id);
+ $payroll_info  = EmployeePayroll::where('user_id', $request->user_id)->first();
+ $paye_info = SalaryDeduction::where('salary_template_id',$payroll_info->salary_template_id)->where('deduction_label','PAYE')->first();
+ $nssf_info = SalaryDeduction::where('salary_template_id',$payroll_info->salary_template_id)->where('deduction_label','NSSF')->first();
+$basic=SalaryTemplate::where('salary_template_id', $payroll_info->salary_template_id)->first();
+$month= date('F Y', strtotime($request->payment_month)) ;
+
+if(!empty( $salary_payment)){ 
+$s=AccountCodes::where('account_name','Salaries And Wages')->first();   
+
+          $journal = new JournalEntry();
+        $journal->account_id = $s->account_id;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Salary Payment';
+        $journal->debit= $request->payment_amount;
+        $journal->payment_id= $salary_payment->id;
+         $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Net Salary Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+
+        $journal = new JournalEntry();
+        $journal->account_id =   $request->account_id;;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Salary Payment';
+        $journal->credit= $request->payment_amount;
+        $journal->payment_id= $salary_payment->id;
+        $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Net Salary Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+   }       
+
+ 
+            if (!empty($paye_info)) {
+$salary=AccountCodes::where('account_name','Salaries And Wages')->first();                 
+          $journal = new JournalEntry();
+        $journal->account_id = $salary->id;
+          $journal->user_id=$request->user_id ;
+       $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'PAYE Payment';
+        $journal->debit= $paye_info->deduction_value ;
+        $journal->payment_id= $salary_payment->id;
+        $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "PAYE Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+
+ $paye=AccountCodes::where('account_name','PAYE')->first();;
+   
+         $journal = new JournalEntry();
+        $journal->account_id = $paye->id;
+          $journal->user_id=$request->user_id ;
+      $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'PAYE Payment';
+        $journal->credit= $paye_info->deduction_value ;
+        $journal->payment_id= $salary_payment->id;
+       $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "PAYE Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+          
+}
+
+
+ if (!empty($nssf_info)) {
+$salary=AccountCodes::where('account_name','Salaries And Wages')->first();                 
+          $journal = new JournalEntry();
+        $journal->account_id = $salary->id;
+          $journal->user_id=$request->user_id ;
+         $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'NSSF Payment';
+        $journal->debit= $nssf_info->deduction_value ;
+        $journal->payment_id= $salary_payment->id;
+         $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "NSSF Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+          
+     $nssf=AccountCodes::where('account_name','NSSF')->first();;
+   
+         $journal = new JournalEntry();
+        $journal->account_id = $nssf->id;
+          $journal->user_id=$request->user_id ;
+     $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'NSSF Payment';
+        $journal->credit= $nssf_info->deduction_value ;
+        $journal->payment_id= $salary_payment->id;
+        $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "NSSF Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();  
+
+
+$nssf_e=AccountCodes::where('account_codes',' 1524')->first();   
+                   
+          $journal = new JournalEntry();
+        $journal->account_id =$nssf_e->id;
+          $journal->user_id=$request->user_id ;
+       $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'NSSF (Employer Contribution) Payment';
+        $journal->debit= $nssf_info->deduction_value ;
+        $journal->payment_id= $salary_payment->id;
+           $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "NSSF (Employer Contribution) Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+
+$nssf=AccountCodes::where('account_name','NSSF')->first();;
+   
+         $journal = new JournalEntry();
+        $journal->account_id = $nssf->id;
+          $journal->user_id=$request->user_id ;
+       $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'NSSF Payment';
+        $journal->credit= $nssf_info->deduction_value ;
+        $journal->payment_id= $salary_payment->id;
+          $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "NSSF Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();  
+
+          
+    }   
+
+$wcf_e=AccountCodes::where('account_name','WCF contribution')->first();;
+ 
+           $journal = new JournalEntry();
+        $journal->account_id =$wcf_e->id;
+          $journal->user_id=$request->user_id ;
+      $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'WCF Contribution Payment';
+        $journal->debit=  0.006 * $basic->basic_salary ;
+        $journal->payment_id= $salary_payment->id;
+           $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "WCF Contribution Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+
+
+ $wcf=AccountCodes::where('account_name','WCF')->first();;
+   
+                 $journal = new JournalEntry();
+        $journal->account_id =$wcf->id;
+          $journal->user_id=$request->user_id ;
+       $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'WCF Payment';
+        $journal->credit=  0.006 * $basic->basic_salary ;
+        $journal->payment_id= $salary_payment->id;
+             $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "WCF  Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+          
+$nhif_e=AccountCodes::where('account_codes','1517')->first();;
+
+        $journal = new JournalEntry();
+        $journal->account_id =$nhif_e->id;
+          $journal->user_id=$request->user_id ;
+      $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'NHIF (Heath Insurance Expense) Payment';
+        $journal->debit=  0.03 * $basic->basic_salary ;
+        $journal->payment_id= $salary_payment->id;
+             $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "NHIF (Heath Insurance Expense) Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+         
+
+ $nhif=AccountCodes::where('account_name','NHIF')->first();;
+
+        $journal = new JournalEntry();
+        $journal->account_id =$nhif->id;
+          $journal->user_id=$request->user_id ;
+      $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'NHIF Payment';
+        $journal->credit=  0.03 * $basic->basic_salary ;
+        $journal->payment_id= $salary_payment->id;
+          $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "NHIF  Payment from " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+   
+
+
+// get all allowance info by salary template id
+        if (!empty($basic->salary_template_id)) {
+            $salary_payment_details_label[] = 'Salary Grade ';
+            $salary_payment_details_value[] = $basic->salary_grade;
+
+            //$salary_payment_details_label[] = 'Basic Salary - ' .$basic->salary_grade;
+            $salary_payment_details_label[] = 'Basic Salary ';
+            $salary_payment_details_value[] = $basic->basic_salary;
+
+          
+// ************ Save all allwance info **********
+         $allowance_info = SalaryAllowance::where('salary_template_id', $payroll_info->salary_template_id)->get();
+            if (!empty($allowance_info)) {
+                foreach ($allowance_info as $v_allowance_info) {
+                    $aldata['salary_payment_id'] = $salary_payment->id;
+                    $aldata['salary_payment_allowance_label'] = $v_allowance_info->allowance_label;
+                    $aldata['salary_payment_allowance_value'] = $v_allowance_info->allowance_value;
+
+                     $salary_allowance = SalaryPaymentAllowance::create($aldata);
                 }
-               // $data['subview'] = $this->load->view('admin/payroll/make_payment', $data, TRUE);
-               //$this->load->view('admin/_layout_main', $data);
+            }
+// get all deduction info by salary template id
+// ************ Save all deduction info **********
+            $deduction_info = SalaryDeduction::where('salary_template_id', $payroll_info->salary_template_id)->get();
+            if (!empty($deduction_info)) {
+                foreach ($deduction_info as $v_deduction_info) {
+                    $salary_payment_deduction_label[] = $v_deduction_info->deduction_label;
+                    $salary_payment_deduction_value[] = $v_deduction_info->deduction_value;
+                }
+            }
 
-                return view('payroll.make_payment',compact('data'));
+
+// ************ Save all Overtime info **********
+// get all overtime info by month and employee id
+            $overtime_info =Overtime::where('user_id',$request->user_id)->where('overtime_date','>=', $start_date)->where('overtime_date','<=', $end_date)->where('status', '1')->get();
+                $overtime_ttl=0;
+               if (!empty($overtime_info[0])) {
+                foreach ($overtime_info as $v_overtime_info) {
+                    $overtime_ttl +=  $v_overtime_info->overtime_amount;
+                       Overtime::where('id', $v_overtime_info->id)->update(['status' => '3']); 
+                }
+              $salary_payment_details_label[] = 'Overtime Amount';
+            $salary_payment_details_value[] = $overtime_ttl;
+
+
+
+            $over=AccountCodes::where('account_name','Overtime')->first();   
+         if (!empty($over)) {
+          $journal = new JournalEntry();
+        $journal->account_id = $over->id;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Overtime Salary Payment';
+        $journal->debit= $overtime_ttl;
+        $journal->payment_id= $salary_payment->id;
+             $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Overtime Salary Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+     }     
+                 
+if (!empty($request->account_id)) {
+       $journal = new JournalEntry();
+        $journal->account_id =   $request->account_id;;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Overtime  Salary Payment';
+        $journal->credit=$overtime_ttl;
+        $journal->payment_id= $salary_payment->id;
+            $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Overtime  Salary Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+ }         
+            }
+}       
+// ************ Save all Advance Salary info **********
+// get all advance salary info by month and employee id
+        $advance_salary= AdvanceSalary::where('user_id',$request->user_id)->where('deduct_month', $request->payment_month)->where('status', '1')->first();
+         $total_advance=0;
+             if (!empty($advance_salary)) {
+                    $total_advance = $advance_salary->advance_amount;
+                AdvanceSalary::where('id', $advance_salary->id)->update(['status' => '3']); 
+               
+              $salary_payment_deduction_label[] = 'Advance Amount';
+            $salary_payment_deduction_value[] =   $total_advance;
+          
+            $adv=AccountCodes::where('account_name','Advance Salary')->first();   
+          $journal = new JournalEntry();
+        $journal->account_id = $adv->id;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Advance Salary Payment';
+        $journal->debit= $total_advance;
+        $journal->payment_id= $salary_payment->id;
+            $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Advance Salary Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+          
+         $journal = new JournalEntry();
+        $journal->account_id =   $request->account_id;;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Advance Salary Payment';
+        $journal->credit= $total_advance;
+        $journal->payment_id= $salary_payment->id;
+            $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Net Salary Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+          
+
+        
+            }
+     
+
+// ************ Save all Advance Salary info **********
+// get all advance salary info by month and employee id
+        $loan_info= EmployeeLoanReturn::where('user_id',$request->user_id)->where('deduct_month', $request->payment_month)->where('status', '1')->first();
+         $total_loan=0;
+             if (!empty($loan_info)) {
+                    $total_loan =$loan_info->loan_amount;
+               EmployeeLoanReturn::where('id', $loan_info->id)->update(['status' => '3']); 
+               
+              $salary_payment_deduction_label[] = 'Employee Loan';
+            $salary_payment_deduction_value[] =   $total_loan;
+
+
+$trans_info=EmployeeLoanReturn::where('id','!=',$loan_info->loan_id)->get();
+                 if (!empty($trans_info)) {
+                foreach ($trans_info as $it) {
+              if ($it->status == '3') {
+           EmployeeLoan::where('id', $loan_info->loan_id)->update(['status' => '4']);   
+           
+}
+        else {
+            EmployeeLoan::where('id', $loan_info->loan_id)->update(['status' => '3']);   
+           
+}
+}
+}
+          
+            $loan=AccountCodes::where('account_name','Employee Loan')->first();   
+          $journal = new JournalEntry();
+        $journal->account_id = $loan->id;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Employee Loan Payment';
+        $journal->debit= $total_loan;
+        $journal->payment_id= $salary_payment->id;
+        $journal->payment_month=$request->payment_month;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Employee Loan Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+          
+         $journal = new JournalEntry();
+        $journal->account_id =   $request->account_id;;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Employee Loan Payment';
+        $journal->credit= $total_loan;
+        $journal->payment_id= $salary_payment->id;
+        
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Employee Loan Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+          
+
+        
+            }
+     
+
+// get award info by employee id and payment date
+        $award_info = EmployeeAward::where('user_id',$request->user_id)->where('award_date', $request->payment_month)->where('status', '1')->get();;
+ $total_award=0;
+        if (!empty($award_info[0])) {
+            foreach ($award_info as $v_award_info) {             
+                  $total_award += $v_award_info->award_amount;
+                   EmployeeAward::where('id', $v_award_info->id)->update(['status' => '3']); 
+                }
+                $salary_payment_details_label[] ='Award Name '  ;
+                $salary_payment_details_value[] = $total_award;
+
+          
+          $award=AccountCodes::where('account_name','Employee Award')->first();   
+          $journal = new JournalEntry();
+        $journal->account_id = $award->id;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Employee Award Payment';
+        $journal->debit=$total_award;
+        $journal->payment_id= $salary_payment->id;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Employee Award Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+          
+         $journal = new JournalEntry();
+        $journal->account_id =   $request->account_id;;
+          $journal->user_id=$request->user_id ;
+        $date = explode('-', date('Y-m-d'));
+        $journal->date =   date('Y-m-d') ;
+        $journal->year = $date[0];
+        $journal->month = $date[1];
+       $journal->transaction_type = 'salary';
+        $journal->name = 'Employee Award  Payment';
+        $journal->credit=$total_award;
+        $journal->payment_id= $salary_payment->id;
+         $journal->currency_code =  'TZS';
+        $journal->exchange_rate= '1';
+        $journal->notes= "Employee Award Payment to " .$emp_info->name. "  for the month ".  $month ;
+        $journal->save();
+        }
+
+        if (!empty($salary_payment_details_label)) {
+            foreach ($salary_payment_details_label as $key => $payment_label) {
+                $details_data['salary_payment_details_label'] = $payment_label;
+                $details_data['salary_payment_details_value'] = $salary_payment_details_value[$key];
+                 $details_data['salary_payment_id'] = $salary_payment->id;
+                SalaryPaymentDetails::create($details_data);
+
+            }
+        }
+        if (!empty($salary_payment_deduction_label)) {
+            foreach ($salary_payment_deduction_label as $dkey => $deduction_label) {
+                $ddetails_data['salary_payment_id'] = $salary_payment->id;
+                $ddetails_data['salary_payment_deduction_label'] = $deduction_label;
+                $ddetails_data['salary_payment_deduction_value'] = $salary_payment_deduction_value[$dkey];
+ 
+              SalaryPaymentDeduction::create($ddetails_data);
+            }
+        }
+
+if(!empty($salary_payment)){
+                    $activity =PayrollActivity::create(
+                        [ 
+                            'added_by'=>auth()->user()->id,
+                            'module_id'=> $salary_payment->id,
+                            'module'=>'Salary Payment',
+                            'activity'=>"Salary Payment to " .$emp_info->name. "  for the month ".  $month ,
+                        ]
+                        );                      
+       }
+    
+return redirect(route('view.payment',['departments_id'=>$emp_info->department_id,'payment_month'=>$request->payment_month]))->with(['success'=>'Payment Updated Successfully']);
+}
+
+    public function viewPayment($departments_id,$payment_month)
+    {  
+
+        $flag = '1';
+        $employee_info='';
+         $allowance_info='';
+        $deduction_info='';
+        $overtime_info='';
+        $award_info='';
+       $advance_salary='';
+       $total_hours='';
+      $salary_info='';
+         $loan_info='';
+     $salary_loan_info='';
+      if(!empty($salary)){
+                    $activity =PayrollActivity::create(
+                        [ 
+                            'added_by'=>auth()->user()->id,
+                            'module_id'=>$salary->id,
+                             'module'=>'Salary Details',
+                            'activity'=>"Salary Details for  " . $dep_name->name. "  Department Updated",
+                        ]
+                        );                      
+       }
+$all_department_info=Departments::all();
+if (!empty($flag) || !empty($departments_id)) { 
+     $date = new DateTime($payment_month . '-01');
+        $start_date = $date->modify('first day of this month')->format('Y-m-d');
+        $end_date = $date->modify('last day of this month')->format('Y-m-d');
+  
+
+                          $employee_info  = EmployeePayroll::where('department_id',$departments_id)->get();
+
+
+
+}
+
+return view('payroll.make_payment',compact('employee_info','flag','payment_month','departments_id','all_department_info','start_date','end_date'));
     }
 
     public function get_allowance_info_by_id($salary_template_id)
@@ -260,6 +799,8 @@ class MakePaymentsController extends Controller
         //
     }
 
+
+   
     /**
      * Show the form for editing the specified resource.
      *

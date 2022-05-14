@@ -305,6 +305,34 @@ Route::resource('routes', 'RouteController');
 Route::get('mileageModal', 'MileagePaymentController@discountModal');
 Route::get('mileage_approve/{id}', 'MileagePaymentController@approve')->name('mileage.approve');
 
+
+
+//courier
+Route::resource('courier_list', 'Courier\CourierListController');
+Route::resource('courier_client', 'Courier\CourierClientController');
+Route::resource('courier_quotation', 'Courier\CourierController');
+Route::get('courier_invoice', 'Courier\CourierController@invoice')->name('courier.invoice');
+Route::get('findCourierPrice', 'Courier\CourierController@findPrice'); 
+Route::get('courier_approve/{id}', 'Courier\CourierController@approve')->name('courier.approve'); 
+Route::get('courier_cancel/{id}', 'Courier\CourierController@cancel')->name('courier.cancel');  
+Route::get('make_courier_payment/{id}', 'Courier\CourierController@make_payment')->name('courier.pay'); 
+Route::get('courier_pdfview',array('as'=>'courier_pdfview','uses'=>'Courier\CourierController@courier_pdfview'));
+Route::resource('courier_payment', 'Courier\CourierPaymentController');
+Route::get('courierModal', 'Courier\CourierController@discountModal');
+Route::post('newCourierDiscount', 'Courier\CourierController@newdiscount');
+Route::get('addCourierSupplier', 'Courier\CourierController@addSupplier');
+Route::get('addCourierRoute', 'Courier\CourierController@addRoute');
+
+//courier tracking
+Route::get('courier_collection', 'Courier\CourierMovementController@collection')->name('courier.collection');
+Route::get('courier_loading', 'Courier\CourierMovementController@loading')->name('courier.loading');
+Route::get('courier_offloading', 'Courier\CourierMovementController@offloading')->name('courier.offloading');
+Route::get('courier_delivering', 'Courier\CourierMovementController@delivering')->name('courier.delivering');
+Route::resource('courier_movement', 'Courier\CourierMovementController'); 
+Route::resource('courier_activity', 'Courier\CourierActivityController');
+Route::get('courier_report', 'Courier\CourierMovementController@report')->name('courier.report');
+Route::get('findCourierReport', 'Courier\CourierMovementController@findReport');
+
 //GL SETUP
 Route::resource('class_account', 'ClassAccountController');
 Route::resource('group_account', 'GroupAccountController');
@@ -335,18 +363,42 @@ Route::group(['prefix' => 'accounting'], function () {
 Route::group(['prefix' => 'payroll'], function () {
 
     Route::resource('salary_template', 'Payroll\SalaryTemplateController');
-    Route::resource('manage_salary', 'Payroll\ManageSalaryController'); 
-    Route::resource('make_payment', 'Payroll\MakePaymentsController'); 
-    Route::resource('get_payment', 'Payroll\GetPaymentController'); 
+    Route::any('manage_salary','Payroll\ManageSalaryController@getDetails');
+Route::get('addTemplate', 'Payroll\ManageSalaryController@addTemplate');
+  Route::get('manage_salary_edit/{id}','Payroll\ManageSalaryController@edit')->name('employee.edit');;;;
+  Route::delete('manage_salary_delete/{id}','Payroll\ManageSalaryController@destroy')->name('employee.destroy');;;;
+    Route::get('employee_salary_list','Payroll\ManageSalaryController@salary_list')->name('employee.salary');;;
+    Route::resource('make_payment', 'Payroll\MakePaymentsController');   
+  Route::get('make_payment/{user_id}/{departments_id}/{payment_month}', 'Payroll\MakePaymentsController@getPayment')->name('payment'); 
+  Route::post('save_payment','Payroll\MakePaymentsController@save_payment')->name('save_payment');;;;
+  Route::get('make_payment/{departments_id}/{payment_month}', 'Payroll\MakePaymentsController@viewPayment')->name('view.payment'); 
+    Route::resource('advance_salary', 'Payroll\AdvanceController'); 
+   Route::get('findAmount', 'Payroll\AdvanceController@findAmount'); 
+      Route::get('findMonth', 'Payroll\AdvanceController@findMonth');   
+  Route::get('advance_approve/{id}', 'Payroll\AdvanceController@approve')->name('advance.approve'); 
+Route::get('advance_reject/{id}', 'Payroll\AdvanceController@reject')->name('advance.reject'); 
+Route::resource('employee_loan', 'Payroll\EmployeeLoanController'); 
+ Route::get('findLoan', 'Payroll\EmployeeLoanController@findLoan');  
+  Route::get('employee_loan_approve/{id}', 'Payroll\EmployeeLoanController@approve')->name('employee_loan.approve'); 
+Route::get('employee_loan_reject/{id}', 'Payroll\EmployeeLoanController@reject')->name('employee_loan.reject'); 
+   Route::resource('overtime', 'Payroll\OvertimeController'); 
+  Route::get('overtime_approve/{id}', 'Payroll\OvertimeController@approve')->name('overtime.approve'); 
+Route::get('overtime_reject/{id}', 'Payroll\OvertimeController@reject')->name('overtime.reject'); 
+   Route::get('findOvertime', 'Payroll\OvertimeController@findAmount'); 
+ Route::any('nssf', 'Payroll\GetPaymentController@nssf'); 
+ Route::any('tax', 'Payroll\GetPaymentController@tax'); 
+ Route::any('nhif', 'Payroll\GetPaymentController@nhif'); 
+ Route::any('wcf', 'Payroll\GetPaymentController@wcf'); 
+Route::any('payroll_summary', 'Payroll\GetPaymentController@payroll_summary'); 
+ Route::any('generate_payslip', 'Payroll\GetPaymentController@generate_payslip'); 
+ Route::any('received_payslip/{id}', 'Payroll\GetPaymentController@received_payslip')->name('payslip.generate'); 
+Route::get('payslip_pdfview',array('as'=>'payslip_pdfview','uses'=>'Payroll\GetPaymentController@payslip_pdfview'));
+
+Route::post('save_salary_details',array('as'=>'save_salary_details','uses'=>'Payroll\ManageSalaryController@save_salary_details'));
+    Route::get('employee_salary_list',array('as'=>'employee_salary_list','uses'=>'Payroll\ManageSalaryController@employee_salary_list'));
     Route::resource('get_payment2', 'Payroll\GetPayment2Controller');
     Route::resource('make_payment2', 'Payroll\MakePayments2Controller'); 
-    //Route::post('make_payment/store{user_id}{departments_id}{payment_month}', 'Payroll\MakePaymentsController@store')->name('make_payment.store'); 
-    Route::post('manage_salary_details','Payroll\ManageSalaryController@getDetails');
-    Route::get('manage_salary_details',array('as'=>'manage_salary_details','uses'=>'Payroll\ManageSalaryController@getDetails'));
-    Route::post('save_salary_details',array('as'=>'save_salary_details','uses'=>'Payroll\ManageSalaryController@save_salary_details'));
-    Route::get('employee_salary_list',array('as'=>'employee_salary_list','uses'=>'Payroll\ManageSalaryController@employee_salary_list'));
-    
-
+   //Route::post('make_payment/store{user_id}{departments_id}{payment_month}', 'Payroll\MakePaymentsController@store')->name('make_payment.store'); 
     
 });
 
@@ -378,9 +430,12 @@ Route::group(['prefix' => 'payroll'], function () {
     });
 
 Route::resource('permissions', 'PermissionController');
+Route::resource('departments', 'DepartmentController');
+Route::resource('designations', 'DesignationController');
 Route::resource('roles', 'RoleController');
 
 Route::resource('users', 'UsersController'); 
+Route::get('findDepartment', 'UsersController@findDepartment');  
 Route::resource('users_details', 'User\UserDetailsController');
 
 Route::resource('clients', 'ClientController');

@@ -15,7 +15,7 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-6">
-                                    <label for="company_name">{{__('company.company_name')}}</label>
+                                    <label for="company_name">{{__('company.company_name')}}==</label>
                                     <input id="company_name" type="text" class="form-control" name="company_name"
                                         autofocus>
                                     @error('company_name')

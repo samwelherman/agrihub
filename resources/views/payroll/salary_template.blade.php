@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <!-- Tabs within a box -->
                         <ul class="nav nav-tabs">
-                            <li class="nav-item <?= $active == 1 ? 'active' : ''; ?>"><a
+                            <li class="nav-item"><a
                                     class="nav-link @if(empty($id)) active show @endif" href="#home2"
                                     data-toggle="tab">Sallary
                                     Template List</a>
@@ -32,37 +32,58 @@
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2">
 
                                 <div class="table-responsive">
-                                    <table class="table table-striped " id="processDatatable" cellspacing="0"
-                                        width="100%">
+                                    <table class="table table-striped " id="table-1">
                                         <thead>
                                             <tr>
-                                                <th class="col-sm-1">#</th>
+                                                <th >#</th>
                                                 <th>Salary Grade</th>
                                                 <th>Basic Salary</th>
-                                                <th>Over Time
-                                                    <small>(Per Hour)</small>
-                                                </th>
-                                                <th class="col-sm-2">Action</th>
+                                           
+                                                <th class="col-sm-3">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <script type="text/javascript">
-                                            $(document).ready(function() {
-                                                list = base_url + "admin/payroll/salary_templateList";
-                                            });
-                                            </script>
-                                        </tbody>
+                                       
+                                                                @if(!@empty($salary))
+                                                                @foreach ($salary as $row)
+                                                                <tr class="gradeA even" role="row">
+                                                                    <th>{{ $loop->iteration }}</th>
+                                                                    <td>{{$row->salary_grade}}</td>
+                                                                      <td>{{number_format($row->basic_salary,2)}}</td>
+                              
+                          <td><div class="form-inline">
+                      <div class = "input-group"> 
+                <a href="#"  class="btn btn-outline-success btn-xs" title="View"  data-toggle="modal" data-target="#appFormModal"  data-id="{{ $row->salary_template_id }}" data-type="template"   onclick="model({{ $row->salary_template_id }},'template')">
+                        <i class="fa fa-eye"></i></a>                                                             
+                    </div>&nbsp
+                      <div class = "input-group"> 
+                      <a href="{{ route("salary_template.edit", $row->salary_template_id)}}" class="btn btn-outline-primary btn-xs" title="Edit"><i class="fa fa-edit"></i></a> 
+                   </div>&nbsp
+                      <div class = "input-group"> 
+         {!! Form::open(['route' => ['salary_template.destroy',$row->salary_template_id], 'method' => 'delete']) !!}                                                   
+                                                                    {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-outline-danger  btn-xs ', 'title' => 'Delete', 'onclick' => "return confirm('Are you sure?')"]) }}
+                                                                    {{ Form::close() }}
+                </div>
+                    </div></td>      
+                                                               
+                                                                </tr>
+                                                                @endforeach
+                                
+                                                                @endif
+                                
+                                                            </tbody>
+                                       
                                     </table>
                                 </div>
                             </div>
                             <?php if (!empty($created) || !empty($edited)) { ?>
-                            <div class="tab-pane " id="profile2">
+                            <div class="tab-pane fade @if(!empty($id)) active show @endif" id="profile2">
                                 <div class="card">
                                     <div class="card-header">
                                         @if(empty($id))
                                         <h5>Create Template</h5>
                                         @else
-                                        <h5>Edit Purchase</h5>
+                                        <h5>Edit Template</h5>
                                         @endif
                                     </div>
                                     <div class="card-body">
@@ -85,7 +106,7 @@
                                                                     <label class="control-label">Salary
                                                                         Grade<span class="required">
                                                                             *</span></label> </label>
-                                                                    <input type="text" name="salary_grade" value="<?php
+                                                                    <input type="text" required name="salary_grade" value="<?php
                                                                                       if (!empty($salary_template_info->salary_grade)) {
                                                                                           echo $salary_template_info->salary_grade;
                                                                                       }
@@ -98,27 +119,14 @@
                                                                             *</span>
                                                                     </label>
                                                                     <input type="text" data-parsley-type="number"
-                                                                        name="basic_salary" value="<?php
+                                                                        name="basic_salary" required value="<?php
                                                                                  if (!empty($salary_template_info->basic_salary)) {
                                                                               echo $salary_template_info->basic_salary;
                                                                                 }
                                                                        ?>" class="salary form-control basic_salary"
                                                                         required placeholder="Basic Salary">
                                                                 </div>
-                                                                <div class="">
-                                                                    <label class="control-label">Over
-                                                                        Time
-                                                                        Rate
-                                                                        <small> ( Per Hour)</small>
-                                                                    </label>
-                                                                    <input type="text" data-parsley-type="number"
-                                                                        name="overtime_salary" value="<?php
-                                                                                if (!empty($salary_template_info->overtime_salary)) {
-                                                                                    echo $salary_template_info->overtime_salary;
-                                                                                }
-                                                                                ?>" class="form-control"
-                                                                        placeholder="Enter Over Time Rate">
-                                                                </div>
+                                                               
 
                                                             </div>
                                                         </div>
@@ -133,7 +141,9 @@
                                                             <div class="card-body">
                                                                 <?php
                                                                            $total_salary = 0;
-                                                                           if (!empty($salary_allowance_info)):foreach ($salary_allowance_info as $v_allowance_info):?>
+                                                                  ?>
+                                                                           @if (!empty($salary_allowance_info[0]))
+                                                                     @foreach ($salary_allowance_info as $v_allowance_info)
                                                                 <div class="">
                                                                     <input type="text"
                                                                         style="margin:5px 0px;height: 28px;width: 56%;"
@@ -145,11 +155,11 @@
                                                                         class="salary form-control">
                                                                     <input type="hidden" name="salary_allowance_id[]"
                                                                         value="<?php echo $v_allowance_info->salary_allowance_id; ?>"
-                                                                        class="salary form-control">
+                                                                        class="form-control">
                                                                 </div>
                                                                 <?php $total_salary += $v_allowance_info->allowance_value; ?>
-                                                                <?php endforeach; ?>
-                                                                <?php else: ?>
+                                                                 @endforeach
+                                                                @else
                                                                 <div class="">
                                                                     <label class="control-label">House Rent
                                                                         Allowance
@@ -165,8 +175,8 @@
                                                                         name="medical_allowance" value=""
                                                                         class="salary form-control">
                                                                 </div>
-                                                                <?php endif; ?>
-                                                                <div id="add_new">
+                                                               @endif
+                                                                <br><div id="add_new">
                                                                 </div>
                                                                 <div class="margin">
                                                                     <strong><a href="javascript:void(0);" id="add_more"
@@ -185,7 +195,7 @@
                                                             <div class="card-body">
                                                                 <?php
                                                                           $total_deduction = 0;
-                                                                          if (!empty($salary_deduction_info)):foreach ($salary_deduction_info as $v_deduction_info):
+                                                                          if (!empty($salary_deduction_info[0])):foreach ($salary_deduction_info as $v_deduction_info):
                                                                               ?>
                                                                 <div class="">
                                                                     <input type="text"
@@ -196,34 +206,44 @@
                                                                     <input type="text" data-parsley-type="number"
                                                                         name="deduction_value[]"
                                                                         value="<?php echo $v_deduction_info->deduction_value; ?>"
-                                                                        class="deduction form-control">
+                                                                        class="deduction form-control <?php echo $v_deduction_info->deduction_label; ?>">
                                                                     <input type="hidden" name="salary_deduction_id[]"
                                                                         value="<?php echo $v_deduction_info->salary_deduction_id; ?>"
-                                                                        class="deduction form-control">
+                                                                        class="form-control ">
                                                                 </div>
                                                                 <?php $total_deduction += $v_deduction_info->deduction_value ?>
                                                                 <?php endforeach; ?>
                                                                 <?php else: ?>
                                                                 <div class="">
                                                                     <label class="control-label">Social Security
-                                                                        (NSSF)
+                                                                        (NSSF) <span class="required">
+                                                                            *</span>
                                                                     </label>
                                                                     <input type="text" data-parsley-type="number"
-                                                                        disabled class="form-control provident_fund">
+                                                                        disabled class="form-control NSSF">
                                                                     <input type="hidden" data-parsley-type="number"
                                                                         name="provident_fund"
-                                                                        class="deduction form-control provident_fund">
+                                                                        class="deduction form-control NSSF">
                                                                 </div>
                                                                 <div class="">
-                                                                    <label class="control-label">PAYE
+                                                                    <label class="control-label">PAYE <span class="required">
+                                                                            *</span>
                                                                     </label>
                                                                     <input type="text" data-parsley-type="number"
-                                                                        disabled class="form-control tax_deduction">
+                                                                        disabled class="form-control PAYE">
                                                                     <input type="hidden" data-parsley-type="number"
                                                                         name="tax_deduction"
-                                                                        class="deduction form-control tax_deduction">
+                                                                        class="deduction form-control PAYE">
                                                                 </div>
+                                                                    <div class="">
+                                            <label class="control-label">HESLB </label>
+                                            <input type="text" data-parsley-type="number" 
+                                                   class="deduction form-control HESLB">
+                                            <input type="hidden" data-parsley-type="number" name="heslb"
+                                                   class="deduction form-control HESLB ">
+                                        </div>
                                                                 <?php endif; ?>
+<br>
                                                                 <div id="add_new_deduc">
                                                                 </div>
                                                                 <div class="margin">
@@ -337,17 +357,50 @@
         </div>
     </div>
 </section>
-
+<!-- discount Modal -->
+<div class="modal inmodal show" id="appFormModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    </div>
+</div>
+</div>
+</div>
 @endsection
 
 @section('scripts')
+<script type="text/javascript">
+    function model(id, type) {
+
+        let url = '{{ route("salary_template.show", ":id") }}';
+        url = url.replace(':id', id)
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: {
+                'type': type,
+            },
+            cache: false,
+            async: true,
+            success: function(data) {
+                //alert(data);
+                $('.modal-dialog').html(data);
+            },
+            error: function(error) {
+                $('#appFormModal').modal('toggle');
+
+            }
+        });
+
+    }
+    </script>
+
 <script type="text/javascript">
 $(document).ready(function() {
     var maxAppend = 0;
     $("#add_more").click(function() {
         var add_new = $(
             '<div class="row">\n\
-    <div class="col-sm-12"><input type="text" name="allowance_label[]" style="margin:5px 0px;height: 28px;width: 56%;" class="form-control"  placeholder="Enter Allowance lable" required ></div>\n\
+    <div class="col-sm-12"><input type="text" name="allowance_label[]" style="margin:5px 0px;height: 28px;width: 56%;" class="form-control"  placeholder="Enter Allowance label" required ></div>\n\
 <div class="col-sm-9"><input  type="text" data-parsley-type="number" name="allowance_value[]" placeholder="Enter Allowance Value" required  value="<?php
                 if (!empty($emp_salary->allowance_value)) {
                     echo $emp_salary->allowance_value;
@@ -365,135 +418,88 @@ $(document).ready(function() {
 });
 </script>
 <script type="text/javascript">
-$(document).ready(function() {
-    var maxAppend = 0;
-    window.onload = function() {
-        var add_new = $(
-            '<div class="row">\n\
-    <div class="col-sm-12"><input type="text" name="deduction_label[]" style="margin:5px 0px;height: 28px;width: 56%;" class="form-control" placeholder="Enter Deduction Lable" required></div>\n\
-<div class="col-sm-9"><input  type="text" data-parsley-type="number" name="deduction_value[]" placeholder="Enter Deduction Value" required  value="<?php
-                if (!empty($emp_salary->other_deduction)) {
-                    echo $emp_salary->other_deduction;
-                }
-                ?>"  class="deduction form-control"></div>\n\
-<div class="col-sm-3"><strong><a href="javascript:void(0);" class="remCF_deduc"><i class="fa fa-times"></i>&nbsp;Remove</a></strong></div></div>'
-        );
-        maxAppend++;
-        $("#add_new_deduc").append(add_new);
-    };
-    $("#add_more_deduc").click(function() {
-        var add_new = $(
-            '<div class="row">\n\
-    <div class="col-sm-12"><input type="text" name="deduction_label[]" style="margin:5px 0px;height: 28px;width: 56%;" class="form-control" placeholder="Enter Deduction Lable" required></div>\n\
-<div class="col-sm-9"><input  type="text" data-parsley-type="number" name="deduction_value[]" placeholder="Enter Deduction Value" required  value="<?php
-                if (!empty($emp_salary->other_deduction)) {
-                    echo $emp_salary->other_deduction;
-                }
-                ?>"  class="deduction form-control"></div>\n\
-<div class="col-sm-3"><strong><a href="javascript:void(0);" class="remCF_deduc"><i class="fa fa-times"></i>&nbsp;Remove</a></strong></div></div>'
-        );
-        maxAppend++;
-        $("#add_new_deduc").append(add_new);
+ $(document).ready(function () {
+        var maxAppend = 0;
+        $("#add_more_deduc").click(function () {
+            var add_new = $('<div class="row">\n\
+    <div class="col-sm-12"><input type="text" name="deduction_label[]" style="margin:5px 0px;height: 28px;width: 56%;" class="form-control" placeholder="Enter Deductions Label" required></div>\n\
+<div class="col-sm-9"><input  type="text" data-parsley-type="number" name="deduction_value[]" placeholder="Enter Deductions Value" required  value=""  class="deduction form-control"></div>\n\
+<div class="col-sm-3"><strong><a href="javascript:void(0);" class="remCF_deduc"><i class="fa fa-times"></i>&nbsp;Remove</a></strong></div></div>');
+            maxAppend++;
+            $("#add_new_deduc").append(add_new);
 
-    });
+        });
 
-    $("#add_new_deduc").on('click', '.remCF_deduc', function() {
-        $(this).parent().parent().parent().remove();
+        $("#add_new_deduc").on('click', '.remCF_deduc', function () {
+            $(this).parent().parent().parent().remove();
+        });
     });
-});
 </script>
 <script type="text/javascript">
-$(document).on("change", function() {
-    var sum = 0;
-    var basic_salary = 0;
-    var deduc = 0;
+ $(document).on("change", function () {
+        var sum = 0;
+        var basic_salary= 0;
+        var deduc = 0;
 
-    $(".salary").each(function() {
-        sum += +$(this).val();
+        $(".salary").each(function () {
+            sum += +$(this).val();
+         console.log(sum);
+        });
+         $(".basic_salary").each(function () {
+            basic_salary += +$(this).val();
+        });
+        
+        var provident_fund = ((basic_salary * 10 / 100 )).toFixed(2);
+        $(".NSSF").val(provident_fund);
+        
+              
+        
+
+      var sub_total=sum- provident_fund ;
+
+
+        var total_tax = tax_deduction_rule(sub_total);
+
+        $(".PAYE").val(total_tax);
+
+    
+
+        $(".deduction").each(function () {
+            deduc += +$(this).val();
+        });
+        
+        var ctc = $("#ctc").val();
+        $("#total").val(sum.toFixed(2));
+
+        $("#deduc").val(deduc.toFixed(2));
+        var net_salary = 0;
+        net_salary = (sum - deduc).toFixed(2);
+        $("#net_salary").val(net_salary);
     });
-    $(".basic_salary").each(function() {
-        basic_salary += +$(this).val();
-    });
 
-    var provident_fund = ((basic_salary * 10 / 100)).toFixed(2);
-    $(".provident_fund").val(provident_fund);
-
-    var sub_tax = sum - provident_fund;
-
-    var total_tax = tax_deduction_rule(sub_tax);
-    $(".tax_deduction").val(total_tax);
-
-    $(".deduction").each(function() {
-        deduc += +$(this).val();
-    });
-
-    var ctc = $("#ctc").val();
-    $("#total").val(sum.toFixed(2));
-
-    $("#deduc").val(deduc.toFixed(2));
-    var net_salary = 0;
-    net_salary = (sum - deduc).toFixed(2);
-    $("#net_salary").val(net_salary);
-});
-
-function tax_deduction_rule(tax) {
-    if (tax < 270000) {
-        return "0";
-    } else if (tax >= 270000 && tax < 520000) {
-        return (0.08 * (tax - 270000)).toFixed(2);
-    } else if (tax >= 520000 && tax < 760000) {
-        var tr = (tax - 520000);
-        var ttotal = (tr * 20 / 100);
-        return ((20000 + ttotal)).toFixed(2);
-    } else if (tax >= 760000 && tax < 1000000) {
-        var tr = (tax - 760000);
-        var ttotal = (tr * 25 / 100);
-        return ((68000 + ttotal)).toFixed(2);
-    } else if (tax >= 1000000) {
-        var tr = (tax - 1000000);
-        var ttotal = (tr * 30 / 100);
-        return ((128000 + ttotal)).toFixed(2);
+    function tax_deduction_rule(tax) {
+        if (tax < 270000) {
+            return "0";
+        }
+        else if (tax >= 270000 && tax < 520000) {
+            return (0.08 * (tax - 270000)).toFixed(2);
+        }
+        else if (tax >= 520000 && tax < 760000) {
+            var tr = (tax - 520000);
+            var ttotal = ( tr * 20 / 100 );
+            return ((20000 + ttotal)).toFixed(2);
+        }
+        else if (tax >= 760000 && tax < 1000000) {
+            var tr = (tax - 760000);
+            var ttotal = ( tr * 25 / 100 );
+            return ((68000 + ttotal)).toFixed(2);
+        } else if (tax >= 1000000) {
+            var tr = (tax - 1000000);
+            var ttotal = ( tr * 30 / 100 );
+            return ((128000 + ttotal)).toFixed(2);
+        }
     }
-}
 
-$(function() {
-    let urlcontract = "{{ route('salary_template.index') }}";
-    $('#processDatatable').DataTable({
-        processing: false,
-        serverSide: true,
-        lengthChange: true,
-        searching: true,
-        type: 'GET',
-        ajax: {
-            url: urlcontract,
-        },
-        columns: [{
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: 'salary_grade',
-                name: 'salary_grade'
-            },
-            {
-                data: 'basic_salary',
-                name: 'basic_salary'
-            },
-            {
-                data: 'overtime_salary',
-                name: 'overtime_salary'
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: true,
-                searchable: true
-            },
 
-        ]
-    })
-});
 </script>
 @endsection

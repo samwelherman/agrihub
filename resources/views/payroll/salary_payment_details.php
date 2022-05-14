@@ -1,324 +1,189 @@
-<div id="printableArea">
-    <div class="modal-header ">
-        <h4 class="modal-title" id="myModalLabel"><?= lang('salary_payment_details') ?>
-            <div class="pull-right">
-                <a href="<?= base_url() ?>admin/payroll/send_payslip/<?= $salary_payment_info->salary_payment_id ?>"
-                   class="btn btn-success btn-xs" data-toggle="tooltip"
-                   data-placement="top" title="" data-original-title="<?= lang('send_email') ?>"><span <i
-                        class="fa fa-envelope-o"></i></span></a>
-
-                <span><?php echo btn_pdf('admin/payroll/salary_payment_details_pdf/' . $salary_payment_info->salary_payment_id); ?></span>
-                <button class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" data-placement="top"
-                        title="<?= lang('print') ?>"
-                        onclick="printDiv('printableArea')"><i class="fa fa-print"></i></button>
-            </div>
-        </h4>
-    </div>
-    <div class="modal-body wrap-modal wrap">
-        <div class="show_print" style="width: 100%; border-bottom: 2px solid black;margin-bottom: 30px">
-            <table style="width: 100%; vertical-align: middle;">
-                <tr>
-                    <td style="width: 50px; border: 0px;">
-                        <img style="width: 50px;height: 50px;margin-bottom: 5px;"
-                             src="<?= base_url() . config_item('company_logo') ?>" alt="" class="img-circle"/>
-                    </td>
-
-                    <td style="border: 0px;">
-                        <p style="margin-left: 10px; font: 14px lighter;"><?= config_item('company_name') ?></p>
-                    </td>
-                </tr>
-            </table>
-        </div><!-- show when print start-->
-        <div class="col-lg-12">
-            <div class="row">
-                <div class="col-lg-2 col-sm-2">
-                    <div class="fileinput-new thumbnail"
-                         style="width: 144px; height: 158px; margin-top: 14px; margin-left: 16px; background-color: #EBEBEB;">
-                        <?php if ($salary_payment_info->avatar): ?>
-                            <img src="<?php echo base_url() . $salary_payment_info->avatar; ?>"
-                                 style="width: 142px; height: 148px; border-radius: 3px;">
-                        <?php else: ?>
-                            <img src="<?php echo base_url() ?>/img/user.png" alt="Employee_Image">
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="col-lg-1 col-sm-1">
-                    &nbsp;
-                </div>
-                <div class="col-lg-8 col-sm-8 ">
-                    <div>
-                        <div style="margin-left: 20px;">
-                            <h3><?php echo $salary_payment_info->fullname; ?></h3>
-                            <hr class="mt0"/>
-                            <table class="table-hover">
-                                <tr>
-                                    <td><strong><?= lang('emp_id') ?></strong> :</td>
-                                    <td>&nbsp;&nbsp;&nbsp;</td>
-                                    <td><?php echo "$salary_payment_info->employment_id"; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong><?= lang('departments') ?></strong> :</td>
-                                    <td>&nbsp;&nbsp;&nbsp;</td>
-                                    <td><?php echo "$salary_payment_info->deptname"; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong><?= lang('designation') ?></strong> :</td>
-                                    <td>&nbsp;&nbsp;&nbsp;</td>
-                                    <td><?php echo "$salary_payment_info->designations"; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong><?= lang('joining_date') ?></strong> :</td>
-                                    <td>&nbsp;&nbsp;&nbsp;</td>
-                                    <td><?= strftime(config_item('date_format'), strtotime($salary_payment_info->joining_date)) ?></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title" id="formModal" >Employee Payment Details</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+       
+        <div class="modal-body">
+          <?php
+            $total_advance = 0;
+                                        if (!empty($advance_salary)) {
+                                            foreach ($advance_salary as  $v_advance) {                                            
+                                                    $total_advance += $v_advance->advance_amount;                                               
+                                            }
+                                        }
+                                       $total_award = 0;
+                                        if (!empty($award_info)) {
+                                            foreach ($award_info as  $v_award_info) {
+                                                    $total_award += $v_award_info->award_amount;
+                                            }
+                                        }
+                                     $total_amount=0;
+                                        if (!empty($overtime_info)) {
+                                            foreach ($overtime_info as  $v_overtime) {                                    
+                                                    $total_amount += $v_overtime->overtime_amount;
+                                                
+                                            }
+                                        }
 
-        <div class="row form-horizontal">
-            <!-- ********************************* Salary Details Panel ***********************-->
-            <div class="panel panel-custom">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <strong><?= lang('salary_details') ?></strong>
+                                              $total_loan = 0;
+                                        if (!empty($loan_info)) {
+                                            foreach ($loan_info as  $v_loan) {                                            
+                                                    $total_loan += $v_loan->loan_amount;                                               
+                                            }
+                                        }
+
+?>
+
+         <div class="">                            
+                        <p class="form-control-static" style="text-align:center;"><strong>Employee Name  : </strong><?php echo  $salary_grade_info->user->name; ?></p>
                     </div>
-                </div>
-                <div class="panel-body">
+  <div class="">                            
+                        <p class="form-control-static" style="text-align:center;"><strong>Department  : </strong><?php echo $employee_info->department->name; ?></p>
+                    </div>
+  <div class="">                            
+                        <p class="form-control-static" style="text-align:center;"><strong>Designation  : </strong><?php echo $employee_info->designation->name ?></p>
+                    </div>
+
+   <div class="">                            
+                       <h5> SALARY DETAILS</h5>
+                    </div>
+<hr><br>
+     <div class="">                            
+                        <p class="form-control-static" style="text-align:center;"><strong>Salary Month  : </strong><?php echo date('F Y', strtotime($payment_month)); ?></p>
+                    </div>
+           <div class="">                            
+                        <p class="form-control-static" style="text-align:center;"><strong>Salary Grade  : </strong><?php echo  $salary_grade_info->salaryTemplates->salary_grade; ?></p>
+                    </div>
                     <div class="">
-                        <label for="field-1" class="col-sm-5 control-label"><strong><?= lang('salary_month') ?>
-                                :</strong></label>
-                        <p class="form-control-static"><?php echo date('F Y', strtotime($salary_payment_info->payment_month)); ?></p>
+                            <p class="form-control-static" style="text-align:center;"><strong>Basic Salary : </strong><?php echo number_format( $salary_grade_info->salaryTemplates->basic_salary,2); ?></p>    
                     </div>
                     <?php
-                    $curency = $this->db->where('code', config_item('default_currency'))->get('tbl_currencies')->row();
-                    $total_hours_amount = 0;
-                    $rate = 0;
-                    foreach ($salary_payment_details_info as $v_payment_details) :
-                        ?>
-                        <div class="">
-                            <label for="field-1"
-                                   class="col-sm-5 control-label"><strong><?php
-                                    if ($v_payment_details->salary_payment_details_label == 'overtime_salary' || $v_payment_details->salary_payment_details_label == 'hourly_rates') {
-                                        $small = ($v_payment_details->salary_payment_details_label == 'overtime_salary' ? ' <small>( ' . lang('per_hour') . ')</small>' : '');
-                                        $label = lang($v_payment_details->salary_payment_details_label) . $small;
-                                    } else {
-                                        $label = $v_payment_details->salary_payment_details_label;
-                                    }
-                                    echo $label; ?>
-                                    :</strong> </label>
-
-                            <p class="form-control-static"><?php
-                                if (is_numeric($v_payment_details->salary_payment_details_value)) {
-                                    if ($v_payment_details->salary_payment_details_label == 'overtime_salary') {
-                                        $rate = $v_payment_details->salary_payment_details_value;
-                                    } elseif ($v_payment_details->salary_payment_details_label == 'hourly_rates') {
-                                        $rate = $v_payment_details->salary_payment_details_value;
-                                    }
-                                    $total_hours_amount += $v_payment_details->salary_payment_details_value;
-                                    echo display_money($v_payment_details->salary_payment_details_value, $curency->symbol);
-                                } else {
-                                    echo $v_payment_details->salary_payment_details_value;
-                                }
-                                ?></p>
-                        </div>
-                        <?php
-                    endforeach;
-                    ?>
-                    <!-- ***************** Salary Details  Ends *********************-->
-
-                    <!-- ******************-- Allowance Panel Start **************************-->
-                    <?php
-                    $total_allowance = 0;
-                    if (!empty($allowance_info)):
-                        ?>
-                        <div class="col-sm-6">
-                            <div class="panel panel-custom">
-                                <div class="panel-heading">
-                                    <div class="panel-title">
-                                        <strong><?= lang('allowances') ?></strong>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <?php
-                                    foreach ($allowance_info as $v_allowance) :
-                                        ?>
-                                        <div class="">
-                                            <label
-                                                class="col-sm-6 control-label"><strong><?php echo $v_allowance->salary_payment_allowance_label ?>
-                                                    : </strong></label>
-                                            <p class="form-control-static"><?php
-                                                echo display_money($v_allowance->salary_payment_allowance_value, $curency->symbol);
-                                                ?></p>
-                                        </div>
-                                        <?php
-                                        $total_allowance += $v_allowance->salary_payment_allowance_value;
-                                    endforeach;
-                                    ?>
-                                </div>
-                            </div>
-                        </div><!-- ********************Allowance End ******************-->
-                    <?php endif; ?>
-
-                    <!-- ************** Deduction Panel Column  **************-->
-                    <?php
-                    $deduction = 0;
-                    if (!empty($deduction_info)):
-                        ?>
-                        <div class="col-sm-6">
-                            <div class="panel panel-custom">
-                                <div class="panel-heading">
-                                    <div class="panel-title">
-                                        <strong><?= lang('deductions') ?></strong>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <?php
-                                    if (!empty($deduction_info)):foreach ($deduction_info as $v_deduction):
-                                        ?>
-                                        <div class="">
-                                            <label
-                                                class="col-sm-6 control-label"><strong><?php echo $v_deduction->salary_payment_deduction_label; ?>
-                                                    : </strong></label>
-                                            <p class="form-control-static"><?php
-                                                echo display_money($v_deduction->salary_payment_deduction_value, $curency->symbol);
-                                                ?></p>
-                                        </div>
-                                        <?php
-                                        $deduction += $v_deduction->salary_payment_deduction_value;
-                                    endforeach;
-                                        ?>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div><!-- ****************** Deduction End  *******************-->
-                    <?php endif; ?>
-                </div>
-            </div>
-            <div class="col-sm-8 pull-right">
-                <div class="panel panel-info">
+               if($total_amount > 0){ ?>
+                      <div class="">
+                            <p class="form-control-static" style="text-align:center;"><strong>Overtime : </strong><?php echo number_format($total_amount ,2); ?></p>    
+                    </div>
+                <?php } ?>
+ <?php
+               if($total_award > 0){ ?>
+                      <div class="">
+                            <p class="form-control-static" style="text-align:center;"><strong>Award  : </strong><?php echo number_format($total_award ,2); ?></p>    
+                    </div>
+                <?php } ?>
+<hr><br>
+<div class="row">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="panel panel-custom">
                     <div class="panel-heading">
                         <div class="panel-title">
-                            <strong><?= lang('total_salary_details') ?></strong>
+                            <h5> ALLOWANCES</h5><br>
                         </div>
                     </div>
                     <div class="panel-body">
-
-                        <div class="">
-                            <label class="col-sm-6 control-label"><strong><?= lang('gross_salary') ?>
-                                    : </strong></label>
-                            <p class="form-control-static"><?php
-                                if (!empty($rate)) {
-                                    $rate = $rate;
-                                } else {
-                                    $rate = 0;
-                                }
-                                $gross = $total_hours_amount + $total_allowance - $rate;
-                                echo display_money($gross, $curency->symbol);
-                                ?></p>
-                        </div>
-                        <div class="">
-                            <label class="col-sm-6 control-label"><strong><?= lang('total_deduction') ?>
-                                    : </strong></label>
-                            <p class="form-control-static"><?php
-                                $total_deduction = $deduction;
-                                echo display_money($total_deduction, $curency->symbol);
-                                ?></p>
-                        </div>
-                        <div class="">
-                            <label class="col-sm-6 control-label"><strong><?= lang('net_salary') ?> : </strong></label>
-                            <p class="form-control-static"><?php
-                                $net_salary = $gross - $total_deduction;
-                                echo display_money($net_salary, $curency->symbol);
-                                ?></p>
-                        </div>
-                        <?php if (!empty($salary_payment_info->fine_deduction)): ?>
-                            <div class="">
-                                <label class="col-sm-6 control-label"><strong><?= lang('fine_deduction') ?> : </strong></label>
-                                <p class="form-control-static"><?php
-                                    echo display_money($salary_payment_info->fine_deduction, $curency->symbol);
-                                    ?></p>
-                            </div>
-                        <?php endif; ?>
-                        <div class="">
-                            <label class="col-sm-6 control-label"><strong><?= lang('paid_amount') ?> : </strong></label>
-                            <p class="form-control-static"><?php
-                                if (!empty($salary_payment_info->fine_deduction)) {
-                                    $paid_amount = $net_salary - $salary_payment_info->fine_deduction;
-                                } else {
-                                    $paid_amount = $net_salary;
-                                }
-                                echo display_money($paid_amount, $curency->symbol);
-                                ?></p>
-                        </div>
-                        <?php if (!empty($salary_payment_info->payment_type)): ?>
-                            <div class="">
-                                <label class="col-sm-6 control-label"><strong><?= lang('payment_method') ?> : </strong></label>
-                                <p class="form-control-static"><?php
-                                    if (is_numeric($salary_payment_info->payment_method)) {
-                                        $payment_methods = get_row('tbl_payment_methods', array('payment_methods_id' => $salary_payment_info->payment_method));
-                                    } else {
-                                        $payment_methods->method_name = $salary_payment_info->payment_method;
-                                    }
-                                    if (!empty($payment_methods->method_name)) {
-                                        echo $payment_methods->method_name;
-                                    }
-                                    ?></p>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (!empty($salary_payment_info->comments)): ?>
-                            <div class="">
-                                <label class="col-sm-6 control-label"><strong><?= lang('comments') ?>
-                                        : </strong></label>
-                                <p class="form-control-static"><?php
-                                    echo $salary_payment_info->comments;
-                                    ?></p>
-                            </div>
-                        <?php endif; ?>
                         <?php
-                        $role = $this->session->userdata('user_type');
-                        if ($role == 1 && $salary_payment_info->deduct_from != 0) {
-                            $account_info = $this->payroll_model->check_by(array('account_id' => $salary_payment_info->deduct_from), 'tbl_accounts');
-                            if (!empty($account_info)) {
-                                ?>
-                                <div class="">
-                                    <label class="col-sm-6 control-label"><strong><?= lang('deduct_from') ?>
-                                            : </strong></label>
-                                    <p class="form-control-static"><a
-                                            href="<?= base_url() ?>admin/account/manage_account"><?php echo $account_info->account_name; ?></a>
-                                    </p>
-                                </div>
-                            <?php }
-                        } ?>
+                        $total_salary = 0;
+                        if (!empty($salary_allowance_info[0])):foreach ($salary_allowance_info as $v_allowance_info):
+                            ?>
+                            <div class="">
+                                <p class="form-control-static"><strong><?php echo $v_allowance_info->allowance_label; ?> : </strong><?php echo number_format($v_allowance_info->allowance_value, 2) ?></p>
+                                       
+                            </div>
+                            <?php $total_salary += $v_allowance_info->allowance_value; ?>
+                        <?php endforeach; ?>
+                        <?php else : ?>
+                             <p class="form-control-static"><strong> NO DATA FOUND</strong></p>
+                        <?php endif; ?>
                     </div>
                 </div>
-            </div><!-- ****************** Total Salary Details End  *******************-->
-        </div><!-- ************** Total Salary Details Start  **************-->
-    </div>
-</div>
-<div class="modal-footer hidden-print">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="pull-right col-sm-8">
-                <div class="col-sm-2 pull-right" style="margin-right: -31px;">
-                    <button type="button" class="btn col-sm-12 pull-right btn-default btn-block"
-                            data-dismiss="modal"><?= lang('close') ?></button>
+            </div><!-- ********************Allowance End ******************-->
+
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="panel panel-custom">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h5> DEDUCTIONS</h5><br>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <?php
+                       $total_deduction = 0;
+                        if (!empty($salary_deduction_info[0])):foreach ($salary_deduction_info as $v_deduction_info):
+                            ?>
+                            <div class="">
+                                <p class="form-control-static"><strong><?php echo $v_deduction_info->deduction_label; ?> : </strong><?php echo number_format($v_deduction_info->deduction_value, 2) ?></p>
+                                       
+                            </div>
+                            <?php $total_deduction += $v_deduction_info->deduction_value; ?>
+                        <?php endforeach; ?>
+                         <?php
+               if($total_advance > 0){ ?>
+                      <div class="">
+                            <p class="form-control-static"><strong>Advance Salary  : </strong><?php echo number_format($total_advance  ,2); ?></p>    
+                    </div>
+                <?php } ?>
+                 <?php
+               if($total_loan > 0){ ?>
+                      <div class="">
+                            <p class="form-control-static"><strong>Employee Loan  : </strong><?php echo number_format($total_loan ,2); ?></p>    
+                    </div>
+                <?php } ?>
+                        <?php else : ?>
+                             <p class="form-control-static"><strong> NO DATA FOUND</strong></p>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
+            </div><!-- ********************Deduction End  ******************-->
+
+         
+
+              <div class="col-lg-12" style="text-align:center">
+               <div class="panel panel-custom">
+                    <div class="panel-heading">
+                        <div class="panel-title">  <br>
+                            <h5> TOTAL SALARY DETAILS</h5><br>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                       
+                            <div class="">
+                                <p class="form-control-static"><strong>Basic Salary  : </strong><?php echo number_format( $salary_grade_info->salaryTemplates->basic_salary + $total_award + $total_amount, 2) ?></p>                                       
+                            </div>
+                          <div class="">
+                                <p class="form-control-static"><strong>Total Allowances  : </strong><?php echo number_format($total_salary, 2) ?></p>                                       
+                            </div>
+                   <div class="">
+                                <p class="form-control-static"><strong>Gross Salary  : </strong><?php echo number_format($total_salary +  $total_award + $total_amount + $salary_grade_info->salaryTemplates->basic_salary, 2) ?></p>                                       
+                            </div>
+                <div class="">
+                                <p class="form-control-static"><strong>Total Deductions  : </strong><?php echo number_format( $total_advance +$total_deduction  +$total_loan, 2) ?></p>                                       
+                            </div>
+                  <div class="">
+                                <p class="form-control-static"><strong>Net Salary  : </strong><?php echo number_format(($total_salary +   $total_award + $total_amount + $salary_grade_info->salaryTemplates->basic_salary)-($total_advance +$total_deduction +$total_loan)  , 2) ?></p>                                       
+                            </div>
+                       <?php
+                      if(!empty($salary_info)) {
+                        ?>
+                        <div class="">
+                                <p class="form-control-static"><strong>Payment Account  : </strong><?php echo $salary_info->account->account_name ?></p>                                       
+                            </div>
+                           <div class="">
+                                <p class="form-control-static"><strong>Payment Method : </strong><?php echo $salary_info->method->name ?></p>                                       
+                            </div>
+                          <?php } ?>
+                    </div>
+                </div>
+                </div>
+           
+
+</div>
         </div>
+        <div class="modal-footer bg-whitesmoke br">
+         
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      
     </div>
 </div>
-
-<script type="text/javascript">
-    function printDiv(printableArea) {
-        var printContents = document.getElementById(printableArea).innerHTML;
-        var originalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        window.print();
-        document.body.innerHTML = originalContents;
-    }
-</script>
-

@@ -10,4 +10,6 @@ class SalaryPaymentDeduction extends Model
     use HasFactory;
 
     protected $table = "tbl_salary_payment_deduction";
+
+    protected $fillable = ['salary_payment_id','salary_payment_deduction_label','salary_payment_deduction_value'];
 }

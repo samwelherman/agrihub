@@ -9,11 +9,10 @@
                     $settings= App\Models\System::first();
                     //$settings= App\Models\System::first()->where('added_by',auth()->user()->user_id);
                  ?>
-                <div class="card">
-                    <div class="card-header">
-                        <h4>{{ !empty($settings->name) ? $settings->name: ''}}</h4>
-                    </div>
-                    <div class="card-body">
+               
+               
+            
+                   <!-- <div class="card-body">
                         <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
                                 <li data-target="#carouselExampleIndicators2" data-slide-to="0" class=""></li>
@@ -61,15 +60,27 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>!-->
 
-            </div>
+           <!-- </div>!-->
 
-            <div class="col-12 col-sm-8  col-md-6  col-lg-4">
+            
+              <!--  <div class="card">
+                    <div class="card-header">
+                        <h4>{{ !empty($settings->name) ? $settings->name: ''}}</h4>
+                    </div>!-->
+            
+              <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h4>{{ !empty($settings->name) ? $settings->name: ''}} Login</h4>
+                    </div>
+           
+            <!--<div class="col-12 col-sm-8  col-md-6  col-lg-4">
             <div class="card card-primary">
               <div class="card-header">
                 <h4>Login</h4> 
-              </div>
+              </div>!-->
               <div class="card-body">
               <form method="POST" action="{{ route('login') }}">
                 @csrf
@@ -114,7 +125,7 @@
                   <div class="text-job text-muted"> Don't have an account? <a href="{{route('register')}}">Create One</a></div>
                 </div>
                
-              </div>
+              </div>  
             </div>
             
             </div>

@@ -10,4 +10,7 @@ class SalaryPaymentAllowance extends Model
     use HasFactory;
 
     protected $table = "tbl_salary_payment_allowance";
+
+
+    protected $fillable = ['salary_payment_id','salary_payment_allowance_label','salary_payment_allowance_value'];
 }
