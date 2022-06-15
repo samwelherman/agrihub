@@ -719,9 +719,9 @@ console.log(price);
     function saveRoute(e){
      
      
-     var to = $('#destination_point').val();
+     var to = $('#to').val();
      var distance = $('#distance').val();
-     var from = $('#arrival_point').val();
+     var from = $('#from').val();
 
      
           $.ajax({

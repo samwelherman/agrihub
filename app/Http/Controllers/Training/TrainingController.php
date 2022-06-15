@@ -161,7 +161,7 @@ class TrainingController extends Controller
     public function destroy($id)
     {
         //
-        $traiing=  Training::find($id);
+        $training=  Training::find($id);
         $training->delete();
     }
 

@@ -13,7 +13,15 @@
                         <h4>Add User</h4>
                     </div>
                     <div class="card-body">
+                   <ul class="nav nav-tabs" id="myTab2" role="tablist">
 
+                            <a href="{{route('users.index')}}" class="btn btn-secondary btn-xs px-4">
+                                <i class="fa fa-arrow-alt-circle-left"></i>
+                                Back
+                            </a>
+
+
+                        </ul><br>
                         <div class="tab-content tab-bordered" id="myTab3Content">
                             <div class="tab-pane fade @if(empty($id)) active show @endif" id="home2" role="tabpanel"
                                 aria-labelledby="home-tab2">
@@ -75,6 +83,30 @@
                         @enderror
                     </div>
                 </div>
+               <div class="row">
+                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                        <label class="control-label">Department</label>
+                        <select  id="department_id" name="department_id" class="form-control department">
+                                      <option ="">Select Department</option>
+                                      @if(!empty($department))
+                                                        @foreach($department as $row)
+
+                                                        <option value="{{$row->id}}">{{$row->name}}</option>
+
+                                                        @endforeach
+                                                        @endif
+                                    </select>
+                    </div>
+
+
+                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                        <label class="">Designation </label>
+                        <select id="designation_id" name="designation_id" class="form-control designation">
+                                      <option>Select Designation</option>                         
+                        </select>
+                    </div>
+            
+                </div>
                 <div class="row">
                     <div class="form-group col-lg-6 col-md-12 col-sm-12">
                         <label class="control-label">Password</label>
@@ -122,6 +154,43 @@ $(document).on('click', '.edit_user_btn', function() {
     $('#p-slug_').val(slug);
     $('#p-module_').val(module);
     $('#editPermissionModal').modal('show');
+});
+</script>
+
+<script>
+$(document).ready(function() {
+
+    $(document).on('change', '.department', function() {
+        var id = $(this).val();
+        $.ajax({
+            url: '{{url("findDepartment")}}',
+            type: "GET",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#designation_id").empty();
+                $("#designation_id").append('<option value="">Select Designation</option>');
+                $.each(response,function(key, value)
+                {
+                 
+                    $("#designation_id").append('<option value=' + value.id+ '>' + value.name + '</option>');
+                   
+                });                      
+               
+            }
+
+        });
+
+    });
+
+
+
+
+
+
 });
 </script>
 @endsection

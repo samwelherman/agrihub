@@ -15,7 +15,10 @@ return array(
     'App\\Http\\Controllers\\Api_controllers\\Auth_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Auth_ApiController.php',
     'App\\Http\\Controllers\\Api_controllers\\Home_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Home_ApiController.php',
     'App\\Http\\Controllers\\Api_controllers\\Logistic\\Driver_Management_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Logistic/Driver_Management_ApiController.php',
+<<<<<<< HEAD
+=======
     'App\\Http\\Controllers\\Api_controllers\\Logistic\\Fuel_Management_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Logistic/Fuel_Management_ApiController.php',
+>>>>>>> 88f6abd42716f0a19e18ec02b64d6f8b55b0c205
     'App\\Http\\Controllers\\Api_controllers\\Logistic\\Truck_Management_ApiController' => $baseDir . '/app/Http/Controllers/Api_controllers/Logistic/Truck_Management_ApiController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -58,6 +61,10 @@ return array(
     'App\\Http\\Controllers\\Pacel\\PacelListController' => $baseDir . '/app/Http/Controllers/Pacel/PacelListController.php',
     'App\\Http\\Controllers\\Pacel\\PacelPaymentController' => $baseDir . '/app/Http/Controllers/Pacel/PacelPaymentController.php',
     'App\\Http\\Controllers\\PagesController' => $baseDir . '/app/Http/Controllers/PagesController.php',
+    'App\\Http\\Controllers\\Payroll\\MakePayments2Controller' => $baseDir . '/app/Http/Controllers/Payroll/MakePayments2Controller.php',
+    'App\\Http\\Controllers\\Payroll\\MakePaymentsController' => $baseDir . '/app/Http/Controllers/Payroll/MakePaymentsController.php',
+    'App\\Http\\Controllers\\Payroll\\ManageSalaryController' => $baseDir . '/app/Http/Controllers/Payroll/ManageSalaryController.php',
+    'App\\Http\\Controllers\\Payroll\\SalaryTemplateController' => $baseDir . '/app/Http/Controllers/Payroll/SalaryTemplateController.php',
     'App\\Http\\Controllers\\PermissionController' => $baseDir . '/app/Http/Controllers/PermissionController.php',
     'App\\Http\\Controllers\\PostController' => $baseDir . '/app/Http/Controllers/PostController.php',
     'App\\Http\\Controllers\\ProductController' => $baseDir . '/app/Http/Controllers/ProductController.php',
@@ -125,6 +132,10 @@ return array(
     'App\\Models\\Crops_Monitoring' => $baseDir . '/app/Models/Crops_Monitoring.php',
     'App\\Models\\Crops_type' => $baseDir . '/app/Models/Crops_type.php',
     'App\\Models\\Currency' => $baseDir . '/app/Models/Currency.php',
+<<<<<<< HEAD
+    'App\\Models\\Departments' => $baseDir . '/app/Models/Departments.php',
+=======
+>>>>>>> 88f6abd42716f0a19e18ec02b64d6f8b55b0c205
     'App\\Models\\Deposit' => $baseDir . '/app/Models/Deposit.php',
     'App\\Models\\Deposite_withdraw' => $baseDir . '/app/Models/Deposite_withdraw.php',
     'App\\Models\\Details\\UserDetails' => $baseDir . '/app/Models/Details/UserDetails.php',
@@ -172,6 +183,18 @@ return array(
     'App\\Models\\Pacel\\PacelPayment' => $baseDir . '/app/Models/Pacel/PacelPayment.php',
     'App\\Models\\Payment_methodes' => $baseDir . '/app/Models/Payment_methodes.php',
     'App\\Models\\Payments' => $baseDir . '/app/Models/Payments.php',
+    'App\\Models\\Payroll\\Accounts' => $baseDir . '/app/Models/Payroll/Accounts.php',
+    'App\\Models\\Payroll\\AdvanceSalary' => $baseDir . '/app/Models/Payroll/AdvanceSalary.php',
+    'App\\Models\\Payroll\\EmployeePayroll' => $baseDir . '/app/Models/Payroll/EmployeePayroll.php',
+    'App\\Models\\Payroll\\Overtime' => $baseDir . '/app/Models/Payroll/Overtime.php',
+    'App\\Models\\Payroll\\PaymentMethode' => $baseDir . '/app/Models/Payroll/PaymentMethode.php',
+    'App\\Models\\Payroll\\SalaryAllowance' => $baseDir . '/app/Models/Payroll/SalaryAllowance.php',
+    'App\\Models\\Payroll\\SalaryDeduction' => $baseDir . '/app/Models/Payroll/SalaryDeduction.php',
+    'App\\Models\\Payroll\\SalaryPayment' => $baseDir . '/app/Models/Payroll/SalaryPayment.php',
+    'App\\Models\\Payroll\\SalaryPaymentAllowance' => $baseDir . '/app/Models/Payroll/SalaryPaymentAllowance.php',
+    'App\\Models\\Payroll\\SalaryPaymentDeduction' => $baseDir . '/app/Models/Payroll/SalaryPaymentDeduction.php',
+    'App\\Models\\Payroll\\SalaryPaymentDetails' => $baseDir . '/app/Models/Payroll/SalaryPaymentDetails.php',
+    'App\\Models\\Payroll\\SalaryTemplate' => $baseDir . '/app/Models/Payroll/SalaryTemplate.php',
     'App\\Models\\Performance' => $baseDir . '/app/Models/Performance.php',
     'App\\Models\\Permission' => $baseDir . '/app/Models/Permission.php',
     'App\\Models\\PesticideType' => $baseDir . '/app/Models/PesticideType.php',
